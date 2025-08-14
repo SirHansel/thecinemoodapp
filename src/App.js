@@ -668,3 +668,10 @@ const CineMoodApp = () => {
           </button>
         </div>
       </div>
+);
+  }
+
+  return null;
+};
+
+export default CineMoodApp;

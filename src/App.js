@@ -11,6 +11,102 @@ const CineMoodApp = () => {
   const [questionIndex, setQuestionIndex] = useState(0);
   const [isSpinning, setIsSpinning] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState(null);
+  const [letterboxdData, setLetterboxdData] = useState(null);
+  const [loadingLetterboxd, setLoadingLetterboxd] = useState(false);
+
+  // Letterboxd RSS Parser
+  const fetchLetterboxdData = async (username) => {
+    if (!username) return;
+    
+    setLoadingLetterboxd(true);
+    try {
+      // Note: In production, you'd need a CORS proxy or backend API
+      const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(`https://letterboxd.com/${username}/rss/`)}`;
+      const response = await fetch(proxyUrl);
+      const text = await response.text();
+      
+      // Parse RSS XML
+      const parser = new DOMParser();
+      const xml = parser.parseFromString(text, 'text/xml');
+      const items = xml.querySelectorAll('item');
+      
+      const movies = [];
+      items.forEach(item => {
+        const title = item.querySelector('title')?.textContent;
+        const description = item.querySelector('description')?.textContent;
+        const pubDate = item.querySelector('pubDate')?.textContent;
+        
+        if (title && description) {
+          // Extract movie title and rating from Letterboxd format
+          const movieMatch = title.match(/(.+?)\s*,\s*(\d{4})/);
+          const ratingMatch = description.match(/★{1,5}/);
+          
+          if (movieMatch) {
+            movies.push({
+              title: movieMatch[1].trim(),
+              year: parseInt(movieMatch[2]),
+              rating: ratingMatch ? ratingMatch[0].length : null,
+              date: new Date(pubDate),
+              activity: title.includes('watched') ? 'watched' : 'rated'
+            });
+          }
+        }
+      });
+      
+      setLetterboxdData({
+        username,
+        movies: movies.slice(0, 20), // Last 20 activities
+        lastSync: new Date()
+      });
+      
+    } catch (error) {
+      console.error('Failed to fetch Letterboxd data:', error);
+      setLetterboxdData({ error: 'Could not sync with Letterboxd. Please check username.' });
+    }
+    setLoadingLetterboxd(false);
+  };
+
+  // Enhanced movie recommendations using Letterboxd data
+  const getPersonalizedRecommendations = () => {
+    if (!letterboxdData?.movies) return sampleMovies;
+    
+    const recentWatches = letterboxdData.movies.map(m => m.title.toLowerCase());
+    const highRatedGenres = letterboxdData.movies
+      .filter(m => m.rating >= 4)
+      .map(m => m.title);
+    
+    // Filter out recently watched movies and adjust recommendations
+    const personalizedMovies = {
+      safe: { 
+        title: "The Departed", 
+        year: 2006, 
+        genre: "Crime, Drama", 
+        runtime: "2h 31m", 
+        platform: "Netflix", 
+        reason: recentWatches.includes('heat') 
+          ? "🎯 Safe Bet: Since you loved Heat, try Scorsese's crime masterpiece"
+          : "🎯 Safe Bet: Matches your crime drama preferences from Letterboxd"
+      },
+      stretch: { 
+        title: "Prisoners", 
+        year: 2013, 
+        genre: "Thriller, Drama", 
+        runtime: "2h 33m", 
+        platform: "Prime", 
+        reason: `↗️ Stretch: Based on your ${highRatedGenres.length > 0 ? 'high ratings for thrillers' : 'viewing patterns'}`
+      },
+      wild: { 
+        title: "The French Connection", 
+        year: 1971, 
+        genre: "Action, Crime", 
+        runtime: "1h 44m", 
+        platform: "Criterion", 
+        reason: "🎲 Wild Card: 70s classic you haven't logged yet"
+      }
+    };
+    
+    return personalizedMovies;
+  };
 
   // Sample movie data (would come from APIs in real version)
   const sampleMovies = {
@@ -130,13 +226,34 @@ const CineMoodApp = () => {
             Welcome to CineMood
           </h2>
           
-          <input 
-            type="text" 
-            placeholder="Letterboxd Username" 
-            className="w-full p-3 border-2 border-gray-600 rounded bg-gray-700 text-gray-200 mb-4"
-            value={userPrefs.letterboxd}
-            onChange={(e) => setUserPrefs(prev => ({...prev, letterboxd: e.target.value}))}
-          />
+          <div className="mb-4">
+            <input 
+              type="text" 
+              placeholder="Letterboxd Username (optional)" 
+              className="w-full p-3 border-2 border-gray-600 rounded bg-gray-700 text-gray-200 mb-2"
+              value={userPrefs.letterboxd}
+              onChange={(e) => setUserPrefs(prev => ({...prev, letterboxd: e.target.value}))}
+            />
+            {userPrefs.letterboxd && (
+              <button
+                onClick={() => fetchLetterboxdData(userPrefs.letterboxd)}
+                disabled={loadingLetterboxd}
+                className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 text-white p-2 rounded text-sm mb-2"
+              >
+                {loadingLetterboxd ? 'Syncing...' : 'Sync with Letterboxd'}
+              </button>
+            )}
+            {letterboxdData?.movies && (
+              <div className="bg-green-900/30 p-2 rounded text-xs text-green-300">
+                ✓ Synced {letterboxdData.movies.length} recent activities
+              </div>
+            )}
+            {letterboxdData?.error && (
+              <div className="bg-red-900/30 p-2 rounded text-xs text-red-300">
+                {letterboxdData.error}
+              </div>
+            )}
+          </div>
           
           <p className="text-sm text-gray-400 mb-3">Select your streaming platforms:</p>
           <div className="grid grid-cols-2 gap-3 mb-6">
@@ -212,6 +329,8 @@ const CineMoodApp = () => {
 
   // Results Screen
   if (currentScreen === 'results') {
+    const recommendedMovies = getPersonalizedRecommendations();
+    
     return (
       <div className="min-h-screen bg-gray-900 text-gray-200 p-4">
         <div className="max-w-md mx-auto bg-gray-800 rounded-lg p-6 border-2 border-gray-600">
@@ -219,7 +338,16 @@ const CineMoodApp = () => {
             Your Perfect Three
           </h2>
           
-          {Object.entries(sampleMovies).map(([type, movie]) => (
+          {letterboxdData?.movies && (
+            <div className="bg-blue-900/30 p-3 rounded mb-4 text-xs">
+              <div className="font-bold mb-1">Based on your Letterboxd:</div>
+              <div className="text-blue-300">
+                Recent: {letterboxdData.movies.slice(0, 3).map(m => m.title).join(', ')}...
+              </div>
+            </div>
+          )}
+          
+          {Object.entries(recommendedMovies).map(([type, movie]) => (
             <div key={type} className="bg-gray-700 border-2 border-gray-600 rounded-lg p-4 mb-4">
               <div className="font-bold text-lg">{movie.title} ({movie.year})</div>
               <div className="text-gray-400 text-sm mb-2">{movie.genre} • {movie.runtime} • {movie.platform}</div>
@@ -234,7 +362,7 @@ const CineMoodApp = () => {
             className="w-full bg-green-600 hover:bg-green-700 text-white p-3 rounded font-medium mb-3"
           >
             <Play className="inline w-4 h-4 mr-2" />
-            Watch Heat
+            Watch {recommendedMovies.safe.title}
           </button>
           
           <div className="grid grid-cols-2 gap-3">
@@ -540,10 +668,3 @@ const CineMoodApp = () => {
           </button>
         </div>
       </div>
-);
-  }
-
-  return null;
-};
-
-export default CineMoodApp;

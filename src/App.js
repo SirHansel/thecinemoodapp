@@ -11,6 +11,7 @@ const CineMoodApp = () => {
   const [questionIndex, setQuestionIndex] = useState(0);
   const [isSpinning, setIsSpinning] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState(null);
+  const [currentRecommendations, setCurrentRecommendations] = useState(null); // ADD: Store recommendations
   const [letterboxdData, setLetterboxdData] = useState(null);
   const [loadingLetterboxd, setLoadingLetterboxd] = useState(false);
 
@@ -185,6 +186,9 @@ const CineMoodApp = () => {
     if (questionIndex < moodQuestions.length - 1) {
       setQuestionIndex(questionIndex + 1);
     } else {
+      // FIXED: Store recommendations when mood questions complete
+      const recommendations = getPersonalizedRecommendations();
+      setCurrentRecommendations(recommendations);
       setCurrentScreen('results');
     }
   };
@@ -193,10 +197,16 @@ const CineMoodApp = () => {
     setIsSpinning(true);
     setTimeout(() => {
       const randomMovie = wheelMovies[Math.floor(Math.random() * wheelMovies.length)];
-      setSelectedMovie(randomMovie);
+      setSelectedMovie({ title: randomMovie, year: 2023, source: 'wheel' }); // FIXED: Store as object
       setIsSpinning(false);
       setCurrentScreen('spinResult');
     }, 2000);
+  };
+
+  // FIXED: Handle movie selection from recommendations
+  const handleWatchMovie = (movie) => {
+    setSelectedMovie({ ...movie, source: 'recommendation' });
+    setCurrentScreen('watching');
   };
 
   const getMoodCardStyle = (styleType) => {
@@ -329,7 +339,7 @@ const CineMoodApp = () => {
 
   // Results Screen
   if (currentScreen === 'results') {
-    const recommendedMovies = getPersonalizedRecommendations();
+    const recommendedMovies = currentRecommendations || getPersonalizedRecommendations();
     
     return (
       <div className="min-h-screen bg-gray-900 text-gray-200 p-4">
@@ -358,7 +368,7 @@ const CineMoodApp = () => {
           ))}
           
           <button 
-            onClick={() => setCurrentScreen('watching')}
+            onClick={() => handleWatchMovie(recommendedMovies.safe)}
             className="w-full bg-green-600 hover:bg-green-700 text-white p-3 rounded font-medium mb-3"
           >
             <Play className="inline w-4 h-4 mr-2" />
@@ -428,8 +438,9 @@ const CineMoodApp = () => {
           
           <button 
             onClick={() => {
-              const luckyMovie = Object.values(sampleMovies)[Math.floor(Math.random() * 3)];
-              setSelectedMovie(luckyMovie.title);
+              const recommendations = currentRecommendations || getPersonalizedRecommendations();
+              const luckyMovie = Object.values(recommendations)[Math.floor(Math.random() * 3)];
+              setSelectedMovie({ ...luckyMovie, source: 'lucky' });
               setCurrentScreen('luckyResult');
             }}
             className="w-full bg-gradient-to-r from-red-500 to-teal-500 hover:from-red-600 hover:to-teal-600 text-white p-3 rounded font-medium mb-2"
@@ -463,7 +474,7 @@ const CineMoodApp = () => {
           
           <div className="text-center mb-6">
             <div className="text-3xl font-bold text-green-400 mb-2">🎬</div>
-            <h3 className="text-2xl font-bold mb-2">{selectedMovie}</h3>
+            <h3 className="text-2xl font-bold mb-2">{selectedMovie?.title}</h3>
             <p className="text-gray-400">Available on Netflix</p>
           </div>
           
@@ -497,7 +508,7 @@ const CineMoodApp = () => {
           
           <div className="text-center mb-6">
             <div className="text-3xl font-bold text-blue-400 mb-2">✨</div>
-            <h3 className="text-2xl font-bold mb-2">{selectedMovie}</h3>
+            <h3 className="text-2xl font-bold mb-2">{selectedMovie?.title} ({selectedMovie?.year})</h3>
             <p className="text-gray-400">Based on your mood profile</p>
             <div className="bg-blue-900/50 p-3 rounded text-sm italic text-blue-300 mt-4">
               This matches your current vibe perfectly. Trust the algorithm!
@@ -523,8 +534,11 @@ const CineMoodApp = () => {
     );
   }
 
-  // Watching/Feedback Screen
+  // FIXED: Watching/Feedback Screen - Now shows the actual selected movie
   if (currentScreen === 'watching') {
+    // Use the selectedMovie or fall back to safe recommendation
+    const watchedMovie = selectedMovie || (currentRecommendations?.safe) || { title: "Heat", year: 1995 };
+    
     return (
       <div className="min-h-screen bg-gray-900 text-gray-200 p-4">
         <div className="max-w-md mx-auto bg-gray-800 rounded-lg p-6 border-2 border-gray-600">
@@ -533,7 +547,7 @@ const CineMoodApp = () => {
           </h2>
           
           <div className="text-center mb-6">
-            <h3 className="text-xl font-bold mb-2">Heat (1995)</h3>
+            <h3 className="text-xl font-bold mb-2">{watchedMovie.title} ({watchedMovie.year})</h3>
             <p className="text-gray-400">Let us know how it went!</p>
           </div>
           
@@ -668,10 +682,9 @@ const CineMoodApp = () => {
           </button>
         </div>
       </div>
-);
+    );
   }
 
-  return null;
 };
 
 export default CineMoodApp;

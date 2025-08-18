@@ -89,19 +89,19 @@ const CineMoodApp = () => {
         
       },
       stretch: { 
-        title: "Prisoners", 
-        year: 2013, 
-        genre: "Thriller, Drama", 
-        runtime: "2h 33m", 
-        platform: "Prime", 
+        title: recommendations?.stretch?.title || "Prisoners", 
+        year: recommendations?.stretch?.year || 2013, 
+        genre: recommendations?.stretch?.genre || "Thriller, Drama", 
+        runtime: recommendations?.stretch?.runtime || "2h 33m", 
+        platform:recommendations?.stretch?.platform ||  "Prime", 
         reason: `↗️ Stretch: Based on your ${highRatedGenres.length > 0 ? 'high ratings for thrillers' : 'viewing patterns'}`
       },
       wild: { 
-        title: "The French Connection", 
-        year: 1971, 
-        genre: "Action, Crime", 
-        runtime: "1h 44m", 
-        platform: "Criterion", 
+        title: recommendations?.stretch?.title ||"The French Connection", 
+        year: recommendations?.stretch?.year || 1971, 
+        genre: recommendations?.stretch?.genre ||"Action, Crime", 
+        runtime: recommendations?.stretch?.runtime || "1h 44m", 
+        platform: recommendations?.stretch?.platform || "Criterion", 
         reason: "🎲 Wild Card: 70s classic you haven't logged yet"
       }
     };

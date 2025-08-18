@@ -79,14 +79,14 @@ const CineMoodApp = () => {
     // Filter out recently watched movies and adjust recommendations
     const personalizedMovies = {
       safe: { 
-        title: "The Departed", 
-        year: 2006, 
-        genre: "Crime, Drama", 
-        runtime: "2h 31m", 
-        platform: "Netflix", 
-        reason: recentWatches.includes('heat') 
-          ? "🎯 Safe Bet: Since you loved Heat, try Scorsese's crime masterpiece"
-          : "🎯 Safe Bet: Matches your crime drama preferences from Letterboxd"
+        title: recommendations?.safe?.title || "The Departed", 
+        year: recommendations?.safe?.year || 2006,  
+        genre: recommendations?.safe?.genre || "Crime, Drama", 
+        runtime: recommendations?.safe?.runtime || "2h 31m", 
+        platform: recommendations?.safe?.platform || "Netflix", 
+        reason: recommendations?.safe?.reason || "🎯 Safe Bet: Matches your preferences"
+
+        
       },
       stretch: { 
         title: "Prisoners", 
@@ -110,11 +110,49 @@ const CineMoodApp = () => {
   };
 
   // Sample movie data (would come from APIs in real version)
-  const sampleMovies = {
-    safe: { title: "Heat", year: 1995, genre: "Action, Crime", runtime: "2h 50m", platform: "Netflix", reason: "🎯 Safe Bet: Matches your love for 90s crime dramas and Mann's style" },
-    stretch: { title: "Sicario", year: 2015, genre: "Thriller, Drama", runtime: "2h 1m", platform: "Prime", reason: "↗️ Stretch: Like Heat but with modern edge - might be perfect" },
-    wild: { title: "The French Connection", year: 1971, genre: "Action, Crime", runtime: "1h 44m", platform: "Criterion", reason: "🎲 Wild Card: 70s grit you haven't explored yet" }
-  };
+const [recommendations, setRecommendations] = useState(null);
+const [loading, setLoading] = useState(false);
+
+const generateRecommendations = async () => {
+  setLoading(true);
+  try {
+    // Get movies from TMDB (using Crime genre as example)
+    const movies = await fetchMoviesByGenre(80); // 80 = Crime genre
+    
+    const movieRecs = {
+      safe: {
+        title: movies[0]?.title || "The Departed",
+        year: movies[0]?.release_date?.slice(0, 4) || 2006,
+        genre: "Crime, Drama",
+        runtime: "2h 31m",
+        platform: "Netflix",
+        reason: "🎯 Safe Bet: Popular crime drama"
+      },
+      stretch: {
+        title: movies[1]?.title || "Prisoners", 
+        year: movies[1]?.release_date?.slice(0, 4) || 2013,
+        genre: "Thriller, Drama",
+        runtime: "2h 33m", 
+        platform: "Prime",
+        reason: "↗️ Stretch: Trending thriller"
+      },
+      wild: {
+        title: movies[2]?.title || "The French Connection",
+        year: movies[2]?.release_date?.slice(0, 4) || 1971,
+        genre: "Action, Crime", 
+        runtime: "1h 44m",
+        platform: "Criterion",
+        reason: "🎲 Wild Card: Hidden gem"
+      }
+    };
+    
+    setRecommendations(movieRecs);
+  } catch (error) {
+    console.log('TMDB error:', error);
+    // Fallback to original data
+  }
+  setLoading(false);
+};
 
   const wheelMovies = [
     "Blade Runner 2049", "The Departed", "Mad Max: Fury Road", "Prisoners", 

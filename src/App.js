@@ -226,7 +226,7 @@ const generateRecommendations = async () => {
     } else {
       // FIXED: Store recommendations when mood questions complete
      await generateRecommendations();
-const recommendations = getPersonalizedRecommendations();
+const handleMoodAnswer = async (questionId, answerId) => {
 setCurrentRecommendations(recommendations);
 setCurrentScreen('results');
     }

@@ -76,32 +76,32 @@ const CineMoodApp = () => {
     try {
       const movies = await fetchMoviesByGenre(80); // Crime genre
      
-      const movieRecs = {
-        safe: {
-          title: movies[0]?.title || "The Departed",
-          year: movies[0]?.release_date?.slice(0, 4) || 2006,
-          genre: "Crime, Drama",
-          runtime: "2h 31m",
-          platform: "Netflix",
-          reason: "🎯 Safe Bet: Popular crime drama"
-        },
-        stretch: {
-          title: movies[1]?.title || "Prisoners",
-          year: movies[1]?.release_date?.slice(0, 4) || 2013,
-          genre: "Thriller, Drama",
-          runtime: "2h 33m",
-          platform: "Prime",
-          reason: "↗️ Stretch: Trending thriller"
-        },
-        wild: {
-          title: movies[2]?.title || "The French Connection",
-          year: movies[2]?.release_date?.slice(0, 4) || 1971,
-          genre: "Action, Crime",
-          runtime: "1h 44m",
-          platform: "Criterion",
-          reason: "🎲 Wild Card: Hidden gem"
-        }
-      };
+     const movieRecs = {
+  safe: {
+    title: movies[0]?.title || "Dune",
+    year: movies[0]?.release_date?.slice(0, 4) || 2021,
+    genre: "Sci-Fi, Adventure",
+    runtime: "2h 35m",
+    platform: "HBO Max",
+    reason: "🎯 Safe Bet: Popular sci-fi epic"
+  },
+  stretch: {
+    title: movies[1]?.title || "Minari",
+    year: movies[1]?.release_date?.slice(0, 4) || 2020,
+    genre: "Drama, Family",
+    runtime: "1h 55m",
+    platform: "Prime",
+    reason: "↗️ Stretch: Acclaimed indie drama"
+  },
+  wild: {
+    title: movies[2]?.title || "The Green Knight",
+    year: movies[2]?.release_date?.slice(0, 4) || 2021,
+    genre: "Fantasy, Adventure",
+    runtime: "2h 10m",
+    platform: "A24",
+    reason: "🎲 Wild Card: Artsy fantasy adventure"
+  }
+};
      
       setRecommendations(movieRecs);
     } catch (error) {

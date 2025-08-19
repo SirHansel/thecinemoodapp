@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Play, RotateCcw, Settings, Star, ThumbsUp, X } from 'lucide-react';
 import { fetchMoviesByGenre } from './tmdbApi';
+
 const CineMoodApp = () => {
   const [currentScreen, setCurrentScreen] = useState('setup');
   const [userPrefs, setUserPrefs] = useState({
@@ -11,9 +12,14 @@ const CineMoodApp = () => {
   const [questionIndex, setQuestionIndex] = useState(0);
   const [isSpinning, setIsSpinning] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState(null);
-  const [currentRecommendations, setCurrentRecommendations] = useState(null); // ADD: Store recommendations
+  const [currentRecommendations, setCurrentRecommendations] = useState(null);
   const [letterboxdData, setLetterboxdData] = useState(null);
   const [loadingLetterboxd, setLoadingLetterboxd] = useState(false);
+  const [recommendations, setRecommendations] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  // Platforms array
+  const platforms = ['Netflix', 'Prime', 'Hulu', 'Disney+', 'Criterion', 'Tubi'];
 
   // Letterboxd RSS Parser
   const fetchLetterboxdData = async (username) => {
@@ -21,12 +27,10 @@ const CineMoodApp = () => {
    
     setLoadingLetterboxd(true);
     try {
-      // Note: In production, you'd need a CORS proxy or backend API
       const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(`https://letterboxd.com/${username}/rss/`)}`;
       const response = await fetch(proxyUrl);
       const text = await response.text();
      
-      // Parse RSS XML
       const parser = new DOMParser();
       const xml = parser.parseFromString(text, 'text/xml');
       const items = xml.querySelectorAll('item');
@@ -38,7 +42,6 @@ const CineMoodApp = () => {
         const pubDate = item.querySelector('pubDate')?.textContent;
        
         if (title && description) {
-          // Extract movie title and rating from Letterboxd format
           const movieMatch = title.match(/(.+?)\s*,\s*(\d{4})/);
           const ratingMatch = description.match(/★{1,5}/);
          
@@ -56,7 +59,7 @@ const CineMoodApp = () => {
      
       setLetterboxdData({
         username,
-        movies: movies.slice(0, 20), // Last 20 activities
+        movies: movies.slice(0, 20),
         lastSync: new Date()
       });
      
@@ -67,41 +70,70 @@ const CineMoodApp = () => {
     setLoadingLetterboxd(false);
   };
 
+  // TMDB Integration
+  const generateRecommendations = async () => {
+    setLoading(true);
+    try {
+      const movies = await fetchMoviesByGenre(80); // Crime genre
+     
+      const movieRecs = {
+        safe: {
+          title: movies[0]?.title || "The Departed",
+          year: movies[0]?.release_date?.slice(0, 4) || 2006,
+          genre: "Crime, Drama",
+          runtime: "2h 31m",
+          platform: "Netflix",
+          reason: "🎯 Safe Bet: Popular crime drama"
+        },
+        stretch: {
+          title: movies[1]?.title || "Prisoners",
+          year: movies[1]?.release_date?.slice(0, 4) || 2013,
+          genre: "Thriller, Drama",
+          runtime: "2h 33m",
+          platform: "Prime",
+          reason: "↗️ Stretch: Trending thriller"
+        },
+        wild: {
+          title: movies[2]?.title || "The French Connection",
+          year: movies[2]?.release_date?.slice(0, 4) || 1971,
+          genre: "Action, Crime",
+          runtime: "1h 44m",
+          platform: "Criterion",
+          reason: "🎲 Wild Card: Hidden gem"
+        }
+      };
+     
+      setRecommendations(movieRecs);
+    } catch (error) {
+      console.log('TMDB error:', error);
+    }
+    setLoading(false);
+  };
+
   // Enhanced movie recommendations using Letterboxd data
   const getPersonalizedRecommendations = () => {
-    if (!letterboxdData?.movies) return sampleMovies;
+    if (!letterboxdData?.movies || !recommendations) {
+      return recommendations || {
+        safe: { title: "The Departed", year: 2006, genre: "Crime, Drama", runtime: "2h 31m", platform: "Netflix", reason: "🎯 Safe Bet: Matches your preferences" },
+        stretch: { title: "Prisoners", year: 2013, genre: "Thriller, Drama", runtime: "2h 33m", platform: "Prime", reason: "↗️ Stretch: Based on your preferences" },
+        wild: { title: "The French Connection", year: 1971, genre: "Action, Crime", runtime: "1h 44m", platform: "Criterion", reason: "🎲 Wild Card: Hidden gem" }
+      };
+    }
    
     const recentWatches = letterboxdData.movies.map(m => m.title.toLowerCase());
-    const highRatedGenres = letterboxdData.movies
-      .filter(m => m.rating >= 4)
-      .map(m => m.title);
+    const highRatedGenres = letterboxdData.movies.filter(m => m.rating >= 4).map(m => m.title);
    
-    // Filter out recently watched movies and adjust recommendations
     const personalizedMovies = {
       safe: {
-        title: recommendations?.safe?.title || "The Departed",
-        year: recommendations?.safe?.year || 2006,  
-        genre: recommendations?.safe?.genre || "Crime, Drama",
-        runtime: recommendations?.safe?.runtime || "2h 31m",
-        platform: recommendations?.safe?.platform || "Netflix",
-        reason: recommendations?.safe?.reason || "🎯 Safe Bet: Matches your preferences"
-
-       
+        ...recommendations.safe,
+        reason: recommendations.safe.reason || "🎯 Safe Bet: Matches your preferences"
       },
       stretch: {
-        title: recommendations?.stretch?.title || "Prisoners",
-        year: recommendations?.stretch?.year || 2013,
-        genre: recommendations?.stretch?.genre || "Thriller, Drama",
-        runtime: recommendations?.stretch?.runtime || "2h 33m",
-        platform:recommendations?.stretch?.platform ||  "Prime",
+        ...recommendations.stretch,
         reason: `↗️ Stretch: Based on your ${highRatedGenres.length > 0 ? 'high ratings for thrillers' : 'viewing patterns'}`
       },
       wild: {
-        title: recommendations?.stretch?.title ||"The French Connection",
-        year: recommendations?.stretch?.year || 1971,
-        genre: recommendations?.stretch?.genre ||"Action, Crime",
-        runtime: recommendations?.stretch?.runtime || "1h 44m",
-        platform: recommendations?.stretch?.platform || "Criterion",
+        ...recommendations.wild,
         reason: "🎲 Wild Card: 70s classic you haven't logged yet"
       }
     };
@@ -109,58 +141,15 @@ const CineMoodApp = () => {
     return personalizedMovies;
   };
 
-  // Sample movie data (would come from APIs in real version)
-const [recommendations, setRecommendations] = useState(null);
-const [loading, setLoading] = useState(false);
-
-const generateRecommendations = async () => {
-  setLoading(true);
-  try {
-    // Get movies from TMDB (using Crime genre as example)
-    const movies = await fetchMoviesByGenre(80); // 80 = Crime genre
-   
-    const movieRecs = {
-      safe: {
-        title: movies[0]?.title || "The Departed",
-        year: movies[0]?.release_date?.slice(0, 4) || 2006,
-        genre: "Crime, Drama",
-        runtime: "2h 31m",
-        platform: "Netflix",
-        reason: "🎯 Safe Bet: Popular crime drama"
-      },
-      stretch: {
-        title: movies[1]?.title || "Prisoners",
-        year: movies[1]?.release_date?.slice(0, 4) || 2013,
-        genre: "Thriller, Drama",
-        runtime: "2h 33m",
-        platform: "Prime",
-        reason: "↗️ Stretch: Trending thriller"
-      },
-      wild: {
-        title: movies[2]?.title || "The French Connection",
-        year: movies[2]?.release_date?.slice(0, 4) || 1971,
-        genre: "Action, Crime",
-        runtime: "1h 44m",
-        platform: "Criterion",
-        reason: "🎲 Wild Card: Hidden gem"
-      }
-    };
-   
-    setRecommendations(movieRecs);
-  } catch (error) {
-    console.log('TMDB error:', error);
-    // Fallback to original data
-  }
-  setLoading(false);
-};
-
   const wheelMovies = [
     "Blade Runner 2049", "The Departed", "Mad Max: Fury Road", "Prisoners",
     "No Country for Old Men", "Drive", "Hell or High Water", "Wind River"
   ];
 
+  // FIXED: Complete mood questions array with proper structure
   const moodQuestions = [
     {
+      id: 'aesthetic',
       question: "Which calls to you tonight?",
       options: [
         { id: 'neon', text: 'Neon & Chrome', subtext: 'Blade Runner vibes', style: 'neon' },
@@ -168,6 +157,7 @@ const generateRecommendations = async () => {
       ]
     },
     {
+      id: 'energy',
       question: "Your energy right now:",
       options: [
         { id: 'spring', text: 'Coiled Spring', subtext: 'Ready to go', style: 'spring' },
@@ -175,6 +165,7 @@ const generateRecommendations = async () => {
       ]
     },
     {
+      id: 'character',
       question: "You want characters who:",
       options: [
         { id: 'struggle', text: 'Struggle Beautifully', subtext: 'Internal conflicts', style: 'struggle' },
@@ -182,13 +173,15 @@ const generateRecommendations = async () => {
       ]
     },
     {
+      id: 'era',
       question: "Which era's soul matches yours?",
       options: [
-        { id: '70s', text: '70s Paranoia', subtext: 'Gritty, raw', style: 'seventies' },
-        { id: '80s', text: '80s Neon', subtext: 'Bold, electric', style: 'eighties' }
+        { id: 'seventies', text: '70s Paranoia', subtext: 'Gritty, raw', style: 'seventies' },
+        { id: 'eighties', text: '80s Neon', subtext: 'Bold, electric', style: 'eighties' }
       ]
     },
     {
+      id: 'mood',
       question: "Tonight feels like:",
       options: [
         { id: 'puzzle', text: 'A Puzzle to Solve', subtext: 'Make me think', style: 'puzzle' },
@@ -196,7 +189,84 @@ const generateRecommendations = async () => {
       ]
     },
     {
-      question: "New discovery or comfort rewatch?",      
+      id: 'discovery',
+      question: "New discovery or comfort rewatch?",
+      options: [
+        { id: 'new', text: 'Something New', subtext: 'Adventure awaits', style: 'new' },
+        { id: 'comfort', text: 'Beloved Classic', subtext: 'Safe harbor', style: 'comfort' }
+      ]
+    }
+  ];
+
+  // Event handlers
+  const handlePlatformToggle = (platform) => {
+    setUserPrefs(prev => ({
+      ...prev,
+      platforms: prev.platforms.includes(platform)
+        ? prev.platforms.filter(p => p !== platform)
+        : [...prev.platforms, platform]
+    }));
+  };
+
+  // FIXED: Proper mood answer handling with question ID
+  const handleMoodAnswer = async (questionId, answerId) => {
+    setUserPrefs(prev => ({
+      ...prev,
+      moodAnswers: { ...prev.moodAnswers, [questionId]: answerId }
+    }));
+   
+    if (questionIndex < moodQuestions.length - 1) {
+      setQuestionIndex(questionIndex + 1);
+    } else {
+      await generateRecommendations();
+      const recommendations = getPersonalizedRecommendations();
+      setCurrentRecommendations(recommendations);
+      setCurrentScreen('results');
+    }
+  };
+
+  const spinWheel = () => {
+    setIsSpinning(true);
+    setTimeout(() => {
+      const randomMovie = wheelMovies[Math.floor(Math.random() * wheelMovies.length)];
+      setSelectedMovie({ title: randomMovie, year: 2023, source: 'wheel' });
+      setIsSpinning(false);
+      setCurrentScreen('spinResult');
+    }, 2000);
+  };
+
+  const handleWatchMovie = (movie) => {
+    setSelectedMovie({ ...movie, source: 'recommendation' });
+    setCurrentScreen('watching');
+  };
+
+  const getMoodCardStyle = (styleType) => {
+    const styles = {
+      neon: { background: 'linear-gradient(135deg, #0f3460, #e94560, #f2cf07)', borderColor: '#e94560' },
+      earth: { background: 'linear-gradient(135deg, #2d1b0e, #5d4037, #8d6e63)', borderColor: '#8d6e63' },
+      spring: { background: 'linear-gradient(135deg, #ff4444, #ff8c00, #ffd700)', borderColor: '#ff6b6b' },
+      river: { background: 'linear-gradient(135deg, #2e8b57, #40e0d0, #87ceeb)', borderColor: '#40e0d0' },
+      struggle: { background: 'linear-gradient(135deg, #4a148c, #7b1fa2, #9c27b0)', borderColor: '#9c27b0' },
+      triumph: { background: 'linear-gradient(135deg, #bf360c, #ff5722, #ff9800)', borderColor: '#ff5722' },
+      seventies: { background: 'linear-gradient(135deg, #3e2723, #5d4037, #8d6e63)', borderColor: '#8d6e63' },
+      eighties: { background: 'linear-gradient(135deg, #1a237e, #3f51b5, #e91e63)', borderColor: '#e91e63' },
+      puzzle: { background: 'linear-gradient(135deg, #263238, #37474f, #546e7a)', borderColor: '#546e7a' },
+      escape: { background: 'linear-gradient(135deg, #004d40, #00695c, #00897b)', borderColor: '#00897b' },
+      new: { background: 'linear-gradient(135deg, #e65100, #ff9800, #ffc107)', borderColor: '#ff9800' },
+      comfort: { background: 'linear-gradient(135deg, #4e342e, #6d4c41, #8d6e63)', borderColor: '#8d6e63' }
+    };
+    return styles[styleType] || {};
+  };
+
+  // Setup Screen
+  if (currentScreen === 'setup') {
+    return (
+      <div className="min-h-screen bg-gray-900 text-gray-200 p-4">
+        <div className="max-w-md mx-auto bg-gray-800 rounded-lg p-6 border-2 border-gray-600">
+          <h2 className="text-center bg-gray-700 text-gray-200 p-3 rounded mb-6 text-lg font-bold">
+            Welcome to CineMood
+          </h2>
+         
           <div className="mb-4">
             <input
               type="text"
@@ -280,7 +350,7 @@ const generateRecommendations = async () => {
             {currentQuestion.options.map(option => (
               <button
                 key={option.id}
-                onClick={() => handleMoodAnswer(questionIndex, option.id)}
+                onClick={() => handleMoodAnswer(currentQuestion.id, option.id)}
                 className="w-full h-20 rounded-lg border-2 flex flex-col items-center justify-center text-white font-medium transition-all hover:scale-105"
                 style={getMoodCardStyle(option.style)}
               >
@@ -495,9 +565,8 @@ const generateRecommendations = async () => {
     );
   }
 
-  // FIXED: Watching/Feedback Screen - Now shows the actual selected movie
+  // Watching/Feedback Screen
   if (currentScreen === 'watching') {
-    // Use the selectedMovie or fall back to safe recommendation
     const watchedMovie = selectedMovie || (currentRecommendations?.safe) || { title: "Heat", year: 1995 };
    
     return (
@@ -648,4 +717,4 @@ const generateRecommendations = async () => {
 
 };
 
-export default CineMoodApp
+export default CineMoodApp;

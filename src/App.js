@@ -186,8 +186,8 @@ const CineMoodApp = () => {
       setQuestionIndex(questionIndex + 1);
     } else {
       await generateRecommendations();
-      const recommendations = getPersonalizedRecommendations();
-      setCurrentRecommendations(recommendations);
+      const recs = getPersonalizedRecommendations();
+      setCurrentRecommendations(recs);
       setCurrentScreen('results');
     }
   };

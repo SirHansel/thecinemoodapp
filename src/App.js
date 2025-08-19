@@ -225,9 +225,10 @@ const generateRecommendations = async () => {
       setQuestionIndex(questionIndex + 1);
     } else {
       // FIXED: Store recommendations when mood questions complete
-      const recommendations = getPersonalizedRecommendations();
-      setCurrentRecommendations(recommendations);
-      setCurrentScreen('results');
+     await generateRecommendations();
+const recommendations = getPersonalizedRecommendations();
+setCurrentRecommendations(recommendations);
+setCurrentScreen('results');
     }
   };
 

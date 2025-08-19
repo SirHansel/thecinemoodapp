@@ -272,7 +272,49 @@ const CineMoodApp = () => {
   // Add other screens here (mood, results, etc.)
   // This is a starting point - you'll need to add your other screen components
 
-  return <div>Other screens go here</div>;
-};
+  // Mood Discovery Screen
+if (currentScreen === 'mood') {
+  const currentQuestion = moodQuestions[questionIndex];
+  const progress = ((questionIndex + 1) / moodQuestions.length) * 100;
+  
+  return (
+    <div className="min-h-screen bg-gray-900 text-gray-200 p-4">
+      <div className="max-w-md mx-auto bg-gray-800 rounded-lg p-6 border-2 border-gray-600">
+        <h2 className="text-center bg-gray-700 text-gray-200 p-3 rounded mb-6 text-lg font-bold">
+          Discovering Your Mood
+        </h2>
+        
+        <div className="h-1.5 bg-gray-600 rounded mb-6">
+          <div
+            className="h-full bg-green-500 rounded transition-all duration-300"
+            style={{ width: `${progress}%` }}
+          ></div>
+        </div>
+        
+        <p className="text-lg mb-6 text-center">{currentQuestion.question}</p>
+        
+        <div className="space-y-4">
+          {currentQuestion.options.map(option => (
+            <button
+              key={option.id}
+              onClick={() => handleMoodAnswer(questionIndex, option.id)}
+              className="w-full h-20 rounded-lg border-2 flex flex-col items-center justify-center text-white font-medium transition-all hover:scale-105"
+              style={getMoodCardStyle(option.style)}
+            >
+              <span>{option.text}</span>
+              <span className="text-sm opacity-80">{option.subtext}</span>
+            </button>
+          ))}
+        </div>
+        
+        <p className="text-center text-sm text-gray-400 mt-6">
+          Question {questionIndex + 1} of {moodQuestions.length}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+return <div>Other screens go here</div>;
 
 export default CineMoodApp;

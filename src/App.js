@@ -215,22 +215,21 @@ const generateRecommendations = async () => {
     }));
   };
 
-  const handleMoodAnswer = (questionId, answerId) => {
-    setUserPrefs(prev => ({
-      ...prev,
-      moodAnswers: { ...prev.moodAnswers, [questionId]: answerId }
-    }));
-    
-    if (questionIndex < moodQuestions.length - 1) {
-      setQuestionIndex(questionIndex + 1);
-    } else {
-      // FIXED: Store recommendations when mood questions complete
-     await generateRecommendations();
-const handleMoodAnswer = async (questionId, answerId) => {
-setCurrentRecommendations(recommendations);
-setCurrentScreen('results');
-    }
-  };
+  const handleMoodAnswer = async (questionId, answerId) => {
+  setUserPrefs(prev => ({
+    ...prev,
+    moodAnswers: { ...prev.moodAnswers, [questionId]: answerId }
+  }));
+  
+  if (questionIndex < moodQuestions.length - 1) {
+    setQuestionIndex(questionIndex + 1);
+  } else {
+    await generateRecommendations();
+    const recommendations = getPersonalizedRecommendations();
+    setCurrentRecommendations(recommendations);
+    setCurrentScreen('results');
+  }
+};
 
   const spinWheel = () => {
     setIsSpinning(true);

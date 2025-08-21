@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Play, RotateCcw, Settings, Star, ThumbsUp } from 'lucide-react';
-import { fetchMoviesByGenre } from './tmdbapi';
+import { fetchMoviesByGenre } from './tmdbApi';
 
 const CineMoodApp = () => {
   const [currentScreen, setCurrentScreen] = useState('setup');

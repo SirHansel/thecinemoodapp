@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Play, RotateCcw, Settings, Star, ThumbsUp } from 'lucide-react';
-import { fetchMoviesByGenre } from './tmdbApi';
+// import { fetchMoviesByGenre } from './tmdbApi';
 
 const CineMoodApp = () => {
   const [currentScreen, setCurrentScreen] = useState('setup');
@@ -26,7 +26,7 @@ const CineMoodApp = () => {
     setLoading(true);
     try {
       // Simulate API call - will always use fallbacks for now
-      const movies = await fetchMoviesByGenre(80); // Crime genre
+     const movies = null; // TMDB import broken
       console.log('TMDB movies received:', movies);
      
       if (movies && movies.length >= 3) {

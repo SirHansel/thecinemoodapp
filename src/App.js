@@ -81,7 +81,7 @@ const CineMoodApp = () => {
 
   // Enhanced movie recommendations
   const getPersonalizedRecommendations = () => {
-    if (!letterboxdData?.movies || !recommendations) {
+    if (!recommendations) {
       return recommendations || {
         safe: { title: "Moonlight", year: 2016, genre: "Drama", runtime: "1h 51m", platform: "Netflix", reason: "🎯 Safe Bet: No TMDB data" },
         stretch: { title: "First Cow", year: 2019, genre: "Drama, Western", runtime: "2h 2m", platform: "Showtime", reason: "↗️ Stretch: No TMDB data" },

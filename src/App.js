@@ -26,11 +26,18 @@ const CineMoodApp = () => {
     setLoading(true);
     try {
       // Simulate API call - will always use fallbacks for now
-     const movies = await fetchMoviesByGenre(28);
-      console.log('TMDB movies received:', movies);
+    const movies = await fetchMoviesByGenre(28);
+console.log('🎬 TMDB API Response:', movies);
+console.log('🎬 Movies array length:', movies?.length);
      
       if (movies && movies.length >= 3) {
-        const shuffled = movies.sort(() => 0.5 - Math.random());
+  console.log('✅ Using TMDB movies');
+  const shuffled = movies.sort(() => 0.5 - Math.random());
+  // rest of existing code stays the same...
+} else {
+  console.log('❌ Using fallbacks - movies:', movies);
+  // existing fallback code stays the same...
+}
         
         const movieRecs = {
           safe: {

@@ -25,7 +25,6 @@ const CineMoodApp = () => {
   const generateRecommendations = async () => {
     setLoading(true);
     try {
-      // Simulate API call - will always use fallbacks for now
     const movies = await fetchMoviesByGenre(28);
 console.log('🎬 TMDB API Response:', movies);
 console.log('🎬 Movies array length:', movies?.length);

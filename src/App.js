@@ -358,6 +358,8 @@ const CineMoodApp = () => {
   onClick={() => {
     setQuestionIndex(0); 
     setUserPrefs(prev => ({...prev, moodAnswers: {}})); // Clear mood answers
+    setRecommendations(null); // Add this line
+    setCurrentRecommendations(null); // Add this line too
     setCurrentScreen('mood');
   }}
   className="bg-gray-600 hover:bg-gray-700 text-white p-3 rounded font-medium"

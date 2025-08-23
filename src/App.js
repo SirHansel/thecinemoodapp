@@ -64,27 +64,6 @@ console.log('🎬 Movies array length:', movies?.length);
             reason: "🎲 Wild Card: Hidden gem"
           }
         };
-        
-        setRecommendations(movieRecs);
-      } else {
-        // NEW FALLBACK MOVIES - to test if TMDB is working
-        setRecommendations({
-          safe: { title: "Dune", year: 2021, genre: "Sci-Fi, Adventure", runtime: "2h 35m", platform: "HBO Max", reason: "🎯 Safe Bet: Popular sci-fi epic" },
-          stretch: { title: "Minari", year: 2020, genre: "Drama, Family", runtime: "1h 55m", platform: "Prime", reason: "↗️ Stretch: Acclaimed indie drama" },
-          wild: { title: "The Green Knight", year: 2021, genre: "Fantasy, Adventure", runtime: "2h 10m", platform: "A24", reason: "🎲 Wild Card: Artsy fantasy adventure" }
-        });
-      }
-    } catch (error) {
-      console.log('TMDB error:', error);
-      setRecommendations({
-        safe: { title: "Parasite", year: 2019, genre: "Thriller, Drama", runtime: "2h 12m", platform: "Hulu", reason: "🎯 Network Error Fallback" },
-        stretch: { title: "The Lighthouse", year: 2019, genre: "Horror, Drama", runtime: "1h 49m", platform: "Prime", reason: "↗️ Network Error Fallback" },
-        wild: { title: "Uncut Gems", year: 2019, genre: "Crime, Thriller", runtime: "2h 15m", platform: "Netflix", reason: "🎲 Network Error Fallback" }
-      });
-    }
-    setLoading(false);
-  };
-
   // Enhanced movie recommendations
   const getPersonalizedRecommendations = () => {
     if (!recommendations) {

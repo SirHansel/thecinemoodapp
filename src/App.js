@@ -22,48 +22,64 @@ const CineMoodApp = () => {
   const platforms = ['Netflix', 'Prime', 'Hulu', 'Disney+', 'Criterion', 'Tubi'];
 
   // TMDB Integration - Test version without API
-  const generateRecommendations = async () => {
-    setLoading(true);
-    try {
+ const generateRecommendations = async () => {
+  setLoading(true);
+  try {
     const movies = await fetchMoviesByGenre(28);
-console.log('🎬 TMDB API Response:', movies);
-console.log('🎬 Movies array length:', movies?.length);
-     
-      if (movies && movies.length >= 3) {
-  console.log('✅ Using TMDB movies');
-  const shuffled = movies.sort(() => 0.5 - Math.random());
-  // rest of existing code stays the same...
-} else {
-  console.log('❌ Using fallbacks - movies:', movies);
-  // existing fallback code stays the same...
-}
-        
-        const movieRecs = {
-          safe: {
-            title: shuffled[0].title,
-            year: shuffled[0].release_date?.slice(0, 4) || 'Unknown',
-            genre: "Crime, Drama", 
-            runtime: "2h 31m",
-            platform: "Netflix",
-            reason: "🎯 Safe Bet: Popular choice"
-          },
-          stretch: {
-            title: shuffled[1].title,
-            year: shuffled[1].release_date?.slice(0, 4) || 'Unknown',
-            genre: "Thriller, Drama",
-            runtime: "2h 33m", 
-            platform: "Prime",
-            reason: "↗️ Stretch: Trending pick"
-          },
-          wild: {
-            title: shuffled[2].title,
-            year: shuffled[2].release_date?.slice(0, 4) || 'Unknown',
-            genre: "Action, Crime",
-            runtime: "1h 44m",
-            platform: "Criterion", 
-            reason: "🎲 Wild Card: Hidden gem"
-          }
-        };
+    console.log('🎬 TMDB API Response:', movies);
+    console.log('🎬 Movies array length:', movies?.length);
+    
+    if (movies && movies.length >= 3) {
+      console.log('✅ Using TMDB movies');
+      const shuffled = movies.sort(() => 0.5 - Math.random());
+      
+      const movieRecs = {
+        safe: {
+          title: shuffled[0].title,
+          year: shuffled[0].release_date?.slice(0, 4) || 'Unknown',
+          genre: "Crime, Drama", 
+          runtime: "2h 31m",
+          platform: "Netflix",
+          reason: "🎯 Safe Bet: Popular choice"
+        },
+        stretch: {
+          title: shuffled[1].title,
+          year: shuffled[1].release_date?.slice(0, 4) || 'Unknown',
+          genre: "Thriller, Drama",
+          runtime: "2h 33m", 
+          platform: "Prime",
+          reason: "↗️ Stretch: Trending pick"
+        },
+        wild: {
+          title: shuffled[2].title,
+          year: shuffled[2].release_date?.slice(0, 4) || 'Unknown',
+          genre: "Action, Crime",
+          runtime: "1h 44m",
+          platform: "Criterion", 
+          reason: "🎲 Wild Card: Hidden gem"
+        }
+      };
+      
+      setRecommendations(movieRecs);
+    } else {
+      console.log('❌ Using fallbacks - movies:', movies);
+      // Fallback movies when API returns no results
+      setRecommendations({
+        safe: { title: "Dune", year: 2021, genre: "Sci-Fi, Adventure", runtime: "2h 35m", platform: "HBO Max", reason: "🎯 Safe Bet: Popular sci-fi epic" },
+        stretch: { title: "Minari", year: 2020, genre: "Drama, Family", runtime: "1h 55m", platform: "Prime", reason: "↗️ Stretch: Acclaimed indie drama" },
+        wild: { title: "The Green Knight", year: 2021, genre: "Fantasy, Adventure", runtime: "2h 10m", platform: "A24", reason: "🎲 Wild Card: Artsy fantasy adventure" }
+      });
+    }
+  } catch (error) {
+    console.log('🚨 TMDB API Error:', error);
+    setRecommendations({
+      safe: { title: "Parasite", year: 2019, genre: "Thriller, Drama", runtime: "2h 12m", platform: "Hulu", reason: "🎯 Network Error Fallback" },
+      stretch: { title: "The Lighthouse", year: 2019, genre: "Horror, Drama", runtime: "1h 49m", platform: "Prime", reason: "↗️ Network Error Fallback" },
+      wild: { title: "Uncut Gems", year: 2019, genre: "Crime, Thriller", runtime: "2h 15m", platform: "Netflix", reason: "🎲 Network Error Fallback" }
+    });
+  }
+  setLoading(false);
+};
   // Enhanced movie recommendations
   const getPersonalizedRecommendations = () => {
     if (!recommendations) {

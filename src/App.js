@@ -354,13 +354,17 @@ const CineMoodApp = () => {
             >
               Can't Decide?
             </button>
-            <button
-              onClick={() => {setQuestionIndex(0); setCurrentScreen('mood');}}
-              className="bg-gray-600 hover:bg-gray-700 text-white p-3 rounded font-medium"
-            >
-              <RotateCcw className="inline w-4 h-4 mr-2" />
-              Try Again
-            </button>
+           <button
+  onClick={() => {
+    setQuestionIndex(0); 
+    setUserPrefs(prev => ({...prev, moodAnswers: {}})); // Clear mood answers
+    setCurrentScreen('mood');
+  }}
+  className="bg-gray-600 hover:bg-gray-700 text-white p-3 rounded font-medium"
+>
+  <RotateCcw className="inline w-4 h-4 mr-2" />
+  Try Again
+</button>
           </div>
         </div>
       </div>

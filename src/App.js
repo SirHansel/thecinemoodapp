@@ -1,7 +1,210 @@
 import React, { useState } from 'react';
 import { Play, RotateCcw, Settings, Star, ThumbsUp } from 'lucide-react';
 import { fetchMoviesByGenre } from './tmdbApi';
+// ========================================
+// HYBRID SCORING SYSTEM
+// ========================================
+// DESIGN: Each mood answer gives Primary(5) + Secondary(2) + Tertiary(1) points to different genres
+// BENEFIT: Prevents point inflation, easy to tune, future-proof for question rotation
 
+// TMDB Genre IDs (verified)
+const TMDB_GENRES = {
+  ACTION: 28,
+  ADVENTURE: 12,
+  COMEDY: 35,
+  CRIME: 80,
+  DRAMA: 18,
+  FANTASY: 14,
+  HISTORY: 36,
+  HORROR: 27,
+  MYSTERY: 9648,
+  ROMANCE: 10749,
+  SCIENCE_FICTION: 878,
+  THRILLER: 53,
+  WAR: 10752,
+  WESTERN: 37
+};
+
+// Hybrid Scoring Configuration - Easy to Tweak
+const SCORING_WEIGHTS = {
+  aesthetic: { primary: 5, secondary: 2, tertiary: 1 },
+  energy: { primary: 4, secondary: 2, tertiary: 1 },
+  character: { primary: 6, secondary: 2, tertiary: 0 }, // Character gets more weight
+  era: { primary: 3, secondary: 2, tertiary: 1 },      // Era gets less weight
+  mood: { primary: 5, secondary: 2, tertiary: 1 },
+  discovery: { primary: 2, secondary: 1, tertiary: 0 }  // Discovery is modifier, not core
+};
+
+// Mood Answer → Genre Points Mapping
+const MOOD_SCORING = {
+  aesthetic: {
+    neon: {
+      primary: TMDB_GENRES.SCIENCE_FICTION,   // +5 pts
+      secondary: TMDB_GENRES.ACTION,          // +2 pts  
+      tertiary: TMDB_GENRES.THRILLER          // +1 pt
+    },
+    earth: {
+      primary: TMDB_GENRES.DRAMA,             // +5 pts
+      secondary: TMDB_GENRES.WESTERN,         // +2 pts
+      tertiary: TMDB_GENRES.HISTORY           // +1 pt
+    }
+  },
+
+  energy: {
+    spring: {
+      primary: TMDB_GENRES.ACTION,            // +4 pts
+      secondary: TMDB_GENRES.THRILLER,        // +2 pts
+      tertiary: TMDB_GENRES.ADVENTURE         // +1 pt
+    },
+    river: {
+      primary: TMDB_GENRES.DRAMA,             // +4 pts
+      secondary: TMDB_GENRES.ROMANCE,         // +2 pts
+      tertiary: TMDB_GENRES.FANTASY           // +1 pt
+    }
+  },
+
+  character: {
+    struggle: {
+      primary: TMDB_GENRES.DRAMA,             // +6 pts (high weight)
+      secondary: TMDB_GENRES.MYSTERY,         // +2 pts
+      tertiary: null                          // +0 pts
+    },
+    triumph: {
+      primary: TMDB_GENRES.ACTION,            // +6 pts
+      secondary: TMDB_GENRES.ADVENTURE,       // +2 pts  
+      tertiary: null                          // +0 pts
+    }
+  },
+
+  era: {
+    seventies: {
+      primary: TMDB_GENRES.CRIME,             // +3 pts
+      secondary: TMDB_GENRES.THRILLER,        // +2 pts
+      tertiary: TMDB_GENRES.DRAMA             // +1 pt
+    },
+    eighties: {
+      primary: TMDB_GENRES.ACTION,            // +3 pts
+      secondary: TMDB_GENRES.SCIENCE_FICTION, // +2 pts
+      tertiary: TMDB_GENRES.COMEDY            // +1 pt
+    }
+  },
+
+  mood: {
+    puzzle: {
+      primary: TMDB_GENRES.MYSTERY,           // +5 pts
+      secondary: TMDB_GENRES.THRILLER,        // +2 pts
+      tertiary: TMDB_GENRES.CRIME             // +1 pt
+    },
+    escape: {
+      primary: TMDB_GENRES.FANTASY,           // +5 pts
+      secondary: TMDB_GENRES.ADVENTURE,       // +2 pts
+      tertiary: TMDB_GENRES.SCIENCE_FICTION   // +1 pt
+    }
+  },
+
+  discovery: {
+    new: {
+      primary: null,                          // Discovery doesn't add genre points
+      secondary: null,                        // Instead it modifies year/popularity
+      tertiary: null,
+      modifier: { yearMin: 2019, yearMax: 2024, popularity: 'mixed' }
+    },
+    comfort: {
+      primary: null,
+      secondary: null,
+      tertiary: null,
+      modifier: { yearMin: 1970, yearMax: 2015, popularity: 'high' }
+    }
+  }
+};
+
+// ========================================
+// MAIN SCORING FUNCTION
+// ========================================
+const calculateMoodScore = (moodAnswers) => {
+  console.log('🧮 Calculating mood scores for:', moodAnswers);
+  
+  const genreScores = {};
+  let modifiers = {};
+
+  // Process each mood answer
+  Object.entries(moodAnswers).forEach(([questionType, answer]) => {
+    const scoring = MOOD_SCORING[questionType]?.[answer];
+    const weights = SCORING_WEIGHTS[questionType];
+    
+    if (!scoring || !weights) {
+      console.log(`⚠️ Missing scoring for ${questionType}:${answer}`);
+      return;
+    }
+
+    // Add genre points
+    if (scoring.primary) {
+      genreScores[scoring.primary] = (genreScores[scoring.primary] || 0) + weights.primary;
+    }
+    if (scoring.secondary) {
+      genreScores[scoring.secondary] = (genreScores[scoring.secondary] || 0) + weights.secondary;
+    }
+    if (scoring.tertiary) {
+      genreScores[scoring.tertiary] = (genreScores[scoring.tertiary] || 0) + weights.tertiary;
+    }
+
+    // Handle modifiers (year ranges, popularity)
+    if (scoring.modifier) {
+      modifiers = { ...modifiers, ...scoring.modifier };
+    }
+  });
+
+  // Sort genres by score
+  const rankedGenres = Object.entries(genreScores)
+    .sort(([,a], [,b]) => b - a)
+    .map(([genre, score]) => ({ 
+      id: parseInt(genre), 
+      score: score,
+      name: Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === parseInt(genre))
+    }));
+
+  console.log('🏆 Final genre scores:', rankedGenres);
+  console.log('⚙️ Modifiers:', modifiers);
+
+  return {
+    topGenres: rankedGenres.slice(0, 3), // Top 3 scoring genres
+    modifiers: modifiers,
+    primaryGenre: rankedGenres[0]?.id || TMDB_GENRES.ACTION
+  };
+};
+
+// ========================================
+// INTEGRATION READY FUNCTION
+// ========================================
+// This replaces the TMDB API call in generateRecommendations
+const getMoodBasedMovies = async (moodAnswers) => {
+  const moodScore = calculateMoodScore(moodAnswers);
+  
+  try {
+    // Try top scoring genre first
+    let movies = await fetchMoviesByGenre(moodScore.primaryGenre);
+    
+    // Fallback to second highest scoring genre
+    if (!movies || movies.length < 3) {
+      const secondGenre = moodScore.topGenres[1]?.id;
+      if (secondGenre) {
+        movies = await fetchMoviesByGenre(secondGenre);
+      }
+    }
+    
+    return {
+      movies: movies,
+      context: {
+        chosenGenre: moodScore.topGenres[0]?.name || 'Action',
+        allScores: moodScore.topGenres,
+        modifiers: moodScore.modifiers
+      }
+    };
+  } catch (error) {
+    console.log('🚨 Mood-based API call failed:', error);
+    return null; // Let existing fallbacks handle this
+  }
+};
 const CineMoodApp = () => {
   const [currentScreen, setCurrentScreen] = useState('setup');
   const [userPrefs, setUserPrefs] = useState({
@@ -25,8 +228,13 @@ const CineMoodApp = () => {
  const generateRecommendations = async () => {
   setLoading(true);
   try {
-    const movies = await fetchMoviesByGenre(28);
+    const result = await getMoodBasedMovies(userPrefs.moodAnswers);
+const movies = result?.movies;
     console.log('🎬 TMDB API Response:', movies);
+    if (result) {
+  console.log('🎯 Chosen genre:', result.context.chosenGenre);
+  console.log('📊 All genre scores:', result.context.allScores);
+}
     console.log('🎬 Movies array length:', movies?.length);
     
     if (movies && movies.length >= 3) {

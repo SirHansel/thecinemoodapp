@@ -394,12 +394,11 @@ const movies = result?.movies;
    
     if (questionIndex < moodQuestions.length - 1) {
       setQuestionIndex(questionIndex + 1);
-    } else {
-      await generateRecommendations();
-      const recs = getPersonalizedRecommendations();
-      setCurrentRecommendations(recs);
-      setCurrentScreen('results');
-    }
+   } else {
+  await generateRecommendations();
+  // Use the mood-based recommendations directly
+  setCurrentScreen('results');
+}
   };
 
   const spinWheel = () => {

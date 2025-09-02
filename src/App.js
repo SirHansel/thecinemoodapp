@@ -205,6 +205,145 @@ const getMoodBasedMovies = async (moodAnswers) => {
     return null; // Let existing fallbacks handle this
   }
 };
+// ========================================
+// MODULAR PLATFORM FILTERING SYSTEM
+// ========================================
+// DESIGN: Post-processing filters that can stack/combine
+// BENEFIT: Easy to add new filter types without breaking existing code
+
+// Platform availability mapping (simplified for now - can be enhanced later)
+const PLATFORM_MAPPING = {
+  // Map your platform names to common ways they appear in movie data
+  'Netflix': ['netflix', 'Netflix'],
+  'Prime': ['amazon prime', 'prime video', 'amazon', 'prime'],
+  'Hulu': ['hulu', 'Hulu'],
+  'Disney+': ['disney+', 'disney plus', 'disney', 'Disney+'],
+  'Criterion': ['criterion', 'criterion channel', 'Criterion'],
+  'Tubi': ['tubi', 'Tubi']
+};
+
+// ========================================
+// FILTER: PLATFORM AVAILABILITY
+// ========================================
+const filterByPlatforms = (movies, selectedPlatforms) => {
+  console.log('🎬 Filtering by platforms:', selectedPlatforms);
+  
+  if (!selectedPlatforms || selectedPlatforms.length === 0) {
+    console.log('⚠️ No platforms selected, returning all movies');
+    return movies;
+  }
+
+  // For now, assign random platforms to movies (since TMDB doesn't have reliable platform data)
+  // TODO: Replace with real platform API data when available
+  const availablePlatforms = ['Netflix', 'Prime', 'Hulu', 'Disney+', 'Criterion', 'Tubi'];
+  
+  const filteredMovies = movies.map(movie => {
+    // Randomly assign 1-2 platforms per movie for testing
+    const randomPlatforms = availablePlatforms
+      .sort(() => 0.5 - Math.random())
+      .slice(0, Math.random() > 0.5 ? 1 : 2);
+    
+    return {
+      ...movie,
+      availablePlatforms: randomPlatforms,
+      // Check if movie is on any of user's platforms
+      isAvailable: randomPlatforms.some(platform => selectedPlatforms.includes(platform))
+    };
+  });
+
+  // Return only movies available on user's platforms
+  const availableMovies = filteredMovies.filter(movie => movie.isAvailable);
+  
+  console.log(`📺 Platform filtering: ${movies.length} → ${availableMovies.length} movies`);
+  
+  // If not enough movies after filtering, include some unavailable ones as backup
+  if (availableMovies.length < 5) {
+    console.log('⚠️ Not enough platform matches, adding backup movies');
+    const backupMovies = filteredMovies.filter(movie => !movie.isAvailable).slice(0, 3);
+    return [...availableMovies, ...backupMovies];
+  }
+  
+  return availableMovies;
+};
+
+// ========================================
+// FUTURE FILTER: LETTERBOXD WATCHED MOVIES
+// ========================================
+// Ready for when we add Letterboxd integration
+const filterByWatchedMovies = (movies, letterboxdData, allowRewatches = false) => {
+  if (!letterboxdData || allowRewatches) {
+    return movies;
+  }
+  
+  const watchedTitles = letterboxdData.movies.map(m => m.title.toLowerCase());
+  return movies.filter(movie => 
+    !watchedTitles.includes(movie.title.toLowerCase())
+  );
+};
+
+// ========================================
+// MASTER FILTER FUNCTION
+// ========================================
+// This combines all filters and can be easily extended
+const applyAllFilters = (movies, userPrefs, allowRewatches = false) => {
+  console.log('🔍 Applying filters to', movies.length, 'movies');
+  
+  let filteredMovies = movies;
+  
+  // Filter 1: Platform availability
+  filteredMovies = filterByPlatforms(filteredMovies, userPrefs.platforms);
+  
+  // Filter 2: Letterboxd watched movies (when implemented)
+  // filteredMovies = filterByWatchedMovies(filteredMovies, letterboxdData, allowRewatches);
+  
+  // Future filters can be added here:
+  // filteredMovies = filterByExcludedGenres(filteredMovies, userPrefs.excludedGenres);
+  // filteredMovies = filterByRuntime(filteredMovies, userPrefs.maxRuntime);
+  
+  console.log('✨ Final filtered results:', filteredMovies.length, 'movies');
+  return filteredMovies;
+};
+
+// ========================================
+// INTEGRATION POINT
+// ========================================
+// Add this to your generateRecommendations function after getting TMDB movies
+const getFilteredRecommendations = (rawMovies, userPrefs, allowRewatches = false) => {
+  const filteredMovies = applyAllFilters(rawMovies, userPrefs, allowRewatches);
+  
+  if (filteredMovies.length >= 3) {
+    const shuffled = filteredMovies.sort(() => 0.5 - Math.random());
+    
+    return {
+      safe: {
+        title: shuffled[0].title,
+        year: shuffled[0].release_date?.slice(0, 4) || 'Unknown',
+        genre: "Crime, Drama", 
+        runtime: "2h 31m",
+        platform: shuffled[0].availablePlatforms?.[0] || "Netflix", // Use actual platform
+        reason: "🎯 Safe Bet: Available on your platforms"
+      },
+      stretch: {
+        title: shuffled[1].title,
+        year: shuffled[1].release_date?.slice(0, 4) || 'Unknown',
+        genre: "Thriller, Drama",
+        runtime: "2h 33m", 
+        platform: shuffled[1].availablePlatforms?.[0] || "Prime",
+        reason: "↗️ Stretch: Trending on your services"
+      },
+      wild: {
+        title: shuffled[2].title,
+        year: shuffled[2].release_date?.slice(0, 4) || 'Unknown',
+        genre: "Action, Crime",
+        runtime: "1h 44m",
+        platform: shuffled[2].availablePlatforms?.[0] || "Criterion", 
+        reason: "🎲 Wild Card: Hidden gem on your platforms"
+      }
+    };
+  }
+  
+  return null; // Let existing fallbacks handle insufficient movies
+};
 const CineMoodApp = () => {
   const [currentScreen, setCurrentScreen] = useState('setup');
   const [userPrefs, setUserPrefs] = useState({
@@ -238,35 +377,45 @@ const movies = result?.movies;
     console.log('🎬 Movies array length:', movies?.length);
     
     if (movies && movies.length >= 3) {
-      console.log('✅ Using TMDB movies');
-      const shuffled = movies.sort(() => 0.5 - Math.random());
-      
-      const movieRecs = {
-        safe: {
-          title: shuffled[0].title,
-          year: shuffled[0].release_date?.slice(0, 4) || 'Unknown',
-          genre: "Crime, Drama", 
-          runtime: "2h 31m",
-          platform: "Netflix",
-          reason: "🎯 Safe Bet: Popular choice"
-        },
-        stretch: {
-          title: shuffled[1].title,
-          year: shuffled[1].release_date?.slice(0, 4) || 'Unknown',
-          genre: "Thriller, Drama",
-          runtime: "2h 33m", 
-          platform: "Prime",
-          reason: "↗️ Stretch: Trending pick"
-        },
-        wild: {
-          title: shuffled[2].title,
-          year: shuffled[2].release_date?.slice(0, 4) || 'Unknown',
-          genre: "Action, Crime",
-          runtime: "1h 44m",
-          platform: "Criterion", 
-          reason: "🎲 Wild Card: Hidden gem"
-        }
-      };
+  console.log('✅ Using TMDB movies');
+  const movieRecs = getFilteredRecommendations(movies, userPrefs);
+  
+  if (movieRecs) {
+    setRecommendations(movieRecs);
+  } else {
+    // Fall back to existing system if filtering fails
+    console.log('🔄 Using fallback system');
+    const shuffled = movies.sort(() => 0.5 - Math.random());
+    
+    const movieRecs = {
+      safe: {
+        title: shuffled[0].title,
+        year: shuffled[0].release_date?.slice(0, 4) || 'Unknown',
+        genre: "Crime, Drama", 
+        runtime: "2h 31m",
+        platform: "Netflix",
+        reason: "🎯 Safe Bet: Popular choice"
+      },
+      stretch: {
+        title: shuffled[1].title,
+        year: shuffled[1].release_date?.slice(0, 4) || 'Unknown',
+        genre: "Thriller, Drama",
+        runtime: "2h 33m", 
+        platform: "Prime",
+        reason: "↗️ Stretch: Trending pick"
+      },
+      wild: {
+        title: shuffled[2].title,
+        year: shuffled[2].release_date?.slice(0, 4) || 'Unknown',
+        genre: "Action, Crime",
+        runtime: "1h 44m",
+        platform: "Criterion", 
+        reason: "🎲 Wild Card: Hidden gem"
+      }
+    };
+    
+    setRecommendations(movieRecs);
+  }
       
       setRecommendations(movieRecs);
     } else {

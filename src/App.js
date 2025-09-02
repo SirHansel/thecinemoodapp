@@ -527,7 +527,7 @@ const movies = result?.movies;
 
   // Results Screen
   if (currentScreen === 'results') {
-    const recommendedMovies = currentRecommendations || getPersonalizedRecommendations();
+    const recommendedMovies = recommendations;
    
     return (
       <div className="min-h-screen bg-gray-900 text-gray-200 p-4">

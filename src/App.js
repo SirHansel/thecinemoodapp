@@ -410,23 +410,20 @@ const movies = result?.movies;
         genre: "Action, Crime",
         runtime: "1h 44m",
         platform: "Criterion", 
-        reason: "🎲 Wild Card: Hidden gem"
+      reason: "🎲 Wild Card: Hidden gem"
       }
     };
     
     setRecommendations(movieRecs);
   }
-      
-      setRecommendations(movieRecs);
-    } else {
-      console.log('❌ Using fallbacks - movies:', movies);
-      // Fallback movies when API returns no results
-      setRecommendations({
-        safe: { title: "Dune", year: 2021, genre: "Sci-Fi, Adventure", runtime: "2h 35m", platform: "HBO Max", reason: "🎯 Safe Bet: Popular sci-fi epic" },
-        stretch: { title: "Minari", year: 2020, genre: "Drama, Family", runtime: "1h 55m", platform: "Prime", reason: "↗️ Stretch: Acclaimed indie drama" },
-        wild: { title: "The Green Knight", year: 2021, genre: "Fantasy, Adventure", runtime: "2h 10m", platform: "A24", reason: "🎲 Wild Card: Artsy fantasy adventure" }
-      });
-    }
+} else {
+  console.log('❌ Using fallbacks - movies:', movies);
+  setRecommendations({
+    safe: { title: "Dune", year: 2021, genre: "Sci-Fi, Adventure", runtime: "2h 35m", platform: "HBO Max", reason: "🎯 Safe Bet: Popular sci-fi epic" },
+    stretch: { title: "Minari", year: 2020, genre: "Drama, Family", runtime: "1h 55m", platform: "Prime", reason: "↗️ Stretch: Acclaimed indie drama" },
+    wild: { title: "The Green Knight", year: 2021, genre: "Fantasy, Adventure", runtime: "2h 10m", platform: "A24", reason: "🎲 Wild Card: Artsy fantasy adventure" }
+  });
+}
   } catch (error) {
     console.log('🚨 TMDB API Error:', error);
     setRecommendations({

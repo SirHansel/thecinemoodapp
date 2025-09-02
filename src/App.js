@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Play, RotateCcw, Settings, Star, ThumbsUp } from 'lucide-react';
 import { fetchMoviesByGenre } from './tmdbApi';
+import { fetchLetterboxdProfile, analyzeUserTaste } from './letterboxdApi';
 // ========================================
 // HYBRID SCORING SYSTEM
 // ========================================
@@ -362,6 +363,7 @@ const CineMoodApp = () => {
 
   // Platforms array
   const platforms = ['Netflix', 'Prime', 'Hulu', 'Disney+', 'Criterion', 'Tubi'];
+  const [letterboxdError, setLetterboxdError] = useState('');
 
   // TMDB Integration - Test version without API
  const generateRecommendations = async () => {
@@ -588,16 +590,19 @@ const movies = result?.movies;
           <h2 className="text-center bg-gray-700 text-gray-200 p-3 rounded mb-6 text-lg font-bold">
             Welcome to CineMood
           </h2>
-         
+        
           <div className="mb-4">
-            <input
-              type="text"
-              placeholder="Letterboxd Username (optional)"
-              className="w-full p-3 border-2 border-gray-600 rounded bg-gray-700 text-gray-200 mb-2"
-              value={userPrefs.letterboxd}
-              onChange={(e) => setUserPrefs(prev => ({...prev, letterboxd: e.target.value}))}
-            />
-          </div>
+  <input
+    type="text"
+    placeholder="Letterboxd Username (optional)"
+    className="w-full p-3 border-2 border-gray-600 rounded bg-gray-700 text-gray-200 mb-2"
+    value={userPrefs.letterboxd}
+    onChange={(e) => setUserPrefs(prev => ({...prev, letterboxd: e.target.value}))}
+  />
+  {letterboxdError && (
+    <p className="text-red-400 text-sm">{letterboxdError}</p>
+  )}
+</div>
          
           <p className="text-sm text-gray-400 mb-3">Select your streaming platforms:</p>
           <div className="grid grid-cols-2 gap-3 mb-6">

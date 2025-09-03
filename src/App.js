@@ -360,6 +360,9 @@ const CineMoodApp = () => {
   const [loadingLetterboxd, setLoadingLetterboxd] = useState(false);
   const [recommendations, setRecommendations] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [csvFile, setCsvFile] = useState(null);
+const [csvProcessing, setCsvProcessing] = useState(false);
+const [csvError, setCsvError] = useState('');
 
   // Platforms array
   const platforms = ['Netflix', 'Prime', 'Hulu', 'Disney+', 'Criterion', 'Tubi'];
@@ -592,15 +595,21 @@ const movies = result?.movies;
           </h2>
         
           <div className="mb-4">
+  <div className="mb-4">
+  <label className="block text-sm text-gray-400 mb-2">
+    Import your Letterboxd data (optional)
+  </label>
   <input
-    type="text"
-    placeholder="Letterboxd Username (optional)"
-    className="w-full p-3 border-2 border-gray-600 rounded bg-gray-700 text-gray-200 mb-2"
-    value={userPrefs.letterboxd}
-    onChange={(e) => setUserPrefs(prev => ({...prev, letterboxd: e.target.value}))}
+    type="file"
+    accept=".csv"
+    onChange={(e) => setCsvFile(e.target.files[0])}
+    className="w-full p-3 border-2 border-gray-600 rounded bg-gray-700 text-gray-200 mb-2 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:bg-gray-600 file:text-gray-200"
   />
-  {letterboxdError && (
-    <p className="text-red-400 text-sm">{letterboxdError}</p>
+  {csvError && (
+    <p className="text-red-400 text-sm">{csvError}</p>
+  )}
+  {csvFile && (
+    <p className="text-green-400 text-sm">Ready to import: {csvFile.name}</p>
   )}
 </div>
          

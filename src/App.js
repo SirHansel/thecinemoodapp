@@ -631,11 +631,30 @@ const movies = result?.movies;
           </div>
          
           <button
-            onClick={() => setCurrentScreen('mood')}
-            className="w-full bg-green-600 hover:bg-green-700 text-white p-3 rounded font-medium"
-          >
-            Start Finding Movies
-          </button>
+  onClick={async () => {
+    if (csvFile) {
+      setCsvProcessing(true);
+      setCsvError('');
+      try {
+        const letterboxdData = await parseLetterboxdCSV(csvFile);
+        const tasteData = analyzeUserTaste(letterboxdData);
+        setLetterboxdData(letterboxdData);
+        setUserPrefs(prev => ({...prev, tasteProfile: tasteData}));
+        console.log('✅ CSV imported successfully:', tasteData);
+      } catch (error) {
+        setCsvError(error.message);
+        setCsvProcessing(false);
+        return;
+      }
+      setCsvProcessing(false);
+    }
+    setCurrentScreen('mood');
+  }}
+  disabled={csvProcessing}
+  className="w-full bg-green-600 hover:bg-green-700 disabled:bg-gray-600 text-white p-3 rounded font-medium"
+>
+  {csvProcessing ? 'Processing CSV...' : 'Start Finding Movies'}
+</button>
           <p className="text-center text-sm text-gray-400 mt-3">Takes about 2 minutes</p>
         </div>
       </div>

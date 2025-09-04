@@ -1,5 +1,5 @@
 const TMDB_API_KEY = 'ff6802ce657f3eb0920728b788c1842b'; // Replace with your real key
-const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
+const TMDB_BASE_URL = 'http://api.themoviedb.org/3';
 
 export const fetchMoviesByGenre = async (genreId) => {
   

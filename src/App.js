@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Play, RotateCcw, Settings, Star, ThumbsUp } from 'lucide-react';
 import { fetchMoviesByGenre } from './tmdbApi';
-import { fetchLetterboxdProfile, analyzeUserTaste } from './letterboxdApi';
+import { parseLetterboxdCSV, analyzeUserTaste } from './letterboxdApi';
 // ========================================
 // HYBRID SCORING SYSTEM
 // ========================================
@@ -593,8 +593,7 @@ const movies = result?.movies;
           <h2 className="text-center bg-gray-700 text-gray-200 p-3 rounded mb-6 text-lg font-bold">
             Welcome to CineMood
           </h2>
-        
-          <div className="mb-4">
+      
   <div className="mb-4">
   <label className="block text-sm text-gray-400 mb-2">
     Import your Letterboxd data (optional)

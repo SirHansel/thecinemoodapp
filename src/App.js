@@ -637,8 +637,7 @@ const movies = result?.movies;
       try {
         const letterboxdData = await parseLetterboxdCSV(csvFile);
         const tasteData = analyzeUserTaste(letterboxdData);
-        setLetterboxdData(letterboxdData);
-        setUserPrefs(prev => ({...prev, tasteProfile: tasteData}));
+        setUserPrefs(prev => ({...prev, letterboxdData: letterboxdData, tasteProfile: tasteData}));
         console.log('✅ CSV imported successfully:', tasteData);
       } catch (error) {
         setCsvError(error.message);

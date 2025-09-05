@@ -363,6 +363,7 @@ const CineMoodApp = () => {
   const [csvFile, setCsvFile] = useState(null);
 const [csvProcessing, setCsvProcessing] = useState(false);
 const [csvError, setCsvError] = useState('');
+  const [currentQuestionSet, setCurrentQuestionSet] = useState(null);
 
   // Platforms array
   const platforms = ['Netflix', 'Prime', 'Hulu', 'Disney+', 'Criterion', 'Tubi'];
@@ -474,59 +475,73 @@ const movies = result?.movies;
     "Blade Runner 2049", "The Departed", "Mad Max: Fury Road", "Prisoners",
     "No Country for Old Men", "Drive", "Hell or High Water", "Wind River"
   ];
+  
+  // Question Rotation System - Multiple variations per mood category
+const QUESTION_POOLS = {
+  aesthetic: {
+    variations: [
+      {
+        question: "Which calls to you tonight?",
+        options: [
+          { id: 'neon', text: 'Neon & Chrome', subtext: 'Blade Runner vibes', style: 'neon' },
+          { id: 'earth', text: 'Earth & Wood', subtext: 'There Will Be Blood', style: 'earth' }
+        ]
+      },
+      {
+        question: "What mood board speaks to you?",
+        options: [
+          { id: 'neon', text: 'Electric Cityscape', subtext: 'Cyberpunk nights', style: 'neon' },
+          { id: 'earth', text: 'Natural Textures', subtext: 'Raw & organic', style: 'earth' }
+        ]
+      },
+      {
+        question: "Pick your visual vibe:",
+        options: [
+          { id: 'neon', text: 'Synthetic Glow', subtext: 'Future noir', style: 'neon' },
+          { id: 'earth', text: 'Weathered & Worn', subtext: 'Authentic patina', style: 'earth' }
+        ]
+      }
+    ]
+  },
+  
+  energy: {
+    variations: [
+      {
+        question: "Your energy right now:",
+        options: [
+          { id: 'spring', text: 'Coiled Spring', subtext: 'Ready to go', style: 'spring' },
+          { id: 'river', text: 'Slow River', subtext: 'Let it flow', style: 'river' }
+        ]
+      },
+      {
+        question: "How do you want to feel?",
+        options: [
+          { id: 'spring', text: 'Electric & Alert', subtext: 'High octane', style: 'spring' },
+          { id: 'river', text: 'Calm & Flowing', subtext: 'Steady current', style: 'river' }
+        ]
+      }
+    ]
+  },
 
-  // Complete mood questions array
-  const moodQuestions = [
-    {
-      id: 'aesthetic',
-      question: "Which calls to you tonight?",
-      options: [
-        { id: 'neon', text: 'Neon & Chrome', subtext: 'Blade Runner vibes', style: 'neon' },
-        { id: 'earth', text: 'Earth & Wood', subtext: 'There Will Be Blood', style: 'earth' }
-      ]
-    },
-    {
-      id: 'energy',
-      question: "Your energy right now:",
-      options: [
-        { id: 'spring', text: 'Coiled Spring', subtext: 'Ready to go', style: 'spring' },
-        { id: 'river', text: 'Slow River', subtext: 'Let it flow', style: 'river' }
-      ]
-    },
-    {
-      id: 'character',
-      question: "You want characters who:",
-      options: [
-        { id: 'struggle', text: 'Struggle Beautifully', subtext: 'Internal conflicts', style: 'struggle' },
-        { id: 'triumph', text: 'Triumph Boldly', subtext: 'External victories', style: 'triumph' }
-      ]
-    },
-    {
-      id: 'era',
-      question: "Which era's soul matches yours?",
-      options: [
-        { id: 'seventies', text: '70s Paranoia', subtext: 'Gritty, raw', style: 'seventies' },
-        { id: 'eighties', text: '80s Neon', subtext: 'Bold, electric', style: 'eighties' }
-      ]
-    },
-    {
-      id: 'mood',
-      question: "Tonight feels like:",
-      options: [
-        { id: 'puzzle', text: 'A Puzzle to Solve', subtext: 'Make me think', style: 'puzzle' },
-        { id: 'escape', text: 'A World to Escape', subtext: 'Take me away', style: 'escape' }
-      ]
-    },
-    {
-      id: 'discovery',
-      question: "New discovery or comfort rewatch?",
-      options: [
-        { id: 'new', text: 'Something New', subtext: 'Adventure awaits', style: 'new' },
-        { id: 'comfort', text: 'Beloved Classic', subtext: 'Safe harbor', style: 'comfort' }
-      ]
-    }
-  ];
-
+  // Question Selection Logic
+const generateQuestionSet = () => {
+  const categories = ['aesthetic', 'energy', 'character', 'era', 'mood', 'discovery'];
+  const selectedQuestions = [];
+  
+  categories.forEach(category => {
+    const pool = QUESTION_POOLS[category];
+    const randomIndex = Math.floor(Math.random() * pool.variations.length);
+    const selectedVariation = pool.variations[randomIndex];
+    
+    selectedQuestions.push({
+      id: category,
+      ...selectedVariation
+    });
+  });
+  
+  return selectedQuestions;
+};
+  
   // Event handlers
   const handlePlatformToggle = (platform) => {
     setUserPrefs(prev => ({
@@ -537,20 +552,19 @@ const movies = result?.movies;
     }));
   };
 
-  const handleMoodAnswer = async (questionId, answerId) => {
-    setUserPrefs(prev => ({
-      ...prev,
-      moodAnswers: { ...prev.moodAnswers, [questionId]: answerId }
-    }));
-   
-    if (questionIndex < moodQuestions.length - 1) {
-      setQuestionIndex(questionIndex + 1);
-   } else {
-  await generateRecommendations();
-  // Use the mood-based recommendations directly
-  setCurrentScreen('results');
-}
-  };
+const handleMoodAnswer = async (questionId, answerId) => {
+  setUserPrefs(prev => ({
+    ...prev,
+    moodAnswers: { ...prev.moodAnswers, [questionId]: answerId }
+  }));
+ 
+  if (questionIndex < currentQuestionSet.length - 1) {
+    setQuestionIndex(questionIndex + 1);
+  } else {
+    await generateRecommendations();
+    setCurrentScreen('results');
+  }
+};
 
   const spinWheel = () => {
     setIsSpinning(true);

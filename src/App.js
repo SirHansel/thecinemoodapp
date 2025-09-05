@@ -676,8 +676,10 @@ const handleMoodAnswer = async (questionId, answerId) => {
 
   // Mood Discovery Screen
   if (currentScreen === 'mood') {
-    const currentQuestion = moodQuestions[questionIndex];
-    const progress = ((questionIndex + 1) / moodQuestions.length) * 100;
+  if (!currentQuestionSet) return null; // Safety check
+  
+  const currentQuestion = currentQuestionSet[questionIndex];
+  const progress = ((questionIndex + 1) / currentQuestionSet.length) * 100;
 
     return (
       <div className="min-h-screen bg-gray-900 text-gray-200 p-4">
@@ -710,7 +712,7 @@ const handleMoodAnswer = async (questionId, answerId) => {
           </div>
          
           <p className="text-center text-sm text-gray-400 mt-6">
-            Question {questionIndex + 1} of {moodQuestions.length}
+            Question {questionIndex + 1} of {currentQuestionSet.length}
           </p>
         </div>
       </div>

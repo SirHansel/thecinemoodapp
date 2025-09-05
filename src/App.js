@@ -361,8 +361,8 @@ const CineMoodApp = () => {
   const [recommendations, setRecommendations] = useState(null);
   const [loading, setLoading] = useState(false);
   const [csvFile, setCsvFile] = useState(null);
-const [csvProcessing, setCsvProcessing] = useState(false);
-const [csvError, setCsvError] = useState('');
+  const [csvProcessing, setCsvProcessing] = useState(false);
+  const [csvError, setCsvError] = useState('');
   const [currentQuestionSet, setCurrentQuestionSet] = useState(null);
 
   // Platforms array

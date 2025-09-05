@@ -643,9 +643,11 @@ const handleMoodAnswer = async (questionId, answerId) => {
               </button>
             ))}
           </div>
-         
+        // added console log 
           <button
   onClick={async () => {
+    console.log('Setup button clicked');
+    
     if (csvFile) {
       setCsvProcessing(true);
       setCsvError('');
@@ -653,7 +655,7 @@ const handleMoodAnswer = async (questionId, answerId) => {
         const letterboxdData = await parseLetterboxdCSV(csvFile);
         const tasteData = analyzeUserTaste(letterboxdData);
         setUserPrefs(prev => ({...prev, letterboxdData: letterboxdData, tasteProfile: tasteData}));
-        console.log('✅ CSV imported successfully:', tasteData);
+        console.log('CSV imported successfully:', tasteData);
       } catch (error) {
         setCsvError(error.message);
         setCsvProcessing(false);
@@ -661,6 +663,12 @@ const handleMoodAnswer = async (questionId, answerId) => {
       }
       setCsvProcessing(false);
     }
+    
+    console.log('About to generate questions');
+    const questionSet = generateQuestionSet();
+    console.log('Generated question set:', questionSet);
+    setCurrentQuestionSet(questionSet);
+    
     setCurrentScreen('mood');
   }}
   disabled={csvProcessing}
@@ -668,15 +676,15 @@ const handleMoodAnswer = async (questionId, answerId) => {
 >
   {csvProcessing ? 'Processing CSV...' : 'Start Finding Movies'}
 </button>
-          <p className="text-center text-sm text-gray-400 mt-3">Takes about 2 minutes</p>
-        </div>
-      </div>
-    );
-  }
 
-  // Mood Discovery Screen
-  if (currentScreen === 'mood') {
-  if (!currentQuestionSet) return null; // Safety check
+// Mood Discovery Screen
+if (currentScreen === 'mood') {
+  console.log('Mood screen rendering');
+  console.log('Current question set:', currentQuestionSet);
+  
+  if (!currentQuestionSet) {
+    return <div>Loading questions...</div>;
+  }
   
   const currentQuestion = currentQuestionSet[questionIndex];
   const progress = ((questionIndex + 1) / currentQuestionSet.length) * 100;

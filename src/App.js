@@ -518,10 +518,11 @@ const QUESTION_POOLS = {
         options: [
           { id: 'spring', text: 'Electric & Alert', subtext: 'High octane', style: 'spring' },
           { id: 'river', text: 'Calm & Flowing', subtext: 'Steady current', style: 'river' }
-        ]
+      ]
       }
     ]
-  },
+  }
+};
 
   // Question Selection Logic
 const generateQuestionSet = () => {

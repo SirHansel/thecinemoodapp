@@ -643,7 +643,8 @@ const handleMoodAnswer = async (questionId, answerId) => {
               </button>
             ))}
           </div>
-        // added console log 
+       
+              // added console log 
           <button
   onClick={async () => {
     console.log('Setup button clicked');
@@ -676,6 +677,11 @@ const handleMoodAnswer = async (questionId, answerId) => {
 >
   {csvProcessing ? 'Processing CSV...' : 'Start Finding Movies'}
 </button>
+          <p className="text-center text-sm text-gray-400 mt-3">Takes about 2 minutes</p>
+        </div>
+      </div>
+    );
+  }
 
 // Mood Discovery Screen
 if (currentScreen === 'mood') {

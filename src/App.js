@@ -644,8 +644,7 @@ const handleMoodAnswer = async (questionId, answerId) => {
             ))}
           </div>
        
-              // added console log 
-          <button
+<button
   onClick={async () => {
     console.log('Setup button clicked');
     

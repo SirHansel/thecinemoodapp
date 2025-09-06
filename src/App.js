@@ -530,7 +530,15 @@ const generateQuestionSet = () => {
   const selectedQuestions = [];
   
   categories.forEach(category => {
+    console.log('Processing category:', category);
     const pool = QUESTION_POOLS[category];
+    console.log('Pool for', category, ':', pool);
+    
+    if (!pool || !pool.variations) {
+      console.error('Missing or invalid pool for category:', category);
+      return;
+    }
+    
     const randomIndex = Math.floor(Math.random() * pool.variations.length);
     const selectedVariation = pool.variations[randomIndex];
     

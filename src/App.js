@@ -521,7 +521,7 @@ const QUESTION_POOLS = {
       ]
       }
     ]
-  }
+  },
 character: {
     variations: [
       {

@@ -178,12 +178,25 @@ const calculateMoodScore = (moodAnswers) => {
 // INTEGRATION READY FUNCTION
 // ========================================
 // This replaces the TMDB API call in generateRecommendations
-const getMoodBasedMovies = async (moodAnswers) => {
+// ========================================
+// ENHANCED MOOD + TASTE INTEGRATION
+// ========================================
+const getMoodBasedMovies = async (moodAnswers, tasteProfile = null) => {
+  console.log('🎯 Starting mood + taste integration');
+  
   const moodScore = calculateMoodScore(moodAnswers);
+  let finalGenreSelection = moodScore.primaryGenre;
+  
+  // If user has taste data, apply 60/40 weighting
+  if (tasteProfile && tasteProfile.lovedMovies.length > 0) {
+    console.log('💝 Applying taste weighting (60% taste, 40% mood)');
+    finalGenreSelection = applyTasteWeighting(moodScore, tasteProfile);
+  } else {
+    console.log('🎭 Using pure mood scoring (no taste data)');
+  }
   
   try {
-    // Try top scoring genre first
-    let movies = await fetchMoviesByGenre(moodScore.primaryGenre);
+    let movies = await fetchMoviesByGenre(finalGenreSelection);
     
     // Fallback to second highest scoring genre
     if (!movies || movies.length < 3) {
@@ -196,15 +209,63 @@ const getMoodBasedMovies = async (moodAnswers) => {
     return {
       movies: movies,
       context: {
-        chosenGenre: moodScore.topGenres[0]?.name || 'Action',
-        allScores: moodScore.topGenres,
+        chosenGenre: Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === finalGenreSelection),
+        moodScores: moodScore.topGenres,
+        tasteInfluence: tasteProfile ? 'Applied' : 'None',
         modifiers: moodScore.modifiers
       }
     };
   } catch (error) {
-    console.log('🚨 Mood-based API call failed:', error);
-    return null; // Let existing fallbacks handle this
+    console.log('🚨 Mood+Taste API call failed:', error);
+    return null;
   }
+};
+
+// ========================================
+// TASTE WEIGHTING ALGORITHM
+// ========================================
+const applyTasteWeighting = (moodScore, tasteProfile) => {
+  console.log('🧮 Calculating taste-weighted genre selection');
+  
+  // Extract genres from user's highly rated movies (simplified analysis)
+  const tasteGenreBoosts = {};
+  
+  // Boost Drama if user loves character-driven films
+  if (tasteProfile.averageRating > 3.5) {
+    tasteGenreBoosts[TMDB_GENRES.DRAMA] = 8; // Strong preference
+  }
+  
+  // Boost Action/Thriller for users who rate them highly
+  // (This is simplified - in production you'd analyze actual genres from CSV)
+  if (tasteProfile.totalWatched > 200) {
+    tasteGenreBoosts[TMDB_GENRES.THRILLER] = 6;
+  }
+  
+  // Apply 60/40 weighting: Combine mood scores with taste boosts
+  const combinedScores = {};
+  
+  // Start with mood scores (40% weight)
+  moodScore.topGenres.forEach(genre => {
+    combinedScores[genre.id] = Math.round(genre.score * 0.4);
+  });
+  
+  // Add taste boosts (60% weight)
+  Object.entries(tasteGenreBoosts).forEach(([genreId, boost]) => {
+    const id = parseInt(genreId);
+    combinedScores[id] = (combinedScores[id] || 0) + Math.round(boost * 0.6);
+  });
+  
+  // Find highest scoring genre after weighting
+  const topWeightedGenre = Object.entries(combinedScores)
+    .sort(([,a], [,b]) => b - a)[0];
+  
+  const selectedGenre = parseInt(topWeightedGenre[0]);
+  const genreName = Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === selectedGenre);
+  
+  console.log('🏆 Taste-weighted selection:', genreName, 'Score:', topWeightedGenre[1]);
+  console.log('📊 Combined scores:', combinedScores);
+  
+  return selectedGenre;
 };
 // ========================================
 // MODULAR PLATFORM FILTERING SYSTEM
@@ -373,7 +434,7 @@ const CineMoodApp = () => {
  const generateRecommendations = async () => {
   setLoading(true);
   try {
-    const result = await getMoodBasedMovies(userPrefs.moodAnswers);
+    const result = await getMoodBasedMovies(userPrefs.moodAnswers, userPrefs.tasteProfile);
 const movies = result?.movies;
     console.log('🎬 TMDB API Response:', movies);
     if (result) {

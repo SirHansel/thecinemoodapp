@@ -522,6 +522,60 @@ const QUESTION_POOLS = {
       }
     ]
   }
+character: {
+    variations: [
+      {
+        question: "You want characters who:",
+        options: [
+          { id: 'struggle', text: 'Struggle Beautifully', subtext: 'Internal conflicts', style: 'struggle' },
+          { id: 'triumph', text: 'Triumph Boldly', subtext: 'External victories', style: 'triumph' }
+        ]
+      },
+      {
+        question: "Your ideal protagonist:",
+        options: [
+          { id: 'struggle', text: 'Fights Inner Demons', subtext: 'Complex psychology', style: 'struggle' },
+          { id: 'triumph', text: 'Conquers Obstacles', subtext: 'Clear goals', style: 'triumph' }
+        ]
+      }
+    ]
+  },
+
+  era: {
+    variations: [
+      {
+        question: "Which era's soul matches yours?",
+        options: [
+          { id: 'seventies', text: '70s Paranoia', subtext: 'Gritty, raw', style: 'seventies' },
+          { id: 'eighties', text: '80s Neon', subtext: 'Bold, electric', style: 'eighties' }
+        ]
+      }
+    ]
+  },
+
+  mood: {
+    variations: [
+      {
+        question: "Tonight feels like:",
+        options: [
+          { id: 'puzzle', text: 'A Puzzle to Solve', subtext: 'Make me think', style: 'puzzle' },
+          { id: 'escape', text: 'A World to Escape', subtext: 'Take me away', style: 'escape' }
+        ]
+      }
+    ]
+  },
+
+  discovery: {
+    variations: [
+      {
+        question: "New discovery or comfort rewatch?",
+        options: [
+          { id: 'new', text: 'Something New', subtext: 'Adventure awaits', style: 'new' },
+          { id: 'comfort', text: 'Beloved Classic', subtext: 'Safe harbor', style: 'comfort' }
+        ]
+      }
+    ]
+  }
 };
 
   // Question Selection Logic

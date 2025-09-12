@@ -876,13 +876,23 @@ if (currentScreen === 'mood') {
             </div>
           ))}
          
-          <button
-            onClick={() => handleWatchMovie(recommendedMovies.safe)}
-            className="w-full bg-green-600 hover:bg-green-700 text-white p-3 rounded font-medium mb-3"
-          >
-            <Play className="inline w-4 h-4 mr-2" />
-            Watch {recommendedMovies.safe.title}
-          </button>
+          {Object.entries(recommendedMovies).map(([type, movie]) => (
+  <div 
+    key={type} 
+    onClick={() => handleWatchMovie(movie)}
+    className="bg-gray-700 border-2 border-gray-600 rounded-lg p-4 mb-4 cursor-pointer hover:border-green-500 transition-colors"
+  >
+    <div className="font-bold text-lg">{movie.title} ({movie.year})</div>
+    <div className="text-gray-400 text-sm mb-2">{movie.genre} • {movie.runtime} • {movie.platform}</div>
+    <div className="bg-blue-900/50 p-2 rounded text-xs italic text-blue-300 mt-2">
+      {movie.reason}
+    </div>
+    <div className="text-green-400 text-sm mt-2 flex items-center">
+      <Play className="inline w-4 h-4 mr-1" />
+      Click to watch and rate
+    </div>
+  </div>
+))}
          
           <div className="grid grid-cols-2 gap-3">
             <button

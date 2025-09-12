@@ -1008,28 +1008,79 @@ if (currentScreen === 'mood') {
     );
   }
 
-  if (currentScreen === 'watching') {
-    const watchedMovie = selectedMovie || { title: "Heat", year: 1995 };
-    return (
-      <div className="min-h-screen bg-gray-900 text-gray-200 p-4">
-        <div className="max-w-md mx-auto bg-gray-800 rounded-lg p-6 border-2 border-gray-600">
-          <h2 className="text-center bg-gray-700 text-gray-200 p-3 rounded mb-6 text-lg font-bold">
-            How Was It?
-          </h2>
-          <div className="text-center mb-6">
-            <h3 className="text-xl font-bold mb-2">{watchedMovie.title}</h3>
+ if (currentScreen === 'watching') {
+  const watchedMovie = selectedMovie || { title: "Heat", year: 1995 };
+  const [userRating, setUserRating] = useState(0);
+  const [isHalfStar, setIsHalfStar] = useState(false);
+  
+  const handleStarClick = (starValue) => {
+    if (userRating === starValue) {
+      // Clicking same star toggles half star
+      setUserRating(starValue - 0.5);
+      setIsHalfStar(true);
+    } else {
+      setUserRating(starValue);
+      setIsHalfStar(false);
+    }
+  };
+
+  const saveRating = () => {
+    // Store rating in user preferences (future: sync to Letterboxd)
+    const movieRating = {
+      title: watchedMovie.title,
+      year: watchedMovie.year,
+      rating: userRating,
+      dateWatched: new Date().toISOString(),
+      source: 'cinemood'
+    };
+    
+    setUserPrefs(prev => ({
+      ...prev,
+      watchedMovies: [...(prev.watchedMovies || []), movieRating]
+    }));
+    
+    console.log('Saved rating:', movieRating);
+    setCurrentScreen('setup');
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-900 text-gray-200 p-4">
+      <div className="max-w-md mx-auto bg-gray-800 rounded-lg p-6 border-2 border-gray-600">
+        <h2 className="text-center bg-gray-700 text-gray-200 p-3 rounded mb-6 text-lg font-bold">
+          How Was It?
+        </h2>
+        <div className="text-center mb-6">
+          <h3 className="text-xl font-bold mb-4">{watchedMovie.title}</h3>
+          
+          {/* 5-Star Rating System */}
+          <div className="flex justify-center mb-4">
+            {[1, 2, 3, 4, 5].map(star => (
+              <button
+                key={star}
+                onClick={() => handleStarClick(star)}
+                className="text-3xl mx-1 transition-colors hover:text-yellow-400"
+              >
+                {userRating >= star ? '★' : userRating >= star - 0.5 ? '⭐' : '☆'}
+              </button>
+            ))}
           </div>
-          <button
-            onClick={() => setCurrentScreen('setup')}
-            className="w-full bg-green-600 hover:bg-green-700 text-white p-3 rounded font-medium"
-          >
-            <Star className="inline w-4 h-4 mr-2" />
-            Thanks!
-          </button>
+          
+          <p className="text-sm text-gray-400 mb-4">
+            {userRating > 0 ? `Rated: ${userRating}/5 stars` : 'Click stars to rate'}
+          </p>
         </div>
+        
+        <button
+          onClick={saveRating}
+          disabled={userRating === 0}
+          className="w-full bg-green-600 hover:bg-green-700 disabled:bg-gray-600 text-white p-3 rounded font-medium"
+        >
+          {userRating > 0 ? 'Save Rating & Find Another' : 'Rate to Continue'}
+        </button>
       </div>
-    );
-  }
+    </div>
+  );
+}
 
   // Default fallback
   return null;

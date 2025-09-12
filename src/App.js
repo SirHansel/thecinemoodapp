@@ -769,6 +769,7 @@ const handleMoodAnswer = async (questionId, answerId) => {
        
 <button
   onClick={async () => {
+    setQuestionIndex(0);
     console.log('Setup button clicked');
     
     if (csvFile) {

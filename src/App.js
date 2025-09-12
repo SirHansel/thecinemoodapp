@@ -867,16 +867,6 @@ if (currentScreen === 'mood') {
           </h2>
          
           {Object.entries(recommendedMovies).map(([type, movie]) => (
-            <div key={type} className="bg-gray-700 border-2 border-gray-600 rounded-lg p-4 mb-4">
-              <div className="font-bold text-lg">{movie.title} ({movie.year})</div>
-              <div className="text-gray-400 text-sm mb-2">{movie.genre} • {movie.runtime} • {movie.platform}</div>
-              <div className="bg-blue-900/50 p-2 rounded text-xs italic text-blue-300 mt-2">
-                {movie.reason}
-              </div>
-            </div>
-          ))}
-         
-          {Object.entries(recommendedMovies).map(([type, movie]) => (
   <div 
     key={type} 
     onClick={() => handleWatchMovie(movie)}

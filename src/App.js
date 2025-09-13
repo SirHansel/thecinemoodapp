@@ -413,6 +413,8 @@ const CineMoodApp = () => {
     platforms: [],
     moodAnswers: {}
   });
+  const [userRating, setUserRating] = useState(0);
+  const [isHalfStar, setIsHalfStar] = useState(false);
   const [questionIndex, setQuestionIndex] = useState(0);
   const [isSpinning, setIsSpinning] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState(null);
@@ -1012,9 +1014,7 @@ if (currentScreen === 'mood') {
 
  if (currentScreen === 'watching') {
   const watchedMovie = selectedMovie || { title: "Heat", year: 1995 };
-  const [userRating, setUserRating] = useState(0);
-  const [isHalfStar, setIsHalfStar] = useState(false);
-  
+   
   const handleStarClick = (starValue) => {
     if (userRating === starValue) {
       // Clicking same star toggles half star

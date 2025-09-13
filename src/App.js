@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Play, RotateCcw, Settings, Star, ThumbsUp } from 'lucide-react';
 import { fetchMoviesByGenre } from './tmdbApi';
-import { parseLetterboxdCSV, analyzeUserTaste } from './letterboxdApi';
+import { parseLetterboxdCSV, analyzeUserTaste, combineRatingsWithTaste } from './letterboxdApi';
 // ========================================
 // HYBRID SCORING SYSTEM
 // ========================================

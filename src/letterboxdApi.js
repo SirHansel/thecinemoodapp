@@ -273,7 +273,7 @@ export const analyzeUserTaste = (letterboxdData) => {
 // ========================================
 // INTEGRATE USER RATINGS WITH TASTE PROFILE
 // ========================================
-const combineRatingsWithTaste = (csvTasteProfile, userRatings) => {
+export const combineRatingsWithTaste = (csvTasteProfile, userRatings) => {
   if (!userRatings || userRatings.length === 0) {
     return csvTasteProfile;
   }

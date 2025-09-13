@@ -271,6 +271,35 @@ export const analyzeUserTaste = (letterboxdData) => {
 };
 
 // ========================================
+// INTEGRATE USER RATINGS WITH TASTE PROFILE
+// ========================================
+const combineRatingsWithTaste = (csvTasteProfile, userRatings) => {
+  if (!userRatings || userRatings.length === 0) {
+    return csvTasteProfile;
+  }
+  
+  console.log('Combining CSV taste with CineMood ratings');
+  
+  // Create combined movie list
+  const combinedMovies = [
+    ...(csvTasteProfile?.movies || []),
+    ...userRatings.map(rating => ({
+      title: rating.title,
+      year: rating.year,
+      rating: rating.rating,
+      source: 'cinemood',
+      watchedDate: rating.dateWatched
+    }))
+  ];
+  
+  // Recalculate taste analysis with both datasets
+  return analyzeUserTaste({
+    totalMovies: combinedMovies.length,
+    movies: combinedMovies,
+    source: 'combined'
+  });
+};
+// ========================================
 // INTEGRATION HELPER FUNCTIONS
 // ========================================
 

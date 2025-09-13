@@ -778,7 +778,8 @@ const handleMoodAnswer = async (questionId, answerId) => {
       try {
         const letterboxdData = await parseLetterboxdCSV(csvFile);
         const tasteData = analyzeUserTaste(letterboxdData);
-        setUserPrefs(prev => ({...prev, letterboxdData: letterboxdData, tasteProfile: tasteData}));
+        const combinedTaste = combineRatingsWithTaste(tasteData, prev.watchedMovies);
+        setUserPrefs(prev => ({...prev, letterboxdData: letterboxdData, tasteProfile: combinedTaste}));
         console.log('CSV imported successfully:', tasteData);
       } catch (error) {
         setCsvError(error.message);
@@ -1025,24 +1026,28 @@ if (currentScreen === 'mood') {
     }
   };
 
-  const saveRating = () => {
-    // Store rating in user preferences (future: sync to Letterboxd)
-    const movieRating = {
-      title: watchedMovie.title,
-      year: watchedMovie.year,
-      rating: userRating,
-      dateWatched: new Date().toISOString(),
-      source: 'cinemood'
-    };
-    
-    setUserPrefs(prev => ({
-      ...prev,
-      watchedMovies: [...(prev.watchedMovies || []), movieRating]
-    }));
-    
-    console.log('Saved rating:', movieRating);
-    setCurrentScreen('setup');
+ const saveRating = () => {
+  const movieRating = {
+    title: watchedMovie.title,
+    year: watchedMovie.year,
+    rating: userRating,
+    dateWatched: new Date().toISOString(),
+    source: 'cinemood'
   };
+  
+  setUserPrefs(prev => {
+    const newWatchedMovies = [...(prev.watchedMovies || []), movieRating];
+    const updatedTasteProfile = combineRatingsWithTaste(prev.tasteProfile, newWatchedMovies);
+    
+    return {
+      ...prev,
+      watchedMovies: newWatchedMovies,
+      tasteProfile: updatedTasteProfile
+    };
+  });
+  
+  setCurrentScreen('setup');
+};
 
   return (
     <div className="min-h-screen bg-gray-900 text-gray-200 p-4">

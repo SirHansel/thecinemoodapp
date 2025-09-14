@@ -780,8 +780,10 @@ const handleMoodAnswer = async (questionId, answerId) => {
       try {
         const letterboxdData = await parseLetterboxdCSV(csvFile);
         const tasteData = analyzeUserTaste(letterboxdData);
+        setUserPrefs(prev => {
         const combinedTaste = combineRatingsWithTaste(tasteData, prev.watchedMovies);
-        setUserPrefs(prev => ({...prev, letterboxdData: letterboxdData, tasteProfile: combinedTaste}));
+        return {...prev, letterboxdData: letterboxdData, tasteProfile: combinedTaste};
+});
         console.log('CSV imported successfully:', tasteData);
       } catch (error) {
         setCsvError(error.message);

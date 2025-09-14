@@ -541,35 +541,27 @@ const movies = result?.movies;
   
   // Question Rotation System - Multiple variations per mood category
 const QUESTION_POOLS = {
-  aesthetic: {
-    variations: [
-      {
-        question: "Which calls to you tonight?",
-        options: [
-          { id: 'neon', text: 'Neon & Chrome', subtext: 'Blade Runner vibes', style: 'neon' },
-          { id: 'earth', text: 'Earth & Wood', subtext: 'There Will Be Blood', style: 'earth' }
-        ]
-      },
-      {
-        question: "What mood board speaks to you?",
-        options: [
-          { id: 'neon', text: 'Electric Cityscape', subtext: 'Cyberpunk nights', style: 'neon' },
-          { id: 'earth', text: 'Natural Textures', subtext: 'Raw & organic', style: 'earth' }
-        ]
-      },
-      {
-        question: "Pick your visual vibe:",
-        options: [
-          { id: 'neon', text: 'Synthetic Glow', subtext: 'Future noir', style: 'neon' },
-          { id: 'earth', text: 'Weathered & Worn', subtext: 'Authentic patina', style: 'earth' }
-        ]
-      }
-    ]
-  },
-        question: "Pick your visual energy:",
+ aesthetic: {
+  variations: [
+    {
+      question: "Which calls to you tonight?",
       options: [
-        { id: 'neon', text: 'Synthetic Dreams', subtext: 'Digital futures', style: 'neon' },
-        { id: 'earth', text: 'Handcrafted Worlds', subtext: 'Authentic materials', style: 'earth' }
+        { id: 'neon', text: 'Neon & Chrome', subtext: 'Blade Runner vibes', style: 'neon' },
+        { id: 'earth', text: 'Earth & Wood', subtext: 'There Will Be Blood', style: 'earth' }
+      ]
+    },
+    {
+      question: "What mood board speaks to you?",
+      options: [
+        { id: 'neon', text: 'Electric Cityscape', subtext: 'Cyberpunk nights', style: 'neon' },
+        { id: 'earth', text: 'Natural Textures', subtext: 'Raw & Organic', style: 'earth' }
+      ]
+    },
+    {
+      question: "Pick your visual vibe:",
+      options: [
+        { id: 'neon', text: 'Synthetic Glow', subtext: 'Future Noir', style: 'neon' },
+        { id: 'earth', text: 'Weathered & Worn', subtext: 'Authentic Patina', style: 'earth' }
       ]
     },
     {
@@ -588,8 +580,7 @@ const QUESTION_POOLS = {
     }
   ]
 },
-      
-  energy: {
+   energy: {
     variations: [
       {
         question: "Your energy right now:",

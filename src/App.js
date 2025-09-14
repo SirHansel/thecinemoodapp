@@ -566,7 +566,29 @@ const QUESTION_POOLS = {
       }
     ]
   },
-  
+        question: "Pick your visual energy:",
+      options: [
+        { id: 'neon', text: 'Synthetic Dreams', subtext: 'Digital futures', style: 'neon' },
+        { id: 'earth', text: 'Handcrafted Worlds', subtext: 'Authentic materials', style: 'earth' }
+      ]
+    },
+    {
+      question: "Tonight's aesthetic craving:",
+      options: [
+        { id: 'neon', text: 'Glowing Edges', subtext: 'Sharp contrasts', style: 'neon' },
+        { id: 'earth', text: 'Worn Surfaces', subtext: 'Lived-in spaces', style: 'earth' }
+      ]
+    },
+    {
+      question: "Your ideal movie palette:",
+      options: [
+        { id: 'neon', text: 'Electric Blues', subtext: 'Cold technology', style: 'neon' },
+        { id: 'earth', text: 'Warm Browns', subtext: 'Human stories', style: 'earth' }
+      ]
+    }
+  ]
+},
+      
   energy: {
     variations: [
       {
@@ -713,6 +735,14 @@ const handleMoodAnswer = async (questionId, answerId) => {
       earth: { background: 'linear-gradient(135deg, #2d1b0e, #5d4037, #8d6e63)', borderColor: '#8d6e63' },
       spring: { background: 'linear-gradient(135deg, #ff4444, #ff8c00, #ffd700)', borderColor: '#ff6b6b' },
       river: { background: 'linear-gradient(135deg, #2e8b57, #40e0d0, #87ceeb)', borderColor: '#40e0d0' },
+      fire: { background: 'linear-gradient(135deg, #8b0000, #dc143c, #ff4500)', borderColor: '#dc143c' },
+      ice: { background: 'linear-gradient(135deg, #1e3a8a, #3b82f6, #bfdbfe)', borderColor: '#3b82f6' },
+      storm: { background: 'linear-gradient(135deg, #1f2937, #374151, #6b7280)', borderColor: '#4b5563' },
+      gold: { background: 'linear-gradient(135deg, #92400e, #d97706, #fbbf24)', borderColor: '#d97706' },
+      ocean: { background: 'linear-gradient(135deg, #0c4a6e, #0284c7, #38bdf8)', borderColor: '#0284c7' },
+      forest: { background: 'linear-gradient(135deg, #14532d, #16a34a, #65a30d)', borderColor: '#16a34a' },
+      sunset: { background: 'linear-gradient(135deg, #7c2d12, #ea580c, #fb923c)', borderColor: '#ea580c' },
+      shadow: { background: 'linear-gradient(135deg, #0f172a, #1e293b, #334155)', borderColor: '#1e293b' },
       struggle: { background: 'linear-gradient(135deg, #4a148c, #7b1fa2, #9c27b0)', borderColor: '#9c27b0' },
       triumph: { background: 'linear-gradient(135deg, #bf360c, #ff5722, #ff9800)', borderColor: '#ff5722' },
       seventies: { background: 'linear-gradient(135deg, #3e2723, #5d4037, #8d6e63)', borderColor: '#8d6e63' },

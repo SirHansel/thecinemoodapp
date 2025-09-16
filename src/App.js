@@ -775,26 +775,86 @@ const handleMoodAnswer = async (questionId, answerId) => {
 
   const getMoodCardStyle = (styleType) => {
     const styles = {
-     neon: { background: 'linear-gradient(135deg, #1e3a8a, #ec4899, #facc15)', borderColor: '#ec4899' }, // Softer pink, vibrant yellow
-        earth: { background: 'linear-gradient(135deg, #2f1c0f, #6b4e31, #a68b6f)', borderColor: '#a68b6f' }, // Warmer browns
-        spring: { background: 'linear-gradient(135deg, #f87171, #fb923c, #f4d03f)', borderColor: '#fb923c' }, // Pastel coral, orange
-        river: { background: 'linear-gradient(135deg, #15803d, #22d3ee, #60a5fa)', borderColor: '#22d3ee' }, // Brighter turquoise
-        fire: { background: 'linear-gradient(135deg, #991b1b, #f43f5e, #fb923c)', borderColor: '#f43f5e' }, // Muted red, coral
-        ice: { background: 'linear-gradient(135deg, #1e40af, #60a5fa, #dbeafe)', borderColor: '#60a5fa' }, // Softer blues
-        storm: { background: 'linear-gradient(135deg, #1e293b, #475569, #94a3b8)', borderColor: '#475569' }, // Lighter slate
-        gold: { background: 'linear-gradient(135deg, #854d0e, #d97706, #f4d03f)', borderColor: '#d97706' }, // Richer amber
-        ocean: { background: 'linear-gradient(135deg, #075985, #0ea5e9, #7dd3fc)', borderColor: '#0ea5e9' }, // Brighter sky blue
-        forest: { background: 'linear-gradient(135deg, #166534, #22c55e, #84cc16)', borderColor: '#22c55e' }, // Vibrant green
-        sunset: { background: 'linear-gradient(135deg, #9a3412, #f97316, #fdba74)', borderColor: '#f97316' }, // Softer orange
-        shadow: { background: 'linear-gradient(135deg, #0f172a, #1e293b, #475569)', borderColor: '#1e293b' }, // Deeper slate
-        struggle: { background: 'linear-gradient(135deg, #6b21a8, #9333ea, #c084fc)', borderColor: '#9333ea' }, // Lighter purple
-        triumph: { background: 'linear-gradient(135deg, #c2410c, #fb923c, #facc15)', borderColor: '#fb923c' }, // Coral, yellow
-        seventies: { background: 'linear-gradient(135deg, #4c2c1a, #8b5c3c, #a68b6f)', borderColor: '#a68b6f' }, // Warmer retro
-        eighties: { background: 'linear-gradient(135deg, #1e3a8a, #6366f1, #ec4899)', borderColor: '#ec4899' }, // Neon pink
-        puzzle: { background: 'linear-gradient(135deg, #1f2a44, #4b5e7a, #6b7280)', borderColor: '#6b7280' }, // Softer grey
-        escape: { background: 'linear-gradient(135deg, #115e59, #14b8a6, #2dd4bf)', borderColor: '#14b8a6' }, // Brighter teal
-        new: { background: 'linear-gradient(135deg, #d97706, #facc15, #fef08a)', borderColor: '#facc15' }, // Pastel yellow
-        comfort: { background: 'linear-gradient(135deg, #5f3c2a, #8b5c3c, #a68b6f)', borderColor: '#a68b6f' }, // Cozy browns
+     neon: { 
+      background: 'linear-gradient(135deg, #1a103d, #9b1d64, #f4a261)', 
+      borderColor: '#9b1d64' 
+    }, // Deep indigo to vibrant magenta with a golden glow
+    earth: { 
+      background: 'linear-gradient(135deg, #1c1208, #4a2c1b, #8c6239)', 
+      borderColor: '#8c6239' 
+    }, // Rich soil to warm terracotta
+    spring: { 
+      background: 'linear-gradient(135deg, #a8113e, #e86b3a, #f7d08a)', 
+      borderColor: '#e86b3a' 
+    }, // Deep rose to peach with a soft gold
+    river: { 
+      background: 'linear-gradient(135deg, #0a3d3b, #1a8c8a, #5cc8d7)', 
+      borderColor: '#1a8c8a' 
+    }, // Dark teal to shimmering turquoise
+    fire: { 
+      background: 'linear-gradient(135deg, #3c0f0f, #a61e2e, #f05941)', 
+      borderColor: '#a61e2e' 
+    }, // Smoldering red to fiery coral
+    ice: { 
+      background: 'linear-gradient(135deg, #0d1e4a, #3467d6, #a4cafe)', 
+      borderColor: '#3467d6' 
+    }, // Deep sapphire to frosty blue
+    storm: { 
+      background: 'linear-gradient(135deg, #111827, #2d3e50, #64748b)', 
+      borderColor: '#2d3e50' 
+    }, // Midnight slate to stormy grey
+    gold: { 
+      background: 'linear-gradient(135deg, #3f2a12, #b8860b, #e6b800)', 
+      borderColor: '#b8860b' 
+    }, // Bronze to molten gold
+    ocean: { 
+      background: 'linear-gradient(135deg, #042f4b, #087ea4, #4ab8e8)', 
+      borderColor: '#087ea4' 
+    }, // Abyss blue to vibrant sea
+    forest: { 
+      background: 'linear-gradient(135deg, #0b2e13, #1a6642, #4da865)', 
+      borderColor: '#1a6642' 
+    }, // Deep pine to lush green
+    sunset: { 
+      background: 'linear-gradient(135deg, #4b1c0a, #c2410c, #f59e0b)', 
+      borderColor: '#c2410c' 
+    }, // Burnt sienna to radiant orange
+    shadow: { 
+      background: 'linear-gradient(135deg, #0a101e, #1e2a44, #455575)', 
+      borderColor: '#1e2a44' 
+    }, // Obsidian to smoky blue
+    struggle: { 
+      background: 'linear-gradient(135deg, #2e1065, #6d28d9, #a855f7)', 
+      borderColor: '#6d28d9' 
+    }, // Deep violet to luminous purple
+    triumph: { 
+      background: 'linear-gradient(135deg, #7f1d1d, #ea580c, #facc15)', 
+      borderColor: '#ea580c' 
+    }, // Crimson to triumphant amber
+    seventies: { 
+      background: 'linear-gradient(135deg, #2c1608, #6b3f2a, #9e6f4d)', 
+      borderColor: '#9e6f4d' 
+    }, // Retro walnut to warm tan
+    eighties: { 
+      background: 'linear-gradient(135deg, #0c1549, #4f46e5, #db2777)', 
+      borderColor: '#db2777' 
+    }, // Midnight blue to neon pink
+    puzzle: { 
+      background: 'linear-gradient(135deg, #1c2526, #3a4f50, #6c8294)', 
+      borderColor: '#3a4f50' 
+    }, // Charcoal to enigmatic grey
+    escape: { 
+      background: 'linear-gradient(135deg, #0a3c2e, #0d9488, #34d399)', 
+      borderColor: '#0d9488' 
+    }, // Deep jade to vibrant teal
+    new: { 
+      background: 'linear-gradient(135deg, #7c2d12, #f97316, #fed7aa)', 
+      borderColor: '#f97316' 
+    }, // Burnt orange to soft peach
+    comfort: { 
+      background: 'linear-gradient(135deg, #3e2c1e, #6c4a30, #9a7b5a)', 
+      borderColor: '#9a7b5a' 
+    }, // Cozy cocoa to warm beige
     };
     return styles[styleType] || {};
   };

@@ -644,7 +644,7 @@ const QUESTION_POOLS = {
 character: {
   variations: [
     {
-      question: "You want characters who:",
+      question: "You Want Characters Who:",
       options: [
         { id: 'struggle', text: 'Struggle Beautifully', subtext: 'Internal conflicts', style: 'shadow' },
         { id: 'triumph', text: 'Triumph Boldly', subtext: 'External victories', style: 'gold' },
@@ -658,7 +658,15 @@ character: {
         { id: 'heroic', text: 'Noble & Strong', subtext: 'Clear purpose', style: 'fire' },
         { id: 'driven', text: 'Obsessed & Focused', subtext: 'Single mission', style: 'ice' }
       ]
-    }
+    },
+  {
+      question: "Characters Journeys You Crave:",
+      options: [
+        { id: 'struggle', text: 'Struggle Beautifully', subtext: 'Internal conflicts', style: 'shadow' },
+        { id: 'triumph', text: 'Overcome', subtext: 'External Victories', style: 'gold' },
+        { id: 'driven', text: 'On A Mission', subtext: 'Focused Goal', style: 'storm' }
+      ]
+    },
   ]
 },
 

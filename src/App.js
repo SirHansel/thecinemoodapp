@@ -64,18 +64,38 @@ const MOOD_SCORING = {
     }
   },
 
-  character: {
-    struggle: {
-      primary: TMDB_GENRES.DRAMA,             // +6 pts (high weight)
-      secondary: TMDB_GENRES.MYSTERY,         // +2 pts
-      tertiary: null                          // +0 pts
-    },
-    triumph: {
-      primary: TMDB_GENRES.ACTION,            // +6 pts
-      secondary: TMDB_GENRES.ADVENTURE,       // +2 pts  
-      tertiary: null                          // +0 pts
-    }
+ character: {
+  struggle: {
+    primary: TMDB_GENRES.DRAMA,             // +6 pts
+    secondary: TMDB_GENRES.MYSTERY,         // +2 pts
+    tertiary: null
   },
+  triumph: {
+    primary: TMDB_GENRES.ACTION,            // +6 pts
+    secondary: TMDB_GENRES.ADVENTURE,       // +2 pts  
+    tertiary: null
+  },
+  flawed: {
+    primary: TMDB_GENRES.CRIME,             // +6 pts
+    secondary: TMDB_GENRES.THRILLER,        // +2 pts
+    tertiary: null
+  },
+  heroic: {
+    primary: TMDB_GENRES.ADVENTURE,         // +6 pts
+    secondary: TMDB_GENRES.ACTION,          // +2 pts
+    tertiary: null
+  },
+  complex: {
+    primary: TMDB_GENRES.MYSTERY,           // +6 pts
+    secondary: TMDB_GENRES.DRAMA,           // +2 pts
+    tertiary: null
+  },
+  driven: {
+    primary: TMDB_GENRES.THRILLER,          // +6 pts
+    secondary: TMDB_GENRES.CRIME,           // +2 pts
+    tertiary: null
+  }
+},
 
   era: {
     seventies: {
@@ -622,23 +642,25 @@ const QUESTION_POOLS = {
 },
   
 character: {
-    variations: [
-      {
-        question: "You want characters who:",
-        options: [
-          { id: 'struggle', text: 'Struggle Beautifully', subtext: 'Internal conflicts', style: 'struggle' },
-          { id: 'triumph', text: 'Triumph Boldly', subtext: 'External victories', style: 'triumph' }
-        ]
-      },
-      {
-        question: "Your ideal protagonist:",
-        options: [
-          { id: 'struggle', text: 'Fights Inner Demons', subtext: 'Complex psychology', style: 'struggle' },
-          { id: 'triumph', text: 'Conquers Obstacles', subtext: 'Clear goals', style: 'triumph' }
-        ]
-      }
-    ]
-  },
+  variations: [
+    {
+      question: "You want characters who:",
+      options: [
+        { id: 'struggle', text: 'Struggle Beautifully', subtext: 'Internal conflicts', style: 'shadow' },
+        { id: 'triumph', text: 'Triumph Boldly', subtext: 'External victories', style: 'gold' },
+        { id: 'complex', text: 'Hide Secrets', subtext: 'Layered mysteries', style: 'storm' }
+      ]
+    },
+    {
+      question: "Your Ideal Protagonist:",
+      options: [
+        { id: 'flawed', text: 'Flawed & Real', subtext: 'Human Failures and Triumphs', style: 'earth' },
+        { id: 'heroic', text: 'Noble & Strong', subtext: 'Clear purpose', style: 'fire' },
+        { id: 'driven', text: 'Obsessed & Focused', subtext: 'Single mission', style: 'ice' }
+      ]
+    }
+  ]
+},
 
   era: {
     variations: [

@@ -571,6 +571,7 @@ const QUESTION_POOLS = {
         { id: 'earth', text: 'Worn Surfaces', subtext: 'Lived-in spaces', style: 'earth' }
       ]
     },
+    // fix the colors for below hans, this is something to be either expanded on or turned into its own catagory
     {
       question: "Your ideal movie palette:",
       options: [
@@ -581,23 +582,45 @@ const QUESTION_POOLS = {
   ]
 },
    energy: {
-    variations: [
-      {
-        question: "Your energy right now:",
-        options: [
-          { id: 'spring', text: 'Coiled Spring', subtext: 'Ready to go', style: 'spring' },
-          { id: 'river', text: 'Slow River', subtext: 'Let it flow', style: 'river' }
-        ]
-      },
-      {
-        question: "How do you want to feel?",
-        options: [
-          { id: 'spring', text: 'Electric & Alert', subtext: 'High octane', style: 'spring' },
-          { id: 'river', text: 'Calm & Flowing', subtext: 'Steady current', style: 'river' }
+  variations: [
+    {
+      question: "Your energy right now:",
+      options: [
+        { id: 'spring', text: 'Coiled Spring', subtext: 'Ready to go', style: 'spring' },
+        { id: 'river', text: 'Slow River', subtext: 'Let it flow', style: 'river' }
       ]
-      }
-    ]
-  },
+    },
+    {
+      question: "How do you want to feel?",
+      options: [
+        { id: 'spring', text: 'Electric & Alert', subtext: 'High octane', style: 'fire' },
+        { id: 'river', text: 'Calm & Flowing', subtext: 'Steady current', style: 'ocean' }
+      ]
+    },
+    {
+      question: "Tonight's tempo:",
+      options: [
+        { id: 'spring', text: 'Lightning Strike', subtext: 'Quick bursts', style: 'storm' },
+        { id: 'river', text: 'Gentle Tide', subtext: 'Rhythmic Waves', style: 'ice' }
+      ]
+    },
+    {
+      question: "Your ideal pacing:",
+      options: [
+        { id: 'spring', text: 'Rapid Fire', subtext: 'Keep moving', style: 'gold' },
+        { id: 'river', text: 'Steady Flow', subtext: 'Natural rhythm', style: 'forest' }
+      ]
+    },
+    {
+      question: "Energy preference:",
+      options: [
+        { id: 'spring', text: 'Explosive Moments', subtext: 'Intense peaks', style: 'sunset' },
+        { id: 'river', text: 'Sustained Power', subtext: 'Enduring strength', style: 'shadow' }
+      ]
+    }
+  ]
+},
+  
 character: {
     variations: [
       {

@@ -725,7 +725,7 @@ era: {
         { id: 'noir', text: 'Shadow & Smoke', subtext: 'Dark mystery', style: 'shadow' },
         { id: 'pop', text: 'Bright & Bold', subtext: 'Vibrant energy', style: 'gold' },
         { id: 'gritty', text: 'Rust & Amber', subtext: 'Weathered Glows', style: 'fire' },
-        { id: 'electric', text: 'Laser & Glass', subtext: 'Sharp Contrasts', style: 'storm' }
+        { id: 'electric', text: 'Laser & Glass', subtext: 'Sharp Contrasts', style: 'comfort' }
       ]
     }
   ]

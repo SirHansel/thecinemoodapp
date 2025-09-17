@@ -686,7 +686,7 @@ character: {
       options: [
         { id: 'struggle', text: 'Struggle Beautifully', subtext: 'Internal conflicts', style: 'shadow' },
         { id: 'triumph', text: 'Triumph Boldly', subtext: 'External victories', style: 'gold' },
-        { id: 'complex', text: 'Hide Secrets', subtext: 'Layered mysteries', style: 'storm' }
+        { id: 'complex', text: 'Hide Secrets', subtext: 'Layered mysteries', style: 'puzzle' }
       ]
     },
     {

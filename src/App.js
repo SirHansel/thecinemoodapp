@@ -586,8 +586,8 @@ const QUESTION_POOLS = {
     {
       question: "Which calls to you tonight?",
       options: [
-        { id: 'neon', text: 'Neon & Chrome', subtext: 'Blade Runner vibes', style: 'neon' },
-        { id: 'earth', text: 'Earth & Wood', subtext: 'There Will Be Blood', style: 'earth' }
+        { id: 'neon', text: 'Neon & Chrome', subtext: 'e.g Blade Runner', style: 'neon' },
+        { id: 'earth', text: 'Earth & Wood', subtext: 'e.g There Will Be Blood', style: 'earth' }
       ]
     },
     {
@@ -711,7 +711,7 @@ era: {
       ]
     }
   ]
-}
+},
 
   mood: {
     variations: [

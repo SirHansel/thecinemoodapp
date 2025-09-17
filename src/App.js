@@ -1030,9 +1030,6 @@ if (currentScreen === 'mood') {
   console.log('Has options:', !!currentQuestion?.options); 
   console.log('Has symbols:', !!currentQuestion?.symbols);
   
-  const currentQuestion = currentQuestionSet[questionIndex];
-  const progress = ((questionIndex + 1) / currentQuestionSet.length) * 100;
-
   return (
     <div className="min-h-screen bg-gray-900 text-gray-200 p-4">
       <div className="max-w-md mx-auto bg-gray-800 rounded-lg p-6 border-2 border-gray-600">

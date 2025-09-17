@@ -142,19 +142,37 @@ const MOOD_SCORING = {
       tertiary: TMDB_GENRES.SCIENCE_FICTION   // +1 pt
     }
   },
-
-  discovery: {
-    new: {
-      primary: null,                          // Discovery doesn't add genre points
-      secondary: null,                        // Instead it modifies year/popularity
-      tertiary: null,
-      modifier: { yearMin: 2019, yearMax: 2024, popularity: 'mixed' }
-    },
-    comfort: {
-      primary: null,
-      secondary: null,
-      tertiary: null,
-      modifier: { yearMin: 1970, yearMax: 2015, popularity: 'high' }
+  
+symbols: {
+  circle: {
+    primary: TMDB_GENRES.DRAMA,             // +2 pts (balance/harmony)
+    secondary: TMDB_GENRES.ROMANCE,         // +1 pt
+    tertiary: null
+  },
+  triangle: {
+    primary: TMDB_GENRES.THRILLER,          // +2 pts (tension/conflict)
+    secondary: TMDB_GENRES.ACTION,          // +1 pt
+    tertiary: null
+  },
+  square: {
+    primary: TMDB_GENRES.MYSTERY,           // +2 pts (structure/logic)
+    secondary: TMDB_GENRES.CRIME,           // +1 pt
+    tertiary: null
+  },
+  wave: {
+    primary: TMDB_GENRES.FANTASY,           // +2 pts (flow/emotion)
+    secondary: TMDB_GENRES.ADVENTURE,       // +1 pt
+    tertiary: null
+  },
+  star: {
+    primary: TMDB_GENRES.SCIENCE_FICTION,   // +2 pts (wonder/inspiration)
+    secondary: TMDB_GENRES.ADVENTURE,       // +1 pt
+    tertiary: null
+  },
+  spiral: {
+    primary: TMDB_GENRES.HORROR,            // +2 pts (complexity/depth)
+    secondary: TMDB_GENRES.MYSTERY,         // +1 pt
+    tertiary: null
     }
   }
 };
@@ -737,10 +755,18 @@ era: {
     ]
   }
 };
-
+// Symbol definitions for shape-based selection
+const SYMBOL_DEFINITIONS = [
+  { id: 'circle', svg: 'circle', meaning: 'Balance' },
+  { id: 'triangle', svg: 'triangle', meaning: 'Tension' },
+  { id: 'square', svg: 'square', meaning: 'Structure' },
+  { id: 'wave', svg: 'wave', meaning: 'Flow' },
+  { id: 'star', svg: 'star', meaning: 'Wonder' },
+  { id: 'spiral', svg: 'spiral', meaning: 'Depth' }
+];
   // Question Selection Logic
 const generateQuestionSet = () => {
-  const categories = ['aesthetic', 'energy', 'character', 'era', 'mood', 'discovery'];
+  const categories = ['aesthetic', 'energy', 'character', 'era', 'mood', 'symbols'];
   const selectedQuestions = [];
   
   categories.forEach(category => {

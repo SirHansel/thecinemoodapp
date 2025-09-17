@@ -131,17 +131,37 @@ const MOOD_SCORING = {
 },
    
   mood: {
-    puzzle: {
-      primary: TMDB_GENRES.MYSTERY,           // +5 pts
-      secondary: TMDB_GENRES.THRILLER,        // +2 pts
-      tertiary: TMDB_GENRES.CRIME             // +1 pt
-    },
-    escape: {
-      primary: TMDB_GENRES.FANTASY,           // +5 pts
-      secondary: TMDB_GENRES.ADVENTURE,       // +2 pts
-      tertiary: TMDB_GENRES.SCIENCE_FICTION   // +1 pt
-    }
+  puzzle: {
+    primary: TMDB_GENRES.MYSTERY,           // +5 pts
+    secondary: TMDB_GENRES.THRILLER,        // +2 pts
+    tertiary: TMDB_GENRES.CRIME             // +1 pt
   },
+  escape: {
+    primary: TMDB_GENRES.FANTASY,           // +5 pts
+    secondary: TMDB_GENRES.ADVENTURE,       // +2 pts
+    tertiary: TMDB_GENRES.SCIENCE_FICTION   // +1 pt
+  },
+  contemplative: {
+    primary: TMDB_GENRES.DRAMA,             // +5 pts
+    secondary: TMDB_GENRES.ROMANCE,         // +2 pts
+    tertiary: TMDB_GENRES.HISTORY           // +1 pt
+  },
+  visceral: {
+    primary: TMDB_GENRES.ACTION,            // +5 pts
+    secondary: TMDB_GENRES.THRILLER,        // +2 pts
+    tertiary: TMDB_GENRES.HORROR            // +1 pt
+  },
+  emotional: {
+    primary: TMDB_GENRES.ROMANCE,           // +5 pts
+    secondary: TMDB_GENRES.DRAMA,           // +2 pts
+    tertiary: TMDB_GENRES.COMEDY            // +1 pt
+  },
+  analytical: {
+    primary: TMDB_GENRES.SCIENCE_FICTION,   // +5 pts
+    secondary: TMDB_GENRES.MYSTERY,         // +2 pts
+    tertiary: TMDB_GENRES.THRILLER          // +1 pt
+  }
+},
   
 symbols: {
   circle: {
@@ -731,17 +751,26 @@ era: {
   ]
 },
 
-  mood: {
-    variations: [
-      {
-        question: "Tonight feels like:",
-        options: [
-          { id: 'puzzle', text: 'A Puzzle to Solve', subtext: 'Make me think', style: 'puzzle' },
-          { id: 'escape', text: 'A World to Escape', subtext: 'Take me away', style: 'escape' }
-        ]
-      }
-    ]
-  },
+ mood: {
+  variations: [
+    {
+      question: "Your mind craves:",
+      options: [
+        { id: 'puzzle', text: 'Mental Challenge', subtext: 'Figure it out', style: 'storm' },
+        { id: 'escape', text: 'Pure Immersion', subtext: 'Get lost', style: 'forest' },
+        { id: 'visceral', text: 'Raw Impact', subtext: 'Feel the rush', style: 'fire' }
+      ]
+    },
+    {
+      question: "Tonight's engagement style:",
+      options: [
+        { id: 'contemplative', text: 'Deep Reflection', subtext: 'Slow burn', style: 'shadow' },
+        { id: 'emotional', text: 'Heart Connection', subtext: 'Feel deeply', style: 'sunset' },
+        { id: 'analytical', text: 'Mind Expansion', subtext: 'Think ahead', style: 'ice' }
+      ]
+    }
+  ]
+},
 
   discovery: {
     variations: [
@@ -765,7 +794,7 @@ const SYMBOL_DEFINITIONS = [
 ];
   // Question Selection Logic
 const generateQuestionSet = () => {
-  const categories = ['symbols', 'aesthetic', 'energy', 'era', 'character'];
+  const categories = ['symbols', 'aesthetic', 'energy', 'era', 'character', 'mood'];
   const selectedQuestions = [];
   
   categories.forEach(category => {
@@ -1092,7 +1121,7 @@ if (currentScreen === 'mood') {
         className="p-4 border-2 border-gray-600 rounded-lg text-white font-medium transition-all hover:scale-105 bg-gray-700 hover:border-gray-400 flex flex-col items-center"
       >
         <svg width="40" height="40" viewBox="0 0 50 50" className="mb-2">
-          {symbol.id === 'circle' && <circle cx="25" cy="25" r="20" fill="currentColor" />}
+          {symbol.id === 'circle' && <circle cx="25" cy="25" r="20" fill="forest" />}
           {symbol.id === 'triangle' && <polygon points="25,5 5,45 45,45" fill="currentColor" />}
           {symbol.id === 'square' && <rect x="5" y="5" width="40" height="40" fill="currentColor" />}
           {symbol.id === 'wave' && <path d="M5,25 Q15,5 25,25 T45,25" stroke="currentColor" strokeWidth="3" fill="none" />}

@@ -602,14 +602,14 @@ const QUESTION_POOLS = {
  aesthetic: {
   variations: [
     {
-      question: "Which calls to you tonight?",
+      question: "Which are you in the mood for?",
       options: [
         { id: 'neon', text: 'Neon & Chrome', subtext: 'e.g Blade Runner', style: 'neon' },
         { id: 'earth', text: 'Earth & Wood', subtext: 'e.g There Will Be Blood', style: 'earth' }
       ]
     },
     {
-      question: "What mood board speaks to you?",
+      question: "Which do you prefer?",
       options: [
         { id: 'neon', text: 'Electric Cityscape', subtext: 'Cyberpunk nights', style: 'neon' },
         { id: 'earth', text: 'Natural Textures', subtext: 'Raw & Organic', style: 'earth' }
@@ -623,7 +623,7 @@ const QUESTION_POOLS = {
       ]
     },
     {
-      question: "Tonight's aesthetic craving:",
+      question: "Tonight's aesthetic:",
       options: [
         { id: 'neon', text: 'Glowing Edges', subtext: 'Sharp contrasts', style: 'neon' },
         { id: 'earth', text: 'Worn Surfaces', subtext: 'Lived-in spaces', style: 'earth' }
@@ -711,12 +711,12 @@ character: {
 era: {
   variations: [
     {
-      question: "What color mood speaks to you tonight?",
+      question: "What color speaks to you tonight?",
       options: [
-        { id: 'vintage', text: 'Sepia & Burgundy', subtext: 'Classic warmth', style: 'sunset' },
-        { id: 'gritty', text: 'Earth & Concrete', subtext: 'Raw textures', style: 'earth' },
-        { id: 'electric', text: 'Neon & Chrome', subtext: 'Electric energy', style: 'neon' },
-        { id: 'digital', text: 'Matrix & Steel', subtext: 'Digital cool', style: 'ice' }
+        { id: 'vintage', text: 'Sepia & Burgundy', subtext: 'Classical warmth', style: 'sunset' },
+        { id: 'gritty', text: 'Earthy & Concrete', subtext: 'Raw Textures', style: 'earth' },
+        { id: 'electric', text: 'Neon & Chrome', subtext: 'Electrical Energy', style: 'neon' },
+        { id: 'digital', text: 'Matrix & Steel', subtext: 'Digital Cool', style: 'ice' }
       ]
     },
     {
@@ -724,8 +724,8 @@ era: {
       options: [
         { id: 'noir', text: 'Shadow & Smoke', subtext: 'Dark mystery', style: 'shadow' },
         { id: 'pop', text: 'Bright & Bold', subtext: 'Vibrant energy', style: 'gold' },
-        { id: 'gritty', text: 'Rust & Amber', subtext: 'Weathered glow', style: 'fire' },
-        { id: 'electric', text: 'Laser & Glass', subtext: 'Sharp contrasts', style: 'storm' }
+        { id: 'gritty', text: 'Rust & Amber', subtext: 'Weathered Glows', style: 'fire' },
+        { id: 'electric', text: 'Laser & Glass', subtext: 'Sharp Contrasts', style: 'storm' }
       ]
     }
   ]
@@ -841,87 +841,127 @@ const handleMoodAnswer = async (questionId, answerId) => {
 
   const getMoodCardStyle = (styleType) => {
     const styles = {
-     neon: { 
-      background: 'linear-gradient(135deg, #1a103d, #9b1d64, #f4a261)', 
-      borderColor: '#9b1d64' 
-    }, // Deep indigo to vibrant magenta with a golden glow
+     const getMoodCardStyle = (styleType) => {
+  const styles = {
+    neon: { 
+      background: '#d946ef', // Vibrant magenta
+      borderColor: '#a21caf', // Softer purple
+      boxShadow: '0 0 15px rgba(217, 70, 239, 0.5)', // Neon glow
+      backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%)' // Subtle glow
+    }, // Bright, electric vibe
     earth: { 
-      background: 'linear-gradient(135deg, #1c1208, #4a2c1b, #8c6239)', 
-      borderColor: '#8c6239' 
-    }, // Rich soil to warm terracotta
+      background: '#6b4e31', // Warm, vibrant brown
+      borderColor: '#8c6b47', // Lighter tan
+      boxShadow: '0 4px 10px rgba(107, 78, 49, 0.3)',
+      backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Crect x=\"0\" y=\"0\" width=\"20\" height=\"20\" fill=\"none\"/%3E%3Ccircle cx=\"10\" cy=\"10\" r=\"1\" fill=\"rgba(255,255,255,0.05)\"/%3C/svg%3E")' // Subtle noise
+    }, // Organic, grounded texture
     spring: { 
-      background: 'linear-gradient(135deg, #a8113e, #e86b3a, #f7d08a)', 
-      borderColor: '#e86b3a' 
-    }, // Deep rose to peach with a soft gold
+      background: 'linear-gradient(135deg, #f472b6, #fb923c)', // Soft pink to vibrant orange
+      borderColor: '#fb7185', // Gentle coral
+      boxShadow: '0 4px 12px rgba(251, 113, 60, 0.4)'
+    }, // Warm, blooming energy
     river: { 
-      background: 'linear-gradient(135deg, #0a3d3b, #1a8c8a, #5cc8d7)', 
-      borderColor: '#1a8c8a' 
-    }, // Dark teal to shimmering turquoise
+      background: '#2dd4bf', // Bright turquoise
+      borderColor: '#0d9488', // Deep teal
+      boxShadow: '0 0 10px rgba(45, 212, 191, 0.5)',
+      backgroundImage: 'radial-gradient(circle at 30% 30%, rgba(255,255,255,0.2), transparent 80%)' // Fluid shimmer
+    }, // Flowing, refreshing
     fire: { 
-      background: 'linear-gradient(135deg, #3c0f0f, #a61e2e, #f05941)', 
-      borderColor: '#a61e2e' 
-    }, // Smoldering red to fiery coral
+      background: '#f87171', // Softer coral red
+      borderColor: '#e11d48', // Muted rose
+      boxShadow: '0 0 12px rgba(248, 113, 113, 0.6)', // Warm glow
+      backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 60%)'
+    }, // Warm, controlled flame
     ice: { 
-      background: 'linear-gradient(135deg, #0d1e4a, #3467d6, #a4cafe)', 
-      borderColor: '#3467d6' 
-    }, // Deep sapphire to frosty blue
+      background: '#60a5fa', // Bright frosty blue
+      borderColor: '#1d4ed8', // Deep sapphire
+      boxShadow: '0 0 10px rgba(96, 165, 250, 0.5)',
+      filter: 'brightness(1.1)' // Cool shimmer
+    }, // Crisp, glacial
     storm: { 
-      background: 'linear-gradient(135deg, #111827, #2d3e50, #64748b)', 
-      borderColor: '#2d3e50' 
-    }, // Midnight slate to stormy grey
+      background: '#475569', // Vibrant slate
+      borderColor: '#1e293b', // Darker slate
+      boxShadow: '0 4px 8px rgba(71, 85, 105, 0.4)',
+      backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\"40\" height=\"40\" viewBox=\"0 0 40 40\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cpath d=\"M0 40L40 0\" stroke=\"rgba(255,255,255,0.05)\" stroke-width=\"1\"/%3E%3C/svg%3E")' // Subtle storm lines
+    }, // Moody, electric
     gold: { 
-      background: 'linear-gradient(135deg, #3f2a12, #b8860b, #e6b800)', 
-      borderColor: '#b8860b' 
-    }, // Bronze to molten gold
+      background: '#eab308', // Bright gold
+      borderColor: '#b45309', // Amber
+      boxShadow: '0 0 15px rgba(234, 179, 8, 0.6)', // Metallic sheen
+      backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.2) 10%, transparent 70%)'
+    }, // Luxurious, radiant
     ocean: { 
-      background: 'linear-gradient(135deg, #042f4b, #087ea4, #4ab8e8)', 
-      borderColor: '#087ea4' 
-    }, // Abyss blue to vibrant sea
+      background: '#38bdf8', // Vivid sea blue
+      borderColor: '#075985', // Deep ocean
+      boxShadow: '0 0 10px rgba(56, 189, 248, 0.5)',
+      backgroundImage: 'radial-gradient(circle at 20% 80%, rgba(255,255,255,0.15), transparent 70%)' // Wave-like shimmer
+    }, // Deep, flowing
     forest: { 
-      background: 'linear-gradient(135deg, #0b2e13, #1a6642, #4da865)', 
-      borderColor: '#1a6642' 
-    }, // Deep pine to lush green
+      background: '#22c55e', // Bright emerald
+      borderColor: '#15803d', // Dark green
+      boxShadow: '0 4px 10px rgba(34, 197, 94, 0.4)',
+      backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\"30\" height=\"30\" viewBox=\"0 0 30 30\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Ccircle cx=\"15\" cy=\"15\" r=\"2\" fill=\"rgba(255,255,255,0.05)\"/%3C/svg%3E")' // Leafy texture
+    }, // Lush, vibrant
     sunset: { 
-      background: 'linear-gradient(135deg, #4b1c0a, #c2410c, #f59e0b)', 
-      borderColor: '#c2410c' 
-    }, // Burnt sienna to radiant orange
+      background: 'linear-gradient(135deg, #fb923c, #facc15)', // Orange to golden yellow
+      borderColor: '#ea580c', // Warm coral
+      boxShadow: '0 0 12px rgba(250, 204, 21, 0.5)'
+    }, // Radiant, warm
     shadow: { 
-      background: 'linear-gradient(135deg, #0a101e, #1e2a44, #455575)', 
-      borderColor: '#1e2a44' 
-    }, // Obsidian to smoky blue
+      background: '#1e293b', // Deep smoky blue
+      borderColor: '#0f172a', // Near-black
+      boxShadow: '0 4px 8px rgba(30, 41, 59, 0.5)',
+      backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 80%)' // Subtle mist
+    }, // Mysterious, subdued
     struggle: { 
-      background: 'linear-gradient(135deg, #2e1065, #6d28d9, #a855f7)', 
-      borderColor: '#6d28d9' 
-    }, // Deep violet to luminous purple
+      background: '#a78bfa', // Vibrant purple
+      borderColor: '#6d28d9', // Deep violet
+      boxShadow: '0 0 10px rgba(167, 139, 250, 0.5)',
+      filter: 'brightness(1.1)' // Emotional glow
+    }, // Intense, reflective
     triumph: { 
-      background: 'linear-gradient(135deg, #7f1d1d, #ea580c, #facc15)', 
-      borderColor: '#ea580c' 
-    }, // Crimson to triumphant amber
-    seventies: { 
-      background: 'linear-gradient(135deg, #2c1608, #6b3f2a, #9e6f4d)', 
-      borderColor: '#9e6f4d' 
-    }, // Retro walnut to warm tan
+      background: '#fb923c', // Bright coral
+      borderColor: '#c2410c', // Muted orange
+      boxShadow: '0 0 12px rgba(251, 146, 60, 0.6)',
+      backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 60%)'
+    }, // Victorious, warm
+    gritty: { 
+      background: '#78716c', // Warm taupe
+      borderColor: '#57534e', // Darker tan
+      boxShadow: '0 4px 8px rgba(120, 113, 108, 0.3)',
+      backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Crect x=\"0\" y=\"0\" width=\"20\" height=\"20\" fill=\"none\"/%3E%3Ccircle cx=\"10\" cy=\"10\" r=\"1\" fill=\"rgba(255,255,255,0.05)\"/%3C/svg%3E")' // Retro texture
+    }, // Nostalgic, earthy
     eighties: { 
-      background: 'linear-gradient(135deg, #0c1549, #4f46e5, #db2777)', 
-      borderColor: '#db2777' 
-    }, // Midnight blue to neon pink
+      background: 'linear-gradient(135deg, #ec4899, #8b5cf6)', // Neon pink to purple
+      borderColor: '#db2777', // Bright pink
+      boxShadow: '0 0 15px rgba(236, 72, 153, 0.5)'
+    }, // Bold, retro-pop
     puzzle: { 
-      background: 'linear-gradient(135deg, #1c2526, #3a4f50, #6c8294)', 
-      borderColor: '#3a4f50' 
-    }, // Charcoal to enigmatic grey
+      background: '#4b5e7a', // Vibrant grey-blue
+      borderColor: '#2d3e50', // Darker grey
+      boxShadow: '0 4px 8px rgba(75, 94, 122, 0.4)',
+      backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\"30\" height=\"30\" viewBox=\"0 0 30 30\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cpath d=\"M15 0L15 30M0 15H30\" stroke=\"rgba(255,255,255,0.05)\" stroke-width=\"1\"/%3E%3C/svg%3E")' // Grid-like pattern
+    }, // Enigmatic, structured
     escape: { 
-      background: 'linear-gradient(135deg, #0a3c2e, #0d9488, #34d399)', 
-      borderColor: '#0d9488' 
-    }, // Deep jade to vibrant teal
+      background: '#14b8a6', // Bright teal
+      borderColor: '#0f766e', // Deep teal
+      boxShadow: '0 0 10px rgba(20, 184, 166, 0.5)',
+      backgroundImage: 'radial-gradient(circle at 40% 20%, rgba(255,255,255,0.2), transparent 70%)' // Airy flow
+    }, // Free, vibrant
     new: { 
-      background: 'linear-gradient(135deg, #7c2d12, #f97316, #fed7aa)', 
-      borderColor: '#f97316' 
-    }, // Burnt orange to soft peach
+      background: '#f4d03f', // Bright yellow
+      borderColor: '#d97706', // Amber
+      boxShadow: '0 0 12px rgba(244, 208, 63, 0.6)',
+      backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 60%)'
+    }, // Fresh, energetic
     comfort: { 
-      background: 'linear-gradient(135deg, #3e2c1e, #6c4a30, #9a7b5a)', 
-      borderColor: '#9a7b5a' 
-    }, // Cozy cocoa to warm beige
-    };
+      background: '#8b5c3c', // Warm cocoa
+      borderColor: '#6b4e31', // Darker brown
+      boxShadow: '0 4px 8px rgba(139, 92, 60, 0.3)',
+      backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Ccircle cx=\"10\" cy=\"10\" r=\"1\" fill=\"rgba(255,255,255,0.05)\"/%3C/svg%3E")' // Cozy texture
+    }, // Soft, inviting
+  };
+
     return styles[styleType] || {};
   };
 

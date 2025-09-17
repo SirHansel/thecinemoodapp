@@ -1041,19 +1041,33 @@ if (currentScreen === 'mood') {
 
         <p className="text-lg mb-6 text-center">{currentQuestion.question}</p>
        
-        <div className="space-y-4">
-          {currentQuestion.options.map(option => (
-            <button
-              key={option.id}
-              onClick={() => handleMoodAnswer(currentQuestion.id, option.id)}
-              className="w-full h-20 rounded-lg border-2 flex flex-col items-center justify-center text-white font-medium transition-all hover:scale-105"
-              style={getMoodCardStyle(option.style)}
-            >
-              <span>{option.text}</span>
-              <span className="text-sm opacity-80">{option.subtext}</span>
-            </button>
-          ))}
-        </div>
+      <div className="space-y-4">
+  {currentQuestion.type === 'symbols' ? (
+    <div className="grid grid-cols-3 gap-4">
+      {currentQuestion.symbols.map(symbol => (
+        <button
+          key={symbol.id}
+          onClick={() => handleMoodAnswer('symbols', symbol.id)}
+          className="p-4 border-2 border-gray-600 rounded-lg text-white font-medium transition-all hover:scale-105 bg-gray-700 hover:border-gray-400"
+        >
+          {symbol.meaning}
+        </button>
+      ))}
+    </div>
+  ) : (
+    currentQuestion.options.map(option => (
+      <button
+        key={option.id}
+        onClick={() => handleMoodAnswer(currentQuestion.id, option.id)}
+        className="w-full h-20 rounded-lg border-2 flex flex-col items-center justify-center text-white font-medium transition-all hover:scale-105"
+        style={getMoodCardStyle(option.style)}
+      >
+        <span>{option.text}</span>
+        <span className="text-sm opacity-80">{option.subtext}</span>
+      </button>
+    ))
+  )}
+</div>
        
         <p className="text-center text-sm text-gray-400 mt-6">
           Question {questionIndex + 1} of {currentQuestionSet.length}

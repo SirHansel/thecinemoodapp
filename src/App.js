@@ -771,21 +771,32 @@ const generateQuestionSet = () => {
   
   categories.forEach(category => {
     console.log('Processing category:', category);
-    const pool = QUESTION_POOLS[category];
-    console.log('Pool for', category, ':', pool);
     
-    if (!pool || !pool.variations) {
-      console.error('Missing or invalid pool for category:', category);
-      return;
+    if (category === 'symbols') {
+      // Special handling for symbols
+      selectedQuestions.push({
+        id: 'symbols',
+        question: 'Which shapes call to you?',
+        type: 'symbols',
+        symbols: SYMBOL_DEFINITIONS
+      });
+    } else {
+      const pool = QUESTION_POOLS[category];
+      console.log('Pool for', category, ':', pool);
+      
+      if (!pool || !pool.variations) {
+        console.error('Missing or invalid pool for category:', category);
+        return;
+      }
+      
+      const randomIndex = Math.floor(Math.random() * pool.variations.length);
+      const selectedVariation = pool.variations[randomIndex];
+      
+      selectedQuestions.push({
+        id: category,
+        ...selectedVariation
+      });
     }
-    
-    const randomIndex = Math.floor(Math.random() * pool.variations.length);
-    const selectedVariation = pool.variations[randomIndex];
-    
-    selectedQuestions.push({
-      id: category,
-      ...selectedVariation
-    });
   });
   
   return selectedQuestions;

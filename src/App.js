@@ -765,17 +765,16 @@ const SYMBOL_DEFINITIONS = [
 ];
   // Question Selection Logic
 const generateQuestionSet = () => {
-  const categories = ['aesthetic', 'energy', 'character', 'era', 'mood', 'symbols'];
+  const categories = ['symbols', 'aesthetic', 'energy', 'era', 'character'];
   const selectedQuestions = [];
   
   categories.forEach(category => {
     console.log('Processing category:', category);
     
     if (category === 'symbols') {
-      // Special handling for symbols
       selectedQuestions.push({
         id: 'symbols',
-        question: 'Choose the first shape that your gut tells you to',
+        question: 'Which shapes call to you?',
         type: 'symbols',
         symbols: SYMBOL_DEFINITIONS
       });

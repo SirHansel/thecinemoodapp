@@ -1017,14 +1017,18 @@ const handleMoodAnswer = async (questionId, answerId) => {
 if (currentScreen === 'mood') {
   console.log('Mood screen rendering');
   console.log('Current question set:', currentQuestionSet);
-  console.log('Current question:', currentQuestion); 
-  console.log('Question type:', currentQuestion?.type); 
-  console.log('Has options:', !!currentQuestion?.options); 
-  console.log('Has symbols:', !!currentQuestion?.symbols); 
   
   if (!currentQuestionSet) {
     return <div>Loading questions...</div>;
   }
+  
+  const currentQuestion = currentQuestionSet[questionIndex];
+  const progress = ((questionIndex + 1) / currentQuestionSet.length) * 100;
+  
+  console.log('Current question:', currentQuestion); 
+  console.log('Question type:', currentQuestion?.type); 
+  console.log('Has options:', !!currentQuestion?.options); 
+  console.log('Has symbols:', !!currentQuestion?.symbols);
   
   const currentQuestion = currentQuestionSet[questionIndex];
   const progress = ((questionIndex + 1) / currentQuestionSet.length) * 100;

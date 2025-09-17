@@ -642,7 +642,7 @@ const QUESTION_POOLS = {
    energy: {
   variations: [
     {
-      question: "Your energy right now:",
+      question: "What is your energy right now?",
       options: [
         { id: 'spring', text: 'Coiled Spring', subtext: 'Ready to go', style: 'spring' },
         { id: 'river', text: 'Slow River', subtext: 'Let it flow', style: 'river' }
@@ -673,7 +673,7 @@ const QUESTION_POOLS = {
       question: "Energy preference:",
       options: [
         { id: 'spring', text: 'Explosive Moments', subtext: 'Intense peaks', style: 'sunset' },
-        { id: 'river', text: 'Sustained Power', subtext: 'Enduring strength', style: 'shadow' }
+        { id: 'river', text: 'Slow Build', subtext: 'Enduring strength', style: 'shadow' }
       ]
     }
   ]
@@ -776,7 +776,7 @@ const generateQuestionSet = () => {
       // Special handling for symbols
       selectedQuestions.push({
         id: 'symbols',
-        question: 'Which shapes call to you?',
+        question: 'Which shapes calls to you?',
         type: 'symbols',
         symbols: SYMBOL_DEFINITIONS
       });
@@ -1061,7 +1061,7 @@ if (currentScreen === 'mood') {
           {symbol.id === 'square' && <rect x="5" y="5" width="40" height="40" fill="currentColor" />}
           {symbol.id === 'wave' && <path d="M5,25 Q15,5 25,25 T45,25" stroke="currentColor" strokeWidth="3" fill="none" />}
           {symbol.id === 'star' && <polygon points="25,5 30,20 45,20 35,30 40,45 25,35 10,45 15,30 5,20 20,20" fill="currentColor" />}
-          {symbol.id === 'spiral' && <path d="M25,25 Q30,15 35,25 Q30,35 25,30 Q20,25 25,25" stroke="currentColor" strokeWidth="3" fill="none" />}
+         {symbol.id === 'spiral' && <path d="M25,40 Q40,30 25,25 Q10,20 20,25 Q30,30 25,27 Q22,25 24,26" stroke="currentColor" strokeWidth="2" fill="none" />}
         </svg>
         <span className="text-xs">{symbol.meaning}</span>
       </button>

@@ -840,8 +840,6 @@ const handleMoodAnswer = async (questionId, answerId) => {
   };
 
   const getMoodCardStyle = (styleType) => {
-    const styles = {
-     const getMoodCardStyle = (styleType) => {
   const styles = {
     neon: { 
       background: '#d946ef', // Vibrant magenta

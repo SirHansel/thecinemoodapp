@@ -1048,16 +1048,24 @@ if (currentScreen === 'mood') {
        
       <div className="space-y-4">
   {currentQuestion.type === 'symbols' ? (
-    <div className="grid grid-cols-3 gap-4">
-      {currentQuestion.symbols.map(symbol => (
-        <button
-          key={symbol.id}
-          onClick={() => handleMoodAnswer('symbols', symbol.id)}
-          className="p-4 border-2 border-gray-600 rounded-lg text-white font-medium transition-all hover:scale-105 bg-gray-700 hover:border-gray-400"
-        >
-          {symbol.meaning}
-        </button>
-      ))}
+  <div className="grid grid-cols-3 gap-4">
+    {currentQuestion.symbols.map(symbol => (
+      <button
+        key={symbol.id}
+        onClick={() => handleMoodAnswer('symbols', symbol.id)}
+        className="p-4 border-2 border-gray-600 rounded-lg text-white font-medium transition-all hover:scale-105 bg-gray-700 hover:border-gray-400 flex flex-col items-center"
+      >
+        <svg width="40" height="40" viewBox="0 0 50 50" className="mb-2">
+          {symbol.id === 'circle' && <circle cx="25" cy="25" r="20" fill="currentColor" />}
+          {symbol.id === 'triangle' && <polygon points="25,5 5,45 45,45" fill="currentColor" />}
+          {symbol.id === 'square' && <rect x="5" y="5" width="40" height="40" fill="currentColor" />}
+          {symbol.id === 'wave' && <path d="M5,25 Q15,5 25,25 T45,25" stroke="currentColor" strokeWidth="3" fill="none" />}
+          {symbol.id === 'star' && <polygon points="25,5 30,20 45,20 35,30 40,45 25,35 10,45 15,30 5,20 20,20" fill="currentColor" />}
+          {symbol.id === 'spiral' && <path d="M25,25 Q30,15 35,25 Q30,35 25,30 Q20,25 25,25" stroke="currentColor" strokeWidth="3" fill="none" />}
+        </svg>
+        <span className="text-xs">{symbol.meaning}</span>
+      </button>
+    ))}
     </div>
   ) : (
     currentQuestion.options.map(option => (

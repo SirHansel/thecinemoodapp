@@ -757,12 +757,11 @@ era: {
 };
 // Symbol definitions for shape-based selection
 const SYMBOL_DEFINITIONS = [
-  { id: 'circle', svg: 'circle', meaning: 'Balance' },
-  { id: 'triangle', svg: 'triangle', meaning: 'Tension' },
-  { id: 'square', svg: 'square', meaning: 'Structure' },
-  { id: 'wave', svg: 'wave', meaning: 'Flow' },
-  { id: 'star', svg: 'star', meaning: 'Wonder' },
-  { id: 'spiral', svg: 'spiral', meaning: 'Depth' }
+  { id: 'circle', svg: 'circle', meaning: null },
+  { id: 'triangle', svg: 'triangle', meaning: null },
+  { id: 'square', svg: 'square', meaning: null },
+  { id: 'wave', svg: 'wave', meaning: null },
+  { id: 'star', svg: 'star', meaning: null },
 ];
   // Question Selection Logic
 const generateQuestionSet = () => {
@@ -776,7 +775,7 @@ const generateQuestionSet = () => {
       // Special handling for symbols
       selectedQuestions.push({
         id: 'symbols',
-        question: 'Which shapes calls to you?',
+        question: 'Choose the first shape that your gut tells you to',
         type: 'symbols',
         symbols: SYMBOL_DEFINITIONS
       });
@@ -1061,21 +1060,7 @@ if (currentScreen === 'mood') {
           {symbol.id === 'square' && <rect x="5" y="5" width="40" height="40" fill="currentColor" />}
           {symbol.id === 'wave' && <path d="M5,25 Q15,5 25,25 T45,25" stroke="currentColor" strokeWidth="3" fill="none" />}
           {symbol.id === 'star' && <polygon points="25,5 30,20 45,20 35,30 40,45 25,35 10,45 15,30 5,20 20,20" fill="currentColor" />}
-         {symbol.id === 'spiral' && <path
-            d="M25,25 
-               C26,24 27,24 28,25 
-               C29,26 29,27 28,28 
-               C27,29 26,29 25,28 
-               C24,27 24,26 25,25 
-               C27,23 29,23 30,25 
-               C32,27 32,29 30,31 
-               C28,33 26,33 24,31 
-               C22,29 22,27 24,25 
-               C28,21 32,21 34,25 
-               C36,29 36,33 34,35 
-               C30,37 26,37 22,35 
-               C20,33 20,29 22,25"
-                 stroke="currentColor" strokeWidth="2" fill="none" />}
+        
         </svg>
         <span className="text-xs">{symbol.meaning}</span>
       </button>

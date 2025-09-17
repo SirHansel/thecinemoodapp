@@ -1017,6 +1017,10 @@ const handleMoodAnswer = async (questionId, answerId) => {
 if (currentScreen === 'mood') {
   console.log('Mood screen rendering');
   console.log('Current question set:', currentQuestionSet);
+  console.log('Current question:', currentQuestion); 
+  console.log('Question type:', currentQuestion?.type); 
+  console.log('Has options:', !!currentQuestion?.options); 
+  console.log('Has symbols:', !!currentQuestion?.symbols); 
   
   if (!currentQuestionSet) {
     return <div>Loading questions...</div>;

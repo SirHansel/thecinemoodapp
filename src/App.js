@@ -97,19 +97,39 @@ const MOOD_SCORING = {
   }
 },
 
-  era: {
-    seventies: {
-      primary: TMDB_GENRES.CRIME,             // +3 pts
-      secondary: TMDB_GENRES.THRILLER,        // +2 pts
-      tertiary: TMDB_GENRES.DRAMA             // +1 pt
-    },
-    eighties: {
-      primary: TMDB_GENRES.ACTION,            // +3 pts
-      secondary: TMDB_GENRES.SCIENCE_FICTION, // +2 pts
-      tertiary: TMDB_GENRES.COMEDY            // +1 pt
-    }
+ era: {
+  vintage: {
+    primary: TMDB_GENRES.DRAMA,             // +3 pts
+    secondary: TMDB_GENRES.HISTORY,         // +2 pts
+    tertiary: TMDB_GENRES.ROMANCE           // +1 pt
   },
-
+  gritty: {
+    primary: TMDB_GENRES.CRIME,             // +3 pts
+    secondary: TMDB_GENRES.THRILLER,        // +2 pts
+    tertiary: TMDB_GENRES.DRAMA             // +1 pt
+  },
+  electric: {
+    primary: TMDB_GENRES.ACTION,            // +3 pts
+    secondary: TMDB_GENRES.SCIENCE_FICTION, // +2 pts
+    tertiary: TMDB_GENRES.COMEDY            // +1 pt
+  },
+  digital: {
+    primary: TMDB_GENRES.SCIENCE_FICTION,   // +3 pts
+    secondary: TMDB_GENRES.THRILLER,        // +2 pts
+    tertiary: TMDB_GENRES.ACTION            // +1 pt
+  },
+  noir: {
+    primary: TMDB_GENRES.MYSTERY,           // +3 pts
+    secondary: TMDB_GENRES.CRIME,           // +2 pts
+    tertiary: TMDB_GENRES.THRILLER          // +1 pt
+  },
+  pop: {
+    primary: TMDB_GENRES.COMEDY,            // +3 pts
+    secondary: TMDB_GENRES.ADVENTURE,       // +2 pts
+    tertiary: TMDB_GENRES.ROMANCE           // +1 pt
+  }
+},
+   
   mood: {
     puzzle: {
       primary: TMDB_GENRES.MYSTERY,           // +5 pts
@@ -664,23 +684,34 @@ character: {
       options: [
         { id: 'struggle', text: 'Struggle Beautifully', subtext: 'Internal conflicts', style: 'shadow' },
         { id: 'triumph', text: 'Overcome', subtext: 'External Victories', style: 'gold' },
-        { id: 'driven', text: 'On A Mission', subtext: 'Focused Goal', style: 'storm' }
+        { id: 'driven', text: 'On A Mission', subtext: 'Focused Goal', style: 'ocean' }
       ]
     },
   ]
 },
 
-  era: {
-    variations: [
-      {
-        question: "Which era's soul matches yours?",
-        options: [
-          { id: 'seventies', text: '70s Paranoia', subtext: 'Gritty, raw', style: 'seventies' },
-          { id: 'eighties', text: '80s Neon', subtext: 'Bold, electric', style: 'eighties' }
-        ]
-      }
-    ]
-  },
+era: {
+  variations: [
+    {
+      question: "What color mood speaks to you tonight?",
+      options: [
+        { id: 'vintage', text: 'Sepia & Burgundy', subtext: 'Classic warmth', style: 'sunset' },
+        { id: 'gritty', text: 'Earth & Concrete', subtext: 'Raw textures', style: 'earth' },
+        { id: 'electric', text: 'Neon & Chrome', subtext: 'Electric energy', style: 'neon' },
+        { id: 'digital', text: 'Matrix & Steel', subtext: 'Digital cool', style: 'ice' }
+      ]
+    },
+    {
+      question: "Tonight's visual palette:",
+      options: [
+        { id: 'noir', text: 'Shadow & Smoke', subtext: 'Dark mystery', style: 'shadow' },
+        { id: 'pop', text: 'Bright & Bold', subtext: 'Vibrant energy', style: 'gold' },
+        { id: 'gritty', text: 'Rust & Amber', subtext: 'Weathered glow', style: 'fire' },
+        { id: 'electric', text: 'Laser & Glass', subtext: 'Sharp contrasts', style: 'storm' }
+      ]
+    }
+  ]
+}
 
   mood: {
     variations: [

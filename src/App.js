@@ -774,7 +774,7 @@ const generateQuestionSet = () => {
     if (category === 'symbols') {
       selectedQuestions.push({
         id: 'symbols',
-        question: 'Which shapes call to you?',
+        question: 'Choose a shape',
         type: 'symbols',
         symbols: SYMBOL_DEFINITIONS
       });

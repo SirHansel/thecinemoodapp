@@ -791,6 +791,7 @@ const SYMBOL_DEFINITIONS = [
   { id: 'square', svg: 'square', meaning: null },
   { id: 'wave', svg: 'wave', meaning: null },
   { id: 'star', svg: 'star', meaning: null },
+  { id: 'spiral', svg: 'spiral', meaning: null },
 ];
   // Question Selection Logic
 const generateQuestionSet = () => {

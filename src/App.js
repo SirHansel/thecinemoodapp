@@ -1144,7 +1144,7 @@ if (currentScreen === 'mood') {
                C36,29 36,33 34,35 
                C30,37 26,37 22,35 
                C20,33 20,29 22,25" 
-   fill="currentColor" />}
+    />}
 
         </svg>
         <span className="text-xs">{symbol.meaning}</span>

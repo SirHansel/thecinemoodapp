@@ -1000,35 +1000,7 @@ const handleMoodAnswer = async (questionId, answerId) => {
           <h2 className="text-center bg-gray-700 text-gray-200 p-3 rounded mb-6 text-lg font-bold">
             Welcome to CineMood
           </h2>
-      <div/
-      {/* Expandable genre exclusions */}
-<div className="mb-4">
-  <button 
-    onClick={() => setShowExclusions(!showExclusions)}
-    className="text-sm text-gray-400 hover:text-gray-300 flex items-center"
-  >
-    <Settings className="w-4 h-4 mr-2" />
-    Exclude genres (optional)
-  </button>
-  
-  {showExclusions && (
-    <div className="mt-3 p-3 bg-gray-700/50 rounded border border-gray-600">
-      <p className="text-xs text-gray-400 mb-2">Movies with these genres won't be recommended:</p>
-      <div className="grid grid-cols-2 gap-2">
-        {['Horror', 'Comedy', 'Western', 'Musical', 'War'].map(genre => (
-          <label key={genre} className="flex items-center text-sm">
-            <input 
-              type="checkbox" 
-              className="mr-2" 
-              onChange={(e) => handleGenreExclusion(genre, e.target.checked)}
-            />
-            {genre}
-          </label>
-        ))}
-      </div>
-    </div>
-  )}
-</div>
+    
   <div className="mb-4">
   <label className="block text-sm text-gray-400 mb-2">
 

@@ -1123,12 +1123,38 @@ if (currentScreen === 'mood') {
         className="p-4 border-2 border-gray-600 rounded-lg text-white font-medium transition-all hover:scale-105 bg-gray-700 hover:border-gray-400 flex flex-col items-center"
       >
         <svg width="40" height="40" viewBox="0 0 50 50" className="mb-2">
-          {symbol.id === 'circle' && <circle cx="25" cy="25" r="20" fill="forest" />}
+          {symbol.id === 'circle' && <circle cx="25" cy="25" r="20" fill="#3b82f6" />}
           {symbol.id === 'triangle' && <polygon points="25,5 5,45 45,45" fill="currentColor" />}
           {symbol.id === 'square' && <rect x="5" y="5" width="40" height="40" fill="currentColor" />}
           {symbol.id === 'wave' && <path d="M5,25 Q15,5 25,25 T45,25" stroke="currentColor" strokeWidth="3" fill="none" />}
           {symbol.id === 'star' && <polygon points="25,5 30,20 45,20 35,30 40,45 25,35 10,45 15,30 5,20 20,20" fill="currentColor" />}
-        
+         { id: 'spiral', 
+        svg: (
+          <path 
+            d="M25,25 
+               C26,24 27,24 28,25 
+               C29,26 29,27 28,28 
+               C27,29 26,29 25,28 
+               C24,27 24,26 25,25 
+               C27,23 29,23 30,25 
+               C32,27 32,29 30,31 
+               C28,33 26,33 24,31 
+               C22,29 22,27 24,25 
+               C28,21 32,21 34,25 
+               C36,29 36,33 34,35 
+               C30,37 26,37 22,35 
+               C20,33 20,29 22,25" 
+            svg: (color) => (
+  <>
+    <defs>
+      <linearGradient id="circleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style={{ stopColor: color, stopOpacity: 1 }} />
+        <stop offset="100%" style={{ stopColor: '#ffffff', stopOpacity: 0.8 }} />
+      </linearGradient>
+    </defs>
+    <circle cx="25" cy="25" r="20" fill="url(#circleGradient)" />
+  </>
+)
         </svg>
         <span className="text-xs">{symbol.meaning}</span>
       </button>

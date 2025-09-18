@@ -1055,7 +1055,8 @@ const handleMoodAnswer = async (questionId, answerId) => {
     <div className="mt-3 p-3 bg-gray-700/50 rounded border border-gray-600">
       <p className="text-xs text-gray-400 mb-2">Movies with these genres won't be recommended:</p>
         <div className="grid grid-cols-3 gap-2">
-         {['Horror', 'Comedy', 'Western', 'Musical', 'War', 'Romance', 'Animation', 'Documentary', 'Foreign', 'Biography'].map(genre => (
+         {['Action','Animation','Biography','Comedy','Crime','Drama','Documentary','Fantasy', 'Foreign','Horror','Musical','Romance','Sci-fi','Thriller','War', 'Western', 
+  ].map(genre => (
           <label key={genre} className="flex items-center text-sm">
             <input 
               type="checkbox" 

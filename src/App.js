@@ -843,6 +843,18 @@ const generateQuestionSet = () => {
     }));
   };
 
+  const handleGenreExclusion = (genre, isExcluded) => {
+  const genreId = GENRE_MAPPING[genre];
+  if (!genreId) return; // Skip unmappable genres
+  
+  setUserPrefs(prev => ({
+    ...prev,
+    excludedGenreIds: isExcluded 
+      ? [...(prev.excludedGenreIds || []), genreId]
+      : (prev.excludedGenreIds || []).filter(id => id !== genreId)
+  }));
+};
+  
 const handleMoodAnswer = async (questionId, answerId) => {
   setUserPrefs(prev => ({
     ...prev,
@@ -1055,9 +1067,29 @@ const handleMoodAnswer = async (questionId, answerId) => {
     <div className="mt-3 p-3 bg-gray-700/50 rounded border border-gray-600">
       <p className="text-xs text-gray-400 mb-2">Movies with these genres won't be recommended:</p>
         <div className="grid grid-cols-3 gap-2">
+   
+    const GENRE_MAPPING = {
+  'Action': TMDB_GENRES.ACTION,
+  'Animation': 16, // TMDB ID for animation
+  'Biography': 99, // Using documentary ID as closest match
+  'Comedy': TMDB_GENRES.COMEDY,
+  'Crime': TMDB_GENRES.CRIME,
+  'Drama': TMDB_GENRES.DRAMA,
+  'Documentary': 99,
+  'Fantasy': TMDB_GENRES.FANTASY,
+  'Foreign': null, // No direct TMDB equivalent
+  'Horror': TMDB_GENRES.HORROR,
+  'Musical': 10402, // TMDB ID for music
+  'Romance': TMDB_GENRES.ROMANCE,
+  'Sci-fi': TMDB_GENRES.SCIENCE_FICTION,
+  'Thriller': TMDB_GENRES.THRILLER,
+  'War': TMDB_GENRES.WAR,
+  'Western': TMDB_GENRES.WESTERN
+};
          {['Action','Animation','Biography','Comedy','Crime','Drama','Documentary','Fantasy', 'Foreign','Horror','Musical','Romance','Sci-fi','Thriller','War', 'Western', 
   ].map(genre => (
-          <label key={genre} className="flex items-center text-sm">
+          
+    <label key={genre} className="flex items-center text-sm">
             <input 
               type="checkbox" 
               className="mr-2" 

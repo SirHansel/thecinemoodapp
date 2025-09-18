@@ -1144,17 +1144,8 @@ if (currentScreen === 'mood') {
                C36,29 36,33 34,35 
                C30,37 26,37 22,35 
                C20,33 20,29 22,25" 
-            svg: (color) => (
-  <>
-    <defs>
-      <linearGradient id="circleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" style={{ stopColor: color, stopOpacity: 1 }} />
-        <stop offset="100%" style={{ stopColor: '#ffffff', stopOpacity: 0.8 }} />
-      </linearGradient>
-    </defs>
-    <circle cx="25" cy="25" r="20" fill="url(#circleGradient)" />
-  </>
-)
+    
+
         </svg>
         <span className="text-xs">{symbol.meaning}</span>
       </button>

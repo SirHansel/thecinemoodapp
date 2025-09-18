@@ -1129,8 +1129,7 @@ if (currentScreen === 'mood') {
           {symbol.id === 'square' && <rect x="5" y="5" width="40" height="40" fill="currentColor" />}
           {symbol.id === 'wave' && <path d="M5,25 Q15,5 25,25 T45,25" stroke="currentColor" strokeWidth="3" fill="none" />}
           {symbol.id === 'star' && <polygon points="25,5 30,20 45,20 35,30 40,45 25,35 10,45 15,30 5,20 20,20" fill="currentColor" />}
-         { id: 'spiral', 
-        svg: (
+         {symbol.id === 'spiral' &&
           <path 
             d="M25,25 
                C26,24 27,24 28,25 
@@ -1145,7 +1144,7 @@ if (currentScreen === 'mood') {
                C36,29 36,33 34,35 
                C30,37 26,37 22,35 
                C20,33 20,29 22,25" 
-    
+   fill="currentColor" />}
 
         </svg>
         <span className="text-xs">{symbol.meaning}</span>

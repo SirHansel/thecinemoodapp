@@ -23,7 +23,9 @@ const TMDB_GENRES = {
   SCIENCE_FICTION: 878,
   THRILLER: 53,
   WAR: 10752,
-  WESTERN: 37
+  WESTERN: 37,
+  MUSIC: 10402,  // This covers musicals
+  DOCUMENTARY: 99
 };
 
 // Hybrid Scoring Configuration - Easy to Tweak
@@ -1052,8 +1054,8 @@ const handleMoodAnswer = async (questionId, answerId) => {
   {showExclusions && (
     <div className="mt-3 p-3 bg-gray-700/50 rounded border border-gray-600">
       <p className="text-xs text-gray-400 mb-2">Movies with these genres won't be recommended:</p>
-      <div className="grid grid-cols-2 gap-2">
-        {['Horror', 'Comedy', 'Western', 'Musical', 'War'].map(genre => (
+        <div className="grid grid-cols-3 gap-2">
+         {['Horror', 'Comedy', 'Western', 'Musical', 'War', 'Romance', 'Animation', 'Documentary', 'Foreign', 'Biography'].map(genre => (
           <label key={genre} className="flex items-center text-sm">
             <input 
               type="checkbox" 
@@ -1173,7 +1175,7 @@ if (currentScreen === 'mood') {
                C28,21 32,21 34,25 
                C36,29 36,33 34,35 
                C30,37 26,37 22,35 
-               C20,33 20,29 22,25" 
+               C20,33 20,29 22,25" fill="currentColor"
     />}
 
         </svg>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Play, RotateCcw, Settings, Star, ThumbsUp } from 'lucide-react';
 import { fetchMoviesByGenre } from './tmdbApi';
 import { parseLetterboxdCSV, analyzeUserTaste, combineRatingsWithTaste } from './letterboxdApi';
@@ -169,7 +169,7 @@ symbols: {
   circle: {
     primary: TMDB_GENRES.DRAMA,             // +2 pts (balance/harmony)
     secondary: TMDB_GENRES.ROMANCE,         // +1 pt
-    tertiary: null
+    tertiary: TMDB_GENRES.MYSTERY
   },
   triangle: {
     primary: TMDB_GENRES.THRILLER,          // +2 pts (tension/conflict)
@@ -179,7 +179,7 @@ symbols: {
   square: {
     primary: TMDB_GENRES.MYSTERY,           // +2 pts (structure/logic)
     secondary: TMDB_GENRES.CRIME,           // +1 pt
-    tertiary: null
+    tertiary: TMDB_GENRES.HORROR
   },
   wave: {
     primary: TMDB_GENRES.FANTASY,           // +2 pts (flow/emotion)
@@ -502,14 +502,26 @@ const getFilteredRecommendations = (rawMovies, userPrefs, allowRewatches = false
 };
 const CineMoodApp = () => {
   const [currentScreen, setCurrentScreen] = useState('setup');
-  const [userPrefs, setUserPrefs] = useState({
+  const [userPrefs, setUserPrefs] = useState(() => {
+  const savedPrefs = loadUserPrefs();
+  return savedPrefs || {
     letterboxd: '',
     platforms: [],
-    moodAnswers: {}
-  });
+    moodAnswers: {},
+    excludedGenreIds: [],
+    watchedMovies: []
+  };
+});
+//react imports
+  
   const [userRating, setUserRating] = useState(0);
-  const [isHalfStar, setIsHalfStar] = useState(false);
-  const [showExclusions, setShowExclusions] = useState(false);
+const [isHalfStar, setIsHalfStar] = useState(false);
+const [showExclusions, setShowExclusions] = useState(false);
+
+useEffect(() => {
+  saveUserPrefs(userPrefs);
+}, [userPrefs]);
+  
   const [questionIndex, setQuestionIndex] = useState(0);
   const [isSpinning, setIsSpinning] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState(null);
@@ -886,7 +898,26 @@ const generateQuestionSet = () => {
       : (prev.excludedGenreIds || []).filter(id => id !== genreId)
   }));
 };
+  //saved user data local storage
+const saveUserPrefs = (prefs) => {
+  try {
+    localStorage.setItem('cinemood-prefs', JSON.stringify(prefs));
+    console.log('Preferences saved to localStorage');
+  } catch (error) {
+    console.error('Failed to save preferences:', error);
+  }
+};
 
+const loadUserPrefs = () => {
+  try {
+    const saved = localStorage.getItem('cinemood-prefs');
+    return saved ? JSON.parse(saved) : null;
+  } catch (error) {
+    console.error('Failed to load preferences:', error);
+    return null;
+  }
+};
+  
   const getGenreName = (genreId) => {
   const genreNames = {
     28: 'Action', 18: 'Drama', 35: 'Comedy', 80: 'Crime', 
@@ -1213,15 +1244,11 @@ if (currentScreen === 'mood') {
       >
         <svg width="40" height="40" viewBox="0 0 50 50" className="mb-2">
           {symbol.id === 'circle' && <circle cx="25" cy="25" r="20" fill="#3b82f6" />}
-          {symbol.id === 'triangle' && <polygon points="25,5 5,45 45,45" fill="currentColor" />}
-          {symbol.id === 'square' && <rect x="5" y="5" width="40" height="40" fill="currentColor" />}
-          {symbol.id === 'wave' && <path d="M5,25 Q15,5 25,25 T45,25" stroke="currentColor" strokeWidth="3" fill="none" />}
-          {symbol.id === 'star' && <polygon points="25,5 30,20 45,20 35,30 40,45 25,35 10,45 15,30 5,20 20,20" fill="currentColor" />}
-         {symbol.id === 'spiral' &&
-         <path d="M25,25 L25.3,25.1 L25.6,25.3 L26,25.6 L26.3,26 L26.6,26.5 L26.9,27.1 L27.2,27.8 L27.4,28.5 L27.6,29.3 L27.7,30.1 L27.8,31 L27.8,31.9 L27.7,32.8 L27.6,33.7 L27.4,34.5 L27.1,35.3 L26.8,36.1 L26.4,36.8 L25.9,37.4 L25.4,37.9 L24.8,38.3 L24.2,38.6 L23.5,38.8 L22.8,38.9 L22,38.8 L21.2,38.6 L20.4,38.3 L19.6,37.9 L18.9,37.4 L18.3,36.8 L17.7,36.1 L17.2,35.3 L16.8,34.5 L16.5,33.7 L16.3,32.8 L16.2,31.9 L16.3,31 L16.5,30.1 L16.8,29.3 L17.2,28.5 L17.7,27.8 L18.3,27.1 L18.9,26.5 L19.6,26 L20.4,25.6 L21.2,25.3 L22,25.1 L22.8,25 L23.7,25.1 L24.5,25.3 L25.3,25.6"
-           stroke="currentColor" strokeWidth="2" fill="none" 
-    />}
-
+          {symbol.id === 'triangle' && <polygon points="25,5 5,45 45,45" fill="#F5AD3B" />}
+          {symbol.id === 'square' && <rect x="5" y="5" width="40" height="40" fill="#d8410a" />}
+          {symbol.id === 'wave' && <path d="M5,25 Q15,5 25,25 T45,25" stroke="currentColor" strokeWidth="3" fill="#3af463" />}
+          {symbol.id === 'star' && <polygon points="25,5 30,20 45,20 35,30 40,45 25,35 10,45 15,30 5,20 20,20" fill="#d6d6d6" />}
+       
         </svg>
         <span className="text-xs">{symbol.meaning}</span>
       </button>

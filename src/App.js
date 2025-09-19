@@ -887,6 +887,11 @@ const generateQuestionSet = () => {
   }));
 };
   
+  const getGenreName = (genreId) => {
+  const genreMap = Object.entries(TMDB_GENRES).find(([name, id]) => id === genreId);
+  return genreMap ? genreMap[0].toLowerCase().replace('_', ' ') : 'Unknown';
+};
+  
 const handleMoodAnswer = async (questionId, answerId) => {
   setUserPrefs(prev => ({
     ...prev,
@@ -1270,7 +1275,10 @@ if (currentScreen === 'mood') {
     className="bg-gray-700 border-2 border-gray-600 rounded-lg p-4 mb-4 cursor-pointer hover:border-green-500 transition-colors"
   >
     <div className="font-bold text-lg">{movie.title} ({movie.year})</div>
-    <div className="text-gray-400 text-sm mb-2">{movie.genre} • {movie.runtime} • {movie.platform}</div>
+   <div className="text-gray-400 text-sm mb-2">
+  {movie.genre_ids ? movie.genre_ids.map(id => getGenreName(id)).join(', ') : 'Unknown'} • {movie.runtime} • {movie.platform}
+</div>
+  
     <div className="bg-blue-900/50 p-2 rounded text-xs italic text-blue-300 mt-2">
       {movie.reason}
     </div>

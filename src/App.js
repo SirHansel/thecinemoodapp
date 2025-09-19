@@ -500,16 +500,7 @@ const getFilteredRecommendations = (rawMovies, userPrefs, allowRewatches = false
   
   return null; // Let existing fallbacks handle insufficient movies
 };
-const CineMoodApp = () => {
-  
-  const saveUserPrefs = (prefs) => {
-    try {
-      localStorage.setItem('cinemood-prefs', JSON.stringify(prefs));
-      console.log('Preferences saved to localStorage');
-    } catch (error) {
-      console.error('Failed to save preferences:', error);
-    }
-  };
+
 
   const loadUserPrefs = () => {
     try {

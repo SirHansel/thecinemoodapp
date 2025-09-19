@@ -501,8 +501,8 @@ const getFilteredRecommendations = (rawMovies, userPrefs, allowRewatches = false
   return null; // Let existing fallbacks handle insufficient movies
 };
 
-
-  const loadUserPrefs = () => {
+  
+const loadUserPrefs = () => {
     try {
       const saved = localStorage.getItem('cinemood-prefs');
       return saved ? JSON.parse(saved) : null;
@@ -916,16 +916,6 @@ const saveUserPrefs = (prefs) => {
     console.log('Preferences saved to localStorage');
   } catch (error) {
     console.error('Failed to save preferences:', error);
-  }
-};
-
-const loadUserPrefs = () => {
-  try {
-    const saved = localStorage.getItem('cinemood-prefs');
-    return saved ? JSON.parse(saved) : null;
-  } catch (error) {
-    console.error('Failed to load preferences:', error);
-    return null;
   }
 };
   

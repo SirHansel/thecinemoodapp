@@ -261,19 +261,25 @@ const calculateMoodScore = (moodAnswers) => {
 // ========================================
 // ENHANCED MOOD + TASTE INTEGRATION
 // ========================================
-const getMoodBasedMovies = async (moodAnswers, tasteProfile = null) => {
+const getMoodBasedMovies = async (moodAnswers, tasteProfile = null, excludedGenreIds = []) => {
   console.log('🎯 Starting mood + taste integration');
   
   const moodScore = calculateMoodScore(moodAnswers);
   let finalGenreSelection = moodScore.primaryGenre;
   
   // If user has taste data, apply 60/40 weighting
-  if (tasteProfile && tasteProfile.lovedMovies.length > 0) {
-    console.log('💝 Applying taste weighting (60% taste, 40% mood)');
-    finalGenreSelection = applyTasteWeighting(moodScore, tasteProfile);
-  } else {
-    console.log('🎭 Using pure mood scoring (no taste data)');
-  }
+if (tasteProfile && tasteProfile.lovedMovies.length > 0) {
+  console.log('💝 Applying taste weighting (60% taste, 40% mood)');
+  finalGenreSelection = applyTasteWeighting(moodScore, tasteProfile);
+} else {
+  console.log('🎭 Using pure mood scoring (no taste data)');
+}
+
+// Skip excluded genres
+if (excludedGenreIds && excludedGenreIds.includes(finalGenreSelection)) {
+  console.log('⚠️ Primary genre excluded, using secondary');
+  finalGenreSelection = moodScore.topGenres.find(g => !excludedGenreIds.includes(g.id))?.id || moodScore.primaryGenre;
+}
   
   try {
     let movies = await fetchMoviesByGenre(finalGenreSelection);
@@ -435,7 +441,15 @@ const applyAllFilters = (movies, userPrefs, allowRewatches = false) => {
   // Filter 1: Platform availability
   filteredMovies = filterByPlatforms(filteredMovies, userPrefs.platforms);
   
-  // Filter 2: Letterboxd watched movies (when implemented)
+  // Filter 2: Genre exclusions (NEW)
+  if (userPrefs.excludedGenreIds && userPrefs.excludedGenreIds.length > 0) {
+    const filteredByGenre = filteredMovies.filter(movie => {
+      return !movie.genre_ids?.some(genreId => userPrefs.excludedGenreIds?.includes(genreId));
+    });
+    console.log(`🚫 Genre filtering: ${filteredMovies.length} → ${filteredByGenre.length} movies`);
+    filteredMovies = filteredByGenre;
+  }
+  
   // filteredMovies = filterByWatchedMovies(filteredMovies, letterboxdData, allowRewatches);
   
   // Future filters can be added here:
@@ -517,7 +531,7 @@ const CineMoodApp = () => {
  const generateRecommendations = async () => {
   setLoading(true);
   try {
-    const result = await getMoodBasedMovies(userPrefs.moodAnswers, userPrefs.tasteProfile);
+    const result = await getMoodBasedMovies(userPrefs.moodAnswers, userPrefs.tasteProfile, userPrefs.excludedGenreIds);
 const movies = result?.movies;
     console.log('🎬 TMDB API Response:', movies);
     if (result) {

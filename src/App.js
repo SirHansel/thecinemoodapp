@@ -886,11 +886,16 @@ const generateQuestionSet = () => {
       : (prev.excludedGenreIds || []).filter(id => id !== genreId)
   }));
 };
-  
+
   const getGenreName = (genreId) => {
-  const genreMap = Object.entries(TMDB_GENRES).find(([name, id]) => id === genreId);
-  return genreMap ? genreMap[0].toLowerCase().replace('_', ' ') : 'Unknown';
+  const genreNames = {
+    28: 'Action', 18: 'Drama', 35: 'Comedy', 80: 'Crime', 
+    53: 'Thriller', 878: 'Science Fiction', 27: 'Horror',
+    10749: 'Romance', 14: 'Fantasy', 12: 'Adventure'
+  };
+  return genreNames[genreId] || 'Unknown';
 };
+
   
 const handleMoodAnswer = async (questionId, answerId) => {
   setUserPrefs(prev => ({
@@ -1214,19 +1219,8 @@ if (currentScreen === 'mood') {
           {symbol.id === 'star' && <polygon points="25,5 30,20 45,20 35,30 40,45 25,35 10,45 15,30 5,20 20,20" fill="currentColor" />}
          {symbol.id === 'spiral' &&
           <path 
-            d="M25,25 
-               C26,24 27,24 28,25 
-               C29,26 29,27 28,28 
-               C27,29 26,29 25,28 
-               C24,27 24,26 25,25 
-               C27,23 29,23 30,25 
-               C32,27 32,29 30,31 
-               C28,33 26,33 24,31 
-               C22,29 22,27 24,25 
-               C28,21 32,21 34,25 
-               C36,29 36,33 34,35 
-               C30,37 26,37 22,35 
-               C20,33 20,29 22,25" fill="currentColor"
+           <path d="M25,25 L25.3,25.1 L25.6,25.3 L26,25.6 L26.3,26 L26.6,26.5 L26.9,27.1 L27.2,27.8 L27.4,28.5 L27.6,29.3 L27.7,30.1 L27.8,31 L27.8,31.9 L27.7,32.8 L27.6,33.7 L27.4,34.5 L27.1,35.3 L26.8,36.1 L26.4,36.8 L25.9,37.4 L25.4,37.9 L24.8,38.3 L24.2,38.6 L23.5,38.8 L22.8,38.9 L22,38.8 L21.2,38.6 L20.4,38.3 L19.6,37.9 L18.9,37.4 L18.3,36.8 L17.7,36.1 L17.2,35.3 L16.8,34.5 L16.5,33.7 L16.3,32.8 L16.2,31.9 L16.3,31 L16.5,30.1 L16.8,29.3 L17.2,28.5 L17.7,27.8 L18.3,27.1 L18.9,26.5 L19.6,26 L20.4,25.6 L21.2,25.3 L22,25.1 L22.8,25 L23.7,25.1 L24.5,25.3 L25.3,25.6"
+           stroke="currentColor" strokeWidth="2" fill="none" /> fill="currentColor"
     />}
 
         </svg>
@@ -1276,6 +1270,13 @@ if (currentScreen === 'mood') {
   >
     <div className="font-bold text-lg">{movie.title} ({movie.year})</div>
    <div className="text-gray-400 text-sm mb-2">
+  //debug line for movie.platform
+            <div className="text-center mb-6">
+  <h3 className="text-xl font-bold mb-2">{movie.title}</h3>
+  {console.log('Movie data:', movie)}
+</div>
+  
+<div className="text-gray-400 text-sm mb-2">{movie.genre} • {movie.runtime} • {movie.platform}</div>
   {movie.genre_ids ? movie.genre_ids.map(id => getGenreName(id)).join(', ') : 'Unknown'} • {movie.runtime} • {movie.platform}
 </div>
   

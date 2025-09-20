@@ -1296,16 +1296,15 @@ if (currentScreen === 'mood') {
     onClick={() => handleWatchMovie(movie)}
     className="bg-gray-700 border-2 border-gray-600 rounded-lg p-4 mb-4 cursor-pointer hover:border-green-500 transition-colors"
   >
-    <div className="font-bold text-lg">{movie.title} ({movie.year})</div>
+   <div className="font-bold text-lg">{movie.title} ({movie.year})</div>
    <div className="text-gray-400 text-sm mb-2">
-  //debug line for movie.platform
-            <div className="text-center mb-6">
+   <div className="text-center mb-6">
   <h3 className="text-xl font-bold mb-2">{movie.title}</h3>
   {console.log('Movie data:', movie)}
 </div>
   
-<div className="text-gray-400 text-sm mb-2">{movie.genre} • {movie.runtime} • {movie.platform}</div>
-  {movie.genre_ids ? movie.genre_ids.map(id => getGenreName(id)).join(', ') : 'Unknown'} • {movie.runtime} • {movie.platform}
+<div className="text-gray-400 text-sm mb-2">
+   {movie.genre_ids ? movie.genre_ids.map(id => getGenreName(id)).join(', ') : 'Unknown'} • {movie.runtime} • {movie.platform}
 </div>
   
     <div className="bg-blue-900/50 p-2 rounded text-xs italic text-blue-300 mt-2">

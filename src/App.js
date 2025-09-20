@@ -1301,11 +1301,12 @@ if (currentScreen === 'mood') {
    <div className="text-center mb-6">
   <h3 className="text-xl font-bold mb-2">{movie.title}</h3>
   {console.log('Movie data:', movie)}
+<div>
+  <div className="text-gray-400 text-sm mb-2">
+     {movie.genre_ids ? movie.genre_ids.map(id => getGenreName(id)).join(', ') : 'Unknown'} • {movie.runtime} • {movie.platform}
+  </div>
 </div>
-  
-<div className="text-gray-400 text-sm mb-2">
-   {movie.genre_ids ? movie.genre_ids.map(id => getGenreName(id)).join(', ') : 'Unknown'} • {movie.runtime} • {movie.platform}
-</div>
+
   
     <div className="bg-blue-900/50 p-2 rounded text-xs italic text-blue-300 mt-2">
       {movie.reason}

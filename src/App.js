@@ -1000,7 +1000,7 @@ const handleMoodAnswer = async (questionId, answerId) => {
     storm: { 
       background: '#475569', // Vibrant slate
       borderColor: '#1e293b', // Darker slate
-      boxShadow: '0 4px 8px rgba(71, 85, 105, 0.4)',
+      boxShadow:  '0 0 10px rgba(96, 165, 250, 0.5)',  // 0 4px 8px rgba(71, 85, 105, 0.4) original
       backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\"40\" height=\"40\" viewBox=\"0 0 40 40\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cpath d=\"M0 40L40 0\" stroke=\"rgba(255,255,255,0.05)\" stroke-width=\"1\"/%3E%3C/svg%3E")' // Subtle storm lines
     }, // Moody, electric
     gold: { 

@@ -705,7 +705,7 @@ const QUESTION_POOLS = {
       question: "Your ideal movie palette:",
       options: [
         { id: 'neon', text: 'Electric Blues', subtext: 'Cold technology', style: 'neon' },
-        { id: 'earth', text: 'Warm Browns', subtext: 'Human stories', style: 'earth' }
+        { id: 'earth', text: 'Organic Tone', subtext: 'Human stories', style: 'earth' }
       ]
     }
   ]
@@ -755,7 +755,7 @@ character: {
     {
       question: "You Want Characters Who:",
       options: [
-        { id: 'struggle', text: 'Struggle Beautifully', subtext: 'Internal conflicts', style: 'shadow' },
+        { id: 'struggle', text: 'Struggle Beautifully', subtext: 'Internal conflicts', style: 'new' },
         { id: 'triumph', text: 'Triumph Boldly', subtext: 'External victories', style: 'gold' },
         { id: 'complex', text: 'Hide Secrets', subtext: 'Layered mysteries', style: 'puzzle' }
       ]
@@ -796,7 +796,7 @@ era: {
         { id: 'noir', text: 'Shadow & Smoke', subtext: 'Dark mystery', style: 'shadow' },
         { id: 'pop', text: 'Bright & Bold', subtext: 'Vibrant energy', style: 'gold' },
         { id: 'gritty', text: 'Rust & Amber', subtext: 'Weathered Glows', style: 'fire' },
-        { id: 'electric', text: 'Laser & Glass', subtext: 'Sharp Contrasts', style: 'comfort' }
+        { id: 'electric', text: 'Laser & Glass', subtext: 'Sharp Contrasts', style: 'escape' }
       ]
     }
   ]
@@ -969,9 +969,9 @@ const handleMoodAnswer = async (questionId, answerId) => {
       backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%)' // Subtle glow
     }, // Bright, electric vibe
     earth: { 
-      background: '#6b4e31', // Warm, vibrant brown
+      background: '#ff7e00', // Warm, vibrant brown
       borderColor: '#8c6b47', // Lighter tan
-      boxShadow: '0 4px 10px rgba(107, 78, 49, 0.3)',
+      boxShadow: '0 0 15px rgba(217, 70, 239, 0.5)', //old one 0 4px 10px rgba(107, 78, 49, 0.3)
       backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Crect x=\"0\" y=\"0\" width=\"20\" height=\"20\" fill=\"none\"/%3E%3Ccircle cx=\"10\" cy=\"10\" r=\"1\" fill=\"rgba(255,255,255,0.05)\"/%3C/svg%3E")' // Subtle noise
     }, // Organic, grounded texture
     spring: { 
@@ -1049,7 +1049,7 @@ const handleMoodAnswer = async (questionId, answerId) => {
       borderColor: '#57534e', // Darker tan
       boxShadow: '0 4px 8px rgba(120, 113, 108, 0.3)',
       backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Crect x=\"0\" y=\"0\" width=\"20\" height=\"20\" fill=\"none\"/%3E%3Ccircle cx=\"10\" cy=\"10\" r=\"1\" fill=\"rgba(255,255,255,0.05)\"/%3C/svg%3E")' // Retro texture
-    }, // Nostalgic, earthy
+    }, // Nostalgic, y
     eighties: { 
       background: 'linear-gradient(135deg, #ec4899, #8b5cf6)', // Neon pink to purple
       borderColor: '#db2777', // Bright pink
@@ -1074,8 +1074,8 @@ const handleMoodAnswer = async (questionId, answerId) => {
       backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 60%)'
     }, // Fresh, energetic
    comfort: { 
-  background: '#8b5c3c', // Warm cocoa
-  borderColor: '#6b4e31', // Darker brown
+  background: '#0f5c11', // Green and leafy
+  borderColor: '#006400', // 
   boxShadow: '0 4px 8px rgba(139, 92, 60, 0.3)',
   backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Ccircle cx=\"10\" cy=\"10\" r=\"1\" fill=\"rgba(255,255,255,0.05)\"/%3C/svg%3E")' // Cozy texture
 }, // Soft, inviting

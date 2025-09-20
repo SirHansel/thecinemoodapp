@@ -1280,69 +1280,63 @@ if (currentScreen === 'mood') {
 }
 
   // Results Screen
-  if (currentScreen === 'results') {
-    const recommendedMovies = recommendations;
-   
-    return (
-      <div className="min-h-screen bg-gray-900 text-gray-200 p-4">
-        <div className="max-w-md mx-auto bg-gray-800 rounded-lg p-6 border-2 border-gray-600">
-          <h2 className="text-center bg-gray-700 text-gray-200 p-3 rounded mb-6 text-lg font-bold">
-            Your Perfect Three
-          </h2>
-         
-          {Object.entries(recommendedMovies).map(([type, movie]) => (
-  <div 
-    key={type} 
-    onClick={() => handleWatchMovie(movie)}
-    className="bg-gray-700 border-2 border-gray-600 rounded-lg p-4 mb-4 cursor-pointer hover:border-green-500 transition-colors"
-  >
-   <div className="font-bold text-lg">{movie.title} ({movie.year})</div>
-   <div className="text-gray-400 text-sm mb-2">
-   <div className="text-center mb-6">
-  <h3 className="text-xl font-bold mb-2">{movie.title}</h3>
-  {console.log('Movie data:', movie)}
-<div>
-  <div className="text-gray-400 text-sm mb-2">
-     {movie.genre_ids ? movie.genre_ids.map(id => getGenreName(id)).join(', ') : 'Unknown'} • {movie.runtime} • {movie.platform}
-  </div>
-</div>
-
-  
-    <div className="bg-blue-900/50 p-2 rounded text-xs italic text-blue-300 mt-2">
-      {movie.reason}
-    </div>
-    <div className="text-green-400 text-sm mt-2 flex items-center">
-      <Play className="inline w-4 h-4 mr-1" />
-      Click to watch and rate
-    </div>
-  </div>
-))}
-         
-          <div className="grid grid-cols-2 gap-3">
-            <button
-              onClick={() => setCurrentScreen('decision')}
-              className="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded font-medium"
-            >
-              Can't Decide?
-            </button>
-           <button
-  onClick={() => {
-    setQuestionIndex(0); 
-    setUserPrefs(prev => ({...prev, moodAnswers: {}})); // Clear mood answers
-    setRecommendations(null); // Add this line
-    setCurrentRecommendations(null); // Add this line too
-    setCurrentScreen('mood');
-  }}
-  className="bg-gray-600 hover:bg-gray-700 text-white p-3 rounded font-medium"
->
-  <RotateCcw className="inline w-4 h-4 mr-2" />
-  Try Again
-</button>
+if (currentScreen === 'results') {
+  const recommendedMovies = recommendations;
+ 
+  return (
+    <div className="min-h-screen bg-gray-900 text-gray-200 p-4">
+      <div className="max-w-md mx-auto bg-gray-800 rounded-lg p-6 border-2 border-gray-600">
+        <h2 className="text-center bg-gray-700 text-gray-200 p-3 rounded mb-6 text-lg font-bold">
+          Your Perfect Three
+        </h2>
+       
+        {Object.entries(recommendedMovies).map(([type, movie]) => (
+          <div 
+            key={type} 
+            onClick={() => handleWatchMovie(movie)}
+            className="bg-gray-700 border-2 border-gray-600 rounded-lg p-4 mb-4 cursor-pointer hover:border-green-500 transition-colors"
+          >
+            <div className="font-bold text-lg">{movie.title} ({movie.year})</div>
+            <div className="text-gray-400 text-sm mb-2">
+              {movie.genre_ids ? movie.genre_ids.map(id => getGenreName(id)).join(', ') : 'Unknown'} • {movie.runtime} • {movie.platform}
+            </div>
+            <div className="bg-blue-900/50 p-2 rounded text-xs italic text-blue-300 mt-2">
+              {movie.reason}
+            </div>
+            <div className="text-green-400 text-sm mt-2 flex items-center">
+              <Play className="inline w-4 h-4 mr-1" />
+              Click to watch and rate
+            </div>
           </div>
+        ))}
+       
+        <div className="grid grid-cols-2 gap-3">
+          <button
+            onClick={() => setCurrentScreen('decision')}
+            className="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded font-medium"
+          >
+            Can't Decide?
+          </button>
+          <button
+            onClick={() => {
+              setQuestionIndex(0); 
+              setUserPrefs(prev => ({...prev, moodAnswers: {}}));
+              setRecommendations(null);
+              setCurrentRecommendations(null);
+              const newQuestionSet = generateQuestionSet();
+              setCurrentQuestionSet(newQuestionSet);
+              setCurrentScreen('mood');
+            }}
+            className="bg-gray-600 hover:bg-gray-700 text-white p-3 rounded font-medium"
+          >
+            <RotateCcw className="inline w-4 h-4 mr-2" />
+            Try Again
+          </button>
         </div>
       </div>
-    );
-  }
+    </div>
+  );
+}
 
   // Decision Screen
   if (currentScreen === 'decision') {
@@ -1352,8 +1346,7 @@ if (currentScreen === 'mood') {
           <h2 className="text-center bg-gray-700 text-gray-200 p-3 rounded mb-6 text-lg font-bold">
             Can't Decide?
           </h2>
-          );
-        }
+         
           <div className="text-center mb-6">
             <div
               className={`w-48 h-48 mx-auto rounded-full border-4 border-gray-600 flex items-center justify-center transition-transform duration-2000 ${isSpinning ? 'animate-spin' : ''}`}

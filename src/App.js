@@ -755,7 +755,7 @@ character: {
     {
       question: "You Want Characters Who:",
       options: [
-        { id: 'struggle', text: 'Struggle Beautifully', subtext: 'Internal conflicts', style: 'new' },
+        { id: 'struggle', text: 'Struggle Beautifully', subtext: 'Internal conflicts', style: 'sunset' },
         { id: 'triumph', text: 'Triumph Boldly', subtext: 'External victories', style: 'gold' },
         { id: 'complex', text: 'Hide Secrets', subtext: 'Layered mysteries', style: 'puzzle' }
       ]
@@ -815,7 +815,7 @@ era: {
     {
       question: "Tonight's engagement style:",
       options: [
-        { id: 'contemplative', text: 'Deep Reflection', subtext: 'Slow burn', style: 'shadow' },
+        { id: 'contemplative', text: 'Deep Reflection', subtext: 'Slow burn', style: 'forest' },
         { id: 'emotional', text: 'Heart Connection', subtext: 'Feel deeply', style: 'sunset' },
         { id: 'analytical', text: 'Mind Expansion', subtext: 'Think ahead', style: 'ice' }
       ]

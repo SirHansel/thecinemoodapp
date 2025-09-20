@@ -1071,19 +1071,18 @@ const handleMoodAnswer = async (questionId, answerId) => {
       boxShadow: '0 0 12px rgba(244, 208, 63, 0.6)',
       backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 60%)'
     }, // Fresh, energetic
-    comfort: { 
-      background: '#8b5c3c', // Warm cocoa
-      borderColor: '#6b4e31', // Darker brown
-      boxShadow: '0 4px 8px rgba(139, 92, 60, 0.3)',
-      backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Ccircle cx=\"10\" cy=\"10\" r=\"1\" fill=\"rgba(255,255,255,0.05)\"/%3C/svg%3E")' // Cozy texture
-    }, // Soft, inviting
-  };
+   comfort: { 
+  background: '#8b5c3c', // Warm cocoa
+  borderColor: '#6b4e31', // Darker brown
+  boxShadow: '0 4px 8px rgba(139, 92, 60, 0.3)',
+  backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Ccircle cx=\"10\" cy=\"10\" r=\"1\" fill=\"rgba(255,255,255,0.05)\"/%3C/svg%3E")' // Cozy texture
+}, // Soft, inviting
+};
+return styles[styleType] || {};
+}; 
 
-    return styles[styleType] || {};
-  };
-
-  // Setup Screen
-  if (currentScreen === 'setup') {
+// Setup Screen
+if (currentScreen === 'setup') {
     return (
       <div className="min-h-screen bg-gray-900 text-gray-200 p-4">
         <div className="max-w-md mx-auto bg-gray-800 rounded-lg p-6 border-2 border-gray-600">

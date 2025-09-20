@@ -992,8 +992,8 @@ const handleMoodAnswer = async (questionId, answerId) => {
       backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 60%)'
     }, // Warm, controlled flame
     ice: { 
-      background: '#60a5fa', // Bright frosty blue
-      borderColor: '#1d4ed8', // Deep sapphire
+      background: 'd9f4ff', // Bright frosty blue
+      borderColor: 'ebedff', // Deep sapphire
       boxShadow: '0 0 10px rgba(96, 165, 250, 0.5)',
       filter: 'brightness(1.1)' // Cool shimmer
     }, // Crisp, glacial

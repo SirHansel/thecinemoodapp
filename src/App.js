@@ -501,8 +501,18 @@ const getFilteredRecommendations = (rawMovies, userPrefs, allowRewatches = false
   return null; // Let existing fallbacks handle insufficient movies
 };
 
+const CineMoodApp = () => {
   
-const loadUserPrefs = () => {
+  const saveUserPrefs = (prefs) => {
+    try {
+      localStorage.setItem('cinemood-prefs', JSON.stringify(prefs));
+      console.log('Preferences saved to localStorage');
+    } catch (error) {
+      console.error('Failed to save preferences:', error);
+    }
+  };
+
+  const loadUserPrefs = () => {
     try {
       const saved = localStorage.getItem('cinemood-prefs');
       return saved ? JSON.parse(saved) : null;
@@ -523,9 +533,10 @@ const loadUserPrefs = () => {
       watchedMovies: []
     };
   });
+  
 //react imports
   
-  const [userRating, setUserRating] = useState(0);
+const [userRating, setUserRating] = useState(0);
 const [isHalfStar, setIsHalfStar] = useState(false);
 const [showExclusions, setShowExclusions] = useState(false);
 
@@ -908,15 +919,6 @@ const generateQuestionSet = () => {
       ? [...(prev.excludedGenreIds || []), genreId]
       : (prev.excludedGenreIds || []).filter(id => id !== genreId)
   }));
-};
-  //saved user data local storage
-const saveUserPrefs = (prefs) => {
-  try {
-    localStorage.setItem('cinemood-prefs', JSON.stringify(prefs));
-    console.log('Preferences saved to localStorage');
-  } catch (error) {
-    console.error('Failed to save preferences:', error);
-  }
 };
   
   const getGenreName = (genreId) => {

@@ -1352,7 +1352,8 @@ if (currentScreen === 'mood') {
           <h2 className="text-center bg-gray-700 text-gray-200 p-3 rounded mb-6 text-lg font-bold">
             Can't Decide?
           </h2>
-         
+          );
+        }
           <div className="text-center mb-6">
             <div
               className={`w-48 h-48 mx-auto rounded-full border-4 border-gray-600 flex items-center justify-center transition-transform duration-2000 ${isSpinning ? 'animate-spin' : ''}`}

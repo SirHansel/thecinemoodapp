@@ -487,6 +487,7 @@ const getFilteredRecommendations = (rawMovies, userPrefs, allowRewatches = false
 }
 
 return null; // Let existing fallbacks handle insufficient movies
+};
 
 const CineMoodApp = () => {
   

@@ -491,7 +491,6 @@ const getFilteredRecommendations = (rawMovies, userPrefs, allowRewatches = false
 }; 
 
 const CineMoodApp = () => {
-const CineMoodApp = () => {
   
   const saveUserPrefs = (prefs) => {
     try {

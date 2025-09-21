@@ -468,26 +468,38 @@ const getFilteredRecommendations = (rawMovies, userPrefs, allowRewatches = false
   const filteredMovies = applyAllFilters(rawMovies, userPrefs, allowRewatches);
   
   if (filteredMovies.length >= 3) {
-  const shuffled = filteredMovies.sort(() => 0.5 - Math.random());
+    const shuffled = filteredMovies.sort(() => 0.5 - Math.random());
+    
+    return {
+      safe: {
+        title: shuffled[0].title,
+        year: shuffled[0].release_date?.slice(0, 4) || 'Unknown',
+        genre: "Crime, Drama", 
+        runtime: "2h 31m",
+        platform: shuffled[0].availablePlatforms?.[0] || "Netflix",
+        reason: "🎯 Safe Bet: Available on your platforms"
+      },
+      stretch: {
+        title: shuffled[1].title,
+        year: shuffled[1].release_date?.slice(0, 4) || 'Unknown',
+        genre: "Thriller, Drama",
+        runtime: "2h 33m", 
+        platform: shuffled[1].availablePlatforms?.[0] || "Prime",
+        reason: "↗️ Stretch: Trending on your services"
+      },
+      wild: {
+        title: shuffled[2].title,
+        year: shuffled[2].release_date?.slice(0, 4) || 'Unknown',
+        genre: "Action, Crime",
+        runtime: "1h 44m",
+        platform: shuffled[2].availablePlatforms?.[0] || "Criterion", 
+        reason: "🎲 Wild Card: Hidden gem on your platforms"
+      }
+    };
+  }
   
-  return {
-    safe: { 
-      ...shuffled[0], 
-      reason: "🎯 Safe Bet: Available on your platforms" 
-    },
-    stretch: { 
-      ...shuffled[1], 
-      reason: "↗️ Stretch: Trending on your services" 
-    },
-    wild: { 
-      ...shuffled[2], 
-      reason: "🎲 Wild Card: Hidden gem on your platforms" 
-    }
-  };
-}
-
-return null; // Let existing fallbacks handle insufficient movies
-};
+  return null;
+}; 
 
 const CineMoodApp = () => {
   

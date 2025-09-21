@@ -694,166 +694,102 @@ const movies = result?.movies;
   
   // Question Rotation System - Multiple variations per mood category
 const QUESTION_POOLS = {
- aesthetic: {
-  variations: [
-    {
-      question: "Which are you in the mood for?",
-      options: [
-        { id: 'neon', text: 'Neon & Chrome', subtext: 'e.g Blade Runner', style: 'neon' },
-        { id: 'earth', text: 'Earth & Wood', subtext: 'e.g There Will Be Blood', style: 'earth' }
-      ]
-    },
-    {
-      question: "Which do you prefer?",
-      options: [
-        { id: 'neon', text: 'Electric Cityscape', subtext: 'Cyberpunk nights', style: 'neon' },
-        { id: 'earth', text: 'Natural Textures', subtext: 'Raw & Organic', style: 'earth' }
-      ]
-    },
-    {
-      question: "Pick your visual vibe:",
-      options: [
-        { id: 'neon', text: 'Synthetic Glow', subtext: 'Future Noir', style: 'neon' },
-        { id: 'earth', text: 'Weathered & Worn', subtext: 'Authentic Patina', style: 'earth' }
-      ]
-    },
-    {
-      question: "Tonight's aesthetic:",
-      options: [
-        { id: 'neon', text: 'Glowing Edges', subtext: 'Sharp contrasts', style: 'neon' },
-        { id: 'earth', text: 'Worn Surfaces', subtext: 'Lived-in spaces', style: 'earth' }
-      ]
-    },
-    // fix the colors for below hans, this is something to be either expanded on or turned into its own catagory
-    {
-      question: "Your ideal movie palette:",
-      options: [
-        { id: 'neon', text: 'Electric Blues', subtext: 'Cold technology', style: 'neon' },
-        { id: 'earth', text: 'Organic Tone', subtext: 'Human stories', style: 'earth' }
-      ]
-    }
-  ]
-},
-   energy: {
-  variations: [
-    {
-      question: "What is your energy right now?",
-      options: [
-        { id: 'spring', text: 'Coiled Spring', subtext: 'Ready to go', style: 'spring' },
-        { id: 'river', text: 'Slow River', subtext: 'Let it flow', style: 'river' }
-      ]
-    },
-    {
-      question: "How do you want to feel?",
-      options: [
-        { id: 'spring', text: 'Electric & Alert', subtext: 'High octane', style: 'fire' },
-        { id: 'river', text: 'Calm & Flowing', subtext: 'Steady current', style: 'ocean' }
-      ]
-    },
-    {
-      question: "Tonight's tempo:",
-      options: [
-        { id: 'spring', text: 'Lightning Strike', subtext: 'Quick bursts', style: 'storm' },
-        { id: 'river', text: 'Gentle Tide', subtext: 'Rhythmic Waves', style: 'ice' }
-      ]
-    },
-    {
-      question: "Your ideal pacing:",
-      options: [
-        { id: 'spring', text: 'Rapid Fire', subtext: 'Keep moving', style: 'gold' },
-        { id: 'river', text: 'Steady Flow', subtext: 'Natural rhythm', style: 'forest' }
-      ]
-    },
-    {
-      question: "Energy preference:",
-      options: [
-        { id: 'spring', text: 'Explosive Moments', subtext: 'Intense peaks', style: 'sunset' },
-        { id: 'river', text: 'Slow Build', subtext: 'Enduring strength', style: 'shadow' }
-      ]
-    }
-  ]
-},
-  
-character: {
-  variations: [
-    {
-      question: "You Want Characters Who:",
-      options: [
-        { id: 'struggle', text: 'Struggle Beautifully', subtext: 'Internal conflicts', style: 'sunset' },
-        { id: 'triumph', text: 'Triumph Boldly', subtext: 'External victories', style: 'gold' },
-        { id: 'complex', text: 'Hide Secrets', subtext: 'Layered mysteries', style: 'puzzle' }
-      ]
-    },
-    {
-      question: "Your Ideal Protagonist:",
-      options: [
-        { id: 'flawed', text: 'Flawed & Real', subtext: 'Human Failures and Triumphs', style: 'earth' },
-        { id: 'heroic', text: 'Noble & Strong', subtext: 'Clear purpose', style: 'fire' },
-        { id: 'driven', text: 'Obsessed & Focused', subtext: 'Single mission', style: 'ice' }
-      ]
-    },
-  {
-      question: "Characters Journeys You Crave:",
-      options: [
-        { id: 'struggle', text: 'Struggle Beautifully', subtext: 'Internal conflicts', style: 'shadow' },
-        { id: 'triumph', text: 'Overcome', subtext: 'External Victories', style: 'gold' },
-        { id: 'driven', text: 'On A Mission', subtext: 'Focused Goal', style: 'ocean' }
-      ]
-    },
-  ]
-},
-
-era: {
-  variations: [
-    {
-      question: "What color speaks to you tonight?",
-      options: [
-        { id: 'vintage', text: 'Sepia & Burgundy', subtext: 'Classical warmth', style: 'sunset' },
-        { id: 'gritty', text: 'Earthy & Concrete', subtext: 'Raw Textures', style: 'earth' },
-        { id: 'electric', text: 'Neon & Chrome', subtext: 'Electrical Energy', style: 'neon' },
-        { id: 'digital', text: 'Matrix & Steel', subtext: 'Digital Cool', style: 'ice' }
-      ]
-    },
-    {
-      question: "Tonight's visual palette:",
-      options: [
-        { id: 'noir', text: 'Shadow & Smoke', subtext: 'Dark mystery', style: 'shadow' },
-        { id: 'pop', text: 'Bright & Bold', subtext: 'Vibrant energy', style: 'gold' },
-        { id: 'gritty', text: 'Rust & Amber', subtext: 'Weathered Glows', style: 'fire' },
-        { id: 'electric', text: 'Laser & Glass', subtext: 'Sharp Contrasts', style: 'escape' }
-      ]
-    }
-  ]
-},
-
- mood: {
-  variations: [
-    {
-      question: "Your mind craves:",
-      options: [
-        { id: 'puzzle', text: 'Mental Challenge', subtext: 'Figure it out', style: 'storm' },
-        { id: 'escape', text: 'Pure Immersion', subtext: 'Get lost', style: 'forest' },
-        { id: 'visceral', text: 'Raw Impact', subtext: 'Feel the rush', style: 'fire' }
-      ]
-    },
-    {
-      question: "Tonight's engagement style:",
-      options: [
-        { id: 'contemplative', text: 'Deep Reflection', subtext: 'Slow burn', style: 'forest' },
-        { id: 'emotional', text: 'Heart Connection', subtext: 'Feel deeply', style: 'sunset' },
-        { id: 'analytical', text: 'Mind Expansion', subtext: 'Think ahead', style: 'ice' }
-      ]
-    }
-  ]
-},
-
+  aesthetic: {
+    variations: [
+      {
+        question: "What world do you want to sink into tonight?",
+        options: [
+          { id: 'neon', text: 'Pulsing Neon Streets', subtext: 'Electric nights humming with mystery', style: 'neon', points: { sciFi: 2, thriller: 1 } },
+          { id: 'earth', text: 'Ancient Earthen Paths', subtext: 'Worn trails grounded in timeless stories', style: 'earth', points: { drama: 2, emotional: 1 } },
+          { id: 'gold', text: 'Golden Radiant Halls', subtext: 'Opulent glows of triumph and luxury', style: 'gold', points: { fantasy: 2, adventure: 1 } }
+        ]
+      },
+      {
+        question: "What visual mood calls to you?",
+        options: [
+          { id: 'sunset', text: 'Fading Sunset Hues', subtext: 'Warm oranges melting into wistful yellows', style: 'sunset', points: { emotional: 2, romance: 1 } },
+          { id: 'shadow', text: 'Veiled Shadowy Corners', subtext: 'Mysterious blues cloaked in intrigue', style: 'shadow', points: { mystery: 2, thriller: 1 } },
+          { id: 'eighties', text: 'Retro Neon Flash', subtext: 'Vibrant pinks and blues of nostalgic pop', style: 'eighties', points: { comedy: 2, adventure: 1 } }
+        ]
+      },
+      {
+        question: "What cinematic palette stirs your soul?",
+        options: [
+          { id: 'storm', text: 'Stormy Tempest Skies', subtext: 'Turbulent grays charged with drama', style: 'storm', points: { action: 2, thriller: 1 } },
+          { id: 'spring', text: 'Blossoming Spring Fields', subtext: 'Vivid pinks and greens bursting with life', style: 'spring', points: { romance: 2, uplifting: 1 } },
+          { id: 'seventies', text: 'Warm Retro Tones', subtext: 'Earthy ambers of nostalgic warmth', style: 'seventies', points: { emotional: 2, drama: 1 } }
+        ]
+      }
+    ]
+  },
+  energy: {
+    variations: [
+      {
+        question: "What rhythm moves you tonight?",
+        options: [
+          { id: 'fire', text: 'Crackling Fire Sparks', subtext: 'Fiery bursts of passion and intensity', style: 'fire', points: { action: 2, adventure: 1 } },
+          { id: 'river', text: 'Gentle River Currents', subtext: 'Steady flow of calm and serenity', style: 'river', points: { emotional: 2, romance: 1 } },
+          { id: 'escape', text: 'Free-Spirited Breeze', subtext: 'Liberating rush of open skies', style: 'escape', points: { adventure: 2, uplifting: 1 } }
+        ]
+      },
+      {
+        question: "What tempo sets your heart racing?",
+        options: [
+          { id: 'triumph', text: 'Triumphant Surge', subtext: 'Golden bursts of victory and thrill', style: 'triumph', points: { action: 2, uplifting: 1 } },
+          { id: 'ice', text: 'Frosty Stillness', subtext: 'Crisp blues of quiet intensity', style: 'ice', points: { drama: 2, mystery: 1 } },
+          { id: 'new', text: 'Fresh Dawn Pulse', subtext: 'Bright yellows of new beginnings', style: 'new', points: { uplifting: 2, comedy: 1 } }
+        ]
+      }
+    ]
+  },
+  character: {
+    variations: [
+      {
+        question: "Whose journey do you want to feel?",
+        options: [
+          { id: 'struggle', text: 'Wounded Dreamer', subtext: 'Violets of resilience and inner battles', style: 'struggle', points: { drama: 2, emotional: 1 } },
+          { id: 'triumph', text: 'Bold Victor', subtext: 'Golden hues of overcoming odds', style: 'triumph', points: { action: 2, adventure: 1 } },
+          { id: 'puzzle', text: 'Enigmatic Wanderer', subtext: 'Grays of secrets waiting to unfold', style: 'puzzle', points: { mystery: 2, thriller: 1 } }
+        ]
+      },
+      {
+        question: "What hero’s heart resonates with you?",
+        options: [
+          { id: 'forest', text: 'Nature’s Guardian', subtext: 'Green depths of grounded purpose', style: 'forest', points: { adventure: 2, emotional: 1 } },
+          { id: 'fire', text: 'Fiery Rebel', subtext: 'Burning reds of defiance and passion', style: 'fire', points: { action: 2, drama: 1 } },
+          { id: 'ocean', text: 'Tide’s Explorer', subtext: 'Blues and whites of boundless quests', style: 'ocean', points: { adventure: 2, fantasy: 1 } }
+        ]
+      }
+    ]
+  },
+  mood: {
+    variations: [
+      {
+        question: "What emotion do you want to embrace?",
+        options: [
+          { id: 'comfort', text: 'Warm Embrace', subtext: 'Cozy beiges of safety and nostalgia', style: 'comfort', points: { emotional: 2, romance: 1 } },
+          { id: 'storm', text: 'Electric Tension', subtext: 'Charged grays of thrilling unrest', style: 'storm', points: { thriller: 2, action: 1 } },
+          { id: 'spring', text: 'Joyful Renewal', subtext: 'Pink and green bursts of hope', style: 'spring', points: { uplifting: 2, comedy: 1 } }
+        ]
+      },
+      {
+        question: "What feeling pulls you tonight?",
+        options: [
+          { id: 'shadow', text: 'Quiet Introspection', subtext: 'Muted blues of hidden thoughts', style: 'shadow', points: { drama: 2, mystery: 1 } },
+          { id: 'gold', text: 'Radiant Pride', subtext: 'Golden glows of achievement', style: 'gold', points: { uplifting: 2, adventure: 1 } },
+          { id: 'river', text: 'Serene Flow', subtext: 'Teal and cyan waves of peace', style: 'river', points: { emotional: 2, romance: 1 } }
+        ]
+      }
+    ]
+  },
   discovery: {
     variations: [
       {
-        question: "New discovery or comfort rewatch?",
+        question: "What journey do you crave?",
         options: [
-          { id: 'new', text: 'Something New', subtext: 'Adventure awaits', style: 'new' },
-          { id: 'comfort', text: 'Beloved Classic', subtext: 'Safe harbor', style: 'comfort' }
+          { id: 'new', text: 'Uncharted Horizons', subtext: 'Bright yellows of fresh adventures', style: 'new', points: { adventure: 2, fantasy: 1 } },
+          { id: 'comfort', text: 'Familiar Shores', subtext: 'Warm beiges of beloved tales', style: 'comfort', points: { emotional: 2, romance: 1 } },
+          { id: 'escape', text: 'Wild Unknown', subtext: 'Teal winds of freedom and thrill', style: 'escape', points: { adventure: 2, uplifting: 1 } }
         ]
       }
     ]

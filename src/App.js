@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Play, RotateCcw, Settings, Star, ThumbsUp } from 'lucide-react';
-import { fetchMoviesByGenre } from './tmdbApi';
+import { fetchMoviesByGenre, fetchMovieDetails } from './tmdbApi';
 import { parseLetterboxdCSV, analyzeUserTaste, combineRatingsWithTaste } from './letterboxdApi';
 // ========================================
 // HYBRID SCORING SYSTEM
@@ -464,7 +464,6 @@ const applyAllFilters = (movies, userPrefs, allowRewatches = false) => {
 // INTEGRATION POINT
 // ========================================
 // Add this to your generateRecommendations function after getting TMDB movies
-// Add this to your generateRecommendations function after getting TMDB movies
 const getFilteredRecommendations = (rawMovies, userPrefs, allowRewatches = false) => {
   const filteredMovies = applyAllFilters(rawMovies, userPrefs, allowRewatches);
   
@@ -487,8 +486,44 @@ const getFilteredRecommendations = (rawMovies, userPrefs, allowRewatches = false
     };
   }
   
-  return null; // Let existing fallbacks handle insufficient movies
-}; 
+  return null;
+};
+
+const getDetailedRecommendations = async (rawMovies, userPrefs, allowRewatches = false) => {
+  const filteredMovies = applyAllFilters(rawMovies, userPrefs, allowRewatches);
+  
+  if (filteredMovies.length >= 3) {
+    const shuffled = filteredMovies.sort(() => 0.5 - Math.random());
+    const selectedMovies = [shuffled[0], shuffled[1], shuffled[2]];
+    
+    const detailedMovies = await Promise.all(
+      selectedMovies.map(async (movie) => {
+        const details = await fetchMovieDetails(movie.id);
+        return {
+          ...movie,
+          runtime: details?.runtime || Math.floor(Math.random() * 60) + 90
+        };
+      })
+    );
+    
+    return {
+      safe: { 
+        ...detailedMovies[0], 
+        reason: "🎯 Safe Bet: Available on your platforms" 
+      },
+      stretch: { 
+        ...detailedMovies[1], 
+        reason: "↗️ Stretch: Trending on your services" 
+      },
+      wild: { 
+        ...detailedMovies[2], 
+        reason: "🎲 Wild Card: Hidden gem on your platforms" 
+      }
+    };
+  }
+  
+  return null;
+};
 
 const CineMoodApp = () => {
   

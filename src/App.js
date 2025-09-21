@@ -1287,11 +1287,12 @@ if (currentScreen === 'results') {
             className="bg-gray-700 border-2 border-gray-600 rounded-lg p-4 mb-4 cursor-pointer hover:border-green-500 transition-colors"
           >
             
-              <div className="font-bold text-lg">{movie.title} ({movie.year})</div>
-           <div className="text-gray-400 text-sm mb-2">
-  {console.log('Full movie object:', movie)}
-  {console.log('Genre IDs:', movie.genre_ids)}
-  {movie.genre_ids ? movie.genre_ids.map(id => getGenreName(id)).join(', ') : 'Unknown'} • {movie.runtime} • {movie.platform}
+ <div className="font-bold text-lg">{movie.title} ({movie.release_date?.slice(0, 4) || 'Unknown'})</div>
+  
+  <div className="text-gray-400 text-sm mb-2">
+  {movie.genre_ids ? movie.genre_ids.map(id => getGenreName(id)).join(', ') : 'Unknown'} • 
+  {movie.runtime ? `${movie.runtime}m` : 'Unknown runtime'} • 
+  {movie.availablePlatforms?.[0] || 'Unknown platform'}
 </div>
             <div className="bg-blue-900/50 p-2 rounded text-xs italic text-blue-300 mt-2">
               {movie.reason}

@@ -468,25 +468,25 @@ const getFilteredRecommendations = (rawMovies, userPrefs, allowRewatches = false
   const filteredMovies = applyAllFilters(rawMovies, userPrefs, allowRewatches);
   
   if (filteredMovies.length >= 3) {
-    const shuffled = filteredMovies.sort(() => 0.5 - Math.random());
-    
-    return {
-  safe: { 
-    ...shuffled[0], 
-    reason: "🎯 Safe Bet: Available on your platforms" 
-  },
-  stretch: { 
-    ...shuffled[1], 
-    reason: "↗️ Stretch: Trending on your services" 
-  },
-  wild: { 
-    ...shuffled[2], 
-    reason: "🎲 Wild Card: Hidden gem on your platforms" 
-    };
-  }
+  const shuffled = filteredMovies.sort(() => 0.5 - Math.random());
   
-  return null; // Let existing fallbacks handle insufficient movies
-};
+  return {
+    safe: { 
+      ...shuffled[0], 
+      reason: "🎯 Safe Bet: Available on your platforms" 
+    },
+    stretch: { 
+      ...shuffled[1], 
+      reason: "↗️ Stretch: Trending on your services" 
+    },
+    wild: { 
+      ...shuffled[2], 
+      reason: "🎲 Wild Card: Hidden gem on your platforms" 
+    }
+  };
+}
+
+return null; // Let existing fallbacks handle insufficient movies
 
 const CineMoodApp = () => {
   

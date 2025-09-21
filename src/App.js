@@ -987,125 +987,91 @@ const handleMoodAnswer = async (questionId, answerId) => {
   const getMoodCardStyle = (styleType) => {
   const styles = {
     neon: { 
-      background: '#d946ef', // Vibrant magenta
-      borderColor: '#a21caf', // Softer purple
-      boxShadow: '0 0 15px rgba(217, 70, 239, 0.5)', // Neon glow
-      backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%)' // Subtle glow
-    }, // Bright, electric vibe
+      background: 'linear-gradient(135deg, #1a103d, #6d28d9, #d946ef, #f4a261, #fde047)', 
+      borderColor: '#d946ef' 
+    }, // Pulsing energy of city lights at dusk, evoking excitement and mystery with vibrant purples fading to golden warmth
     earth: { 
-      background: '#ff7e00', // Warm, vibrant brown
-      borderColor: '#8c6b47', // Lighter tan
-      boxShadow: '0 0 15px rgba(217, 70, 239, 0.5)', //old one 0 4px 10px rgba(107, 78, 49, 0.3)
-      backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Crect x=\"0\" y=\"0\" width=\"20\" height=\"20\" fill=\"none\"/%3E%3Ccircle cx=\"10\" cy=\"10\" r=\"1\" fill=\"rgba(255,255,255,0.05)\"/%3C/svg%3E")' // Subtle noise
-    }, // Organic, grounded texture
+      background: 'linear-gradient(135deg, #1c1208, #4a2c1b, #8c6239, #d97706, #fde68a)', 
+      borderColor: '#8c6239' 
+    }, // Grounded stability of ancient soil, blending deep browns with amber highlights to stir feelings of security and growth
     spring: { 
-      background: 'linear-gradient(135deg, #f472b6, #fb923c)', // Soft pink to vibrant orange
-      borderColor: '#fb7185', // Gentle coral
-      boxShadow: '0 4px 12px rgba(251, 113, 60, 0.4)'
-    }, // Warm, blooming energy
+      background: 'linear-gradient(135deg, #a8113e, #e86b3a, #f7d08a, #bef264, #86efac)', 
+      borderColor: '#e86b3a' 
+    }, // Renewal and joy of blooming fields, from passionate rose to sunny gold and fresh greens, inspiring hope and vitality
     river: { 
-      background: '#2dd4bf', // Bright turquoise
-      borderColor: '#0d9488', // Deep teal
-      boxShadow: '0 0 10px rgba(45, 212, 191, 0.5)',
-      backgroundImage: 'radial-gradient(circle at 30% 30%, rgba(255,255,255,0.2), transparent 80%)' // Fluid shimmer
-    }, // Flowing, refreshing
+      background: 'linear-gradient(135deg, #0a3d3b, #1a8c8a, #5cc8d7, #a5f3fc, #ecfeff)', 
+      borderColor: '#1a8c8a' 
+    }, // Flowing serenity of a winding stream, deep teals transitioning to sparkling cyan and icy whites for calm and reflection
     fire: { 
-      background: '#f87171', // Softer coral red
-      borderColor: '#e11d48', // Muted rose
-      boxShadow: '0 0 12px rgba(248, 113, 113, 0.6)', // Warm glow
-      backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 60%)'
-    }, // Warm, controlled flame
+      background: 'linear-gradient(135deg, #3c0f0f, #a61e2e, #f05941, #fde047, #fef08a)', 
+      borderColor: '#a61e2e' 
+    }, // Passionate warmth of a hearth flame, smoldering reds to bright oranges and yellows, igniting courage and energy
     ice: { 
-      background: 'd9f4ff', // Bright frosty blue
-      borderColor: 'ebedff', // Deep sapphire
-      boxShadow: '0 0 10px rgba(96, 165, 250, 0.5)',
-      filter: 'brightness(1.1)' // Cool shimmer
-    }, // Crisp, glacial
+      background: 'linear-gradient(135deg, #0d1e4a, #3467d6, #a4cafe, #dbeafe, #f0f9ff)', 
+      borderColor: '#3467d6' 
+    }, // Crisp clarity of frozen landscapes, deep blues lightening to pale frost, evoking purity and introspective peace
     storm: { 
-      background: '#475569', // Vibrant slate
-      borderColor: '#1e293b', // Darker slate
-      boxShadow:  '0 0 10px rgba(96, 165, 250, 0.5)',  // 0 4px 8px rgba(71, 85, 105, 0.4) original
-      backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\"40\" height=\"40\" viewBox=\"0 0 40 40\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cpath d=\"M0 40L40 0\" stroke=\"rgba(255,255,255,0.05)\" stroke-width=\"1\"/%3E%3C/svg%3E")' // Subtle storm lines
-    }, // Moody, electric
+      background: 'linear-gradient(135deg, #111827, #2d3e50, #64748b, #94a3b8, #cbd5e1)', 
+      borderColor: '#2d3e50' 
+    }, // Turbulent power of approaching thunder, dark grays building to lighter silvers, stirring anticipation and resilience
     gold: { 
-      background: '#eab308', // Bright gold
-      borderColor: '#b45309', // Amber
-      boxShadow: '0 0 15px rgba(234, 179, 8, 0.6)', // Metallic sheen
-      backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.2) 10%, transparent 70%)'
-    }, // Luxurious, radiant
+      background: 'linear-gradient(135deg, #3f2a12, #b8860b, #e6b800, #fde047, #fef08a)', 
+      borderColor: '#b8860b' 
+    }, // Luxurious glow of hidden treasure, rich bronzes to radiant yellows, inspiring ambition and triumphant joy
     ocean: { 
-      background: '#38bdf8', // Vivid sea blue
-      borderColor: '#075985', // Deep ocean
-      boxShadow: '0 0 10px rgba(56, 189, 248, 0.5)',
-      backgroundImage: 'radial-gradient(circle at 20% 80%, rgba(255,255,255,0.15), transparent 70%)' // Wave-like shimmer
-    }, // Deep, flowing
+      background: 'linear-gradient(135deg, #042f4b, #087ea4, #4ab8e8, #a5f3fc, #ecfeff, #ffffff)', 
+      borderColor: '#087ea4' 
+    }, // Vast mystery of the deep sea, from abyssal blues to foaming whites, evoking wonder, depth, and boundless freedom
     forest: { 
-      background: '#22c55e', // Bright emerald
-      borderColor: '#15803d', // Dark green
-      boxShadow: '0 4px 10px rgba(34, 197, 94, 0.4)',
-      backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\"30\" height=\"30\" viewBox=\"0 0 30 30\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Ccircle cx=\"15\" cy=\"15\" r=\"2\" fill=\"rgba(255,255,255,0.05)\"/%3C/svg%3E")' // Leafy texture
-    }, // Lush, vibrant
+      background: 'linear-gradient(135deg, #0b2e13, #1a6642, #4da865, #86efac, #bbf7d0)', 
+      borderColor: '#1a6642' 
+    }, // Lush vitality of ancient woods, dark greens brightening to fresh limes, awakening connection to nature and renewal
     sunset: { 
-      background: 'linear-gradient(135deg, #fb923c, #facc15)', // Orange to golden yellow
-      borderColor: '#ea580c', // Warm coral
-      boxShadow: '0 0 12px rgba(250, 204, 21, 0.5)'
-    }, // Radiant, warm
+      background: 'linear-gradient(135deg, #4b1c0a, #c2410c, #f59e0b, #fde047, #fef08a)', 
+      borderColor: '#c2410c' 
+    }, // Melancholic beauty of fading light, fiery oranges to soft yellows, stirring gratitude and peaceful reflection
     shadow: { 
-      background: '#1e293b', // Deep smoky blue
-      borderColor: '#0f172a', // Near-black
-      boxShadow: '0 4px 8px rgba(30, 41, 59, 0.5)',
-      backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 80%)' // Subtle mist
-    }, // Mysterious, subdued
+      background: 'linear-gradient(135deg, #0a101e, #1e2a44, #455575, #64748b, #94a3b8)', 
+      borderColor: '#1e2a44' 
+    }, // Enigmatic allure of twilight veils, deep indigos to muted grays, evoking introspection and hidden potential
     struggle: { 
-      background: '#a78bfa', // Vibrant purple
-      borderColor: '#6d28d9', // Deep violet
-      boxShadow: '0 0 10px rgba(167, 139, 250, 0.5)',
-      filter: 'brightness(1.1)' // Emotional glow
-    }, // Intense, reflective
+      background: 'linear-gradient(135deg, #2e1065, #6d28d9, #a855f7, #d8b4fe, #f3e8ff)', 
+      borderColor: '#6d28d9' 
+    }, // Resilient tension of inner battles, dark violets lifting to soft lavenders, inspiring perseverance and growth
     triumph: { 
-      background: '#fb923c', // Bright coral
-      borderColor: '#c2410c', // Muted orange
-      boxShadow: '0 0 12px rgba(251, 146, 60, 0.6)',
-      backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 60%)'
-    }, // Victorious, warm
-    gritty: { 
-      background: '#78716c', // Warm taupe
-      borderColor: '#57534e', // Darker tan
-      boxShadow: '0 4px 8px rgba(120, 113, 108, 0.3)',
-      backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Crect x=\"0\" y=\"0\" width=\"20\" height=\"20\" fill=\"none\"/%3E%3Ccircle cx=\"10\" cy=\"10\" r=\"1\" fill=\"rgba(255,255,255,0.05)\"/%3C/svg%3E")' // Retro texture
-    }, // Nostalgic, y
+      background: 'linear-gradient(135deg, #7f1d1d, #ea580c, #facc15, #fde047, #fef08a)', 
+      borderColor: '#ea580c' 
+    }, // Exhilarating rush of victory, bold crimsons to golden highs, fueling pride and unbridled celebration
+    seventies: { 
+      background: 'linear-gradient(135deg, #2c1608, #6b3f2a, #9e6f4d, #d97706, #fde68a)', 
+      borderColor: '#9e6f4d' 
+    }, // Nostalgic warmth of retro vibes, earthy walnuts to sunny ambers, evoking comfort and carefree memories
     eighties: { 
-      background: 'linear-gradient(135deg, #ec4899, #8b5cf6)', // Neon pink to purple
-      borderColor: '#db2777', // Bright pink
-      boxShadow: '0 0 15px rgba(236, 72, 153, 0.5)'
-    }, // Bold, retro-pop
+      background: 'linear-gradient(135deg, #0c1549, #4f46e5, #db2777, #f472b6, #fda4af)', 
+      borderColor: '#db2777' 
+    }, // Electric nostalgia of pop culture, midnight blues to neon pinks, sparking fun and bold self-expression
     puzzle: { 
-      background: '#4b5e7a', // Vibrant grey-blue
-      borderColor: '#2d3e50', // Darker grey
-      boxShadow: '0 4px 8px rgba(75, 94, 122, 0.4)',
-      backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\"30\" height=\"30\" viewBox=\"0 0 30 30\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cpath d=\"M15 0L15 30M0 15H30\" stroke=\"rgba(255,255,255,0.05)\" stroke-width=\"1\"/%3E%3C/svg%3E")' // Grid-like pattern
-    }, // Enigmatic, structured
+      background: 'linear-gradient(135deg, #1c2526, #3a4f50, #6c8294, #94a3b8, #cbd5e1)', 
+      borderColor: '#3a4f50' 
+    }, // Intriguing complexity of enigmas, charcoal grays to enigmatic silvers, stimulating curiosity and insight
     escape: { 
-      background: '#14b8a6', // Bright teal
-      borderColor: '#0f766e', // Deep teal
-      boxShadow: '0 0 10px rgba(20, 184, 166, 0.5)',
-      backgroundImage: 'radial-gradient(circle at 40% 20%, rgba(255,255,255,0.2), transparent 70%)' // Airy flow
-    }, // Free, vibrant
+      background: 'linear-gradient(135deg, #0a3c2e, #0d9488, #34d399, #86efac, #bbf7d0)', 
+      borderColor: '#0d9488' 
+    }, // Liberating rush of freedom, deep jades to vibrant teals, inspiring adventure and rejuvenation
     new: { 
-      background: '#f4d03f', // Bright yellow
-      borderColor: '#d97706', // Amber
-      boxShadow: '0 0 12px rgba(244, 208, 63, 0.6)',
-      backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 60%)'
-    }, // Fresh, energetic
-   comfort: { 
-  background: '#0f5c11', // Green and leafy
-  borderColor: '#006400', // 
-  boxShadow: '0 4px 8px rgba(139, 92, 60, 0.3)',
-  backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Ccircle cx=\"10\" cy=\"10\" r=\"1\" fill=\"rgba(255,255,255,0.05)\"/%3C/svg%3E")' // Cozy texture
-}, // Soft, inviting
+      background: 'linear-gradient(135deg, #7c2d12, #f97316, #fed7aa, #fef08a, #ffffff)', 
+      borderColor: '#f97316' 
+    }, // Fresh dawn of possibilities, burnt oranges to pure whites, evoking optimism and new beginnings
+    comfort: { 
+      background: 'linear-gradient(135deg, #3e2c1e, #6c4a30, #9a7b5a, #d97706, #fde68a)', 
+      borderColor: '#9a7b5a' 
+    }, // Soothing embrace of home, cozy cocoas to warm beiges, fostering security and gentle nostalgia
+  };
+  return styles[styleType] || { 
+    background: 'linear-gradient(135deg, #1f2937, #4b5563, #9ca3af)', 
+    borderColor: '#4b5563' 
+  };
 };
-return styles[styleType] || {};
-}; 
 
 // Setup Screen
 if (currentScreen === 'setup') {

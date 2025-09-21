@@ -29,7 +29,7 @@ export const fetchMoviesByGenre = async (genreId) => {
 };
 
 // Add this function after your existing TMDB functions
-const fetchMovieDetails = async (movieId) => {
+export const fetchMovieDetails = async (movieId) => {
   try {
     const response = await fetch(
       `${TMDB_BASE_URL}/movie/${movieId}?api_key=${TMDB_API_KEY}`,

@@ -466,7 +466,7 @@ const applyAllFilters = (movies, userPrefs, allowRewatches = false) => {
 // Add this to your generateRecommendations function after getting TMDB movies
 // Add this to your generateRecommendations function after getting TMDB movies
 const getFilteredRecommendations = (rawMovies, userPrefs, allowRewatches = false) => {
-  const filteredMovies = applyAllFilters(rawMovies, userPrefs, allowRewatches);
+  const movieRecs = await getDetailedRecommendations(movies, userPrefs);
   
   if (filteredMovies.length >= 3) {
     const shuffled = filteredMovies.sort(() => 0.5 - Math.random());

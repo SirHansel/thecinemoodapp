@@ -1299,7 +1299,7 @@ if (currentScreen === 'results') {
             
               <div className="font-bold text-lg">{movie.title} ({movie.year})</div>
            <div className="text-gray-400 text-sm mb-2">
-  {console.log('Full movie object:', movie)} //debugline 
+  {console.log('Full movie object:', movie)}
   {console.log('Genre IDs:', movie.genre_ids)}
   {movie.genre_ids ? movie.genre_ids.map(id => getGenreName(id)).join(', ') : 'Unknown'} • {movie.runtime} • {movie.platform}
 </div>

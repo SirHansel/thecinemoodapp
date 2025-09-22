@@ -43,22 +43,20 @@ const MOOD_SCORING = {
   aesthetic: {
     neon: {
       primary: TMDB_GENRES.SCIENCE_FICTION,   // +5 pts
-      secondary: TMDB_GENRES.ACTION,          // +2 pts  
+      secondary: TMDB_GENRES.ACTION,          // +2 pts
       tertiary: TMDB_GENRES.THRILLER          // +1 pt
     },
     earth: {
       primary: TMDB_GENRES.DRAMA,             // +5 pts
       secondary: TMDB_GENRES.WESTERN,         // +2 pts
       tertiary: TMDB_GENRES.HISTORY           // +1 pt
+    },
+    gold: {
+      primary: TMDB_GENRES.FANTASY,           // +5 pts (opulent, magical vibe)
+      secondary: TMDB_GENRES.ADVENTURE,       // +2 pts
+      tertiary: TMDB_GENRES.DRAMA             // +1 pt
     }
   },
-  gold: {
-      primary: TMDB_GENRES.FANTASY,      // +5 pts (opulent, magical vibe)
-      secondary: TMDB_GENRES.ADVENTURE,  // +2 pts
-      tertiary: TMDB_GENRES.DRAMA        // +1 pt
-    }
-  },
-
   energy: {
     spring: {
       primary: TMDB_GENRES.ACTION,            // +4 pts
@@ -71,155 +69,150 @@ const MOOD_SCORING = {
       tertiary: TMDB_GENRES.FANTASY           // +1 pt
     }
   },
-
- character: {
-  struggle: {
-    primary: TMDB_GENRES.DRAMA,             // +6 pts
-    secondary: TMDB_GENRES.MYSTERY,         // +2 pts
-    tertiary: null
-  },
-  triumph: {
-    primary: TMDB_GENRES.ACTION,            // +6 pts
-    secondary: TMDB_GENRES.ADVENTURE,       // +2 pts  
-    tertiary: null
-  },
-  flawed: {
-    primary: TMDB_GENRES.CRIME,             // +6 pts
-    secondary: TMDB_GENRES.THRILLER,        // +2 pts
-    tertiary: null
-  },
-  heroic: {
-    primary: TMDB_GENRES.ADVENTURE,         // +6 pts
-    secondary: TMDB_GENRES.ACTION,          // +2 pts
-    tertiary: null
-  },
-  complex: {
-    primary: TMDB_GENRES.MYSTERY,           // +6 pts
-    secondary: TMDB_GENRES.DRAMA,           // +2 pts
-    tertiary: null
-  },
-   ocean: {
-      primary: TMDB_GENRES.ADVENTURE,    // +6 pts (boundless quests)
-      secondary: TMDB_GENRES.FANTASY,    // +2 pts
-      tertiary: TMDB_GENRES.DRAMA        // +1 pt
+  character: {
+    struggle: {
+      primary: TMDB_GENRES.DRAMA,             // +6 pts
+      secondary: TMDB_GENRES.MYSTERY,         // +2 pts
+      tertiary: null
     },
-   
-  driven: {
-    primary: TMDB_GENRES.THRILLER,          // +6 pts
-    secondary: TMDB_GENRES.CRIME,           // +2 pts
-    tertiary: null
-  }
-},
-
- era: {
-  vintage: {
-    primary: TMDB_GENRES.DRAMA,             // +3 pts
-    secondary: TMDB_GENRES.HISTORY,         // +2 pts
-    tertiary: TMDB_GENRES.ROMANCE           // +1 pt
-  },
-  gritty: {
-    primary: TMDB_GENRES.CRIME,             // +3 pts
-    secondary: TMDB_GENRES.THRILLER,        // +2 pts
-    tertiary: TMDB_GENRES.DRAMA             // +1 pt
-  },
-  electric: {
-    primary: TMDB_GENRES.ACTION,            // +3 pts
-    secondary: TMDB_GENRES.SCIENCE_FICTION, // +2 pts
-    tertiary: TMDB_GENRES.COMEDY            // +1 pt
-  },
-  digital: {
-    primary: TMDB_GENRES.SCIENCE_FICTION,   // +3 pts
-    secondary: TMDB_GENRES.THRILLER,        // +2 pts
-    tertiary: TMDB_GENRES.ACTION            // +1 pt
-  },
-  noir: {
-    primary: TMDB_GENRES.MYSTERY,           // +3 pts
-    secondary: TMDB_GENRES.CRIME,           // +2 pts
-    tertiary: TMDB_GENRES.THRILLER          // +1 pt
-  },
-  pop: {
-    primary: TMDB_GENRES.COMEDY,            // +3 pts
-    secondary: TMDB_GENRES.ADVENTURE,       // +2 pts
-    tertiary: TMDB_GENRES.ROMANCE           // +1 pt
-  }
-},
-   discovery: {
-    new: {
-      primary: TMDB_GENRES.ADVENTURE,    // +5 pts (fresh, exploratory)
-      secondary: TMDB_GENRES.FANTASY,    // +2 pts
-      tertiary: TMDB_GENRES.COMEDY       // +1 pt
+    triumph: {
+      primary: TMDB_GENRES.ACTION,            // +6 pts
+      secondary: TMDB_GENRES.ADVENTURE,       // +2 pts
+      tertiary: null
     },
-    comfort: {
-      primary: TMDB_GENRES.ROMANCE,      // +5 pts (cozy, nostalgic)
-      secondary: TMDB_GENRES.DRAMA,      // +2 pts
-      tertiary: TMDB_GENRES.COMEDY       // +1 pt
+    flawed: {
+      primary: TMDB_GENRES.CRIME,             // +6 pts
+      secondary: TMDB_GENRES.THRILLER,        // +2 pts
+      tertiary: null
+    },
+    heroic: {
+      primary: TMDB_GENRES.ADVENTURE,         // +6 pts
+      secondary: TMDB_GENRES.ACTION,          // +2 pts
+      tertiary: null
+    },
+    complex: {
+      primary: TMDB_GENRES.MYSTERY,           // +6 pts
+      secondary: TMDB_GENRES.DRAMA,           // +2 pts
+      tertiary: null
+    },
+    ocean: {
+      primary: TMDB_GENRES.ADVENTURE,         // +6 pts (boundless quests)
+      secondary: TMDB_GENRES.FANTASY,         // +2 pts
+      tertiary: TMDB_GENRES.DRAMA             // +1 pt
+    },
+    driven: {
+      primary: TMDB_GENRES.THRILLER,          // +6 pts
+      secondary: TMDB_GENRES.CRIME,           // +2 pts
+      tertiary: null
     }
   },
-  
-  mood: {
-  puzzle: {
-    primary: TMDB_GENRES.MYSTERY,           // +5 pts
-    secondary: TMDB_GENRES.THRILLER,        // +2 pts
-    tertiary: TMDB_GENRES.CRIME             // +1 pt
-  },
-  escape: {
-    primary: TMDB_GENRES.FANTASY,           // +5 pts
-    secondary: TMDB_GENRES.ADVENTURE,       // +2 pts
-    tertiary: TMDB_GENRES.SCIENCE_FICTION   // +1 pt
-  },
-  contemplative: {
-    primary: TMDB_GENRES.DRAMA,             // +5 pts
-    secondary: TMDB_GENRES.ROMANCE,         // +2 pts
-    tertiary: TMDB_GENRES.HISTORY           // +1 pt
-  },
-  visceral: {
-    primary: TMDB_GENRES.ACTION,            // +5 pts
-    secondary: TMDB_GENRES.THRILLER,        // +2 pts
-    tertiary: TMDB_GENRES.HORROR            // +1 pt
-  },
-  emotional: {
-    primary: TMDB_GENRES.ROMANCE,           // +5 pts
-    secondary: TMDB_GENRES.DRAMA,           // +2 pts
-    tertiary: TMDB_GENRES.COMEDY            // +1 pt
-  },
-  analytical: {
-    primary: TMDB_GENRES.SCIENCE_FICTION,   // +5 pts
-    secondary: TMDB_GENRES.MYSTERY,         // +2 pts
-    tertiary: TMDB_GENRES.THRILLER          // +1 pt
-  }
-},
-  
-symbols: {
-  circle: {
-    primary: TMDB_GENRES.DRAMA,             // +2 pts (balance/harmony)
-    secondary: TMDB_GENRES.ROMANCE,         // +1 pt
-    tertiary: TMDB_GENRES.MYSTERY
-  },
-  triangle: {
-    primary: TMDB_GENRES.THRILLER,          // +2 pts (tension/conflict)
-    secondary: TMDB_GENRES.ACTION,          // +1 pt
-    tertiary: null
-  },
-  square: {
-    primary: TMDB_GENRES.MYSTERY,           // +2 pts (structure/logic)
-    secondary: TMDB_GENRES.CRIME,           // +1 pt
-    tertiary: TMDB_GENRES.HORROR
-  },
-  wave: {
-    primary: TMDB_GENRES.FANTASY,           // +2 pts (flow/emotion)
-    secondary: TMDB_GENRES.ADVENTURE,       // +1 pt
-    tertiary: null
-  },
-  star: {
-    primary: TMDB_GENRES.SCIENCE_FICTION,   // +2 pts (wonder/inspiration)
-    secondary: TMDB_GENRES.ADVENTURE,       // +1 pt
-    tertiary: null
-  },
-  spiral: {
-    primary: TMDB_GENRES.HORROR,            // +2 pts (complexity/depth)
-    secondary: TMDB_GENRES.MYSTERY,         // +1 pt
-    tertiary: null
+  era: {
+    vintage: {
+      primary: TMDB_GENRES.DRAMA,             // +3 pts
+      secondary: TMDB_GENRES.HISTORY,         // +2 pts
+      tertiary: TMDB_GENRES.ROMANCE           // +1 pt
     },
+    gritty: {
+      primary: TMDB_GENRES.CRIME,             // +3 pts
+      secondary: TMDB_GENRES.THRILLER,        // +2 pts
+      tertiary: TMDB_GENRES.DRAMA             // +1 pt
+    },
+    electric: {
+      primary: TMDB_GENRES.ACTION,            // +3 pts
+      secondary: TMDB_GENRES.SCIENCE_FICTION, // +2 pts
+      tertiary: TMDB_GENRES.COMEDY            // +1 pt
+    },
+    digital: {
+      primary: TMDB_GENRES.SCIENCE_FICTION,   // +3 pts
+      secondary: TMDB_GENRES.THRILLER,        // +2 pts
+      tertiary: TMDB_GENRES.ACTION            // +1 pt
+    },
+    noir: {
+      primary: TMDB_GENRES.MYSTERY,           // +3 pts
+      secondary: TMDB_GENRES.CRIME,           // +2 pts
+      tertiary: TMDB_GENRES.THRILLER          // +1 pt
+    },
+    pop: {
+      primary: TMDB_GENRES.COMEDY,            // +3 pts
+      secondary: TMDB_GENRES.ADVENTURE,       // +2 pts
+      tertiary: TMDB_GENRES.ROMANCE           // +1 pt
+    }
+  },
+  discovery: {
+    new: {
+      primary: TMDB_GENRES.ADVENTURE,         // +5 pts (fresh, exploratory)
+      secondary: TMDB_GENRES.FANTASY,         // +2 pts
+      tertiary: TMDB_GENRES.COMEDY            // +1 pt
+    },
+    comfort: {
+      primary: TMDB_GENRES.ROMANCE,           // +5 pts (cozy, nostalgic)
+      secondary: TMDB_GENRES.DRAMA,           // +2 pts
+      tertiary: TMDB_GENRES.COMEDY            // +1 pt
+    }
+  },
+  mood: {
+    puzzle: {
+      primary: TMDB_GENRES.MYSTERY,           // +5 pts
+      secondary: TMDB_GENRES.THRILLER,        // +2 pts
+      tertiary: TMDB_GENRES.CRIME             // +1 pt
+    },
+    escape: {
+      primary: TMDB_GENRES.FANTASY,           // +5 pts
+      secondary: TMDB_GENRES.ADVENTURE,       // +2 pts
+      tertiary: TMDB_GENRES.SCIENCE_FICTION   // +1 pt
+    },
+    contemplative: {
+      primary: TMDB_GENRES.DRAMA,             // +5 pts
+      secondary: TMDB_GENRES.ROMANCE,         // +2 pts
+      tertiary: TMDB_GENRES.HISTORY           // +1 pt
+    },
+    visceral: {
+      primary: TMDB_GENRES.ACTION,            // +5 pts
+      secondary: TMDB_GENRES.THRILLER,        // +2 pts
+      tertiary: TMDB_GENRES.HORROR            // +1 pt
+    },
+    emotional: {
+      primary: TMDB_GENRES.ROMANCE,           // +5 pts
+      secondary: TMDB_GENRES.DRAMA,           // +2 pts
+      tertiary: TMDB_GENRES.COMEDY            // +1 pt
+    },
+    analytical: {
+      primary: TMDB_GENRES.SCIENCE_FICTION,   // +5 pts
+      secondary: TMDB_GENRES.MYSTERY,         // +2 pts
+      tertiary: TMDB_GENRES.THRILLER          // +1 pt
+    }
+  },
+  symbols: {
+    circle: {
+      primary: TMDB_GENRES.DRAMA,             // +2 pts (balance/harmony)
+      secondary: TMDB_GENRES.ROMANCE,         // +1 pt
+      tertiary: TMDB_GENRES.MYSTERY           // +1 pt
+    },
+    triangle: {
+      primary: TMDB_GENRES.THRILLER,          // +2 pts (tension/conflict)
+      secondary: TMDB_GENRES.ACTION,          // +1 pt
+      tertiary: null
+    },
+    square: {
+      primary: TMDB_GENRES.MYSTERY,           // +2 pts (structure/logic)
+      secondary: TMDB_GENRES.CRIME,           // +1 pt
+      tertiary: TMDB_GENRES.HORROR            // +1 pt
+    },
+    wave: {
+      primary: TMDB_GENRES.FANTASY,           // +2 pts (flow/emotion)
+      secondary: TMDB_GENRES.ADVENTURE,       // +1 pt
+      tertiary: null
+    },
+    star: {
+      primary: TMDB_GENRES.SCIENCE_FICTION,   // +2 pts (wonder/inspiration)
+      secondary: TMDB_GENRES.ADVENTURE,       // +1 pt
+      tertiary: null
+    },
+    spiral: {
+      primary: TMDB_GENRES.HORROR,            // +2 pts (complexity/depth)
+      secondary: TMDB_GENRES.MYSTERY,         // +1 pt
+      tertiary: null
+    }
   }
 };
 

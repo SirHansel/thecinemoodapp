@@ -471,8 +471,8 @@ const applyAllFilters = (movies, userPrefs, allowRewatches = false) => {
   // Filter 2: Genre exclusions (NEW)
 if (userPrefs.excludedGenreIds && userPrefs.excludedGenreIds.length > 0) {
   const filteredByGenre = filteredMovies.filter(movie => {
-    console.log('Movie genre IDs:', movie.genre_ids, 'Excluded IDs:', userPrefs.excludedGenreIds);
-    console.log('Movie title:', movie.title, 'Should be filtered:', movie.genre_ids?.some(genreId => userPrefs.excludedGenreIds?.includes(genreId)));
+   // debug lines console.log('Movie genre IDs:', movie.genre_ids, 'Excluded IDs:', userPrefs.excludedGenreIds);
+   // debuglines console.log('Movie title:', movie.title, 'Should be filtered:', movie.genre_ids?.some(genreId => userPrefs.excludedGenreIds?.includes(genreId)));
     return !movie.genre_ids?.some(genreId => userPrefs.excludedGenreIds?.includes(genreId));
   });
   console.log(`🚫 Genre filtering: ${filteredMovies.length} → ${filteredByGenre.length} movies`);
@@ -942,16 +942,16 @@ const generateQuestionSet = () => {
   'War': TMDB_GENRES.WAR,
   'Western': TMDB_GENRES.WESTERN
 };
-  const handleGenreExclusion = (genre, isExcluded) => {
+ const handleGenreExclusion = (genre, isExcluded) => {
   const genreId = GENRE_MAPPING[genre];
-  console.log('Genre:', genre, 'Maps to ID:', genreId, 'Include:', isExcluded);
+  console.log('Genre:', genre, 'Maps to ID:', genreId, 'Include:', isExcluded); // Comment out this line
   if (!genreId) return;
   
   setUserPrefs(prev => {
     const newExcluded = isExcluded 
       ? [...(prev.excludedGenreIds || []), genreId]
       : (prev.excludedGenreIds || []).filter(id => id !== genreId);
-    console.log('Updated excluded IDs:', newExcluded);
+    // console.log('Updated excluded IDs:', newExcluded); // Comment out this line
     return {
       ...prev,
       excludedGenreIds: newExcluded
@@ -1304,10 +1304,10 @@ if (currentScreen === 'results') {
  <div className="font-bold text-lg">{movie.title} ({movie.release_date?.slice(0, 4) || 'Unknown'})</div>
   
   <div className="text-gray-400 text-sm mb-2">
-   {console.log('Runtime value:', movie.runtime)}
-  {console.log('Movie object structure:', movie)}
-  {console.log('Genre IDs present:', movie.genre_ids)}
-  {console.log('Available properties:', Object.keys(movie))}
+ // these are debug lines {console.log('Runtime value:', movie.runtime)}
+  // {console.log('Movie object structure:', movie)}
+ //  {console.log('Genre IDs present:', movie.genre_ids)}
+  // {console.log('Available properties:', Object.keys(movie))}
   {movie.genre_ids ? movie.genre_ids.map(id => getGenreName(id)).join(', ') : 'Unknown'} • 
   {movie.runtime ? `${movie.runtime}m` : 'Unknown runtime'} • 
   {movie.availablePlatforms?.[0] || 'Unknown platform'}

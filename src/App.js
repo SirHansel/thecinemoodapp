@@ -1304,10 +1304,6 @@ if (currentScreen === 'results') {
  <div className="font-bold text-lg">{movie.title} ({movie.release_date?.slice(0, 4) || 'Unknown'})</div>
   
   <div className="text-gray-400 text-sm mb-2">
- // these are debug lines {console.log('Runtime value:', movie.runtime)}
-  // {console.log('Movie object structure:', movie)}
- //  {console.log('Genre IDs present:', movie.genre_ids)}
-  // {console.log('Available properties:', Object.keys(movie))}
   {movie.genre_ids ? movie.genre_ids.map(id => getGenreName(id)).join(', ') : 'Unknown'} • 
   {movie.runtime ? `${movie.runtime}m` : 'Unknown runtime'} • 
   {movie.availablePlatforms?.[0] || 'Unknown platform'}

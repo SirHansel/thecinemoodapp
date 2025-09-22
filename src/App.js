@@ -471,8 +471,7 @@ const applyAllFilters = (movies, userPrefs, allowRewatches = false) => {
   // Filter 2: Genre exclusions (NEW)
 if (userPrefs.excludedGenreIds && userPrefs.excludedGenreIds.length > 0) {
   const filteredByGenre = filteredMovies.filter(movie => {
-   // debug lines console.log('Movie genre IDs:', movie.genre_ids, 'Excluded IDs:', userPrefs.excludedGenreIds);
-   // debuglines console.log('Movie title:', movie.title, 'Should be filtered:', movie.genre_ids?.some(genreId => userPrefs.excludedGenreIds?.includes(genreId)));
+   
     return !movie.genre_ids?.some(genreId => userPrefs.excludedGenreIds?.includes(genreId));
   });
   console.log(`🚫 Genre filtering: ${filteredMovies.length} → ${filteredByGenre.length} movies`);

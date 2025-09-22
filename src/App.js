@@ -52,6 +52,12 @@ const MOOD_SCORING = {
       tertiary: TMDB_GENRES.HISTORY           // +1 pt
     }
   },
+  gold: {
+      primary: TMDB_GENRES.FANTASY,      // +5 pts (opulent, magical vibe)
+      secondary: TMDB_GENRES.ADVENTURE,  // +2 pts
+      tertiary: TMDB_GENRES.DRAMA        // +1 pt
+    }
+  },
 
   energy: {
     spring: {
@@ -92,6 +98,12 @@ const MOOD_SCORING = {
     secondary: TMDB_GENRES.DRAMA,           // +2 pts
     tertiary: null
   },
+   ocean: {
+      primary: TMDB_GENRES.ADVENTURE,    // +6 pts (boundless quests)
+      secondary: TMDB_GENRES.FANTASY,    // +2 pts
+      tertiary: TMDB_GENRES.DRAMA        // +1 pt
+    },
+   
   driven: {
     primary: TMDB_GENRES.THRILLER,          // +6 pts
     secondary: TMDB_GENRES.CRIME,           // +2 pts
@@ -131,7 +143,19 @@ const MOOD_SCORING = {
     tertiary: TMDB_GENRES.ROMANCE           // +1 pt
   }
 },
-   
+   discovery: {
+    new: {
+      primary: TMDB_GENRES.ADVENTURE,    // +5 pts (fresh, exploratory)
+      secondary: TMDB_GENRES.FANTASY,    // +2 pts
+      tertiary: TMDB_GENRES.COMEDY       // +1 pt
+    },
+    comfort: {
+      primary: TMDB_GENRES.ROMANCE,      // +5 pts (cozy, nostalgic)
+      secondary: TMDB_GENRES.DRAMA,      // +2 pts
+      tertiary: TMDB_GENRES.COMEDY       // +1 pt
+    }
+  },
+  
   mood: {
   puzzle: {
     primary: TMDB_GENRES.MYSTERY,           // +5 pts
@@ -195,7 +219,7 @@ symbols: {
     primary: TMDB_GENRES.HORROR,            // +2 pts (complexity/depth)
     secondary: TMDB_GENRES.MYSTERY,         // +1 pt
     tertiary: null
-    }
+    },
   }
 };
 
@@ -699,25 +723,25 @@ const QUESTION_POOLS = {
       {
         question: "What world do you want to sink into tonight?",
         options: [
-          { id: 'neon', text: 'Pulsing Neon Streets', subtext: 'Electric nights humming with mystery', style: 'neon', points: { sciFi: 2, thriller: 1 } },
-          { id: 'earth', text: 'Ancient Earthen Paths', subtext: 'Worn trails grounded in timeless stories', style: 'earth', points: { drama: 2, emotional: 1 } },
-          { id: 'gold', text: 'Golden Radiant Halls', subtext: 'Opulent glows of triumph and luxury', style: 'gold', points: { fantasy: 2, adventure: 1 } }
+          { id: 'neon', text: 'Pulsing Neon Streets', subtext: 'Electric nights humming with mystery', style: 'neon' },
+          { id: 'earth', text: 'Ancient Earthen Paths', subtext: 'Worn trails grounded in timeless stories', style: 'earth' },
+          { id: 'gold', text: 'Golden Radiant Halls', subtext: 'Opulent glows of triumph and luxury', style: 'gold' }
         ]
       },
       {
         question: "What visual mood calls to you?",
         options: [
-          { id: 'sunset', text: 'Fading Sunset Hues', subtext: 'Warm oranges melting into wistful yellows', style: 'sunset', points: { emotional: 2, romance: 1 } },
-          { id: 'shadow', text: 'Veiled Shadowy Corners', subtext: 'Mysterious blues cloaked in intrigue', style: 'shadow', points: { mystery: 2, thriller: 1 } },
-          { id: 'eighties', text: 'Retro Neon Flash', subtext: 'Vibrant pinks and blues of nostalgic pop', style: 'eighties', points: { comedy: 2, adventure: 1 } }
+          { id: 'vintage', text: 'Sepia-Tinted Memories', subtext: 'Warm hues of classical tales', style: 'sunset' },
+          { id: 'noir', text: 'Shadowy Noir Alleys', subtext: 'Mysterious blues cloaked in intrigue', style: 'shadow' },
+          { id: 'electric', text: 'Vibrant Electric Flash', subtext: 'Neon pinks and blues of bold energy', style: 'eighties' }
         ]
       },
       {
         question: "What cinematic palette stirs your soul?",
         options: [
-          { id: 'storm', text: 'Stormy Tempest Skies', subtext: 'Turbulent grays charged with drama', style: 'storm', points: { action: 2, thriller: 1 } },
-          { id: 'spring', text: 'Blossoming Spring Fields', subtext: 'Vivid pinks and greens bursting with life', style: 'spring', points: { romance: 2, uplifting: 1 } },
-          { id: 'seventies', text: 'Warm Retro Tones', subtext: 'Earthy ambers of nostalgic warmth', style: 'seventies', points: { emotional: 2, drama: 1 } }
+          { id: 'gritty', text: 'Gritty Urban Edges', subtext: 'Raw textures of rust and amber', style: 'fire' },
+          { id: 'digital', text: 'Sleek Digital Horizons', subtext: 'Cool blues of futuristic worlds', style: 'ice' },
+          { id: 'pop', text: 'Bright Pop Explosions', subtext: 'Vivid colors of joyful energy', style: 'spring' }
         ]
       }
     ]
@@ -727,17 +751,17 @@ const QUESTION_POOLS = {
       {
         question: "What rhythm moves you tonight?",
         options: [
-          { id: 'fire', text: 'Crackling Fire Sparks', subtext: 'Fiery bursts of passion and intensity', style: 'fire', points: { action: 2, adventure: 1 } },
-          { id: 'river', text: 'Gentle River Currents', subtext: 'Steady flow of calm and serenity', style: 'river', points: { emotional: 2, romance: 1 } },
-          { id: 'escape', text: 'Free-Spirited Breeze', subtext: 'Liberating rush of open skies', style: 'escape', points: { adventure: 2, uplifting: 1 } }
+          { id: 'spring', text: 'Bursting Spring Energy', subtext: 'Vivid bursts of passion and life', style: 'spring' },
+          { id: 'river', text: 'Gentle River Currents', subtext: 'Steady flow of calm and serenity', style: 'river' },
+          { id: 'escape', text: 'Free-Spirited Breeze', subtext: 'Liberating rush of open skies', style: 'escape' }
         ]
       },
       {
         question: "What tempo sets your heart racing?",
         options: [
-          { id: 'triumph', text: 'Triumphant Surge', subtext: 'Golden bursts of victory and thrill', style: 'triumph', points: { action: 2, uplifting: 1 } },
-          { id: 'ice', text: 'Frosty Stillness', subtext: 'Crisp blues of quiet intensity', style: 'ice', points: { drama: 2, mystery: 1 } },
-          { id: 'new', text: 'Fresh Dawn Pulse', subtext: 'Bright yellows of new beginnings', style: 'new', points: { uplifting: 2, comedy: 1 } }
+          { id: 'visceral', text: 'Pulse-Pounding Surge', subtext: 'Fiery reds of raw intensity', style: 'fire' },
+          { id: 'contemplative', text: 'Quiet Reflective Flow', subtext: 'Soft blues of deep thought', style: 'ice' },
+          { id: 'new', text: 'Fresh Dawn Pulse', subtext: 'Bright yellows of new beginnings', style: 'new' }
         ]
       }
     ]
@@ -747,17 +771,17 @@ const QUESTION_POOLS = {
       {
         question: "Whose journey do you want to feel?",
         options: [
-          { id: 'struggle', text: 'Wounded Dreamer', subtext: 'Violets of resilience and inner battles', style: 'struggle', points: { drama: 2, emotional: 1 } },
-          { id: 'triumph', text: 'Bold Victor', subtext: 'Golden hues of overcoming odds', style: 'triumph', points: { action: 2, adventure: 1 } },
-          { id: 'puzzle', text: 'Enigmatic Wanderer', subtext: 'Grays of secrets waiting to unfold', style: 'puzzle', points: { mystery: 2, thriller: 1 } }
+          { id: 'struggle', text: 'Wounded Dreamer', subtext: 'Violets of resilience and inner battles', style: 'struggle' },
+          { id: 'triumph', text: 'Bold Victor', subtext: 'Golden hues of overcoming odds', style: 'triumph' },
+          { id: 'complex', text: 'Enigmatic Wanderer', subtext: 'Grays of secrets waiting to unfold', style: 'puzzle' }
         ]
       },
       {
         question: "What hero’s heart resonates with you?",
         options: [
-          { id: 'forest', text: 'Nature’s Guardian', subtext: 'Green depths of grounded purpose', style: 'forest', points: { adventure: 2, emotional: 1 } },
-          { id: 'fire', text: 'Fiery Rebel', subtext: 'Burning reds of defiance and passion', style: 'fire', points: { action: 2, drama: 1 } },
-          { id: 'ocean', text: 'Tide’s Explorer', subtext: 'Blues and whites of boundless quests', style: 'ocean', points: { adventure: 2, fantasy: 1 } }
+          { id: 'flawed', text: 'Imperfect Survivor', subtext: 'Earthy tones of human struggles', style: 'earth' },
+          { id: 'heroic', text: 'Noble Trailblazer', subtext: 'Fiery reds of courage and purpose', style: 'fire' },
+          { id: 'driven', text: 'Relentless Seeker', subtext: 'Deep blues of focused ambition', style: 'ocean' }
         ]
       }
     ]
@@ -767,17 +791,17 @@ const QUESTION_POOLS = {
       {
         question: "What emotion do you want to embrace?",
         options: [
-          { id: 'comfort', text: 'Warm Embrace', subtext: 'Cozy beiges of safety and nostalgia', style: 'comfort', points: { emotional: 2, romance: 1 } },
-          { id: 'storm', text: 'Electric Tension', subtext: 'Charged grays of thrilling unrest', style: 'storm', points: { thriller: 2, action: 1 } },
-          { id: 'spring', text: 'Joyful Renewal', subtext: 'Pink and green bursts of hope', style: 'spring', points: { uplifting: 2, comedy: 1 } }
+          { id: 'contemplative', text: 'Deep Introspection', subtext: 'Muted blues of quiet reflection', style: 'shadow' },
+          { id: 'visceral', text: 'Raw Electric Tension', subtext: 'Charged reds of thrilling unrest', style: 'storm' },
+          { id: 'emotional', text: 'Heartfelt Connection', subtext: 'Warm beiges of tender moments', style: 'comfort' }
         ]
       },
       {
         question: "What feeling pulls you tonight?",
         options: [
-          { id: 'shadow', text: 'Quiet Introspection', subtext: 'Muted blues of hidden thoughts', style: 'shadow', points: { drama: 2, mystery: 1 } },
-          { id: 'gold', text: 'Radiant Pride', subtext: 'Golden glows of achievement', style: 'gold', points: { uplifting: 2, adventure: 1 } },
-          { id: 'river', text: 'Serene Flow', subtext: 'Teal and cyan waves of peace', style: 'river', points: { emotional: 2, romance: 1 } }
+          { id: 'puzzle', text: 'Intriguing Mystery', subtext: 'Cool grays of unfolding secrets', style: 'puzzle' },
+          { id: 'escape', text: 'Boundless Freedom', subtext: 'Teal winds of wild adventure', style: 'escape' },
+          { id: 'analytical', text: 'Sharp Clarity', subtext: 'Crisp blues of focused insight', style: 'ice' }
         ]
       }
     ]
@@ -787,9 +811,9 @@ const QUESTION_POOLS = {
       {
         question: "What journey do you crave?",
         options: [
-          { id: 'new', text: 'Uncharted Horizons', subtext: 'Bright yellows of fresh adventures', style: 'new', points: { adventure: 2, fantasy: 1 } },
-          { id: 'comfort', text: 'Familiar Shores', subtext: 'Warm beiges of beloved tales', style: 'comfort', points: { emotional: 2, romance: 1 } },
-          { id: 'escape', text: 'Wild Unknown', subtext: 'Teal winds of freedom and thrill', style: 'escape', points: { adventure: 2, uplifting: 1 } }
+          { id: 'new', text: 'Uncharted Horizons', subtext: 'Bright yellows of fresh adventures', style: 'new' },
+          { id: 'comfort', text: 'Familiar Shores', subtext: 'Warm beiges of beloved tales', style: 'comfort' },
+          { id: 'pop', text: 'Vibrant New Worlds', subtext: 'Colorful bursts of joyful discovery', style: 'spring' }
         ]
       }
     ]

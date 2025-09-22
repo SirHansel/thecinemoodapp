@@ -57,18 +57,28 @@ const MOOD_SCORING = {
       tertiary: TMDB_GENRES.DRAMA             // +1 pt
     }
   },
-  energy: {
-    spring: {
-      primary: TMDB_GENRES.ACTION,            // +4 pts
-      secondary: TMDB_GENRES.THRILLER,        // +2 pts
-      tertiary: TMDB_GENRES.ADVENTURE         // +1 pt
-    },
-    river: {
-      primary: TMDB_GENRES.DRAMA,             // +4 pts
-      secondary: TMDB_GENRES.ROMANCE,         // +2 pts
-      tertiary: TMDB_GENRES.FANTASY           // +1 pt
-    }
+ energy: {
+  spring: {
+    primary: TMDB_GENRES.ACTION,            // +4 pts
+    secondary: TMDB_GENRES.THRILLER,        // +2 pts
+    tertiary: TMDB_GENRES.ADVENTURE         // +1 pt
   },
+  river: {
+    primary: TMDB_GENRES.DRAMA,             // +4 pts
+    secondary: TMDB_GENRES.ROMANCE,         // +2 pts
+    tertiary: TMDB_GENRES.FANTASY           // +1 pt
+  },
+  explosive: {
+    primary: TMDB_GENRES.ACTION,            // +4 pts
+    secondary: TMDB_GENRES.HORROR,          // +2 pts
+    tertiary: TMDB_GENRES.THRILLER          // +1 pt
+  },
+  contemplative: {
+    primary: TMDB_GENRES.MYSTERY,           // +4 pts
+    secondary: TMDB_GENRES.DRAMA,           // +2 pts
+    tertiary: TMDB_GENRES.SCIENCE_FICTION   // +1 pt
+  }
+},
   character: {
     struggle: {
       primary: TMDB_GENRES.DRAMA,             // +6 pts
@@ -713,52 +723,72 @@ const movies = result?.movies;
 const QUESTION_POOLS = {
   aesthetic: {
     variations: [
+     {
+      question: "What world do you want to sink into tonight?",
+      options: [
+        { id: 'neon', text: 'Pulsing Neon Streets', subtext: 'Electric nights humming with mystery', style: 'neon' },
+        { id: 'earth', text: 'Ancient Earthen Paths', subtext: 'Worn trails grounded in timeless stories', style: 'earth' },
+        { id: 'gold', text: 'Golden Radiant Halls', subtext: 'Opulent glows of triumph and luxury', style: 'gold' }
+      ]
+    },
       {
-        question: "What world do you want to sink into tonight?",
-        options: [
-          { id: 'neon', text: 'Pulsing Neon Streets', subtext: 'Electric nights humming with mystery', style: 'neon' },
-          { id: 'earth', text: 'Ancient Earthen Paths', subtext: 'Worn trails grounded in timeless stories', style: 'earth' },
-          { id: 'gold', text: 'Golden Radiant Halls', subtext: 'Opulent glows of triumph and luxury', style: 'gold' }
-        ]
-      },
-      {
-        question: "What visual mood calls to you?",
-        options: [
-          { id: 'vintage', text: 'Sepia-Tinted Memories', subtext: 'Warm hues of classical tales', style: 'sunset' },
-          { id: 'noir', text: 'Shadowy Noir Alleys', subtext: 'Mysterious blues cloaked in intrigue', style: 'shadow' },
-          { id: 'electric', text: 'Vibrant Electric Flash', subtext: 'Neon pinks and blues of bold energy', style: 'eighties' }
-        ]
-      },
-      {
-        question: "What cinematic palette stirs your soul?",
-        options: [
-          { id: 'gritty', text: 'Gritty Urban Edges', subtext: 'Raw textures of rust and amber', style: 'fire' },
-          { id: 'digital', text: 'Sleek Digital Horizons', subtext: 'Cool blues of futuristic worlds', style: 'ice' },
-          { id: 'pop', text: 'Bright Pop Explosions', subtext: 'Vivid colors of joyful energy', style: 'spring' }
-        ]
-      }
-    ]
-  },
+      question: "What visual mood calls to you?",
+      options: [
+        { id: 'neon', text: 'Vibrant Electric Flash', subtext: 'Neon pinks and blues of bold energy', style: 'eighties' },
+        { id: 'earth', text: 'Gritty Urban Edges', subtext: 'Raw textures of rust and amber', style: 'fire' },
+        { id: 'gold', text: 'Bright Pop Explosions', subtext: 'Vivid colors of joyful energy', style: 'spring' }
+      ]
+    },
+    {
+      question: "What cinematic palette is for yours?",
+      options: [
+        { id: 'neon', text: 'Sleek Digital Horizons', subtext: 'Cool blues of futuristic worlds', style: 'ice' },
+        { id: 'earth', text: 'Sepia-Tinted Memories', subtext: 'Warm hues of classical tales', style: 'sunset' },
+        { id: 'gold', text: 'Shadowy Noir Alleys', subtext: 'Mysterious blues cloaked in intrigue', style: 'shadow' }
+      ]
+    }
+  ]
+},
   energy: {
-    variations: [
-      {
-        question: "What rhythm moves you tonight?",
-        options: [
-          { id: 'spring', text: 'Bursting Spring Energy', subtext: 'Vivid bursts of passion and life', style: 'spring' },
-          { id: 'river', text: 'Gentle River Currents', subtext: 'Steady flow of calm and serenity', style: 'river' },
-          { id: 'escape', text: 'Free-Spirited Breeze', subtext: 'Liberating rush of open skies', style: 'escape' }
-        ]
-      },
-      {
-        question: "What tempo sets your heart racing?",
-        options: [
-          { id: 'visceral', text: 'Pulse-Pounding Surge', subtext: 'Fiery reds of raw intensity', style: 'fire' },
-          { id: 'contemplative', text: 'Quiet Reflective Flow', subtext: 'Soft blues of deep thought', style: 'ice' },
-          { id: 'new', text: 'Fresh Dawn Pulse', subtext: 'Bright yellows of new beginnings', style: 'new' }
-        ]
-      }
-    ]
-  },
+  variations: [
+    {
+      question: "Tonight your rhythm is?",
+      options: [
+        { id: 'spring', text: 'Bursting Spring Energy', subtext: 'Vivid bursts of passion and life', style: 'spring' },
+        { id: 'river', text: 'Gentle River Currents', subtext: 'Steady flow of calm and serenity', style: 'river' },
+        { id: 'explosive', text: 'Volcanic Eruption', subtext: 'Raw power breaking free', style: 'fire' },
+        { id: 'contemplative', text: 'Still Lake Depths', subtext: 'Quiet wisdom waiting below', style: 'shadow' }
+      ]
+    },
+    {
+      question: "What gets your heart racing?",
+      options: [
+        { id: 'explosive', text: 'Lightning Strike Moment', subtext: 'Electric shock of pure adrenaline', style: 'storm' },
+        { id: 'spring', text: 'Mountain Peak Rush', subtext: 'Triumphant surge of achievement', style: 'gold' },
+        { id: 'contemplative', text: 'Deep Ocean Mystery', subtext: 'Slow-building tension and discovery', style: 'ocean' },
+        { id: 'river', text: 'Sunset Horizon Call', subtext: 'Peaceful anticipation of beauty', style: 'sunset' }
+      ]
+    },
+    {
+      question: "What tempo moves you?",
+      options: [
+        { id: 'river', text: 'A Steady Heartbeat', subtext: 'Consistent, reliable rhythm', style: 'earth' },
+        { id: 'explosive', text: 'A Thunderclap Burst', subtext: 'Sudden, overwhelming intensity', style: 'fire' },
+        { id: 'spring', text: 'A Dancing Flame', subtext: 'Lively, unpredictable movement', style: 'neon' },
+        { id: 'contemplative', text: 'A Moonlit Silence', subtext: 'Thoughtful spaces between notes', style: 'ice' }
+      ]
+    },
+    {
+      question: "What energy draws you forward?",
+      options: [
+        { id: 'contemplative', text: 'Ancient Tree Wisdom', subtext: 'Patient, deep-rooted strength', style: 'forest' },
+        { id: 'river', text: 'Flowing Stream Path', subtext: 'Natural, effortless progression', style: 'river' },
+        { id: 'spring', text: 'Wild Wind Gust', subtext: 'Fresh, invigorating movement', style: 'new' },
+        { id: 'explosive', text: 'Rocket Launch Power', subtext: 'Focused, unstoppable force', style: 'seventies' }
+      ]
+    }
+  ]
+},
   character: {
     variations: [
       {

@@ -469,14 +469,15 @@ const applyAllFilters = (movies, userPrefs, allowRewatches = false) => {
   filteredMovies = filterByPlatforms(filteredMovies, userPrefs.platforms);
   
   // Filter 2: Genre exclusions (NEW)
-  if (userPrefs.excludedGenreIds && userPrefs.excludedGenreIds.length > 0) {
-    const filteredByGenre = filteredMovies.filter(movie => {
-      return !movie.genre_ids?.some(genreId => userPrefs.excludedGenreIds?.includes(genreId));
-    });
-    console.log(`🚫 Genre filtering: ${filteredMovies.length} → ${filteredByGenre.length} movies`);
-    filteredMovies = filteredByGenre;
-  }
-  
+if (userPrefs.excludedGenreIds && userPrefs.excludedGenreIds.length > 0) {
+  const filteredByGenre = filteredMovies.filter(movie => {
+    console.log('Movie genre IDs:', movie.genre_ids, 'Excluded IDs:', userPrefs.excludedGenreIds);
+    console.log('Movie title:', movie.title, 'Should be filtered:', movie.genre_ids?.some(genreId => userPrefs.excludedGenreIds?.includes(genreId)));
+    return !movie.genre_ids?.some(genreId => userPrefs.excludedGenreIds?.includes(genreId));
+  });
+  console.log(`🚫 Genre filtering: ${filteredMovies.length} → ${filteredByGenre.length} movies`);
+  filteredMovies = filteredByGenre;
+}
   // filteredMovies = filterByWatchedMovies(filteredMovies, letterboxdData, allowRewatches);
   
   // Future filters can be added here:
@@ -1274,6 +1275,9 @@ if (currentScreen === 'results') {
   
   <div className="text-gray-400 text-sm mb-2">
    {console.log('Runtime value:', movie.runtime)}
+  {console.log('Movie object structure:', movie)}
+  {console.log('Genre IDs present:', movie.genre_ids)}
+  {console.log('Available properties:', Object.keys(movie))}
   {movie.genre_ids ? movie.genre_ids.map(id => getGenreName(id)).join(', ') : 'Unknown'} • 
   {movie.runtime ? `${movie.runtime}m` : 'Unknown runtime'} • 
   {movie.availablePlatforms?.[0] || 'Unknown platform'}

@@ -214,9 +214,9 @@ const MOOD_SCORING = {
       tertiary: null
     },
     star: {
-      primary: TMDB_GENRES.SCIENCE_FICTION,   // +2 pts (wonder/inspiration)
-      secondary: TMDB_GENRES.ADVENTURE,       // +1 pt
-      tertiary: null
+       primary: TMDB_GENRES.SCIENCE_FICTION,   // +2 pts
+       secondary: TMDB_GENRES.ADVENTURE,       // +1 pt
+       tertiary: null
     },
     spiral: {
       primary: TMDB_GENRES.HORROR,            // +2 pts (complexity/depth)
@@ -749,6 +749,28 @@ const QUESTION_POOLS = {
         { id: 'neon', text: 'Sleek Digital Horizons', subtext: 'Cool blues of futuristic worlds', style: 'ice' },
         { id: 'earth', text: 'Sepia-Tinted Memories', subtext: 'Warm hues of classical tales', style: 'sunset' },
         { id: 'gold', text: 'Shadowy Noir Alleys', subtext: 'Mysterious blues cloaked in intrigue', style: 'shadow' }
+      ]
+    }
+  ]
+},
+  era: {
+  variations: [
+    {
+      question: "What color era speaks to you tonight?",
+      options: [
+        { id: 'vintage', text: 'Sepia & Burgundy', subtext: 'Classic warmth', style: 'sunset' },
+        { id: 'gritty', text: 'Earth & Concrete', subtext: 'Raw textures', style: 'earth' },
+        { id: 'electric', text: 'Neon & Chrome', subtext: 'Electric energy', style: 'neon' },
+        { id: 'digital', text: 'Matrix & Steel', subtext: 'Digital cool', style: 'ice' }
+      ]
+    },
+    {
+      question: "Tonight's visual palette:",
+      options: [
+        { id: 'noir', text: 'Shadow & Smoke', subtext: 'Dark mystery', style: 'shadow' },
+        { id: 'pop', text: 'Bright & Bold', subtext: 'Vibrant energy', style: 'gold' },
+        { id: 'gritty', text: 'Rust & Amber', subtext: 'Weathered glow', style: 'fire' },
+        { id: 'electric', text: 'Laser & Glass', subtext: 'Sharp contrasts', style: 'storm' }
       ]
     }
   ]

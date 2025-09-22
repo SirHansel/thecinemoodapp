@@ -556,7 +556,7 @@ const getDetailedRecommendations = async (rawMovies, userPrefs, allowRewatches =
 const CineMoodApp = () => {
 
 //  Add this temporarily at the top of CineMoodApp function
-localStorage.removeItem('cinemood-prefs');
+//localStorage.removeItem('cinemood-prefs');
   
   const saveUserPrefs = (prefs) => {
     try {

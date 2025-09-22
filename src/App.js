@@ -943,7 +943,7 @@ const generateQuestionSet = () => {
 };
  const handleGenreExclusion = (genre, isExcluded) => {
   const genreId = GENRE_MAPPING[genre];
- // debug line console.log('Genre:', genre, 'Maps to ID:', genreId, 'Include:', isExcluded); // Comment out this line
+ 
   if (!genreId) return;
   
   setUserPrefs(prev => {

@@ -919,14 +919,19 @@ const generateQuestionSet = () => {
 };
   const handleGenreExclusion = (genre, isExcluded) => {
   const genreId = GENRE_MAPPING[genre];
-  if (!genreId) return; // Skip unmappable genres
+  console.log('Genre:', genre, 'Maps to ID:', genreId, 'Include:', isExcluded);
+  if (!genreId) return;
   
-  setUserPrefs(prev => ({
-    ...prev,
-    excludedGenreIds: isExcluded 
+  setUserPrefs(prev => {
+    const newExcluded = isExcluded 
       ? [...(prev.excludedGenreIds || []), genreId]
-      : (prev.excludedGenreIds || []).filter(id => id !== genreId)
-  }));
+      : (prev.excludedGenreIds || []).filter(id => id !== genreId);
+    console.log('Updated excluded IDs:', newExcluded);
+    return {
+      ...prev,
+      excludedGenreIds: newExcluded
+    };
+  });
 };
   
   const getGenreName = (genreId) => {

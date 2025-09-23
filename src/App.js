@@ -276,21 +276,15 @@ const calculateMoodScore = (moodAnswers) => {
       name: Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === parseInt(genre))
     }));
 
-  console.log('🏆 Final genre scores:', rankedGenres);
-  console.log('⚙️ Modifiers:', modifiers);
+  console.log('Final genre scores:', rankedGenres);
+  console.log('Modifiers:', modifiers);
 
-  return {
-    topGenres: rankedGenres.slice(0, 3), // Top 3 scoring genres
+return {
+    topGenres: rankedGenres.slice(0, 3),
     modifiers: modifiers,
     primaryGenre: rankedGenres[0]?.id || TMDB_GENRES.ACTION
   };
-};
-
-    // Handle modifiers (year ranges, popularity)
-    if (scoring.modifier) {
-      modifiers = { ...modifiers, ...scoring.modifier };
-    }
-  });
+}; 
 
 // ========================================
 // INTEGRATION READY FUNCTION

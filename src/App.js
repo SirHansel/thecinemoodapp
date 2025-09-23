@@ -230,10 +230,24 @@ const MOOD_SCORING = {
 // MAIN SCORING FUNCTION
 // ========================================
 const calculateMoodScore = (moodAnswers) => {
+ const calculateMoodScore = (moodAnswers) => {
   console.log('🧮 Calculating mood scores for:', moodAnswers);
+  console.log('MOOD_SCORING object exists:', !!MOOD_SCORING);
+  console.log('MOOD_SCORING.symbols exists:', !!MOOD_SCORING.symbols);
+  console.log('Available symbol IDs in scoring:', Object.keys(MOOD_SCORING.symbols || {}));
   
   const genreScores = {};
   let modifiers = {};
+
+  Object.entries(moodAnswers).forEach(([questionType, answer]) => {
+    console.log(`Processing ${questionType}:${answer}`);
+    const scoring = MOOD_SCORING[questionType]?.[answer];
+    console.log('Found scoring:', !!scoring);
+    
+    if (!scoring) {
+      console.log(`⚠️ Missing scoring for ${questionType}:${answer}`);
+      return;
+    }
 
   // Process each mood answer
   Object.entries(moodAnswers).forEach(([questionType, answer]) => {

@@ -231,20 +231,17 @@ const MOOD_SCORING = {
 // MAIN SCORING FUNCTION
 // ========================================
 const calculateMoodScore = (moodAnswers) => {
-  console.log('🧮 Calculating mood scores for:', moodAnswers);
-  console.log('MOOD_SCORING object exists:', !!MOOD_SCORING);
-  console.log('MOOD_SCORING.symbols exists:', !!MOOD_SCORING.symbols);
-  console.log('Available symbol IDs in scoring:', Object.keys(MOOD_SCORING.symbols || {}));
+  
   
   const genreScores = {};
   let modifiers = {};
 
   // Process each mood answer
   Object.entries(moodAnswers).forEach(([questionType, answer]) => {
-    console.log(`Processing ${questionType}:${answer}`);
+    
     const scoring = MOOD_SCORING[questionType]?.[answer];
     const weights = SCORING_WEIGHTS[questionType];
-    console.log('Found scoring:', !!scoring);
+   
     
     if (!scoring || !weights) {
       console.log(`⚠️ Missing scoring for ${questionType}:${answer}`);
@@ -277,9 +274,9 @@ const calculateMoodScore = (moodAnswers) => {
       name: Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === parseInt(genre))
     }));
 
-  console.log('Final genre scores:', rankedGenres);
-  console.log('Modifiers:', modifiers);
-
+console.log('🏆 Final genre scores:', rankedGenres);
+console.log('⚙️ Modifiers:', modifiers);
+  
 return {
     topGenres: rankedGenres.slice(0, 3),
     modifiers: modifiers,

@@ -229,7 +229,6 @@ const MOOD_SCORING = {
 // ========================================
 // MAIN SCORING FUNCTION
 // ========================================
-const calculateMoodScore = (moodAnswers) => {
  const calculateMoodScore = (moodAnswers) => {
   console.log('🧮 Calculating mood scores for:', moodAnswers);
   console.log('MOOD_SCORING object exists:', !!MOOD_SCORING);

@@ -30,6 +30,7 @@ const TMDB_GENRES = {
 
 // Hybrid Scoring Configuration - Easy to Tweak
 const SCORING_WEIGHTS = {
+  symbols: { primary: 2, secondary: 1, tertiary: 1 },
   aesthetic: { primary: 5, secondary: 2, tertiary: 1 },
   energy: { primary: 4, secondary: 2, tertiary: 1 },
   character: { primary: 6, secondary: 2, tertiary: 0 }, // Character gets more weight

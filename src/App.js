@@ -247,7 +247,7 @@ const calculateMoodScore = (moodAnswers) => {
     if (!scoring) {
       console.log(`⚠️ Missing scoring for ${questionType}:${answer}`);
       return;
-    }
+    };
 
   // Process each mood answer
   Object.entries(moodAnswers).forEach(([questionType, answer]) => {

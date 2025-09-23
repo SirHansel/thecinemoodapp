@@ -469,14 +469,15 @@ const applyAllFilters = (movies, userPrefs, allowRewatches = false) => {
   filteredMovies = filterByPlatforms(filteredMovies, userPrefs.platforms);
   
   // Filter 2: Genre exclusions (NEW)
-if (userPrefs.excludedGenreIds && userPrefs.excludedGenreIds.length > 0) {
-  const filteredByGenre = filteredMovies.filter(movie => {
+// if (userPrefs.excludedGenreIds && userPrefs.excludedGenreIds.length > 0) {
+//  const filteredByGenre = filteredMovies.filter(movie => {
    
-    return !movie.genre_ids?.some(genreId => userPrefs.excludedGenreIds?.includes(genreId));
-  });
-  console.log(`🚫 Genre filtering: ${filteredMovies.length} → ${filteredByGenre.length} movies`);
-  filteredMovies = filteredByGenre;
-}
+ //   return !movie.genre_ids?.some(genreId => userPrefs.excludedGenreIds?.includes(genreId));
+//  });
+ // console.log(`🚫 Genre filtering: ${filteredMovies.length} → ${filteredByGenre.length} movies`);
+ // filteredMovies = filteredByGenre;
+// }
+  
   // filteredMovies = filterByWatchedMovies(filteredMovies, letterboxdData, allowRewatches);
   
   // Future filters can be added here:

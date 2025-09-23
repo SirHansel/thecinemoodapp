@@ -1211,8 +1211,8 @@ if (currentScreen === 'setup') {
 
 // Mood Discovery Screen
 if (currentScreen === 'mood') {
-  console.log('Mood screen rendering');
-  console.log('Current question set:', currentQuestionSet);
+  // console.log('Mood screen rendering');
+//  console.log('Current question set:', currentQuestionSet);
   
   if (!currentQuestionSet) {
     return <div>Loading questions...</div>;
@@ -1221,10 +1221,10 @@ if (currentScreen === 'mood') {
   const currentQuestion = currentQuestionSet[questionIndex];
   const progress = ((questionIndex + 1) / currentQuestionSet.length) * 100;
   
-  console.log('Current question:', currentQuestion); 
-  console.log('Question type:', currentQuestion?.type); 
-  console.log('Has options:', !!currentQuestion?.options); 
-  console.log('Has symbols:', !!currentQuestion?.symbols);
+//  console.log('Current question:', currentQuestion); 
+//  console.log('Question type:', currentQuestion?.type); 
+//  console.log('Has options:', !!currentQuestion?.options); 
+//  console.log('Has symbols:', !!currentQuestion?.symbols);
   
   return (
     <div className="min-h-screen bg-gray-900 text-gray-200 p-4">

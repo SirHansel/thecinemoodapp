@@ -1259,7 +1259,20 @@ if (currentScreen === 'mood') {
           {symbol.id === 'square' && <rect x="5" y="5" width="40" height="40" fill="#d8410a" />}
           {symbol.id === 'wave' && <path d="M5,25 Q15,5 25,25 T45,25" stroke="currentColor" strokeWidth="3" fill="#3af463" />}
           {symbol.id === 'star' && <polygon points="25,5 30,20 45,20 35,30 40,45 25,35 10,45 15,30 5,20 20,20" fill="#d6d6d6" />}
-       
+        
+ {symbol.id ==='spiral', && svg: (color) => {
+      const points = [];
+      const centerX = 25, centerY = 25;
+      const a = 1.5; // Spiral growth rate
+      for (let theta = 0; theta <= 4 * Math.PI; theta += 0.2) {
+        const r = a * theta;
+        const x = centerX + r * Math.cos(theta);
+        const y = centerY + r * Math.sin(theta);
+        points.push(`${x},${y}`);
+      }
+      const d = `M${points[0]} ${points.slice(1).map(p => `L${p}`).join(' ')}`;
+      return <path d={d} stroke={color} strokeWidth="2" fill="none" />}
+            
         </svg>
         <span className="text-xs">{symbol.meaning}</span>
       </button>

@@ -1004,9 +1004,9 @@ const generateQuestionSet = () => {
     28: 'Action', 18: 'Drama', 35: 'Comedy', 80: 'Crime', 
     53: 'Thriller', 878: 'Science Fiction', 27: 'Horror',
     10749: 'Romance', 14: 'Fantasy', 12: 'Adventure',
-    37: 'Western', 36: 'History', 9648: 'Mystery', 10752: 'War' // Add these
+    37: 'Western', 36: 'History', 9648: 'Mystery', 10752: 'War'
   };
-  return genreNames[genreId] || 'Unknown';
+  return genreNames[genreId] || `ID:${genreId}`; // Show ID for debugging
 };
   
 const handleMoodAnswer = async (questionId, answerId) => {

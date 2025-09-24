@@ -342,7 +342,36 @@ if (tasteProfile && tasteProfile.lovedMovies.length > 0) {
 // ========================================
 const applyTasteWeighting = (moodScore, tasteProfile) => {
   console.log('🧮 Calculating taste-weighted genre selection');
+  / ========================================
+// QUALITY BOOST SYSTEM this might fail because my assistant is confused
+// ========================================
+const applyQualityBoost = (movie, tasteThresholds) => {
+  const primaryGenreId = movie.genre_ids?.[0]; // Fix property access
+  const genreThreshold = tasteThresholds[primaryGenreId]; 
+  let boost = movie.vote_average; 
+  if (genreThreshold && movie.vote_average >= genreThreshold.highPercentile) boost += 1; 
+  return boost;
+};
+ // ========================================
+// TASTE THRESHOLD GENERATION
+// ========================================
+const generateTasteThresholds = (tasteProfile) => {
+  if (!tasteProfile || !tasteProfile.lovedMovies) {
+    return {}; // Return empty if no taste data
+  }
   
+  const thresholds = {};
+  
+  // For each TMDB genre, set a baseline threshold
+  Object.values(TMDB_GENRES).forEach(genreId => {
+    thresholds[genreId] = {
+      highPercentile: 7.0 // Default TMDB rating threshold
+    };
+  });
+  
+  return thresholds;
+};
+
   // Extract genres from user's highly rated movies (simplified analysis)
   const tasteGenreBoosts = {};
   
@@ -495,27 +524,29 @@ const applyAllFilters = (movies, userPrefs, allowRewatches = false) => {
 // INTEGRATION POINT
 // ========================================
 // Add this to your generateRecommendations function after getting TMDB movies
-const getFilteredRecommendations = (rawMovies, userPrefs, allowRewatches = false) => {
+const getFilteredRecommendations = (rawMovies, userPrefs, tasteThresholds, allowRewatches = false) => {
   const filteredMovies = applyAllFilters(rawMovies, userPrefs, allowRewatches);
   
-  if (filteredMovies.length >= 3) {
-    const shuffled = filteredMovies.sort(() => 0.5 - Math.random());
+ if (filteredMovies.length >= 3) {
+  // Sort by boosted score descending instead of pure shuffle
+  const sorted = filteredMovies.sort((a, b) => 
+    applyQualityBoost(b, tasteThresholds) - applyQualityBoost(a, tasteThresholds)
+  );
     
     return {
-      safe: { 
-        ...shuffled[0], 
-        reason: "🎯 Safe Bet: Available on your platforms" 
-      },
-      stretch: { 
-        ...shuffled[1], 
-        reason: "↗️ Stretch: Trending on your services" 
-      },
-      wild: { 
-        ...shuffled[2], 
-        reason: "🎲 Wild Card: Hidden gem on your platforms" 
-      }
-    };
+  safe: { 
+    ...sorted[0], 
+    reason: "🎯 Safe Bet: High-rated match on your platforms" 
+  },
+  stretch: { 
+    ...sorted[1], 
+    reason: "↗️ Stretch: Balanced pick with potential" 
+  },
+  wild: { 
+    ...sorted[2], 
+    reason: "🎲 Wild Card: Edgy hidden gem" 
   }
+};
   
   return null;
 };
@@ -634,7 +665,8 @@ const movies = result?.movies;
     
     if (movies && movies.length >= 3) {
   console.log('✅ Using TMDB movies');
-  const movieRecs = getFilteredRecommendations(movies, userPrefs);
+  const tasteThresholds = generateTasteThresholds(userPrefs.tasteProfile);
+const movieRecs = getFilteredRecommendations(movies, userPrefs, tasteThresholds);
   
   if (movieRecs) {
     setRecommendations(movieRecs);

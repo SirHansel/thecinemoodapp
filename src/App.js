@@ -336,8 +336,12 @@ if (tasteProfile && tasteProfile.lovedMovies.length > 0) {
 // Skip excluded genres
  if (excludedGenreIds && excludedGenreIds.includes(finalGenreSelection)) {
   console.log('⚠️ Primary genre excluded, using secondary');
+console.log('🔍 Excluded genres:', excludedGenreIds);
+console.log('🔍 Searching for allowed genre in:', moodScore.topGenres.map(g => g.id));
 const allowedGenre = moodScore.topGenres.find(g => !excludedGenreIds.includes(g.id));
-finalGenreSelection = allowedGenre?.id || TMDB_GENRES.WESTERN; // Force western if nothing allowed
+console.log('🔍 Found allowed genre:', allowedGenre);
+finalGenreSelection = allowedGenre?.id || TMDB_GENRES.WESTERN;
+console.log('🔍 Final selection:', finalGenreSelection);
 }
   
   try {
@@ -671,7 +675,7 @@ const movies = result?.movies;
     if (movies && movies.length >= 3) {
   console.log('✅ Using TMDB movies');
   const tasteThresholds = generateTasteThresholds(userPrefs.tasteProfile);
-const movieRecs = getFilteredRecommendations(movies, userPrefs, tasteThresholds);
+const movieRecs = await getDetailedRecommendations(movies, userPrefs, tasteThresholds);
   
   if (movieRecs) {
     setRecommendations(movieRecs);

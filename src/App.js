@@ -340,7 +340,8 @@ if (tasteProfile && tasteProfile.lovedMovies.length > 0) {
 // console.log('🔍 Searching for allowed genre in:', moodScore.topGenres.map(g => g.id));
 const allowedGenre = moodScore.topGenres.find(g => !excludedGenreIds.includes(g.id));
 // console.log('🔍 Found allowed genre:', allowedGenre);
-finalGenreSelection = allowedGenre?.id || TMDB_GENRES.WESTERN;
+const allowedGenres = Object.values(TMDB_GENRES).filter(genreId => !excludedGenreIds.includes(genreId));
+finalGenreSelection = allowedGenre?.id || allowedGenres[0] || TMDB_GENRES.ACTION;
 // console.log('🔍 Final selection:', finalGenreSelection);
 }
   

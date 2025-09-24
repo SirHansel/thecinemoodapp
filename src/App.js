@@ -530,11 +530,13 @@ const getFilteredRecommendations = (rawMovies, userPrefs, tasteThresholds, allow
   const filteredMovies = applyAllFilters(rawMovies, userPrefs, allowRewatches);
   
  if (filteredMovies.length >= 3) {
-  // Sort by boosted score descending instead of pure shuffle
-  const sorted = filteredMovies.sort((a, b) => 
-    applyQualityBoost(b, tasteThresholds) - applyQualityBoost(a, tasteThresholds)
-  );
-    
+   // Sort by quality but add randomization for variety
+
+   const sorted = filteredMovies
+  .sort((a, b) => applyQualityBoost(b, tasteThresholds) - applyQualityBoost(a, tasteThresholds))
+  .slice(0, 8) // Take top 8 quality films
+  .sort(() => 0.5 - Math.random()); // Then randomize within that group
+   
     return {
   safe: { 
     ...sorted[0], 

@@ -1003,11 +1003,11 @@ const generateQuestionSet = () => {
   const genreNames = {
     28: 'Action', 18: 'Drama', 35: 'Comedy', 80: 'Crime', 
     53: 'Thriller', 878: 'Science Fiction', 27: 'Horror',
-    10749: 'Romance', 14: 'Fantasy', 12: 'Adventure'
+    10749: 'Romance', 14: 'Fantasy', 12: 'Adventure',
+    37: 'Western', 36: 'History', 9648: 'Mystery', 10752: 'War' // Add these
   };
   return genreNames[genreId] || 'Unknown';
 };
-
   
 const handleMoodAnswer = async (questionId, answerId) => {
   setUserPrefs(prev => ({
@@ -1348,7 +1348,7 @@ if (currentScreen === 'results') {
   <div className="text-gray-400 text-sm mb-2">
   {movie.genre_ids ? movie.genre_ids.map(id => getGenreName(id)).join(', ') : 'Unknown'} • 
   {movie.runtime ? `${movie.runtime}m` : 'Unknown runtime'} • 
-  {movie.availablePlatforms?.[0] || 'Unknown platform'}
+  {movie.availablePlatforms?.[0] || userPrefs.platforms[Math.floor(Math.random() * userPrefs.platforms.length)]}
 </div>
             <div className="bg-blue-900/50 p-2 rounded text-xs italic text-blue-300 mt-2">
               {movie.reason}

@@ -336,7 +336,8 @@ if (tasteProfile && tasteProfile.lovedMovies.length > 0) {
 // Skip excluded genres
  if (excludedGenreIds && excludedGenreIds.includes(finalGenreSelection)) {
   console.log('⚠️ Primary genre excluded, using secondary');
- finalGenreSelection = moodScore.topGenres.find(g => !excludedGenreIds.includes(g.id))?.id || moodScore.primaryGenre;
+const allowedGenre = moodScore.topGenres.find(g => !excludedGenreIds.includes(g.id));
+finalGenreSelection = allowedGenre?.id || TMDB_GENRES.WESTERN; // Force western if nothing allowed
 }
   
   try {

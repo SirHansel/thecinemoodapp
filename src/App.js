@@ -227,6 +227,26 @@ const MOOD_SCORING = {
   }
 };
 
+ // ========================================
+// TASTE THRESHOLD GENERATION
+// ========================================
+const generateTasteThresholds = (tasteProfile) => {
+  if (!tasteProfile || !tasteProfile.lovedMovies) {
+    return {}; // Return empty if no taste data
+  }
+  
+  const thresholds = {};
+  
+  // For each TMDB genre, set a baseline threshold
+  Object.values(TMDB_GENRES).forEach(genreId => {
+    thresholds[genreId] = {
+      highPercentile: 7.0 // Default TMDB rating threshold
+    };
+  });
+  
+  return thresholds;
+};
+
 // ========================================
 // MAIN SCORING FUNCTION
 // ========================================

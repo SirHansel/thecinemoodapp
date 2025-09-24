@@ -12,6 +12,7 @@ import { parseLetterboxdCSV, analyzeUserTaste, combineRatingsWithTaste } from '.
 const TMDB_GENRES = {
   ACTION: 28,
   ADVENTURE: 12,
+  ANIMATION: 16,
   COMEDY: 35,
   CRIME: 80,
   DRAMA: 18,

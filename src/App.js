@@ -342,7 +342,7 @@ if (tasteProfile && tasteProfile.lovedMovies.length > 0) {
 // ========================================
 const applyTasteWeighting = (moodScore, tasteProfile) => {
   console.log('🧮 Calculating taste-weighted genre selection');
-  / ========================================
+  // ========================================
 // QUALITY BOOST SYSTEM this might fail because my assistant is confused
 // ========================================
 const applyQualityBoost = (movie, tasteThresholds) => {

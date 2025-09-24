@@ -334,10 +334,10 @@ if (tasteProfile && tasteProfile.lovedMovies.length > 0) {
 }
 
 // Skip excluded genres
-// if (excludedGenreIds && excludedGenreIds.includes(finalGenreSelection)) {
- // console.log('⚠️ Primary genre excluded, using secondary');
-//  finalGenreSelection = moodScore.topGenres.find(g => !excludedGenreIds.includes(g.id))?.id || moodScore.primaryGenre;
-//}
+ if (excludedGenreIds && excludedGenreIds.includes(finalGenreSelection)) {
+  console.log('⚠️ Primary genre excluded, using secondary');
+ finalGenreSelection = moodScore.topGenres.find(g => !excludedGenreIds.includes(g.id))?.id || moodScore.primaryGenre;
+}
   
   try {
     let movies = await fetchMoviesByGenre(finalGenreSelection);
@@ -502,15 +502,14 @@ const applyAllFilters = (movies, userPrefs, allowRewatches = false) => {
   // Filter 1: Platform availability
   filteredMovies = filterByPlatforms(filteredMovies, userPrefs.platforms);
   
-  // Filter 2: Genre exclusions (NEW)
-// if (userPrefs.excludedGenreIds && userPrefs.excludedGenreIds.length > 0) {
-//  const filteredByGenre = filteredMovies.filter(movie => {
-   
- //   return !movie.genre_ids?.some(genreId => userPrefs.excludedGenreIds?.includes(genreId));
-//  });
- // console.log(`🚫 Genre filtering: ${filteredMovies.length} → ${filteredByGenre.length} movies`);
- // filteredMovies = filteredByGenre;
-// }
+// Filter 2: Genre exclusions
+if (userPrefs.excludedGenreIds && userPrefs.excludedGenreIds.length > 0) {
+  const filteredByGenre = filteredMovies.filter(movie => {
+    return !movie.genre_ids?.some(genreId => userPrefs.excludedGenreIds.includes(genreId));
+  });
+  console.log(`🚫 Genre filtering: ${filteredMovies.length} → ${filteredByGenre.length} movies`);
+  filteredMovies = filteredByGenre;
+}
   
   // filteredMovies = filterByWatchedMovies(filteredMovies, letterboxdData, allowRewatches);
   

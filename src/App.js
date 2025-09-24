@@ -247,6 +247,14 @@ const generateTasteThresholds = (tasteProfile) => {
   return thresholds;
 };
 
+const applyQualityBoost = (movie, tasteThresholds) => {
+  const primaryGenreId = movie.genre_ids?.[0]; // Fix property access
+  const genreThreshold = tasteThresholds[primaryGenreId]; 
+  let boost = movie.vote_average; 
+  if (genreThreshold && movie.vote_average >= genreThreshold.highPercentile) boost += 1; 
+  return boost;
+};
+
 // ========================================
 // MAIN SCORING FUNCTION
 // ========================================
@@ -365,13 +373,6 @@ const applyTasteWeighting = (moodScore, tasteProfile) => {
   // ========================================
 // QUALITY BOOST SYSTEM this might fail because my assistant is confused
 // ========================================
-const applyQualityBoost = (movie, tasteThresholds) => {
-  const primaryGenreId = movie.genre_ids?.[0]; // Fix property access
-  const genreThreshold = tasteThresholds[primaryGenreId]; 
-  let boost = movie.vote_average; 
-  if (genreThreshold && movie.vote_average >= genreThreshold.highPercentile) boost += 1; 
-  return boost;
-};
   
   // Extract genres from user's highly rated movies (simplified analysis)
   const tasteGenreBoosts = {};

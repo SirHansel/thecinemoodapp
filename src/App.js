@@ -352,26 +352,7 @@ const applyQualityBoost = (movie, tasteThresholds) => {
   if (genreThreshold && movie.vote_average >= genreThreshold.highPercentile) boost += 1; 
   return boost;
 };
- // ========================================
-// TASTE THRESHOLD GENERATION
-// ========================================
-const generateTasteThresholds = (tasteProfile) => {
-  if (!tasteProfile || !tasteProfile.lovedMovies) {
-    return {}; // Return empty if no taste data
-  }
   
-  const thresholds = {};
-  
-  // For each TMDB genre, set a baseline threshold
-  Object.values(TMDB_GENRES).forEach(genreId => {
-    thresholds[genreId] = {
-      highPercentile: 7.0 // Default TMDB rating threshold
-    };
-  });
-  
-  return thresholds;
-};
-
   // Extract genres from user's highly rated movies (simplified analysis)
   const tasteGenreBoosts = {};
   

@@ -12,21 +12,20 @@ import { parseLetterboxdCSV, analyzeUserTaste, combineRatingsWithTaste } from '.
 const TMDB_GENRES = {
   ACTION: 28,
   ADVENTURE: 12,
-  ANIMATION: 16,
+  ANIMATION: 16,          // 
   COMEDY: 35,
   CRIME: 80,
+  DOCUMENTARY: 99,        //  
   DRAMA: 18,
   FANTASY: 14,
-  HISTORY: 36,
   HORROR: 27,
+  MUSIC: 10402,           //  (for Musical)
   MYSTERY: 9648,
   ROMANCE: 10749,
   SCIENCE_FICTION: 878,
   THRILLER: 53,
   WAR: 10752,
-  WESTERN: 37,
-  MUSIC: 10402,  // This covers musicals
-  DOCUMENTARY: 99
+  WESTERN: 37
 };
 
 // Hybrid Scoring Configuration - Easy to Tweak
@@ -970,18 +969,18 @@ const generateQuestionSet = () => {
     }));
   };
  
-  const GENRE_MAPPING = {
+ const GENRE_MAPPING = {
   'Action': TMDB_GENRES.ACTION,
-  'Animation': 16, // TMDB ID for animation
-  'Biography': 99, // Using documentary ID as closest match
+  'Animation': TMDB_GENRES.ANIMATION,          
+  'Biography': TMDB_GENRES.DOCUMENTARY,         // Update (closest match)
   'Comedy': TMDB_GENRES.COMEDY,
   'Crime': TMDB_GENRES.CRIME,
   'Drama': TMDB_GENRES.DRAMA,
-  'Documentary': 99,
+  'Documentary': TMDB_GENRES.DOCUMENTARY,       
   'Fantasy': TMDB_GENRES.FANTASY,
-  'Foreign': null, // No direct TMDB equivalent
+  'Foreign': null,                             // still not specified. We should build this later
   'Horror': TMDB_GENRES.HORROR,
-  'Musical': 10402, // TMDB ID for music
+  'Musical': TMDB_GENRES.MUSIC,                 
   'Romance': TMDB_GENRES.ROMANCE,
   'Sci-fi': TMDB_GENRES.SCIENCE_FICTION,
   'Thriller': TMDB_GENRES.THRILLER,

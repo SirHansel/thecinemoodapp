@@ -545,8 +545,9 @@ const getFilteredRecommendations = (rawMovies, userPrefs, tasteThresholds, allow
   wild: { 
     ...sorted[2], 
     reason: "🎲 Wild Card: Edgy hidden gem" 
-  }
-};
+    }
+  };
+}
   
   return null;
 };

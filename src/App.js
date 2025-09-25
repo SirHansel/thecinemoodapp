@@ -988,16 +988,16 @@ const generateQuestionSet = () => {
   'War': TMDB_GENRES.WAR,
   'Western': TMDB_GENRES.WESTERN
 };
- const handleGenreExclusion = (genre, isExcluded) => {
+const handleGenreExclusion = (genre, isExcluded) => {
   const genreId = GENRE_MAPPING[genre];
- 
   if (!genreId) return;
   
   setUserPrefs(prev => {
+    const currentExcluded = prev.excludedGenreIds || [];
     const newExcluded = isExcluded 
-      ? [...(prev.excludedGenreIds || []), genreId]
-      : (prev.excludedGenreIds || []).filter(id => id !== genreId);
-    // console.log('Updated excluded IDs:', newExcluded); // Comment out this line
+      ? [...currentExcluded.filter(id => id !== genreId), genreId] // Remove duplicates, then add
+      : currentExcluded.filter(id => id !== genreId); // Remove if unchecking
+    
     return {
       ...prev,
       excludedGenreIds: newExcluded

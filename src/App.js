@@ -335,11 +335,12 @@ if (tasteProfile && tasteProfile.lovedMovies.length > 0) {
 
 // Skip excluded genres
  if (excludedGenreIds && excludedGenreIds.includes(finalGenreSelection)) {
+   console.log('🔍 Excluded genres:', excludedGenreIds);
   console.log('⚠️ Primary genre excluded, using secondary');
 // console.log('🔍 Excluded genres:', excludedGenreIds);
 // console.log('🔍 Searching for allowed genre in:', moodScore.topGenres.map(g => g.id));
 const allowedGenre = moodScore.topGenres.find(g => !excludedGenreIds.includes(g.id));
-// console.log('🔍 Found allowed genre:', allowedGenre);
+console.log('🔍 Found allowed genre:', allowedGenre);
 const allowedGenres = Object.values(TMDB_GENRES).filter(genreId => !excludedGenreIds.includes(genreId));
 finalGenreSelection = allowedGenre?.id || allowedGenres[0] || TMDB_GENRES.ACTION;
 // console.log('🔍 Final selection:', finalGenreSelection);

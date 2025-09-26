@@ -238,6 +238,7 @@ const generateTasteThresholds = (tasteProfile) => {
   const thresholds = {};
   
   // For each TMDB genre, set a baseline threshold
+  
   Object.values(TMDB_GENRES).forEach(genreId => {
     thresholds[genreId] = {
       highPercentile: 7.0 // Default TMDB rating threshold
@@ -336,7 +337,9 @@ if (tasteProfile && tasteProfile.lovedMovies.length > 0) {
 // Skip excluded genres
  if (excludedGenreIds && excludedGenreIds.length > 0) {
   // Calculate allowed genres (not in excluded list)
-  const allowedGenres = Object.values(TMDB_GENRES).filter(genreId => !excludedGenreIds.includes(genreId));
+   console.log('🔍 Current excluded array:', excludedGenreIds);
+const allowedGenres = Object.values(TMDB_GENRES).filter(genreId => !excludedGenreIds.includes(genreId));
+
   
   // If selected genre isn't allowed, find a replacement
   if (excludedGenreIds.includes(finalGenreSelection)) {

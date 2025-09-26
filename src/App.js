@@ -1185,7 +1185,14 @@ if (currentScreen === 'setup') {
               </button>
             ))}
           </div>
- 
+
+<button 
+  onClick={() => setUserPrefs(prev => ({...prev, excludedGenreIds: []}))}
+  className="w-full bg-red-500 hover:bg-red-600 text-white p-2 rounded mb-4"
+>
+  Clear All Exclusions (Debug)
+</button>
+
 {/* Expandable genre exclusions */}
 <div className="mb-4">
   <button 

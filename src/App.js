@@ -334,16 +334,19 @@ if (tasteProfile && tasteProfile.lovedMovies.length > 0) {
 }
 
 // Skip excluded genres
- if (excludedGenreIds && excludedGenreIds.includes(finalGenreSelection)) {
-   console.log('🔍 Excluded genres:', excludedGenreIds);
-  console.log('⚠️ Primary genre excluded, using secondary');
-// console.log('🔍 Excluded genres:', excludedGenreIds);
-// console.log('🔍 Searching for allowed genre in:', moodScore.topGenres.map(g => g.id));
-const allowedGenre = moodScore.topGenres.find(g => !excludedGenreIds.includes(g.id));
-console.log('🔍 Found allowed genre:', allowedGenre);
-const allowedGenres = Object.values(TMDB_GENRES).filter(genreId => !excludedGenreIds.includes(genreId));
-finalGenreSelection = allowedGenre?.id || allowedGenres[0] || TMDB_GENRES.ACTION;
-// console.log('🔍 Final selection:', finalGenreSelection);
+ if (excludedGenreIds && excludedGenreIds.length > 0) {
+  // Calculate allowed genres (not in excluded list)
+  const allowedGenres = Object.values(TMDB_GENRES).filter(genreId => !excludedGenreIds.includes(genreId));
+  
+  // If selected genre isn't allowed, find a replacement
+  if (excludedGenreIds.includes(finalGenreSelection)) {
+    console.log('⚠️ Primary genre excluded, using secondary');
+    const allowedGenre = moodScore.topGenres.find(g => !excludedGenreIds.includes(g.id));
+    finalGenreSelection = allowedGenre?.id || allowedGenres[0] || TMDB_GENRES.ACTION;
+  }
+  
+  console.log('🎯 Allowed genres:', allowedGenres.map(id => Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === id)));
+  console.log('🎯 Final selection must be from allowed list');
 }
   
   try {

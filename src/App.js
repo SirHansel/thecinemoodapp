@@ -1204,7 +1204,7 @@ if (currentScreen === 'setup') {
             <input 
               type="checkbox" 
               className="mr-2" 
-              onChange={(e) => handleGenreExclusion(genre, e.target.checked)}
+             onChange={(e) => handleGenreExclusion(genre, !e.target.checked)}
             />
             {genre}
           </label>

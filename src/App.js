@@ -1027,9 +1027,12 @@ const generateQuestionSet = () => {
     28: 'Action', 18: 'Drama', 35: 'Comedy', 80: 'Crime', 
     53: 'Thriller', 878: 'Science Fiction', 27: 'Horror',
     10749: 'Romance', 14: 'Fantasy', 12: 'Adventure',
-    37: 'Western', 36: 'History', 9648: 'Mystery', 10752: 'War'
+    37: 'Western', 36: 'History', 9648: 'Mystery', 10752: 'War',
+    16: 'Animation', // Added this
+    10751: 'Family',  // Added this for the other ID you're seeing
+    99: 'Documentary', 10402: 'Music'
   };
-  return genreNames[genreId] || `ID:${genreId}`; // Show ID for debugging
+  return genreNames[genreId] || `ID:${genreId}`;
 };
   
 const handleMoodAnswer = async (questionId, answerId) => {

@@ -518,8 +518,10 @@ const applyAllFilters = (movies, userPrefs, allowRewatches = false) => {
 // Filter 2: Genre exclusions
 if (userPrefs.excludedGenreIds && userPrefs.excludedGenreIds.length > 0) {
   const filteredByGenre = filteredMovies.filter(movie => {
-    return !movie.genre_ids?.some(genreId => userPrefs.excludedGenreIds.includes(genreId));
-  });
+    // For whitelist mode: movie must HAVE the allowed genre (not just avoid excluded ones)
+const allowedGenres = Object.values(TMDB_GENRES).filter(id => !userPrefs.excludedGenreIds.includes(id));
+return movie.genre_ids?.some(genreId => allowedGenres.includes(genreId));
+    
   console.log(`🚫 Genre filtering: ${filteredMovies.length} → ${filteredByGenre.length} movies`);
   filteredMovies = filteredByGenre;
 }

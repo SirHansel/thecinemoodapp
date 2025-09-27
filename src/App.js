@@ -531,6 +531,7 @@ return movie.genre_ids?.some(genreId => allowedGenres.includes(genreId));
   // Future filters can be added here:
   // filteredMovies = filterByExcludedGenres(filteredMovies, userPrefs.excludedGenres);
   // filteredMovies = filterByRuntime(filteredMovies, userPrefs.maxRuntime);
+   };
   
   console.log('✨ Final filtered results:', filteredMovies.length, 'movies');
   return filteredMovies;

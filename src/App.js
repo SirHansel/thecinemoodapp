@@ -978,6 +978,7 @@ const generateQuestionSet = () => {
  
  const GENRE_MAPPING = {
   'Action': TMDB_GENRES.ACTION,
+   'Adventure': TMDB_GENRES.ADVENTURE,
   'Animation': TMDB_GENRES.ANIMATION,          
   'Biography': TMDB_GENRES.DOCUMENTARY,         // Update (closest match)
   'Comedy': TMDB_GENRES.COMEDY,
@@ -987,7 +988,8 @@ const generateQuestionSet = () => {
   'Fantasy': TMDB_GENRES.FANTASY,
   'Foreign': null,                             // still not specified. We should build this later
   'Horror': TMDB_GENRES.HORROR,
-  'Musical': TMDB_GENRES.MUSIC,                 
+  'Musical': TMDB_GENRES.MUSIC,  
+'Mystery': TMDB_GENRES.MYSTERY,
   'Romance': TMDB_GENRES.ROMANCE,
   'Sci-fi': TMDB_GENRES.SCIENCE_FICTION,
   'Thriller': TMDB_GENRES.THRILLER,
@@ -1210,8 +1212,8 @@ if (currentScreen === 'setup') {
     <div className="mt-3 p-3 bg-gray-700/50 rounded border border-gray-600">
       <p className="text-xs text-gray-400 mb-2">Movies with these genres won't be recommended:</p>
         <div className="grid grid-cols-3 gap-2">
-         {['Action','Animation','Biography','Comedy','Crime','Drama','Documentary','Fantasy', 'Foreign','Horror','Musical','Romance','Sci-fi','Thriller','War', 'Western', 
-  ].map(genre => (
+{['Action','Adventure','Animation','Biography','Comedy','Crime','Drama','Documentary','Fantasy', 'Foreign',
+  'Horror','Musical','Mystery','Romance','Sci-fi','Thriller','War', 'Western'].map(genre => ( 
           
     <label key={genre} className="flex items-center text-sm">
             <input 

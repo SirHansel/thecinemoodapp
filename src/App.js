@@ -517,10 +517,19 @@ const applyAllFilters = (movies, userPrefs, allowRewatches = false) => {
   
 // Filter 2: Genre exclusions
 if (userPrefs.excludedGenreIds && userPrefs.excludedGenreIds.length > 0) {
-  const filteredByGenre = filteredMovies.filter(movie => {
-    // For whitelist mode: movie must HAVE the allowed genre (not just avoid excluded ones)
-const allowedGenres = Object.values(TMDB_GENRES).filter(id => !userPrefs.excludedGenreIds.includes(id));
-return movie.genre_ids?.some(genreId => allowedGenres.includes(genreId));
+ const filteredByGenre = filteredMovies.filter(movie => {
+  const allowedGenres = Object.values(TMDB_GENRES).filter(id => !userPrefs.excludedGenreIds.includes(id));
+  
+  // Weighted scoring: first genre = 3 points, second = 2, third = 1
+  let score = 0;
+  movie.genre_ids?.forEach((genreId, index) => {
+    if (allowedGenres.includes(genreId)) {
+      score += Math.max(3 - index, 1); // Minimum 1 point for any position
+    }
+  });
+  
+  // Require 3+ points (primary allowed genre OR strong secondary presence)
+  return score >= 3;
 });
     
   console.log(`🚫 Genre filtering: ${filteredMovies.length} → ${filteredByGenre.length} movies`);

@@ -28,6 +28,34 @@ const TMDB_GENRES = {
   WESTERN: 37
 };
 
+// ========================================
+// TRAIT-BASED ARCHITECTURE
+// ========================================
+const TRAITS = [
+  'futuristic', 'adventurous', 'mysterious', 'heartwarming', 
+  'dark', 'humorous', 'intense', 'romantic', 'thrilling', 'whimsical'
+];
+
+// Genre-to-Trait Affinities (0-5 scale)
+const GENRE_TO_TRAIT_AFFINITIES = {
+  [TMDB_GENRES.SCIENCE_FICTION]: { futuristic: 5, mysterious: 3, intense: 2, thrilling: 2 },
+  [TMDB_GENRES.HORROR]: { dark: 5, intense: 4, thrilling: 4, mysterious: 3 },
+  [TMDB_GENRES.COMEDY]: { humorous: 5, heartwarming: 3, whimsical: 2 },
+  [TMDB_GENRES.ROMANCE]: { romantic: 5, heartwarming: 4, whimsical: 2 },
+  [TMDB_GENRES.ACTION]: { intense: 5, thrilling: 4, adventurous: 3 },
+  [TMDB_GENRES.ADVENTURE]: { adventurous: 5, thrilling: 3, mysterious: 2 },
+  [TMDB_GENRES.DRAMA]: { heartwarming: 3, intense: 3, mysterious: 2 },
+  [TMDB_GENRES.THRILLER]: { thrilling: 5, intense: 4, dark: 3, mysterious: 3 },
+  [TMDB_GENRES.MYSTERY]: { mysterious: 5, thrilling: 3, dark: 2 },
+  [TMDB_GENRES.FANTASY]: { whimsical: 4, adventurous: 3, mysterious: 3 },
+  [TMDB_GENRES.ANIMATION]: { whimsical: 5, humorous: 3, heartwarming: 3, adventurous: 2 },
+  [TMDB_GENRES.CRIME]: { dark: 4, intense: 4, thrilling: 3 },
+  [TMDB_GENRES.WAR]: { intense: 5, dark: 4, heartwarming: 2 },
+  [TMDB_GENRES.WESTERN]: { adventurous: 4, intense: 3, dark: 2 },
+  [TMDB_GENRES.DOCUMENTARY]: { mysterious: 2, heartwarming: 2 },
+  [TMDB_GENRES.MUSIC]: { heartwarming: 4, whimsical: 3, romantic: 2 }
+};
+
 // Hybrid Scoring Configuration - Easy to Tweak
 const SCORING_WEIGHTS = {
   symbols: { primary: 2, secondary: 1, tertiary: 1 },

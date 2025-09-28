@@ -527,7 +527,9 @@ if (userPrefs.excludedGenreIds && userPrefs.excludedGenreIds.length > 0) {
       score += Math.max(3 - index, 1); // Minimum 1 point for any position
     }
   });
-  console.log(`🎯 Genre scoring for movie: primary=${movie.genre_ids?.[0]}, score=${score}, passed=${score >= 3}`);
+
+   // console.log(`🎯 Genre scoring for movie: primary=${movie.genre_ids?.[0]}, score=${score}, passed=${score >= 3}`);
+   
   // Require 3+ points (primary allowed genre OR strong secondary presence)
   return score >= 3;
 });

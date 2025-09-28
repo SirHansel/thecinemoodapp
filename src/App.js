@@ -56,6 +56,50 @@ const GENRE_TO_TRAIT_AFFINITIES = {
   [TMDB_GENRES.MUSIC]: { heartwarming: 4, whimsical: 3, romantic: 2 }
 };
 
+// ========================================
+// TRAIT COMPUTATION
+// ========================================
+const computeTraitScores = (allowedGenres) => {
+  const traitScores = {};
+  
+  // Initialize all traits to 0
+  TRAITS.forEach(trait => {
+    traitScores[trait] = 0;
+  });
+  
+  // Sum trait affinities from all allowed genres
+  allowedGenres.forEach(genreId => {
+    const affinities = GENRE_TO_TRAIT_AFFINITIES[genreId];
+    if (affinities) {
+      Object.entries(affinities).forEach(([trait, score]) => {
+        traitScores[trait] += score;
+      });
+    }
+  });
+  
+  console.log('🎨 Trait scores for allowed genres:', traitScores);
+  return traitScores;
+};
+
+// ========================================
+// TRAIT-BASED MOVIE SCORING
+// ========================================
+const scoreMovieByTraits = (movie, traitScores) => {
+  let movieScore = 0;
+  
+  // Score movie based on its genres' trait affinities
+  movie.genre_ids?.forEach(genreId => {
+    const affinities = GENRE_TO_TRAIT_AFFINITIES[genreId];
+    if (affinities) {
+      Object.entries(affinities).forEach(([trait, affinity]) => {
+        movieScore += (traitScores[trait] || 0) * affinity;
+      });
+    }
+  });
+  
+  return movieScore;
+};
+
 // Hybrid Scoring Configuration - Easy to Tweak
 const SCORING_WEIGHTS = {
   symbols: { primary: 2, secondary: 1, tertiary: 1 },

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Play, RotateCcw, Settings, Star, ThumbsUp } from 'lucide-react';
 import { fetchMoviesByGenre, fetchMovieDetails } from './tmdbApi';
 import { parseLetterboxdCSV, analyzeUserTaste, combineRatingsWithTaste } from './letterboxdApi'; 
 import { Play, RotateCcw, Settings, Star, ThumbsUp, Circle, Triangle, Square, Waves, Sparkles, Leaf, Flame, Cloud, Sun, Box, Globe, Cylinder, Helix, BookOpen, Lamp, Hammer, Key, Mirror, Bridge } from 'lucide-react';// ========================================

@@ -264,38 +264,6 @@ const MOOD_SCORING = {
       secondary: TMDB_GENRES.MYSTERY,         // +2 pts
       tertiary: TMDB_GENRES.THRILLER          // +1 pt
     }
-  },
-  symbols: {
-    circle: {
-      primary: TMDB_GENRES.DRAMA,             // +2 pts (balance/harmony)
-      secondary: TMDB_GENRES.ROMANCE,         // +1 pt
-      tertiary: TMDB_GENRES.MYSTERY           // +1 pt
-    },
-    triangle: {
-      primary: TMDB_GENRES.THRILLER,          // +2 pts (tension/conflict)
-      secondary: TMDB_GENRES.ACTION,          // +1 pt
-      tertiary: null
-    },
-    square: {
-      primary: TMDB_GENRES.MYSTERY,           // +2 pts (structure/logic)
-      secondary: TMDB_GENRES.CRIME,           // +1 pt
-      tertiary: TMDB_GENRES.HORROR            // +1 pt
-    },
-    wave: {
-      primary: TMDB_GENRES.FANTASY,           // +2 pts (flow/emotion)
-      secondary: TMDB_GENRES.ADVENTURE,       // +1 pt
-      tertiary: null
-    },
-    star: {
-       primary: TMDB_GENRES.SCIENCE_FICTION,   // +2 pts
-       secondary: TMDB_GENRES.ADVENTURE,       // +1 pt
-       tertiary: null
-    },
-    spiral: {
-      primary: TMDB_GENRES.HORROR,            // +2 pts (complexity/depth)
-      secondary: TMDB_GENRES.MYSTERY,         // +1 pt
-      tertiary: null
-    }
   }
 };
 
@@ -1205,7 +1173,21 @@ const handleMoodAnswer = async (questionId, answerId) => {
     ...prev,
     moodAnswers: { ...prev.moodAnswers, [questionId]: answerId }
   }));
- 
+
+  // Capture symbol trait scores
+  if (questionId === 'symbols') {
+    const currentSymbolQuestion = currentQuestionSet.find(q => q.id === 'symbols');
+    const selectedSymbol = currentSymbolQuestion?.symbols.find(s => s.id === answerId);
+    if (selectedSymbol?.traits) {
+      setUserPrefs(prev => ({
+        ...prev,
+        symbolTraits: selectedSymbol.traits
+      }));
+      console.log('🎨 Symbol traits captured:', selectedSymbol.traits);
+    }
+  }
+
+  // Continue with existing navigation logic...
   if (questionIndex < currentQuestionSet.length - 1) {
     setQuestionIndex(questionIndex + 1);
   } else {
@@ -1487,12 +1469,36 @@ if (currentScreen === 'mood') {
         className="p-4 border-2 border-gray-600 rounded-lg text-white font-medium transition-all hover:scale-105 bg-gray-700 hover:border-gray-400 flex flex-col items-center"
       >
         <svg width="40" height="40" viewBox="0 0 50 50" className="mb-2">
-          {symbol.id === 'circle' && <circle cx="25" cy="25" r="20" fill="#3b82f6" />}
-          {symbol.id === 'triangle' && <polygon points="25,5 5,45 45,45" fill="#F5AD3B" />}
-          {symbol.id === 'square' && <rect x="5" y="5" width="40" height="40" fill="#d8410a" />}
-          {symbol.id === 'wave' && <path d="M5,25 Q15,5 25,25 T45,25" stroke="currentColor" strokeWidth="3" fill="#3af463" />}
-          {symbol.id === 'star' && <polygon points="25,5 30,20 45,20 35,30 40,45 25,35 10,45 15,30 5,20 20,20" fill="#d6d6d6" />}
-        
+  {/* Geometry */}
+  {symbol.id === 'circle' && <circle cx="25" cy="25" r="20" fill="#3b82f6" />}
+  {symbol.id === 'triangle' && <polygon points="25,5 5,45 45,45" fill="#F5AD3B" />}
+  {symbol.id === 'square' && <rect x="5" y="5" width="40" height="40" fill="#d8410a" />}
+  {symbol.id === 'wave' && <path d="M5,25 Q15,5 25,25 T45,25" stroke="#3af463" strokeWidth="3" fill="none" />}
+  {symbol.id === 'star' && <polygon points="25,5 30,20 45,20 35,30 40,45 25,35 10,45 15,30 5,20 20,20" fill="#d6d6d6" />}
+  {symbol.id === 'spiral' && <path d="M25,25 Q35,15 45,25 Q35,35 25,25 Q15,15 25,25" stroke="#9333ea" strokeWidth="3" fill="none" />}
+  
+  {/* Natural Elements */}
+  {symbol.id === 'leaf' && <path d="M25,45 Q15,25 25,5 Q35,25 25,45" fill="#22c55e" />}
+  {symbol.id === 'flame' && <path d="M25,45 Q15,35 20,20 Q25,15 25,5 Q35,15 30,20 Q35,35 25,45" fill="#ef4444" />}
+  {symbol.id === 'stone' && <ellipse cx="25" cy="35" rx="18" ry="12" fill="#6b7280" />}
+  {symbol.id === 'cloud' && <path d="M15,30 Q10,20 20,20 Q25,10 35,20 Q45,20 40,30 Z" fill="#e5e7eb" />}
+  {symbol.id === 'sun' && <circle cx="25" cy="25" r="12" fill="#fbbf24" />}
+  
+  {/* 3D Forms - simplified representations */}
+  {symbol.id === 'pyramid' && <polygon points="25,10 10,40 40,40" fill="#a855f7" />}
+  {symbol.id === 'cube' && <polygon points="15,35 35,35 45,15 25,15 15,25 15,35 25,15 35,35 45,15" stroke="#06b6d4" strokeWidth="2" fill="none" />}
+  {symbol.id === 'sphere' && <circle cx="25" cy="25" r="18" fill="#3b82f6" opacity="0.8" />}
+  {symbol.id === 'cylinder' && <rect x="15" y="10" width="20" height="30" fill="#64748b" rx="10" />}
+  {symbol.id === 'cone' && <polygon points="25,10 15,40 35,40" fill="#f59e0b" />}
+  {symbol.id === 'helix' && <path d="M10,40 Q25,30 40,40 Q25,20 10,30 Q25,10 40,20" stroke="#8b5cf6" strokeWidth="3" fill="none" />}
+  
+  {/* Artifacts */}
+  {symbol.id === 'book' && <rect x="15" y="15" width="20" height="25" fill="#92400e" />}
+  {symbol.id === 'lantern' && <rect x="20" y="20" width="10" height="15" fill="#fbbf24" />}
+  {symbol.id === 'hammer' && <rect x="22" y="30" width="6" height="15" fill="#78716c" />}
+  {symbol.id === 'key' && <circle cx="20" cy="25" r="8" fill="#6b7280" />}
+  {symbol.id === 'mirror' && <circle cx="25" cy="25" r="18" stroke="#d1d5db" strokeWidth="4" fill="#f3f4f6" />}
+  {symbol.id === 'bridge' && <path d="M5,35 Q25,20 45,35" stroke="#78716c" strokeWidth="4" fill="none" />}
 
             
         </svg>

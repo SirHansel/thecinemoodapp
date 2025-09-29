@@ -1044,15 +1044,43 @@ const QUESTION_POOLS = {
     ]
   }
 };
-// Symbol definitions for shape-based selection
-const SYMBOL_DEFINITIONS = [
-  { id: 'circle', svg: 'circle', meaning: null },
-  { id: 'triangle', svg: 'triangle', meaning: null },
-  { id: 'square', svg: 'square', meaning: null },
-  { id: 'wave', svg: 'wave', meaning: null },
-  { id: 'star', svg: 'star', meaning: null },
-  { id: 'spiral', svg: 'spiral', meaning: null },
-];
+// ========================================
+// SYMBOL GROUPS - ROTATING SELECTIONS
+// ========================================
+const SYMBOL_GROUPS = {
+  geometry: [
+    { id: 'circle', svg: 'circle', traits: { heartwarming: 3, romantic: 3, whimsical: 2 } },
+    { id: 'triangle', svg: 'triangle', traits: { intense: 4, thrilling: 3, dark: 2 } },
+    { id: 'square', svg: 'square', traits: { mysterious: 3, dark: 2, intense: 2 } },
+    { id: 'wave', svg: 'wave', traits: { romantic: 4, mysterious: 3, whimsical: 2 } },
+    { id: 'star', svg: 'star', traits: { adventurous: 4, futuristic: 3, thrilling: 2 } },
+    { id: 'spiral', svg: 'spiral', traits: { mysterious: 4, dark: 3, intense: 2 } }
+  ],
+  natural: [
+    { id: 'leaf', svg: 'leaf', traits: { whimsical: 4, heartwarming: 3 } },
+    { id: 'flame', svg: 'flame', traits: { thrilling: 4, intense: 3, dark: 2 } },
+    { id: 'wave', svg: 'wave', traits: { mysterious: 4, adventurous: 3, romantic: 2 } },
+    { id: 'stone', svg: 'stone', traits: { intense: 3, mysterious: 2, dark: 2 } },
+    { id: 'cloud', svg: 'cloud', traits: { whimsical: 4, romantic: 3, heartwarming: 2 } },
+    { id: 'sun', svg: 'sun', traits: { heartwarming: 4, thrilling: 3, adventurous: 2 } }
+  ],
+  forms3d: [
+    { id: 'pyramid', svg: 'pyramid', traits: { mysterious: 4, intense: 3, dark: 2 } },
+    { id: 'cube', svg: 'cube', traits: { mysterious: 3, intense: 2 } },
+    { id: 'sphere', svg: 'sphere', traits: { heartwarming: 4, whimsical: 3, romantic: 2 } },
+    { id: 'cylinder', svg: 'cylinder', traits: { mysterious: 2, intense: 2 } },
+    { id: 'cone', svg: 'cone', traits: { thrilling: 3, adventurous: 2 } },
+    { id: 'helix', svg: 'helix', traits: { mysterious: 4, futuristic: 3, thrilling: 2 } }
+  ],
+  artifacts: [
+    { id: 'book', svg: 'book', traits: { mysterious: 4, heartwarming: 3 } },
+    { id: 'lantern', svg: 'lantern', traits: { mysterious: 3, romantic: 3, heartwarming: 2 } },
+    { id: 'hammer', svg: 'hammer', traits: { intense: 4, thrilling: 3 } },
+    { id: 'key', svg: 'key', traits: { mysterious: 4, adventurous: 3 } },
+    { id: 'mirror', svg: 'mirror', traits: { mysterious: 3, romantic: 2, dark: 2 } },
+    { id: 'bridge', svg: 'bridge', traits: { adventurous: 4, heartwarming: 3, romantic: 2 } }
+  ]
+};
   // Question Selection Logic
 const generateQuestionSet = () => {
   const categories = ['symbols', 'aesthetic', 'energy', 'era', 'character', 'mood'];
@@ -1061,14 +1089,19 @@ const generateQuestionSet = () => {
   categories.forEach(category => {
     console.log('Processing category:', category);
     
-    if (category === 'symbols') {
-      selectedQuestions.push({
-        id: 'symbols',
-        question: 'Choose a shape',
-        type: 'symbols',
-        symbols: SYMBOL_DEFINITIONS
-      });
-    } else {
+   if (category === 'symbols') {
+  const groupKeys = Object.keys(SYMBOL_GROUPS);
+  const selectedGroup = groupKeys[Math.floor(Math.random() * groupKeys.length)];
+  
+  selectedQuestions.push({
+    id: 'symbols',
+    question: 'Choose what calls to you',
+    type: 'symbols',
+    symbols: SYMBOL_GROUPS[selectedGroup],
+    groupName: selectedGroup
+  });
+}
+   else {
       const pool = QUESTION_POOLS[category];
       console.log('Pool for', category, ':', pool);
       

@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Play, RotateCcw, Settings, Star, ThumbsUp } from 'lucide-react';
 import { fetchMoviesByGenre, fetchMovieDetails } from './tmdbApi';
 import { parseLetterboxdCSV, analyzeUserTaste, combineRatingsWithTaste } from './letterboxdApi'; 
-import { Circle, Triangle, Square, Waves, Star, Sparkles, Leaf, Flame, Cloud, Sun, Box, Pyramid, Globe, Cylinder,
-        Triangle as Cone, Helix, BookOpen, Lamp, Hammer, Key, Mirror, Bridge } from 'lucide-react';
+import { Circle, Triangle, Square, Waves, Star, Sparkles, Leaf, Flame, Cloud, Sun, Box, Pyramid, Globe, Cylinder, Triangle as Cone, Helix, BookOpen, Lamp, Hammer, Key, Mirror, Bridge } from 'lucide-react';
 // ========================================
 // HYBRID SCORING SYSTEM
 // ========================================

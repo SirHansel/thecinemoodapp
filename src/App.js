@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { fetchMoviesByGenre, fetchMovieDetails } from './tmdbApi';
 import { parseLetterboxdCSV, analyzeUserTaste, combineRatingsWithTaste } from './letterboxdApi'; 
-import { Play, RotateCcw, Settings, Star, ThumbsUp, Circle, Triangle, Square, Waves, Sparkles, Leaf, Flame, Cloud, Sun, Box, Globe, Cylinder, Helix, BookOpen, Lamp, Hammer, Key, Mirror, Bridge } from 'lucide-react';// ========================================
-// HYBRID SCORING SYSTEM
+import { Play, RotateCcw, Settings, Star, ThumbsUp, Circle, Triangle, Square, Waves, Sparkles, Leaf, Flame, Cloud, Sun, Box, Globe, Helix, BookOpen, Lamp, Hammer, Key, Mirror, Bridge } from 'lucide-react';// HYBRID SCORING SYSTEM
 // ========================================
 // DESIGN: Each mood answer gives Primary(5) + Secondary(2) + Tertiary(1) points to different genres
 // BENEFIT: Prevents point inflation, easy to tune, future-proof for question rotation
@@ -1486,7 +1485,7 @@ if (currentScreen === 'mood') {
   {symbol.id === 'pyramid' && <Triangle size={40} color="#a855f7" />}
   {symbol.id === 'cube' && <Box size={40} color="#06b6d4" />}
   {symbol.id === 'sphere' && <Globe size={40} color="#3b82f6" />}
-  {symbol.id === 'cylinder' && <Cylinder size={40} color="#64748b" />}
+  {symbol.id === 'cylinder' && <Box size={40} color="#64748b" />}
   {symbol.id === 'cone' && <Cone size={40} color="#f59e0b" />}
   {symbol.id === 'helix' && <Helix size={40} color="#8b5cf6" />}
   

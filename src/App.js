@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Play, RotateCcw, Settings, Star, ThumbsUp } from 'lucide-react';
 import { fetchMoviesByGenre, fetchMovieDetails } from './tmdbApi';
-import { parseLetterboxdCSV, analyzeUserTaste, combineRatingsWithTaste } from './letterboxdApi';
+import { parseLetterboxdCSV, analyzeUserTaste, combineRatingsWithTaste } from './letterboxdApi'; 
+import { Circle, Triangle, Square, Waves, Star, Sparkles, Leaf, Flame, Cloud, Sun, Box, Pyramid, Globe, Cylinder,
+        Triangle as Cone, Helix, BookOpen, Lamp, Hammer, Key, Mirror, Bridge } from 'lucide-react';
 // ========================================
 // HYBRID SCORING SYSTEM
 // ========================================
@@ -1468,40 +1470,39 @@ if (currentScreen === 'mood') {
         onClick={() => handleMoodAnswer('symbols', symbol.id)}
         className="p-4 border-2 border-gray-600 rounded-lg text-white font-medium transition-all hover:scale-105 bg-gray-700 hover:border-gray-400 flex flex-col items-center"
       >
-        <svg width="40" height="40" viewBox="0 0 50 50" className="mb-2">
-  {/* Geometry */}
-  {symbol.id === 'circle' && <circle cx="25" cy="25" r="20" fill="#3b82f6" />}
-  {symbol.id === 'triangle' && <polygon points="25,5 5,45 45,45" fill="#F5AD3B" />}
-  {symbol.id === 'square' && <rect x="5" y="5" width="40" height="40" fill="#d8410a" />}
-  {symbol.id === 'wave' && <path d="M5,25 Q15,5 25,25 T45,25" stroke="#3af463" strokeWidth="3" fill="none" />}
-  {symbol.id === 'star' && <polygon points="25,5 30,20 45,20 35,30 40,45 25,35 10,45 15,30 5,20 20,20" fill="#d6d6d6" />}
-  {symbol.id === 'spiral' && <path d="M25,25 Q35,15 45,25 Q35,35 25,25 Q15,15 25,25" stroke="#9333ea" strokeWidth="3" fill="none" />}
+        
   
-  {/* Natural Elements */}
-  {symbol.id === 'leaf' && <path d="M25,45 Q15,25 25,5 Q35,25 25,45" fill="#22c55e" />}
-  {symbol.id === 'flame' && <path d="M25,45 Q15,35 20,20 Q25,15 25,5 Q35,15 30,20 Q35,35 25,45" fill="#ef4444" />}
-  {symbol.id === 'stone' && <ellipse cx="25" cy="35" rx="18" ry="12" fill="#6b7280" />}
-  {symbol.id === 'cloud' && <path d="M15,30 Q10,20 20,20 Q25,10 35,20 Q45,20 40,30 Z" fill="#e5e7eb" />}
-  {symbol.id === 'sun' && <circle cx="25" cy="25" r="12" fill="#fbbf24" />}
+  <div className="w-10 h-10 flex items-center justify-center mb-2">
+  {symbol.id === 'circle' && <Circle size={40} color="#3b82f6" />}
+  {symbol.id === 'triangle' && <Triangle size={40} color="#F5AD3B" />}
+  {symbol.id === 'square' && <Square size={40} color="#d8410a" />}
+  {symbol.id === 'wave' && <Waves size={40} color="#3af463" />}
+  {symbol.id === 'star' && <Star size={40} color="#d6d6d6" />}
+  {symbol.id === 'spiral' && <Sparkles size={40} color="#9333ea" />}
   
-  {/* 3D Forms - simplified representations */}
-  {symbol.id === 'pyramid' && <polygon points="25,10 10,40 40,40" fill="#a855f7" />}
-  {symbol.id === 'cube' && <polygon points="15,35 35,35 45,15 25,15 15,25 15,35 25,15 35,35 45,15" stroke="#06b6d4" strokeWidth="2" fill="none" />}
-  {symbol.id === 'sphere' && <circle cx="25" cy="25" r="18" fill="#3b82f6" opacity="0.8" />}
-  {symbol.id === 'cylinder' && <rect x="15" y="10" width="20" height="30" fill="#64748b" rx="10" />}
-  {symbol.id === 'cone' && <polygon points="25,10 15,40 35,40" fill="#f59e0b" />}
-  {symbol.id === 'helix' && <path d="M10,40 Q25,30 40,40 Q25,20 10,30 Q25,10 40,20" stroke="#8b5cf6" strokeWidth="3" fill="none" />}
+  {symbol.id === 'leaf' && <Leaf size={40} color="#22c55e" />}
+  {symbol.id === 'flame' && <Flame size={40} color="#ef4444" />}
+  {symbol.id === 'stone' && <Box size={40} color="#6b7280" />}
+  {symbol.id === 'cloud' && <Cloud size={40} color="#e5e7eb" />}
+  {symbol.id === 'sun' && <Sun size={40} color="#fbbf24" />}
   
-  {/* Artifacts */}
-  {symbol.id === 'book' && <rect x="15" y="15" width="20" height="25" fill="#92400e" />}
-  {symbol.id === 'lantern' && <rect x="20" y="20" width="10" height="15" fill="#fbbf24" />}
-  {symbol.id === 'hammer' && <rect x="22" y="30" width="6" height="15" fill="#78716c" />}
-  {symbol.id === 'key' && <circle cx="20" cy="25" r="8" fill="#6b7280" />}
-  {symbol.id === 'mirror' && <circle cx="25" cy="25" r="18" stroke="#d1d5db" strokeWidth="4" fill="#f3f4f6" />}
-  {symbol.id === 'bridge' && <path d="M5,35 Q25,20 45,35" stroke="#78716c" strokeWidth="4" fill="none" />}
+  {symbol.id === 'pyramid' && <Pyramid size={40} color="#a855f7" />}
+  {symbol.id === 'cube' && <Box size={40} color="#06b6d4" />}
+  {symbol.id === 'sphere' && <Globe size={40} color="#3b82f6" />}
+  {symbol.id === 'cylinder' && <Cylinder size={40} color="#64748b" />}
+  {symbol.id === 'cone' && <Cone size={40} color="#f59e0b" />}
+  {symbol.id === 'helix' && <Helix size={40} color="#8b5cf6" />}
+  
+  {symbol.id === 'book' && <BookOpen size={40} color="#92400e" />}
+  {symbol.id === 'lantern' && <Lamp size={40} color="#fbbf24" />}
+  {symbol.id === 'hammer' && <Hammer size={40} color="#78716c" />}
+  {symbol.id === 'key' && <Key size={40} color="#6b7280" />}
+  {symbol.id === 'mirror' && <Mirror size={40} color="#d1d5db" />}
+  {symbol.id === 'bridge' && <Bridge size={40} color="#78716c" />}
+</div>
 
             
-        </svg>
+        
         <span className="text-xs">{symbol.meaning}</span>
       </button>
     ))}

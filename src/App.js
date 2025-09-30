@@ -1061,7 +1061,7 @@ const generateQuestionSet = () => {
   
   selectedQuestions.push({
     id: 'symbols',
-    question: 'Choose what calls to you',
+    question: 'Choose a symbol',
     type: 'symbols',
     symbols: SYMBOL_GROUPS[selectedGroup],
     groupName: selectedGroup

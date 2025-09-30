@@ -1486,7 +1486,7 @@ if (currentScreen === 'mood') {
   {symbol.id === 'cube' && <Box size={40} color="#06b6d4" />}
   {symbol.id === 'sphere' && <Globe size={40} color="#3b82f6" />}
   {symbol.id === 'cylinder' && <Box size={40} color="#64748b" />}
-  {symbol.id === 'cone' && <Cone size={40} color="#f59e0b" />}
+ {symbol.id === 'cone' && <Triangle size={40} color="#f59e0b" />}
 {symbol.id === 'helix' && <Sparkles size={40} color="#8b5cf6" />}
 
   {symbol.id === 'book' && <BookOpen size={40} color="#92400e" />}

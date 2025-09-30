@@ -1487,15 +1487,19 @@ if (currentScreen === 'mood') {
   {symbol.id === 'sphere' && <Globe size={40} color="#3b82f6" />}
   {symbol.id === 'cylinder' && <Box size={40} color="#64748b" />}
   {symbol.id === 'cone' && <Cone size={40} color="#f59e0b" />}
-  {symbol.id === 'helix' && <Helix size={40} color="#8b5cf6" />}
-  
+// Remove Helix from import if it doesn't exist
+{symbol.id === 'helix' && <Sparkles size={40} color="#8b5cf6" />}
+
   {symbol.id === 'book' && <BookOpen size={40} color="#92400e" />}
   {symbol.id === 'lantern' && <Lamp size={40} color="#fbbf24" />}
   {symbol.id === 'hammer' && <Hammer size={40} color="#78716c" />}
   {symbol.id === 'key' && <Key size={40} color="#6b7280" />}
-  {symbol.id === 'mirror' && <Mirror size={40} color="#d1d5db" />}
-  {symbol.id === 'bridge' && <Bridge size={40} color="#78716c" />}
-</div>
+{symbol.id === 'mirror' && <Circle size={40} color="#d1d5db" strokeWidth={3} />} 
+{symbol.id === 'bridge' && (
+  <svg width="40" height="40" viewBox="0 0 50 50">
+    <path d="M5,35 Q25,20 45,35" stroke="#78716c" strokeWidth="4" fill="none" />
+  </svg>
+)}</div>
 
             
         

@@ -1320,7 +1320,7 @@ const handleMoodAnswer = async (questionId, answerId) => {
       background: 'linear-gradient(135deg, #3e2c1e, #6c4a30, #9a7b5a, #d97706, #fde68a)', 
       borderColor: '#9a7b5a' 
     }, // Soothing embrace of home, cozy cocoas to warm beiges, fostering security and gentle nostalgia
- , climb: {
+climb: {
       background: 'linear-gradient(180deg, #1e3a8a, #3b82f6, #60a5fa, #93c5fd)',
       borderColor: '#3b82f6'
     }, // Upward energy gradient

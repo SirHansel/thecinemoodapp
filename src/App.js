@@ -1502,7 +1502,8 @@ if (currentScreen === 'mood') {
         <p className="text-lg mb-6 text-center">{currentQuestion.question}</p>
        
       <div className="space-y-4">
-  {currentQuestion.type === 'symbols' ? (
+
+  {currentQuestion.type === 'symbols' && currentQuestion.symbols ? (
   <div className="grid grid-cols-3 gap-4">
     {currentQuestion.symbols.map(symbol => (
       <button
@@ -1510,9 +1511,10 @@ if (currentScreen === 'mood') {
         onClick={() => handleMoodAnswer('symbols', symbol.id)}
         className="p-4 border-2 border-gray-600 rounded-lg text-white font-medium transition-all hover:scale-105 bg-gray-700 hover:border-gray-400 flex flex-col items-center"
       >
+        <div className="w-10 h-10 flex items-center justify-center mb-2">
         
   
-  <div className="w-10 h-10 flex items-center justify-center mb-2">
+ 
   {symbol.id === 'circle' && <Circle size={40} color="#3b82f6" />}
   {symbol.id === 'triangle' && <Triangle size={40} color="#F5AD3B" />}
   {symbol.id === 'square' && <Square size={40} color="#d8410a" />}
@@ -1542,28 +1544,24 @@ if (currentScreen === 'mood') {
   <svg width="40" height="40" viewBox="0 0 50 50">
     <path d="M5,35 Q25,20 45,35" stroke="#78716c" strokeWidth="4" fill="none" />}
   
-  </svg>
-)}</div>
-
-            
-        
+</div>
         <span className="text-xs">{symbol.meaning}</span>
       </button>
     ))}
-    </div>
-  ) : (
-    currentQuestion.options.map(option => (
-      <button
-        key={option.id}
-        onClick={() => handleMoodAnswer(currentQuestion.id, option.id)}
-        className="w-full h-20 rounded-lg border-2 flex flex-col items-center justify-center text-white font-medium transition-all hover:scale-105"
-        style={getMoodCardStyle(option.style)}
-      >
-        <span>{option.text}</span>
-        <span className="text-sm opacity-80">{option.subtext}</span>
-      </button>
-    ))
-  )}
+  </div>
+) : currentQuestion.options ? (
+  currentQuestion.options.map(option => (
+    <button
+      key={option.id}
+      onClick={() => handleMoodAnswer(currentQuestion.id, option.id)}
+      className="w-full h-20 rounded-lg border-2 flex flex-col items-center justify-center text-white font-medium transition-all hover:scale-105"
+      style={getMoodCardStyle(option.style)}
+    >
+      <span>{option.text}</span>
+      <span className="text-sm opacity-80">{option.subtext}</span>
+    </button>
+  ))
+) : null}
 </div>
        
         <p className="text-center text-sm text-gray-400 mt-6">

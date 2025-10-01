@@ -262,7 +262,11 @@ const MOOD_SCORING = {
       secondary: TMDB_GENRES.MYSTERY,         // +2 pts
       tertiary: TMDB_GENRES.THRILLER          // +1 pt
     }
-  }
+  },
+  path: {  upstairs: {    primary: TMDB_GENRES.ACTION,    secondary: TMDB_GENRES.THRILLER,    tertiary: TMDB_GENRES.ADVENTURE  }, 
+         downstairs: {    primary: TMDB_GENRES.MYSTERY,    secondary: TMDB_GENRES.HORROR,      tertiary: TMDB_GENRES.DRAMA  },  
+         hallway: {    primary: TMDB_GENRES.DRAMA,    secondary: TMDB_GENRES.ROMANCE,    tertiary: TMDB_GENRES.SCIENCE_FICTION  }
+        }
 };
 
  // ========================================
@@ -1045,11 +1049,24 @@ const SYMBOL_GROUPS = {
     { id: 'key', svg: 'key', traits: { mysterious: 4, adventurous: 3 } },
     { id: 'mirror', svg: 'mirror', traits: { mysterious: 3, romantic: 2, dark: 2 } },
     { id: 'bridge', svg: 'bridge', traits: { adventurous: 4, heartwarming: 3, romantic: 2 } }
-  ]
+  ], 
+
+  path: {
+    variations: [
+      {
+        question: "Choose a path?",
+        options: [
+          { id: 'upstairs', text: 'Up the Stairs', subtext: 'Ascending momentum', style: 'climb' },
+          { id: 'downstairs', text: 'Down the Stairs', subtext: 'Descending depth', style: 'descend' },
+          { id: 'hallway', text: 'Through the Hallway', subtext: 'Steady progression', style: 'corridor' }
+        ]
+      }
+    ]
+  }
 };
   // Question Selection Logic
 const generateQuestionSet = () => {
-  const categories = ['symbols', 'aesthetic', 'energy', 'era', 'character', 'mood'];
+ const categories = ['symbols','path', 'aesthetic', 'energy', 'era', 'character', 'mood'];
   const selectedQuestions = [];
   
   categories.forEach(category => {

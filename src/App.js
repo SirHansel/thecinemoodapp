@@ -1078,8 +1078,11 @@ const SYMBOL_GROUPS = {
 };
   // Question Selection Logic
 const generateQuestionSet = () => {
- const categories = ['symbols','path', 'aesthetic', 'energy', 'era', 'character', 'mood'];
+ const categories = ['symbols', 'aesthetic', 'energy', 'path', 'era', 'character', 'mood'];
   const selectedQuestions = [];
+  //added as debug
+  console.log('Generated questions:', selectedQuestions.map(q => q.id));
+  
   
   categories.forEach(category => {
     console.log('Processing category:', category);

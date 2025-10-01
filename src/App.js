@@ -885,7 +885,7 @@ const QUESTION_POOLS = {
       question: "What visual mood calls to you?",
       options: [
         { id: 'neon', text: 'Vibrant Electric Flash', subtext: 'Neon pinks and blues of bold energy', style: 'eighties' },
-        { id: 'earth', text: 'Gritty Urban Edges', subtext: 'Raw textures of rust and amber', style: 'fire' },
+        { id: 'earth', text: 'Gritty Urban Edges', subtext: 'Raw textures of rust and amber', style: 'struggle' },
         { id: 'gold', text: 'Bright Pop Explosions', subtext: 'Vivid colors of joyful energy', style: 'spring' }
       ]
     },
@@ -915,7 +915,7 @@ const QUESTION_POOLS = {
       options: [
         { id: 'noir', text: 'Shadow & Smoke', subtext: 'Dark mystery', style: 'shadow' },
         { id: 'pop', text: 'Bright & Bold', subtext: 'Vibrant energy', style: 'gold' },
-        { id: 'gritty', text: 'Rust & Amber', subtext: 'Weathered glow', style: 'fire' },
+        { id: 'gritty', text: 'Rust & Amber', subtext: 'Weathered glow', style: 'struggle' },
         { id: 'electric', text: 'Laser & Glass', subtext: 'Sharp contrasts', style: 'storm' }
       ]
     }
@@ -987,7 +987,7 @@ const QUESTION_POOLS = {
         question: "What emotion do you want to embrace?",
         options: [
           { id: 'contemplative', text: 'Deep Introspection', subtext: 'Muted blues of quiet reflection', style: 'shadow' },
-          { id: 'visceral', text: 'Raw Electric Tension', subtext: 'Charged reds of thrilling unrest', style: 'storm' },
+          { id: 'visceral', text: 'Raw Electric Tension', subtext: 'Charged reds of thrilling unrest', style: 'neon' },
           { id: 'emotional', text: 'Heartfelt Connection', subtext: 'Warm beiges of tender moments', style: 'comfort' }
         ]
       },

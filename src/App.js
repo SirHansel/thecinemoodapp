@@ -1320,6 +1320,18 @@ const handleMoodAnswer = async (questionId, answerId) => {
       background: 'linear-gradient(135deg, #3e2c1e, #6c4a30, #9a7b5a, #d97706, #fde68a)', 
       borderColor: '#9a7b5a' 
     }, // Soothing embrace of home, cozy cocoas to warm beiges, fostering security and gentle nostalgia
+ , climb: {
+      background: 'linear-gradient(180deg, #1e3a8a, #3b82f6, #60a5fa, #93c5fd)',
+      borderColor: '#3b82f6'
+    }, // Upward energy gradient
+    descend: {
+      background: 'linear-gradient(0deg, #1e293b, #475569, #64748b, #94a3b8)',
+      borderColor: '#475569'
+    }, // Downward depth gradient
+    corridor: {
+      background: 'linear-gradient(90deg, #422006, #78350f, #d97706, #fbbf24)',
+      borderColor: '#d97706'
+    } // Horizontal steady progression
   };
   return styles[styleType] || { 
     background: 'linear-gradient(135deg, #1f2937, #4b5563, #9ca3af)', 

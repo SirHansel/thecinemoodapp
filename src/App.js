@@ -911,6 +911,18 @@ const QUESTION_POOLS = {
     }
   ]
 },
+  path: {
+    variations: [
+      {
+        question: "Choose a path",
+        options: [
+          { id: 'upstairs', text: 'Up the Stairs', style: 'climb' },
+          { id: 'downstairs', text: 'Down the Stairs', style: 'descend' },
+          { id: 'hallway', text: 'Through the Hallway',  style: 'corridor' }
+        ]
+      }
+    ]
+  },
   era: {
   variations: [
     {

@@ -1542,7 +1542,9 @@ if (currentScreen === 'mood') {
 {symbol.id === 'mirror' && <Circle size={40} color="#d1d5db" strokeWidth={3} />} 
 {symbol.id === 'bridge' && (
   <svg width="40" height="40" viewBox="0 0 50 50">
-    <path d="M5,35 Q25,20 45,35" stroke="#78716c" strokeWidth="4" fill="none" />}
+    <path d="M5,35 Q25,20 45,35" stroke="#78716c" strokeWidth="4" fill="none" />
+  </svg>
+)}
   
 </div>
         <span className="text-xs">{symbol.meaning}</span>

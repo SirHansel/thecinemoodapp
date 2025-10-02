@@ -1557,8 +1557,7 @@ if (currentScreen === 'mood') {
     <button
       key={option.id}
       onClick={() => handleMoodAnswer(currentQuestion.id, option.id)}
-      className="w-full h-20 rounded-lg border-2 flex flex-col items-center justify-center text-white font-medium transition-all hover:scale-105"
-      style={getMoodCardStyle(option.style)}
+      className="w-full h-32 rounded-lg border-2 border-gray-600 bg-gray-800 flex flex-col items-center justify-center text-white font-medium transition-all hover:scale-105 hover:border-gray-400"
     >
       {currentQuestion.id === 'path' && (
         <div className="w-16 h-16 flex items-center justify-center mb-2">

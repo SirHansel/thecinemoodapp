@@ -1,18 +1,21 @@
 const TMDB_API_KEY = 'ff6802ce657f3eb0920728b788c1842b';
 const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
 
-export const fetchMoviesByGenre = async (genreId) => {
+export const fetchMoviesByGenre = async (genreId, allowForeign = false) => {
+  const API_KEY = 'your_api_key';
+  const languageParam = allowForeign ? '' : '&with_original_language=en';
+  
   try {
     const response = await fetch(
-      `${TMDB_BASE_URL}/discover/movie?api_key=${TMDB_API_KEY}&with_genres=${genreId}&sort_by=popularity.desc&page=1`,
-      {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        }
-      }
+      `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=${genreId}&sort_by=vote_average.desc&vote_count.gte=100${languageParam}`
     );
+    const data = await response.json();
+    return data.results;
+  } catch (error) {
+    console.error('TMDB API Error:', error);
+    return [];
+  }
+};
     
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -61,7 +64,16 @@ const getDetailedRecommendations = async (rawMovies, userPrefs, allowRewatches =
   
   if (filteredMovies.length >= 3) {
     const shuffled = filteredMovies.sort(() => 0.5 - Math.random());
-    const selectedMovies = [shuffled[0], shuffled[1], shuffled[2]];
+    
+    // For wild card, fetch from foreign films if available
+    const finalGenreSelection = /* get from context */;
+    const foreignMovies = await fetchMoviesByGenre(finalGenreSelection, true);
+    const foreignFiltered = applyAllFilters(foreignMovies, userPrefs, allowRewatches)
+      .filter(movie => movie.original_language !== 'en');
+    
+    const wildCardMovie = foreignFiltered.length > 0 
+      ? foreignFiltered[Math.floor(Math.random() * foreignFiltered.length)]
+      : shuffled[2];
     
     // Fetch detailed data for each movie
     const detailedMovies = await Promise.all(

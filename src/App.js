@@ -1565,48 +1565,38 @@ if (currentScreen === 'mood') {
     ))}
   </div>
 ) : 
-  currentQuestion.options.map(option => (
-  <button
-    key={option.id}
-    onClick={() => handleMoodAnswer(currentQuestion.id, option.id)}
-    className="w-full h-20 rounded-lg border-2 flex flex-col items-center justify-center text-white font-medium transition-all hover:scale-105"
-    style={getMoodCardStyle(option.style)}
-  >
-    {currentQuestion.id === 'path' && (
-      <div className="w-16 h-16 flex items-center justify-center mb-2">
-        {option.id === 'hallway' && (
-          <svg width="60" height="60" viewBox="0 0 100 100">
-            <path d="M30 20 H70 A20 20 0 0 1 70 40 V80 H30 V40 A20 20 0 0 1 30 20 Z" fill="none" stroke="#d97706" strokeWidth="2"/>
-            <rect x="35" y="40" width="30" height="40" fill="none" stroke="#d97706" strokeWidth="2"/>
-            <line x1="35" y1="50" x2="65" y2="50" stroke="#d97706" strokeWidth="1"/>
-            <line x1="35" y1="60" x2="65" y2="60" stroke="#d97706" strokeWidth="1"/>
-            <line x1="35" y1="70" x2="65" y2="70" stroke="#d97706" strokeWidth="1"/>
-          </svg>
-        )}
-        {option.id === 'upstairs' && (
-  <svg width="60" height="60" viewBox="0 0 100 100">
-    <path d="M30 20 H70 A20 20 0 0 1 70 40 V80 H30 V40 A20 20 0 0 1 30 20 Z" fill="none" stroke="#3b82f6" strokeWidth="2"/>
-    <line x1="35" y1="80" x2="65" y2="80" stroke="#3b82f6" strokeWidth="2"/>
-    <line x1="40" y1="70" x2="70" y2="70" stroke="#3b82f6" strokeWidth="2"/>
-    <line x1="45" y1="60" x2="75" y2="60" stroke="#3b82f6" strokeWidth="2"/>
-    <line x1="50" y1="50" x2="80" y2="50" stroke="#3b82f6" strokeWidth="2"/>
-
-    <rect x="50" y="50" width="30" height="30" fill="black" opacity="0.1"/>
-  </svg>
-)}
-
-{option.id === 'downstairs' && (
-  <svg width="60" height="60" viewBox="0 0 100 100">
-    
-    <path d="M30 20 H70 A20 20 0 0 1 70 40 V80 H30 V40 A20 20 0 0 1 30 20 Z" fill="none" stroke="#475569" strokeWidth="2"/>
-   
-    <line x1="35" y1="80" x2="65" y2="80" stroke="#475569" strokeWidth="2"/>
-    <line x1="30" y1="70" x2="60" y2="70" stroke="#475569" strokeWidth="2"/>
-    <line x1="25" y1="60" x2="55" y2="60" stroke="#475569" strokeWidth="2"/>
-    <line x1="20" y1="50" x2="50" y2="50" stroke="#475569" strokeWidth="2"/>
-  
-    <rect x="20" y="50" width="30" height="30" fill="black" opacity="0.2"/>
-  </svg>
+  {currentQuestion.id === 'path' && (
+  <div className="w-16 h-16 flex items-center justify-center mb-2">
+    {option.id === 'hallway' && (
+      <svg width="60" height="60" viewBox="0 0 100 100">
+        <path d="M30 20 H70 A20 20 0 0 1 70 40 V80 H30 V40 A20 20 0 0 1 30 20 Z" fill="none" stroke="#d97706" strokeWidth="2"/>
+        <rect x="35" y="40" width="30" height="40" fill="none" stroke="#d97706" strokeWidth="2"/>
+        <line x1="35" y1="50" x2="65" y2="50" stroke="#d97706" strokeWidth="1"/>
+        <line x1="35" y1="60" x2="65" y2="60" stroke="#d97706" strokeWidth="1"/>
+        <line x1="35" y1="70" x2="65" y2="70" stroke="#d97706" strokeWidth="1"/>
+      </svg>
+    )}
+    {option.id === 'upstairs' && (
+      <svg width="60" height="60" viewBox="0 0 100 100">
+        <path d="M30 20 H70 A20 20 0 0 1 70 40 V80 H30 V40 A20 20 0 0 1 30 20 Z" fill="none" stroke="#3b82f6" strokeWidth="2"/>
+        <line x1="35" y1="80" x2="65" y2="80" stroke="#3b82f6" strokeWidth="2"/>
+        <line x1="40" y1="70" x2="70" y2="70" stroke="#3b82f6" strokeWidth="2"/>
+        <line x1="45" y1="60" x2="75" y2="60" stroke="#3b82f6" strokeWidth="2"/>
+        <line x1="50" y1="50" x2="80" y2="50" stroke="#3b82f6" strokeWidth="2"/>
+        <rect x="50" y="50" width="30" height="30" fill="black" opacity="0.1"/>
+      </svg>
+    )}
+    {option.id === 'downstairs' && (
+      <svg width="60" height="60" viewBox="0 0 100 100">
+        <path d="M30 20 H70 A20 20 0 0 1 70 40 V80 H30 V40 A20 20 0 0 1 30 20 Z" fill="none" stroke="#475569" strokeWidth="2"/>
+        <line x1="35" y1="80" x2="65" y2="80" stroke="#475569" strokeWidth="2"/>
+        <line x1="30" y1="70" x2="60" y2="70" stroke="#475569" strokeWidth="2"/>
+        <line x1="25" y1="60" x2="55" y2="60" stroke="#475569" strokeWidth="2"/>
+        <line x1="20" y1="50" x2="50" y2="50" stroke="#475569" strokeWidth="2"/>
+        <rect x="20" y="50" width="30" height="30" fill="black" opacity="0.2"/>
+      </svg>
+    )}
+  </div>
 )}
       </div>
     )}

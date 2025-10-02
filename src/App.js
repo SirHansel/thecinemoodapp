@@ -1616,6 +1616,7 @@ if (currentScreen === 'mood') {
 ))
 ) : null}
 </div>
+  )}
        
         <p className="text-center text-sm text-gray-400 mt-6">
           Question {questionIndex + 1} of {currentQuestionSet.length}

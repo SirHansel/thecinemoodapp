@@ -1540,19 +1540,6 @@ if (currentScreen === 'mood') {
   {symbol.id === 'key' && <Key size={40} color="#6b7280" />}
   {symbol.id === 'mirror' && <Circle size={40} color="#d1d5db" strokeWidth={3} />} 
 
-{option.id === 'hallway' && (
-  <svg width="60" height="60" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    {/* Archway */}
-    <path d="M30 20 H70 A20 20 0 0 1 70 40 V80 H30 V40 A20 20 0 0 1 30 20 Z" fill="none" stroke="#d97706" strokeWidth="2"/>
-    {/* Door */}
-    <rect x="35" y="40" width="30" height="40" fill="none" stroke="#d97706" strokeWidth="2"/>
-    {/* Wood grain lines */}
-    <line x1="35" y1="50" x2="65" y2="50" stroke="#d97706" strokeWidth="1"/>
-    <line x1="35" y1="60" x2="65" y2="60" stroke="#d97706" strokeWidth="1"/>
-    <line x1="35" y1="70" x2="65" y2="70" stroke="#d97706" strokeWidth="1"/>
-  </svg>
-)}
-
 {symbol.id === 'bridge' && (
   <svg width="40" height="40" viewBox="0 0 50 50">
     <path d="M5,35 Q25,20 45,35" stroke="#78716c" strokeWidth="4" fill="none" />

@@ -17,14 +17,6 @@ export const fetchMoviesByGenre = async (genreId, allowForeign = false) => {
   }
 };
     
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    
-    const data = await response.json();
-    console.log('TMDB API Response:', data);
-    return data.results;
-    
   } catch (error) {
     console.error('TMDB fetch error:', error);
     throw error;

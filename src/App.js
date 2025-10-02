@@ -1564,7 +1564,7 @@ if (currentScreen === 'mood') {
           
     {option.id === 'hallway' && (
       <svg width="60" height="60" viewBox="0 0 100 100">
-        <path d="M30 20 H70 A20 20 0 0 1 70 40 V80 H30 V40 A20 20 0 0 1 30 20 Z" fill="none" stroke="#d97706" strokeWidth="2"/>
+        <path d="M30 40 L50 20 Q50 18 50 20 L70 40 V80 H30 V40 Z" fill="none" stroke="#d97706" strokeWidth="2"/>
         <rect x="35" y="40" width="30" height="40" fill="none" stroke="#d97706" strokeWidth="2"/>
         <line x1="35" y1="50" x2="65" y2="50" stroke="#d97706" strokeWidth="1"/>
         <line x1="35" y1="60" x2="65" y2="60" stroke="#d97706" strokeWidth="1"/>

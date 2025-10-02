@@ -1565,7 +1565,8 @@ if (currentScreen === 'mood') {
     ))}
   </div>
 ) : 
-  {currentQuestion.id === 'path' && (
+  ( 
+    {currentQuestion.id === 'path' && (
   <div className="w-16 h-16 flex items-center justify-center mb-2">
     {option.id === 'hallway' && (
       <svg width="60" height="60" viewBox="0 0 100 100">

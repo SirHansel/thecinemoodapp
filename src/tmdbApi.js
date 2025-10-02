@@ -2,7 +2,7 @@ const TMDB_API_KEY = 'ff6802ce657f3eb0920728b788c1842b';
 const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
 
 export const fetchMoviesByGenre = async (genreId, allowForeign = false) => {
-  const API_KEY = 'your_api_key';
+ const API_KEY = TMDB_API_KEY;
   const languageParam = allowForeign ? '' : '&with_original_language=en';
   
   try {

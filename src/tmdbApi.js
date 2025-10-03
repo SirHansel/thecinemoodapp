@@ -2,7 +2,7 @@ const TMDB_API_KEY = 'ff6802ce657f3eb0920728b788c1842b';
 const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
 
 export const fetchMoviesByGenre = async (genreId, allowForeign = false) => {
- const API_KEY = TMDB_API_KEY;
+  const API_KEY = TMDB_API_KEY;
   const languageParam = allowForeign ? '' : '&with_original_language=en';
   
   try {
@@ -16,8 +16,7 @@ export const fetchMoviesByGenre = async (genreId, allowForeign = false) => {
     return [];
   }
 };
-    
-// Add this function after your existing TMDB functions
+
 export const fetchMovieDetails = async (movieId) => {
   try {
     const response = await fetch(
@@ -42,45 +41,4 @@ export const fetchMovieDetails = async (movieId) => {
     console.error('TMDB detail fetch error:', error);
     return null;
   }
-};    
-    // For wild card, fetch from foreign films if available
-    const finalGenreSelection = /* get from context */;
-    const foreignMovies = await fetchMoviesByGenre(finalGenreSelection, true);
-    const foreignFiltered = applyAllFilters(foreignMovies, userPrefs, allowRewatches)
-      .filter(movie => movie.original_language !== 'en');
-    
-    const wildCardMovie = foreignFiltered.length > 0 
-      ? foreignFiltered[Math.floor(Math.random() * foreignFiltered.length)]
-      : shuffled[2];
-    
-    // Fetch detailed data for each movie
-    const detailedMovies = await Promise.all(
-      selectedMovies.map(async (movie) => {
-        const details = await fetchMovieDetails(movie.id);
-        return {
-          ...movie,
-          runtime: details?.runtime || Math.floor(Math.random() * 60) + 90, // Fallback to estimate
-          budget: details?.budget,
-          revenue: details?.revenue
-        };
-      })
-    );
-    
-    return {
-      safe: { 
-        ...detailedMovies[0], 
-        reason: "🎯 Safe Bet: Available on your platforms" 
-      },
-      stretch: { 
-        ...detailedMovies[1], 
-        reason: "↗️ Stretch: Trending on your services" 
-      },
-      wild: { 
-        ...detailedMovies[2], 
-        reason: "🎲 Wild Card: Hidden gem on your platforms" 
-      }
-    };
-  }
-  
-  return null;
 };

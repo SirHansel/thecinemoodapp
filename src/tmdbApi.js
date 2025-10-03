@@ -17,12 +17,6 @@ export const fetchMoviesByGenre = async (genreId, allowForeign = false) => {
   }
 };
     
-  } catch (error) {
-    console.error('TMDB fetch error:', error);
-    throw error;
-  }
-};
-
 // Add this function after your existing TMDB functions
 export const fetchMovieDetails = async (movieId) => {
   try {

@@ -1602,9 +1602,7 @@ style={getMoodCardStyle(option.style)}
       <span className="text-sm opacity-80">{option.subtext}</span>
     </button>
   ))
-) : null}
-</div>
-  )}
+
        
         <p className="text-center text-sm text-gray-400 mt-6">
           Question {questionIndex + 1} of {currentQuestionSet.length}

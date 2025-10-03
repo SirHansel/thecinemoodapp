@@ -1213,7 +1213,8 @@ const handleMoodAnswer = async (questionId, answerId) => {
         symbolTraits: selectedSymbol.traits
       }));
       console.log('🎨 Symbol traits captured:', selectedSymbol.traits);
-  
+    }
+  }
 
   // Continue with existing navigation logic...
   if (questionIndex < currentQuestionSet.length - 1) {

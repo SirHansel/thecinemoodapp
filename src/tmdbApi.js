@@ -42,15 +42,7 @@ export const fetchMovieDetails = async (movieId) => {
     console.error('TMDB detail fetch error:', error);
     return null;
   }
-};
-
-// Enhanced function to get detailed recommendations
-const getDetailedRecommendations = async (rawMovies, userPrefs, allowRewatches = false) => {
-  const filteredMovies = applyAllFilters(rawMovies, userPrefs, allowRewatches);
-  
-  if (filteredMovies.length >= 3) {
-    const shuffled = filteredMovies.sort(() => 0.5 - Math.random());
-    
+};    
     // For wild card, fetch from foreign films if available
     const finalGenreSelection = /* get from context */;
     const foreignMovies = await fetchMoviesByGenre(finalGenreSelection, true);

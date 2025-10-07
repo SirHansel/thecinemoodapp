@@ -1550,9 +1550,9 @@ if (currentScreen === 'mood') {
         <span className="text-xs">{symbol.meaning}</span>
       </button>
     ))}
-  </div>
-
-currentQuestion.options.map(option => (
+ </div>
+) : currentQuestion.options ? (
+  currentQuestion.options.map(option => (
   <button
     key={option.id}
     onClick={() => handleMoodAnswer(currentQuestion.id, option.id)}

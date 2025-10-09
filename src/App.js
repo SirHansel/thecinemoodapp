@@ -1551,12 +1551,6 @@ if (currentScreen === 'mood') {
       </button>
     ))}
  </div>
-
-) : currentQuestion.id === 'path' ? (
-  <div className="space-y-4">
-    {/* Top row: First two options */}
-    <div className="grid grid-cols-2 gap-4">
-      {currentQuestion.options.slice(0, 2).map(option => (
         
   ) : currentQuestion.id === 'path' ? (
   // Path-specific 2-over-1 layout

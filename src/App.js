@@ -1551,12 +1551,14 @@ if (currentScreen === 'mood') {
       </button>
     ))}
  </div>
-) : currentQuestion.options ? (
-  currentQuestion.options.map(option => (
-  <button
-    key={option.id}
-    onClick={() => handleMoodAnswer(currentQuestion.id, option.id)}
-    ) : currentQuestion.id === 'path' ? (
+
+) : currentQuestion.id === 'path' ? (
+  <div className="space-y-4">
+    {/* Top row: First two options */}
+    <div className="grid grid-cols-2 gap-4">
+      {currentQuestion.options.slice(0, 2).map(option => (
+        
+  ) : currentQuestion.id === 'path' ? (
   // Path-specific 2-over-1 layout
   <div className="space-y-4">
     {/* Top row: First two options */}
@@ -1617,9 +1619,7 @@ if (currentScreen === 'mood') {
         </button>
       ))}
     </div>
-  </div>
-) : currentQuestion.options ? (
-  // Regular options for all other questions
+  ) : currentQuestion.options ? (
   currentQuestion.options.map(option => (
     <button
       key={option.id}

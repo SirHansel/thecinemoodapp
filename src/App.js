@@ -1626,6 +1626,7 @@ if (currentScreen === 'mood') {
     </button>
   ))
 ) : null}
+</div> 
 
   // Results Screen
 if (currentScreen === 'results') {
@@ -1660,7 +1661,8 @@ if (currentScreen === 'results') {
               Click to watch and rate
             </div>
           </div>
-        ))}
+        )
+          )}
        
         <div className="grid grid-cols-2 gap-3">
           <button

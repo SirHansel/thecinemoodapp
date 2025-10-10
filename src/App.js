@@ -1627,7 +1627,8 @@ if (currentScreen === 'mood') {
   ))
 ) : null}
 </div> 
-
+  );
+}
   // Results Screen
 if (currentScreen === 'results') {
   const recommendedMovies = recommendations;

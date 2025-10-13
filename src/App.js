@@ -435,7 +435,7 @@ const allowedGenres = Object.values(TMDB_GENRES).filter(genreId => !excludedGenr
   console.log('🚨 Mood+Taste API call failed:', error);
   return null;
 }
-   };
+ };
 
 // ========================================
 // TASTE WEIGHTING ALGORITHM

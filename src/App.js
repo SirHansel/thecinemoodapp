@@ -381,62 +381,69 @@ const getMoodBasedMovies = async (moodAnswers, tasteProfile = null, excludedGenr
   let finalGenreSelection = moodScore.primaryGenre;
   
   // If user has taste data, apply 60/40 weighting
-if (tasteProfile && tasteProfile.lovedMovies.length > 0) {
-  console.log('💝 Applying taste weighting (60% taste, 40% mood)');
-  finalGenreSelection = applyTasteWeighting(moodScore, tasteProfile);
-} else {
-  console.log('🎭 Using pure mood scoring (no taste data)');
-}
-
-// Skip excluded genres
- if (excludedGenreIds && excludedGenreIds.length > 0) {
-  // Calculate allowed genres (not in excluded list)
-   console.log('🔍 Current excluded array:', excludedGenreIds);
-const allowedGenres = Object.values(TMDB_GENRES).filter(genreId => !excludedGenreIds.includes(genreId));
-
-  
-  // If selected genre isn't allowed, find a replacement
- try {
-  // Fetch English-language movies first
-  let movies = await fetchMoviesByGenre(finalGenreSelection, false); // false = English only
-  console.log('🇺🇸 Fetched English-language movies:', movies?.length || 0);
-  
-  // If not enough English movies, allow foreign films as fallback
-  if (!movies || movies.length < 3) {
-    console.log('⚠️ Not enough English movies, allowing foreign films');
-    movies = await fetchMoviesByGenre(finalGenreSelection, true); // true = allow all languages
+  if (tasteProfile && tasteProfile.lovedMovies.length > 0) {
+    console.log('💝 Applying taste weighting (60% taste, 40% mood)');
+    finalGenreSelection = applyTasteWeighting(moodScore, tasteProfile);
+  } else {
+    console.log('🎭 Using pure mood scoring (no taste data)');
   }
   
-  // Fallback to second highest scoring genre (English first)
-  if (!movies || movies.length < 3) {
-    const secondGenre = moodScore.topGenres[1]?.id;
-    if (secondGenre) {
-      console.log('🔄 Trying second genre (English only)');
-      movies = await fetchMoviesByGenre(secondGenre, false);
-      
-      // If still not enough, allow foreign for second genre
-      if (!movies || movies.length < 3) {
-        console.log('🔄 Trying second genre (all languages)');
-        movies = await fetchMoviesByGenre(secondGenre, true);
+  // Skip excluded genres
+  if (excludedGenreIds && excludedGenreIds.length > 0) {
+    console.log('🔍 Current excluded array:', excludedGenreIds);
+    const allowedGenres = Object.values(TMDB_GENRES).filter(genreId => !excludedGenreIds.includes(genreId));
+    
+    // If selected genre isn't allowed, find a replacement
+    if (excludedGenreIds.includes(finalGenreSelection)) {
+      console.log('⚠️ Primary genre excluded, using secondary');
+      const allowedGenre = moodScore.topGenres.find(g => !excludedGenreIds.includes(g.id));
+      finalGenreSelection = allowedGenre?.id || allowedGenres[0] || TMDB_GENRES.ACTION;
+    }
+    
+    console.log('🎯 Allowed genres:', allowedGenres.map(id => Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === id)));
+    console.log('🎯 Final selection must be from allowed list');
+  }
+  
+  try {
+    // Fetch English-language movies first
+    let movies = await fetchMoviesByGenre(finalGenreSelection, false); // false = English only
+    console.log('🇺🇸 Fetched English-language movies:', movies?.length || 0);
+    
+    // If not enough English movies, allow foreign films as fallback
+    if (!movies || movies.length < 3) {
+      console.log('⚠️ Not enough English movies, allowing foreign films');
+      movies = await fetchMoviesByGenre(finalGenreSelection, true); // true = allow all languages
+    }
+    
+    // Fallback to second highest scoring genre (English first)
+    if (!movies || movies.length < 3) {
+      const secondGenre = moodScore.topGenres[1]?.id;
+      if (secondGenre) {
+        console.log('🔄 Trying second genre (English only)');
+        movies = await fetchMoviesByGenre(secondGenre, false);
+        
+        // If still not enough, allow foreign for second genre
+        if (!movies || movies.length < 3) {
+          console.log('🔄 Trying second genre (all languages)');
+          movies = await fetchMoviesByGenre(secondGenre, true);
+        }
       }
     }
+    
+    return {
+      movies: movies,
+      context: {
+        chosenGenre: Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === finalGenreSelection),
+        moodScores: moodScore.topGenres,
+        tasteInfluence: tasteProfile ? 'Applied' : 'None',
+        modifiers: moodScore.modifiers
+      }
+    };
+  } catch (error) {
+    console.log('🚨 Mood+Taste API call failed:', error);
+    return null;
   }
-  
-  return {
-    movies: movies,
-    context: {
-      chosenGenre: Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === finalGenreSelection),
-      moodScores: moodScore.topGenres,
-      tasteInfluence: tasteProfile ? 'Applied' : 'None',
-      modifiers: moodScore.modifiers
-    }
-  };
-} catch (error) {
-  console.log('🚨 Mood+Taste API call failed:', error);
-  return null;
-}
- };
-
+};
 // ========================================
 // TASTE WEIGHTING ALGORITHM
 // ========================================

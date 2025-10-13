@@ -1369,8 +1369,9 @@ if (currentScreen === 'setup') {
   )}
 </div>
          
-          <p className="text-sm text-gray-400 mb-3">Select your streaming platforms:</p>
-          <div className="grid grid-cols-2 gap-3 mb-6">
+       <p className="text-sm text-gray-400 mb-3">Select your streaming platforms:</p>
+         
+  <div className="grid grid-cols-2 gap-3 mb-6">
             {platforms.map(platform => (
               <button
                 key={platform}
@@ -1575,14 +1576,13 @@ if (currentScreen === 'mood') {
                 <rect x="50" y="50" width="30" height="30" fill="black" opacity="0.1"/>
               </svg>
             )}
-            {option.id === 'downstairs' && (
+           {option.id === 'hallway' && (
               <svg width="80" height="80" viewBox="0 0 100 100">
-                <path d="M30 20 H70 A20 20 0 0 1 70 40 V80 H30 V40 A20 20 0 0 1 30 20 Z" fill="none" stroke="#475569" strokeWidth="2"/>
-                <line x1="35" y1="80" x2="65" y2="80" stroke="#475569" strokeWidth="2"/>
-                <line x1="30" y1="70" x2="60" y2="70" stroke="#475569" strokeWidth="2"/>
-                <line x1="25" y1="60" x2="55" y2="60" stroke="#475569" strokeWidth="2"/>
-                <line x1="20" y1="50" x2="50" y2="50" stroke="#475569" strokeWidth="2"/>
-                <rect x="20" y="50" width="30" height="30" fill="black" opacity="0.2"/>
+                <path d="M30 40 L50 20 Q50 18 50 20 L70 40 V80 H30 V40 Z" fill="none" stroke="#d97706" strokeWidth="2"/>
+                <rect x="35" y="40" width="30" height="40" fill="none" stroke="#d97706" strokeWidth="2"/>
+                <line x1="35" y1="50" x2="65" y2="50" stroke="#d97706" strokeWidth="1"/>
+                <line x1="35" y1="60" x2="65" y2="60" stroke="#d97706" strokeWidth="1"/>
+                <line x1="35" y1="70" x2="65" y2="70" stroke="#d97706" strokeWidth="1"/>
               </svg>
             )}
           </div>
@@ -1600,13 +1600,14 @@ if (currentScreen === 'mood') {
           className="p-8 bg-transparent border-none flex flex-col items-center justify-center text-white font-medium transition-all hover:scale-110"
         >
           <div className="w-24 h-24 flex items-center justify-center mb-3">
-            {option.id === 'hallway' && (
+            {option.id === 'downstairs' && (
               <svg width="80" height="80" viewBox="0 0 100 100">
-                <path d="M30 40 L50 20 Q50 18 50 20 L70 40 V80 H30 V40 Z" fill="none" stroke="#d97706" strokeWidth="2"/>
-                <rect x="35" y="40" width="30" height="40" fill="none" stroke="#d97706" strokeWidth="2"/>
-                <line x1="35" y1="50" x2="65" y2="50" stroke="#d97706" strokeWidth="1"/>
-                <line x1="35" y1="60" x2="65" y2="60" stroke="#d97706" strokeWidth="1"/>
-                <line x1="35" y1="70" x2="65" y2="70" stroke="#d97706" strokeWidth="1"/>
+                <path d="M30 20 H70 A20 20 0 0 1 70 40 V80 H30 V40 A20 20 0 0 1 30 20 Z" fill="none" stroke="#475569" strokeWidth="2"/>
+                <line x1="35" y1="80" x2="65" y2="80" stroke="#475569" strokeWidth="2"/>
+                <line x1="30" y1="70" x2="60" y2="70" stroke="#475569" strokeWidth="2"/>
+                <line x1="25" y1="60" x2="55" y2="60" stroke="#475569" strokeWidth="2"/>
+                <line x1="20" y1="50" x2="50" y2="50" stroke="#475569" strokeWidth="2"/>
+                <rect x="20" y="50" width="30" height="30" fill="black" opacity="0.2"/>
               </svg>
             )}
           </div>

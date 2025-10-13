@@ -1553,6 +1553,7 @@ if (currentScreen === 'mood') {
  </div>
         
   ) : currentQuestion.id === 'path' ? (
+     console.log('Path question options:', currentQuestion.options),
   // Path-specific 2-over-1 layout
   <div className="space-y-4">
     {/* Top row: First two options */}

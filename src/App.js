@@ -1613,7 +1613,7 @@ if (currentScreen === 'mood') {
         </button>
       ))}
     </div>
-  ) : currentQuestion.options ? (
+ ) : currentQuestion.options ? (
   currentQuestion.options.map(option => (
     <button
       key={option.id}
@@ -1626,10 +1626,17 @@ if (currentScreen === 'mood') {
     </button>
   ))
 ) : null}
-</div> 
-  );
+</div>
+
+<p className="text-center text-sm text-gray-400 mt-6">
+  Question {questionIndex + 1} of {currentQuestionSet.length}
+</p>
+</div>
+</div>
+);
 }
-  // Results Screen
+
+// Results Screen
 if (currentScreen === 'results') {
   const recommendedMovies = recommendations;
  
@@ -1646,14 +1653,13 @@ if (currentScreen === 'results') {
             onClick={() => handleWatchMovie(movie)}
             className="bg-gray-700 border-2 border-gray-600 rounded-lg p-4 mb-4 cursor-pointer hover:border-green-500 transition-colors"
           >
-            
- <div className="font-bold text-lg">{movie.title} ({movie.release_date?.slice(0, 4) || 'Unknown'})</div>
+            <div className="font-bold text-lg">{movie.title} ({movie.release_date?.slice(0, 4) || 'Unknown'})</div>
   
-  <div className="text-gray-400 text-sm mb-2">
-  {movie.genre_ids ? movie.genre_ids.map(id => getGenreName(id)).join(', ') : 'Unknown'} • 
-  {movie.runtime ? `${movie.runtime}m` : 'Unknown runtime'} • 
-  {movie.availablePlatforms?.[0] || userPrefs.platforms[Math.floor(Math.random() * userPrefs.platforms.length)]}
-</div>
+            <div className="text-gray-400 text-sm mb-2">
+              {movie.genre_ids ? movie.genre_ids.map(id => getGenreName(id)).join(', ') : 'Unknown'} • 
+              {movie.runtime ? `${movie.runtime}m` : 'Unknown runtime'} • 
+              {movie.availablePlatforms?.[0] || userPrefs.platforms[Math.floor(Math.random() * userPrefs.platforms.length)]}
+            </div>
             <div className="bg-blue-900/50 p-2 rounded text-xs italic text-blue-300 mt-2">
               {movie.reason}
             </div>
@@ -1662,8 +1668,7 @@ if (currentScreen === 'results') {
               Click to watch and rate
             </div>
           </div>
-        )
-          )}
+        ))}
        
         <div className="grid grid-cols-2 gap-3">
           <button

@@ -1613,7 +1613,9 @@ if (currentScreen === 'mood') {
         </button>
       ))}
     </div>
- ) : currentQuestion.options ? (
+ </div>
+
+) : currentQuestion.options ? (
   currentQuestion.options.map(option => (
     <button
       key={option.id}

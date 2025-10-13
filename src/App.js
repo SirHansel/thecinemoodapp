@@ -420,7 +420,7 @@ const allowedGenres = Object.values(TMDB_GENRES).filter(genreId => !excludedGenr
         movies = await fetchMoviesByGenre(secondGenre, true);
       }
     }
-  }
+  };
   
   return {
     movies: movies,

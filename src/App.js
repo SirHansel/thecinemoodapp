@@ -441,45 +441,48 @@ const getMoodBasedMovies = async (moodAnswers, tasteProfile = null, excludedGenr
   }
   
   try {
-    // Fetch English-language movies first
-    let movies = await fetchMoviesByGenre(finalGenreSelection, false); // false = English only
-    console.log('🇺🇸 Fetched English-language movies:', movies?.length || 0);
-    
-    // If not enough English movies, allow foreign films as fallback
-    if (!movies || movies.length < 3) {
-      console.log('⚠️ Not enough English movies, allowing foreign films');
-      movies = await fetchMoviesByGenre(finalGenreSelection, true); // true = allow all languages
-    }
-    
-    // Fallback to second highest scoring genre (English first)
-    if (!movies || movies.length < 3) {
-      const secondGenre = moodScore.topGenres[1]?.id;
-      if (secondGenre) {
-        console.log('🔄 Trying second genre (English only)');
-        movies = await fetchMoviesByGenre(secondGenre, false);
-        
-        // If still not enough, allow foreign for second genre
-        if (!movies || movies.length < 3) {
-          console.log('🔄 Trying second genre (all languages)');
-          movies = await fetchMoviesByGenre(secondGenre, true);
-        }
-      }
-    }
-    
-    return {
-      movies: movies,
-      context: {
-        chosenGenre: Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === finalGenreSelection),
-        moodScores: moodScore.topGenres,
-        tasteInfluence: tasteProfile ? 'Applied' : 'None',
-        modifiers: moodScore.modifiers
-      }
-    };
-  } catch (error) {
-    console.log('🚨 Mood+Taste API call failed:', error);
-    return null;
+  // Extract keywords from user's dominant traits
+  const keywordIds = getKeywordsFromTraits(userPrefs || {});
+  
+  // Fetch English-language movies first WITH keywords
+  let movies = await fetchMoviesByGenre(finalGenreSelection, false, keywordIds); // false = English only
+  console.log('🇺🇸 Fetched English-language movies:', movies?.length || 0);
+  
+  // If not enough English movies, allow foreign films as fallback
+  if (!movies || movies.length < 3) {
+    console.log('⚠️ Not enough English movies, allowing foreign films');
+    movies = await fetchMoviesByGenre(finalGenreSelection, true, keywordIds); // true = allow all languages
   }
-};
+  
+  // Fallback to second highest scoring genre (English first)
+  if (!movies || movies.length < 3) {
+    const secondGenre = moodScore.topGenres[1]?.id;
+    if (secondGenre) {
+      console.log('🔄 Trying second genre (English only)');
+      movies = await fetchMoviesByGenre(secondGenre, false, keywordIds);
+      
+      // If still not enough, allow foreign for second genre
+      if (!movies || movies.length < 3) {
+        console.log('🔄 Trying second genre (all languages)');
+        movies = await fetchMoviesByGenre(secondGenre, true, keywordIds);
+      }
+    }
+  }
+  
+  return {
+    movies: movies,
+    context: {
+      chosenGenre: Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === finalGenreSelection),
+      moodScores: moodScore.topGenres,
+      tasteInfluence: tasteProfile ? 'Applied' : 'None',
+      modifiers: moodScore.modifiers
+    }
+  };
+} catch (error) {
+  console.log('🚨 Mood+Taste API call failed:', error);
+  return null;
+}
+   };
 // ========================================
 // TASTE WEIGHTING ALGORITHM
 // ========================================

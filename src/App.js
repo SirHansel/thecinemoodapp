@@ -34,6 +34,17 @@ const TRAITS = [
   'dark', 'humorous', 'intense', 'romantic', 'thrilling', 'whimsical'
 ];
 
+//-Trait Keywords from the TMDB data base
+
+const TRAIT_TO_KEYWORDS = {
+  intense: [9748, 1299, 10410, 207317],
+  thrilling: [10051, 849, 4289, 10410],
+  mysterious: [207046, 10629, 9748],
+  heartwarming: [6054, 10683, 11436, 3616],
+  romantic: [9799, 10555],
+  dark: [5565, 207261, 4565]
+};
+
 // Genre-to-Trait Affinities (0-5 scale)
 const GENRE_TO_TRAIT_AFFINITIES = {
   [TMDB_GENRES.SCIENCE_FICTION]: { futuristic: 5, mysterious: 3, intense: 2, thrilling: 2 },

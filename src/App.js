@@ -292,6 +292,31 @@ const MOOD_SCORING = {
         }
       };
 
+const getKeywordsFromTraits = (userPrefs) => {
+  // Get trait scores from symbol selection
+  const traitScores = userPrefs.symbolTraits || {};
+   // Find top 2 traits with highest scores
+  const sortedTraits = Object.entries(traitScores)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 2)
+    .map(([trait]) => trait);
+  
+  console.log('🎭 Top traits for keywords:', sortedTraits);
+  
+  // Collect keywords from top traits
+  const keywords = [];
+  sortedTraits.forEach(trait => {
+    if (TRAIT_TO_KEYWORDS[trait]) {
+      keywords.push(...TRAIT_TO_KEYWORDS[trait]);
+    }
+  });
+  
+  // Remove duplicates and limit to 6 keywords max
+  const uniqueKeywords = [...new Set(keywords)].slice(0, 6);
+  
+  return uniqueKeywords;
+};
+
  // ========================================
 // TASTE THRESHOLD GENERATION
 // ========================================

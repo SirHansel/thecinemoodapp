@@ -273,8 +273,8 @@ const MOOD_SCORING = {
       secondary: TMDB_GENRES.MYSTERY,         // +2 pts
       tertiary: TMDB_GENRES.THRILLER          // +1 pt
     }
-  },
- path: {
+    },
+  path: {  // ← MUST be inside MOOD_SCORING with a comma after mood
     upstairs: {
       primary: TMDB_GENRES.ACTION,
       secondary: TMDB_GENRES.THRILLER,
@@ -291,7 +291,7 @@ const MOOD_SCORING = {
       tertiary: TMDB_GENRES.ROMANCE
     }
   }
-      };
+};
 
 const getKeywordsFromTraits = (userPrefs) => {
   // Get trait scores from symbol selection

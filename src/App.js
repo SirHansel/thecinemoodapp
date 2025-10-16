@@ -410,7 +410,7 @@ return {
 // ========================================
 // ENHANCED MOOD + TASTE INTEGRATION
 // ========================================
-const getMoodBasedMovies = async (moodAnswers, tasteProfile = null, excludedGenreIds = []) => {
+const getMoodBasedMovies = async (moodAnswers, tasteProfile = null, excludedGenreIds = [], userPrefs = {}) => {
   console.log('🎯 Starting mood + taste integration');
   
   const moodScore = calculateMoodScore(moodAnswers);
@@ -828,7 +828,7 @@ useEffect(() => {
  const generateRecommendations = async () => {
   setLoading(true);
   try {
-    const result = await getMoodBasedMovies(userPrefs.moodAnswers, userPrefs.tasteProfile, userPrefs.excludedGenreIds);
+    const result = await getMoodBasedMovies(userPrefs.moodAnswers, userPrefs.tasteProfile, userPrefs.excludedGenreIds, userPrefs);
 const movies = result?.movies;
     console.log('🎬 TMDB API Response:', movies);
     if (result) {

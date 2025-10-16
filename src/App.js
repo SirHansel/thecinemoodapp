@@ -357,15 +357,15 @@ const calculateMoodScore = (moodAnswers) => {
   let modifiers = {};
 
   // Process each mood answer
-  Object.entries(moodAnswers).forEach(([questionType, answer]) => {
+ Object.entries(moodAnswers).forEach(([questionType, answer]) => {
     
     const scoring = MOOD_SCORING[questionType]?.[answer];
     const weights = SCORING_WEIGHTS[questionType];
    
     
     if (!scoring || !weights) {
-      console.log('⚠️ Missing scoring for', `${category}:${answerId}`);
-  console.log('Available options for', category, ':', Object.keys(MOOD_SCORING[category] || {})); 
+      console.log(`⚠️ Missing scoring for ${questionType}:${answer}`);
+      console.log('Available options for', questionType, ':', Object.keys(MOOD_SCORING[questionType] || {})); // CHANGED category to questionType
       return;
     }
 

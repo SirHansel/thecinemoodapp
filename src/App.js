@@ -274,22 +274,23 @@ const MOOD_SCORING = {
       tertiary: TMDB_GENRES.THRILLER          // +1 pt
     }
   },
-  path: {  
-    upstairs: {    primary: TMDB_GENRES.ACTION,   
-               secondary: TMDB_GENRES.THRILLER,   
-               tertiary: TMDB_GENRES.ADVENTURE  
-              }, 
-        downstairs: {   
-          primary: TMDB_GENRES.MYSTERY,    
-          secondary: TMDB_GENRES.HORROR,     
-          tertiary: TMDB_GENRES.DRAMA 
-        },  
-         hallway: {  
-           primary: TMDB_GENRES.DRAMA,  
-           secondary: TMDB_GENRES.ROMANCE,   
-           tertiary: TMDB_GENRES.SCIENCE_FICTION  
-         }
-        }
+ path: {
+    upstairs: {
+      primary: TMDB_GENRES.ACTION,
+      secondary: TMDB_GENRES.THRILLER,
+      tertiary: TMDB_GENRES.ADVENTURE
+    },
+    downstairs: {
+      primary: TMDB_GENRES.MYSTERY,
+      secondary: TMDB_GENRES.HORROR,
+      tertiary: TMDB_GENRES.DRAMA
+    },
+    hallway: {
+      primary: TMDB_GENRES.DRAMA,
+      secondary: TMDB_GENRES.SCIENCE_FICTION,
+      tertiary: TMDB_GENRES.ROMANCE
+    }
+  }
       };
 
 const getKeywordsFromTraits = (userPrefs) => {

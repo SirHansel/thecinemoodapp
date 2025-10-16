@@ -351,7 +351,7 @@ const applyQualityBoost = (movie, tasteThresholds) => {
 // MAIN SCORING FUNCTION
 // ========================================
 const calculateMoodScore = (moodAnswers) => {
-  
+  console.log('🎯 Calculating scores for answers:', moodAnswers);
   
   const genreScores = {};
   let modifiers = {};
@@ -1250,6 +1250,7 @@ const generateQuestionSet = () => {
 };
   
 const handleMoodAnswer = async (questionId, answerId) => {
+    console.log('📝 Answer recorded:', questionId, answerId);
   setUserPrefs(prev => ({
     ...prev,
     moodAnswers: { ...prev.moodAnswers, [questionId]: answerId }

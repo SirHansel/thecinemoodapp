@@ -364,7 +364,8 @@ const calculateMoodScore = (moodAnswers) => {
    
     
     if (!scoring || !weights) {
-      console.log(`⚠️ Missing scoring for ${questionType}:${answer}`);
+      console.log('⚠️ Missing scoring for', `${category}:${answerId}`);
+  console.log('Available options for', category, ':', Object.keys(MOOD_SCORING[category] || {})); 
       return;
     }
 

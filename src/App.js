@@ -117,7 +117,8 @@ const SCORING_WEIGHTS = {
   character: { primary: 6, secondary: 2, tertiary: 0 }, // Character gets more weight
   era: { primary: 3, secondary: 2, tertiary: 1 },      // Era gets less weight
   mood: { primary: 5, secondary: 2, tertiary: 1 },
-  discovery: { primary: 2, secondary: 1, tertiary: 0 }  // Discovery is modifier, not core
+  discovery: { primary: 2, secondary: 1, tertiary: 0 },  // Discovery is modifier, not core
+  path: { primary: 5, secondary: 2, tertiary: 1 } 
 };
 
 // Mood Answer → Genre Points Mapping

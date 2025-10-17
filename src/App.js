@@ -384,10 +384,16 @@ const getEraGenreKeywords = (eraAnswer, primaryGenre, userPrefs) => {
   
   // Map era answer to era category
   const eraMap = {
-    vintage: 'vintage',
-    modern: 'modern', 
-    timeless: 'timeless',
-    pop: 'pop'
+   vintage: 'golden',      // Sepia & Burgundy → 1940s-1960s classic
+   gritty: 'seventies',    // Earth & Concrete → 1970s gritty realism
+   electric: 'vintage',    // Neon & Chrome → 1980s-1990s retro
+   digital: 'modern', 
+   modern: 'modern', 
+   timeless: 'timeless',
+   pop: 'pop',
+   noir: 'golden',         // Shadow & Smoke → 1940s-1950s film noir
+   pop: 'pop',
+   classic: 'golden'
   };
   
   const eraCategory = eraMap[eraAnswer] || 'timeless';

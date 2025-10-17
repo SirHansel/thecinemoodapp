@@ -1520,21 +1520,21 @@ if (currentScreen === 'setup') {
          
        <p className="text-sm text-gray-400 mb-3">Select your streaming platforms:</p>
          
-  <div className="grid grid-cols-2 gap-3 mb-6">
-            {platforms.map(platform => (
-              <button
-                key={platform}
-                onClick={() => handlePlatformToggle(platform)}
-                className={`p-3 border-2 rounded text-sm transition-all ripple ${
-                  userPrefs.platforms.includes(platform)
-                    ? 'border-green-500 bg-green-900/30 text-green-400'
-                    : 'border-gray-600 bg-gray-700 text-gray-300 hover:border-gray-500'
-                }`}
-              >
-                {platform}
-              </button>
-            ))}
-          </div>
+ <div className="grid grid-cols-2 gap-3 mb-6">
+  {platforms.map(platform => (
+    <button
+      key={platform}
+      onClick={() => handlePlatformToggle(platform)}
+      className={`p-3 border-2 rounded text-sm ripple ${
+        userPrefs.platforms.includes(platform)
+          ? 'border-green-500 bg-green-900/30 text-green-400'
+          : 'border-gray-600 bg-gray-700 text-gray-300 hover:border-gray-500'
+      }`}
+    >
+      {platform}
+    </button>
+  ))}
+</div>
 
 <button 
   onClick={() => setUserPrefs(prev => ({...prev, excludedGenreIds: []}))}

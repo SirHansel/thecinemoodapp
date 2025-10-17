@@ -1522,11 +1522,17 @@ if (currentScreen === 'setup') {
          
  <div className="grid grid-cols-2 gap-3 mb-6">
   {platforms.map(platform => (
-  
-    <button className="ripple p-3 border-2 rounded bg-red-500 text-white">
-  RED TEST BUTTON
-</button>
-                 
+    <button
+      key={platform}
+      onClick={() => handlePlatformToggle(platform)}
+      className={`p-3 border-2 rounded text-sm transition-all ${
+        userPrefs.platforms.includes(platform)
+          ? 'border-green-500 bg-green-900/30 text-green-400'
+          : 'border-gray-600 bg-gray-700 text-gray-300 hover:border-gray-500'
+      }`}
+    >
+      {platform}
+    </button>
   ))}
 </div>
 

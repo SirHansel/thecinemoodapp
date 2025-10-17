@@ -44,6 +44,65 @@ const TRAIT_TO_KEYWORDS = {
   romantic: [9799, 10555],
   dark: [5565, 207261, 4565]
 };
+const ERA_GENRE_KEYWORDS = {
+  // 1940s-1960s Golden Age
+  golden: {
+    [TMDB_GENRES.DRAMA]: [11436, 6054, 10683],           // redemption, friendship, family
+    [TMDB_GENRES.THRILLER]: [207046, 4565, 9748],        // film-noir, mystery, detective
+    [TMDB_GENRES.ROMANCE]: [10340, 4344, 9799],          // classic-romance, musical, romance
+    [TMDB_GENRES.ADVENTURE]: [4759, 162342, 157155],     // exploration, discovery, explorer
+    [TMDB_GENRES.SCIENCE_FICTION]: [14544, 9951],        // space, alien (atomic-age sci-fi)
+    [TMDB_GENRES.WAR]: [6054, 11436],                    // friendship, redemption (war epics)
+    [TMDB_GENRES.WESTERN]: [9748, 11436]                 // revenge, redemption (classic westerns)
+  },
+  
+  // 1970s New Hollywood
+  seventies: {
+    [TMDB_GENRES.THRILLER]: [10410, 9748, 207046],       // conspiracy, paranoia, investigation
+    [TMDB_GENRES.DRAMA]: [11436, 3616, 10683],           // character-study, coming-of-age, family
+    [TMDB_GENRES.CRIME]: [9748, 4565, 10051],            // neo-noir, gritty, heist
+    [TMDB_GENRES.HORROR]: [1299, 9748],                  // survival, psychological
+    [TMDB_GENRES.ACTION]: [849, 4289],                   // car-chase, espionage
+    [TMDB_GENRES.SCIENCE_FICTION]: [9715, 14544, 9951]  // dystopia, space, alien
+  },
+  
+  // 1980s-1990s Retro Era
+  vintage: {
+    [TMDB_GENRES.ACTION]: [849, 9748, 10051],            // chase, revenge, heist
+    [TMDB_GENRES.COMEDY]: [5565, 4344, 6054],            // dark-comedy, musical, friendship
+    [TMDB_GENRES.THRILLER]: [10410, 4289, 1299],         // conspiracy, espionage, survival
+    [TMDB_GENRES.HORROR]: [1299, 207046],                // survival-horror, slasher
+    [TMDB_GENRES.SCIENCE_FICTION]: [4379, 9951, 9715],   // time-travel, alien, dystopia
+    [TMDB_GENRES.ROMANCE]: [9799, 3616, 10555],          // romance, coming-of-age, love-triangle
+    [TMDB_GENRES.DRAMA]: [3616, 11436, 6054]             // coming-of-age, redemption, friendship
+  },
+  
+  // 2000s-2015 Modern Era
+  modern: {
+    [TMDB_GENRES.THRILLER]: [10410, 207046, 10629],      // conspiracy, mystery, investigation
+    [TMDB_GENRES.DRAMA]: [11436, 10683, 3616],           // redemption, family, coming-of-age
+    [TMDB_GENRES.ACTION]: [10051, 849, 9748],            // heist, chase, revenge
+    [TMDB_GENRES.COMEDY]: [5565, 6054],                  // dark-comedy, friendship
+    [TMDB_GENRES.SCIENCE_FICTION]: [9715, 4379, 14544],  // dystopia, time-travel, space
+    [TMDB_GENRES.HORROR]: [1299, 207046],                // survival, psychological-horror
+    [TMDB_GENRES.CRIME]: [10051, 10410, 207046]          // heist, conspiracy, investigation
+  },
+  
+  // 2016+ Current/Pop Era
+  pop: {
+    [TMDB_GENRES.ACTION]: [10051, 849],                  // heist, chase (modern blockbusters)
+    [TMDB_GENRES.THRILLER]: [10410, 207046],             // conspiracy, mystery
+    [TMDB_GENRES.DRAMA]: [11436, 10683],                 // redemption, family
+    [TMDB_GENRES.COMEDY]: [6054, 5565],                  // friendship, dark-comedy
+    [TMDB_GENRES.SCIENCE_FICTION]: [9715, 4379],         // dystopia, time-travel
+    [TMDB_GENRES.HORROR]: [1299, 207046]                 // survival, psychological
+  },
+  
+  // Timeless (wide range) - minimal keyword filtering
+  timeless: {
+    // Use trait-based keywords only, no era-specific filtering
+  }
+};
 
 // Genre-to-Trait Affinities (0-5 scale)
 const GENRE_TO_TRAIT_AFFINITIES = {
@@ -319,6 +378,34 @@ const getKeywordsFromTraits = (userPrefs) => {
   return uniqueKeywords;
 };
 
+const getEraGenreKeywords = (eraAnswer, primaryGenre, userPrefs) => {
+  // Get trait-based keywords (existing system)
+  const traitKeywords = getKeywordsFromTraits(userPrefs);
+  
+  // Map era answer to era category
+  const eraMap = {
+    vintage: 'vintage',
+    modern: 'modern', 
+    timeless: 'timeless',
+    pop: 'pop'
+  };
+  
+  const eraCategory = eraMap[eraAnswer] || 'timeless';
+  
+  // Get era-specific genre keywords
+  const eraGenreKeywords = ERA_GENRE_KEYWORDS[eraCategory]?.[primaryGenre] || [];
+  
+  // Merge: prioritize era-genre keywords, then add trait keywords
+  const combinedKeywords = [...new Set([...eraGenreKeywords, ...traitKeywords])];
+  
+  console.log('🎬 Era-Genre keywords:', eraCategory, primaryGenre, eraGenreKeywords);
+  console.log('🎨 Trait keywords:', traitKeywords);
+  console.log('🔑 Combined keywords:', combinedKeywords);
+  
+  // Limit to 8 keywords max for API efficiency
+  return combinedKeywords.slice(0, 8);
+};
+
  // ========================================
 // TASTE THRESHOLD GENERATION
 // ========================================
@@ -444,11 +531,12 @@ const getMoodBasedMovies = async (moodAnswers, tasteProfile = null, excludedGenr
   }
   
   try {
-  // Extract keywords from user's dominant traits
-  const keywordIds = getKeywordsFromTraits(userPrefs || {});
+  // Extract era-genre-specific keywords (combines era context + genre + traits)
+  const eraAnswer = moodAnswers.era;
+  const keywordIds = getEraGenreKeywords(eraAnswer, finalGenreSelection, userPrefs || {});
   
-  // Fetch English-language movies first WITH keywords
-  let movies = await fetchMoviesByGenre(finalGenreSelection, false, keywordIds); // false = English only
+  // Fetch English-language movies first WITH era-genre keywords
+  let movies = await fetchMoviesByGenre(finalGenreSelection, false, keywordIds);
   console.log('🇺🇸 Fetched English-language movies:', movies?.length || 0);
   
   // If not enough English movies, allow foreign films as fallback

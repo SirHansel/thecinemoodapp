@@ -1525,7 +1525,7 @@ if (currentScreen === 'setup') {
               <button
                 key={platform}
                 onClick={() => handlePlatformToggle(platform)}
-                className={`ripple p-3 border-2 rounded text-sm transition-all ${
+                className={`p-3 border-2 rounded text-sm transition-all ripple ${
                   userPrefs.platforms.includes(platform)
                     ? 'border-green-500 bg-green-900/30 text-green-400'
                     : 'border-gray-600 bg-gray-700 text-gray-300 hover:border-gray-500'

@@ -1522,12 +1522,11 @@ if (currentScreen === 'setup') {
          
  <div className="grid grid-cols-2 gap-3 mb-6">
   {platforms.map(platform => (
-    <button 
-  className="ripple p-3 border-2 rounded bg-red-500 text-white"
-  onMouseDown={() => console.log('CLICKED!')}
->
+  
+    <button className="ripple p-3 border-2 rounded bg-red-500 text-white">
   RED TEST BUTTON
 </button>
+                 
   ))}
 </div>
 

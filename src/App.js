@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { fetchMoviesByGenre, fetchMovieDetails } from './tmdbApi';
 import { parseLetterboxdCSV, analyzeUserTaste, combineRatingsWithTaste } from './letterboxdApi'; 
@@ -382,25 +381,7 @@ const getKeywordsFromTraits = (userPrefs) => {
 const getEraGenreKeywords = (eraAnswer, primaryGenre, userPrefs) => {
   // Get trait-based keywords (existing system)
   const traitKeywords = getKeywordsFromTraits(userPrefs);
-
-  const getUnusedSymbolGroup = (recentGroups = []) => {
-  const allGroups = Object.keys(SYMBOL_GROUPS); // ['geometry', 'natural', 'forms3d', 'artifacts']
   
-  // Filter out recently used groups
-  const availableGroups = allGroups.filter(group => !recentGroups.includes(group));
-  
-  console.log('🔄 Recent groups:', recentGroups);
-  console.log('🎲 Available groups:', availableGroups);
-  
-  // If all groups have been used, reset the rotation
-  if (availableGroups.length === 0) {
-    console.log('♻️ All groups used, resetting rotation');
-    return allGroups[Math.floor(Math.random() * allGroups.length)];
-  }
-  
-  // Return random group from available options
-  return availableGroups[Math.floor(Math.random() * availableGroups.length)];
-};
   // Map era answer to era category
   const eraMap = {
    vintage: 'golden',      // Sepia & Burgundy → 1940s-1960s classic
@@ -909,8 +890,7 @@ const CineMoodApp = () => {
       platforms: [],
       moodAnswers: {},
       excludedGenreIds: [],
-      watchedMovies: [], 
-      recentSymbolGroups: [] 
+      watchedMovies: []
     };
   });
   
@@ -1256,15 +1236,7 @@ const generateQuestionSet = () => {
     
    if (category === 'symbols') {
   const groupKeys = Object.keys(SYMBOL_GROUPS);
-  const selectedGroup = getUnusedSymbolGroup(userPrefs.recentSymbolGroups || []);
-  console.log('🎨 Selected symbol group:', selectedGroup);
-  
-  // Update recent groups list (keep last 3)
-  const updatedRecentGroups = [selectedGroup, ...(userPrefs.recentSymbolGroups || [])].slice(0, 3);
-  setUserPrefs(prev => ({
-    ...prev,
-    recentSymbolGroups: updatedRecentGroups
-  }));
+  const selectedGroup = groupKeys[Math.floor(Math.random() * groupKeys.length)];
   
   selectedQuestions.push({
     id: 'symbols',

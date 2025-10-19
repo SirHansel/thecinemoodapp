@@ -168,17 +168,6 @@ const scoreMovieByTraits = (movie, traitScores) => {
   return movieScore;
 };
 
-// Hybrid Scoring Configuration - Easy to Tweak
-const SCORING_WEIGHTS = {
-  symbols: { primary: 2, secondary: 1, tertiary: 1 },
-  aesthetic: { primary: 5, secondary: 2, tertiary: 1 },
-  energy: { primary: 4, secondary: 2, tertiary: 1 },
-  character: { primary: 6, secondary: 2, tertiary: 0 }, // Character gets more weight
-  era: { primary: 3, secondary: 2, tertiary: 1 },      // Era gets less weight
-  mood: { primary: 5, secondary: 2, tertiary: 1 },
-  discovery: { primary: 2, secondary: 1, tertiary: 0 },  // Discovery is modifier, not core
-  path: { primary: 5, secondary: 2, tertiary: 1 } 
-};
 
 // Mood Answer → Genre Points Mapping
 const MOOD_SCORING = {
@@ -352,6 +341,54 @@ const MOOD_SCORING = {
     }
   }
 };
+// ========================================
+// SYMBOL GROUPS - ROTATING SELECTIONS
+// ========================================
+const SYMBOL_GROUPS = {
+  geometry: [
+    { id: 'circle', svg: 'circle', traits: { heartwarming: 3, romantic: 3, whimsical: 2 } },
+    { id: 'triangle', svg: 'triangle', traits: { intense: 4, thrilling: 3, dark: 2 } },
+    { id: 'square', svg: 'square', traits: { mysterious: 3, dark: 2, intense: 2 } },
+    { id: 'wave', svg: 'wave', traits: { romantic: 4, mysterious: 3, whimsical: 2 } },
+    { id: 'star', svg: 'star', traits: { adventurous: 4, futuristic: 3, thrilling: 2 } },
+    { id: 'spiral', svg: 'spiral', traits: { mysterious: 4, dark: 3, intense: 2 } }
+  ],
+  natural: [
+    { id: 'leaf', svg: 'leaf', traits: { whimsical: 4, heartwarming: 3 } },
+    { id: 'flame', svg: 'flame', traits: { thrilling: 4, intense: 3, dark: 2 } },
+    { id: 'wave', svg: 'wave', traits: { mysterious: 4, adventurous: 3, romantic: 2 } },
+    { id: 'stone', svg: 'stone', traits: { intense: 3, mysterious: 2, dark: 2 } },
+    { id: 'cloud', svg: 'cloud', traits: { whimsical: 4, romantic: 3, heartwarming: 2 } },
+    { id: 'sun', svg: 'sun', traits: { heartwarming: 4, thrilling: 3, adventurous: 2 } }
+  ],
+  forms3d: [
+    { id: 'pyramid', svg: 'pyramid', traits: { mysterious: 4, intense: 3, dark: 2 } },
+    { id: 'cube', svg: 'cube', traits: { mysterious: 3, intense: 2 } },
+    { id: 'sphere', svg: 'sphere', traits: { heartwarming: 4, whimsical: 3, romantic: 2 } },
+    { id: 'cylinder', svg: 'cylinder', traits: { mysterious: 2, intense: 2 } },
+    { id: 'cone', svg: 'cone', traits: { thrilling: 3, adventurous: 2 } },
+    { id: 'helix', svg: 'helix', traits: { mysterious: 4, futuristic: 3, thrilling: 2 } }
+  ],
+  artifacts: [
+    { id: 'book', svg: 'book', traits: { mysterious: 4, heartwarming: 3 } },
+    { id: 'lantern', svg: 'lantern', traits: { mysterious: 3, romantic: 3, heartwarming: 2 } },
+    { id: 'hammer', svg: 'hammer', traits: { intense: 4, thrilling: 3 } },
+    { id: 'key', svg: 'key', traits: { mysterious: 4, adventurous: 3 } },
+    { id: 'mirror', svg: 'mirror', traits: { mysterious: 3, romantic: 2, dark: 2 } },
+    { id: 'bridge', svg: 'bridge', traits: { adventurous: 4, heartwarming: 3, romantic: 2 } }
+  ], 
+};
+// Hybrid Scoring Configuration - Easy to Tweak
+const SCORING_WEIGHTS = {
+  symbols: { primary: 2, secondary: 1, tertiary: 1 },
+  aesthetic: { primary: 5, secondary: 2, tertiary: 1 },
+  energy: { primary: 4, secondary: 2, tertiary: 1 },
+  character: { primary: 6, secondary: 2, tertiary: 0 }, // Character gets more weight
+  era: { primary: 3, secondary: 2, tertiary: 1 },      // Era gets less weight
+  mood: { primary: 5, secondary: 2, tertiary: 1 },
+  discovery: { primary: 2, secondary: 1, tertiary: 0 },  // Discovery is modifier, not core
+  path: { primary: 5, secondary: 2, tertiary: 1 } 
+};
 
 const getKeywordsFromTraits = (userPrefs) => {
   // Get trait scores from symbol selection
@@ -361,7 +398,7 @@ const getKeywordsFromTraits = (userPrefs) => {
     .sort((a, b) => b[1] - a[1])
     .slice(0, 2)
     .map(([trait]) => trait);
-  
+
   console.log('🎭 Top traits for keywords:', sortedTraits);
   
   // Collect keywords from top traits
@@ -1206,43 +1243,7 @@ const QUESTION_POOLS = {
     ]
   }
 };
-// ========================================
-// SYMBOL GROUPS - ROTATING SELECTIONS
-// ========================================
-const SYMBOL_GROUPS = {
-  geometry: [
-    { id: 'circle', svg: 'circle', traits: { heartwarming: 3, romantic: 3, whimsical: 2 } },
-    { id: 'triangle', svg: 'triangle', traits: { intense: 4, thrilling: 3, dark: 2 } },
-    { id: 'square', svg: 'square', traits: { mysterious: 3, dark: 2, intense: 2 } },
-    { id: 'wave', svg: 'wave', traits: { romantic: 4, mysterious: 3, whimsical: 2 } },
-    { id: 'star', svg: 'star', traits: { adventurous: 4, futuristic: 3, thrilling: 2 } },
-    { id: 'spiral', svg: 'spiral', traits: { mysterious: 4, dark: 3, intense: 2 } }
-  ],
-  natural: [
-    { id: 'leaf', svg: 'leaf', traits: { whimsical: 4, heartwarming: 3 } },
-    { id: 'flame', svg: 'flame', traits: { thrilling: 4, intense: 3, dark: 2 } },
-    { id: 'wave', svg: 'wave', traits: { mysterious: 4, adventurous: 3, romantic: 2 } },
-    { id: 'stone', svg: 'stone', traits: { intense: 3, mysterious: 2, dark: 2 } },
-    { id: 'cloud', svg: 'cloud', traits: { whimsical: 4, romantic: 3, heartwarming: 2 } },
-    { id: 'sun', svg: 'sun', traits: { heartwarming: 4, thrilling: 3, adventurous: 2 } }
-  ],
-  forms3d: [
-    { id: 'pyramid', svg: 'pyramid', traits: { mysterious: 4, intense: 3, dark: 2 } },
-    { id: 'cube', svg: 'cube', traits: { mysterious: 3, intense: 2 } },
-    { id: 'sphere', svg: 'sphere', traits: { heartwarming: 4, whimsical: 3, romantic: 2 } },
-    { id: 'cylinder', svg: 'cylinder', traits: { mysterious: 2, intense: 2 } },
-    { id: 'cone', svg: 'cone', traits: { thrilling: 3, adventurous: 2 } },
-    { id: 'helix', svg: 'helix', traits: { mysterious: 4, futuristic: 3, thrilling: 2 } }
-  ],
-  artifacts: [
-    { id: 'book', svg: 'book', traits: { mysterious: 4, heartwarming: 3 } },
-    { id: 'lantern', svg: 'lantern', traits: { mysterious: 3, romantic: 3, heartwarming: 2 } },
-    { id: 'hammer', svg: 'hammer', traits: { intense: 4, thrilling: 3 } },
-    { id: 'key', svg: 'key', traits: { mysterious: 4, adventurous: 3 } },
-    { id: 'mirror', svg: 'mirror', traits: { mysterious: 3, romantic: 2, dark: 2 } },
-    { id: 'bridge', svg: 'bridge', traits: { adventurous: 4, heartwarming: 3, romantic: 2 } }
-  ], 
-};
+
   // Question Selection Logic
 const generateQuestionSet = () => {
  const categories = ['symbols','path', 'aesthetic', 'energy', 'era', 'character', 'mood'];

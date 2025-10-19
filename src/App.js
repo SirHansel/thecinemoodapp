@@ -373,14 +373,9 @@ const getKeywordsFromTraits = (userPrefs) => {
   });
   
   // Remove duplicates and limit to 6 keywords max
-  const uniqueKeywords = [...new Set(keywords)].slice(0, 6);
-  
+  const uniqueKeywords = [...new Set(keywords)].slice(0, 6); 
   return uniqueKeywords;
 };
-
-const getEraGenreKeywords = (eraAnswer, primaryGenre, userPrefs) => {
-  // Get trait-based keywords (existing system)
-  const traitKeywords = getKeywordsFromTraits(userPrefs);
 
 const getUnusedSymbolGroup = (recentGroups = []) => {
   const allGroups = Object.keys(SYMBOL_GROUPS); // ['geometry', 'natural', 'forms3d', 'artifacts']
@@ -400,7 +395,11 @@ const getUnusedSymbolGroup = (recentGroups = []) => {
   // Return random group from available options
   return availableGroups[Math.floor(Math.random() * availableGroups.length)];
 };
-  
+
+const getEraGenreKeywords = (eraAnswer, primaryGenre, userPrefs) => {
+  // Get trait-based keywords (existing system)
+  const traitKeywords = getKeywordsFromTraits(userPrefs);
+    
   // Map era answer to era category
   const eraMap = {
    vintage: 'golden',      // Sepia & Burgundy → 1940s-1960s classic

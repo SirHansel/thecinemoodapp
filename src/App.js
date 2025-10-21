@@ -415,7 +415,7 @@ const getKeywordsFromTraits = (userPrefs) => {
 };
 
 const getUnusedSymbolGroup = (recentGroups = []) => {
-  const allGroups = Object.keys(SYMBOL_GROUPS); // ['geometry', 'natural', 'forms3d', 'artifacts']
+  const allGroups = Object.keys(SYMBOL_GROUPS);
   
   // Filter out recently used groups
   const availableGroups = allGroups.filter(group => !recentGroups.includes(group));
@@ -431,6 +431,43 @@ const getUnusedSymbolGroup = (recentGroups = []) => {
   
   // Return random group from available options
   return availableGroups[Math.floor(Math.random() * availableGroups.length)];
+};  // ← ADD THESE TWO LINES
+
+// NOW add Step 2 function here
+const getAestheticGenreKeywords = (aestheticAnswer, primaryGenre) => {
+  if (!aestheticAnswer || !AESTHETIC_GENRE_KEYWORDS[aestheticAnswer]) {
+    return [];
+  }
+  
+  const aestheticKeywords = AESTHETIC_GENRE_KEYWORDS[aestheticAnswer]?.[primaryGenre] || [];
+  
+  console.log('🎨 Aesthetic-Genre keywords:', aestheticAnswer, primaryGenre, aestheticKeywords);
+  
+  return aestheticKeywords;
+};
+
+const getAllKeywords = (moodAnswers, primaryGenre, userPrefs) => {
+  // Layer 1: Era-genre keywords (highest priority - defines time period)
+  const eraAnswer = moodAnswers.era;
+  const eraKeywords = getEraGenreKeywords(eraAnswer, primaryGenre, userPrefs) || [];
+  
+  // Layer 2: Aesthetic-genre keywords (visual style)
+  const aestheticAnswer = moodAnswers.aesthetic;
+  const aestheticKeywords = getAestheticGenreKeywords(aestheticAnswer, primaryGenre) || [];
+  
+  // Layer 3: Trait keywords (emotional resonance - lowest priority)
+  const traitKeywords = getKeywordsFromTraits(userPrefs) || [];
+  
+  console.log('🔑 Keyword layers - Era:', eraKeywords.length, 'Aesthetic:', aestheticKeywords.length, 'Traits:', traitKeywords.length);
+  
+  // Merge with priority: era first, then aesthetic, then traits
+  // Remove duplicates but preserve order (era keywords stay at front)
+  const combined = [...new Set([...eraKeywords, ...aestheticKeywords, ...traitKeywords])];
+  
+  console.log('🔑 Total combined keywords:', combined.length, '→ limited to 8');
+  
+  // Limit to 8 keywords max for API efficiency
+  return combined.slice(0, 8);
 };
 
 const getEraGenreKeywords = (eraAnswer, primaryGenre, userPrefs) => {
@@ -593,8 +630,7 @@ const getMoodBasedMovies = async (moodAnswers, tasteProfile = null, excludedGenr
   
   try {
   // Extract era-genre-specific keywords (combines era context + genre + traits)
-  const eraAnswer = moodAnswers.era;
-  const keywordIds = getEraGenreKeywords(eraAnswer, finalGenreSelection, userPrefs || {});
+  const keywordIds = getAllKeywords(moodAnswers, finalGenreSelection, userPrefs || {});
   
   // Fetch English-language movies first WITH era-genre keywords
   let movies = await fetchMoviesByGenre(finalGenreSelection, false, keywordIds);

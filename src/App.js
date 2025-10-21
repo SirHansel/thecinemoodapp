@@ -103,7 +103,55 @@ const ERA_GENRE_KEYWORDS = {
     // Use trait-based keywords only, no era-specific filtering
   }
 };
-
+const AESTHETIC_GENRE_KEYWORDS = {
+  // NEON - Electric, cyberpunk, urban night aesthetics
+  neon: {
+    [TMDB_GENRES.THRILLER]: [10410, 4289],        // conspiracy, espionage
+    [TMDB_GENRES.SCIENCE_FICTION]: [9715, 14544], // dystopia, cyberpunk-adjacent
+    [TMDB_GENRES.ACTION]: [849, 4289],            // chase, espionage (urban action)
+    [TMDB_GENRES.CRIME]: [10051, 4565]            // heist, neo-noir (neon-lit crime)
+  },
+  
+  // GOLD/VELVET - Classic, elegant, old Hollywood glamour
+  gold: {
+    [TMDB_GENRES.DRAMA]: [11436, 10340],          // redemption, classic-drama
+    [TMDB_GENRES.ROMANCE]: [10340, 9799],         // classic-romance, romance
+    [TMDB_GENRES.THRILLER]: [4565, 207046],       // film-noir, mystery
+    [TMDB_GENRES.MYSTERY]: [207046, 9748]         // murder-mystery, detective
+  },
+  
+  // EARTH/NATURAL - Organic, grounded, raw textures
+  earth: {
+    [TMDB_GENRES.DRAMA]: [11436, 3616, 1299],     // redemption, coming-of-age, survival
+    [TMDB_GENRES.WESTERN]: [9748, 11436],         // revenge, redemption (dusty westerns)
+    [TMDB_GENRES.ADVENTURE]: [4759, 1299],        // exploration, survival (wilderness)
+    [TMDB_GENRES.THRILLER]: [1299, 10629]         // survival, investigation (gritty)
+  },
+  
+  // SHADOW/NOIR - Dark, mysterious, high contrast
+  shadow: {
+    [TMDB_GENRES.THRILLER]: [4565, 207046, 10410], // neo-noir, mystery, conspiracy
+    [TMDB_GENRES.CRIME]: [4565, 9748, 10051],      // neo-noir, detective, heist
+    [TMDB_GENRES.MYSTERY]: [207046, 9748],         // murder-mystery, detective
+    [TMDB_GENRES.HORROR]: [207046, 1299]           // psychological, survival
+  },
+  
+  // MINIMALIST/ICE - Clean, stark, modern aesthetic
+  ice: {
+    [TMDB_GENRES.SCIENCE_FICTION]: [9715, 14544], // dystopia, space (sterile sci-fi)
+    [TMDB_GENRES.THRILLER]: [10410, 10629],       // conspiracy, investigation (clinical)
+    [TMDB_GENRES.DRAMA]: [11436, 10683],          // redemption, family (austere dramas)
+    [TMDB_GENRES.CRIME]: [10629, 10410]           // investigation, conspiracy
+  },
+  
+  // COMFORT/COZY - Warm, inviting, nostalgic
+  comfort: {
+    [TMDB_GENRES.COMEDY]: [6054, 10683],          // friendship, family
+    [TMDB_GENRES.ROMANCE]: [9799, 6054],          // romance, friendship
+    [TMDB_GENRES.DRAMA]: [10683, 3616, 6054],     // family, coming-of-age, friendship
+    [TMDB_GENRES.ANIMATION]: [6054, 10683]        // friendship, family (Pixar-style)
+  }
+};
 // Genre-to-Trait Affinities (0-5 scale)
 const GENRE_TO_TRAIT_AFFINITIES = {
   [TMDB_GENRES.SCIENCE_FICTION]: { futuristic: 5, mysterious: 3, intense: 2, thrilling: 2 },

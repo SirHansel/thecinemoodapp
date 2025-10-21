@@ -462,6 +462,42 @@ const getKeywordsFromTraits = (userPrefs) => {
   return uniqueKeywords;
 };
 
+const prioritizeByGenrePosition = (movies, targetGenreId) => {
+  // Score each movie based on target genre position
+  const scoredMovies = movies.map(movie => {
+    const genrePosition = movie.genre_ids?.indexOf(targetGenreId);
+    
+    // Scoring: primary=100, secondary=50, tertiary=25, not found=0
+    let positionScore = 0;
+    if (genrePosition === 0) positionScore = 100;      // Primary genre
+    else if (genrePosition === 1) positionScore = 50;  // Secondary genre
+    else if (genrePosition === 2) positionScore = 25;  // Tertiary genre
+    else if (genrePosition > 2) positionScore = 10;    // Beyond tertiary
+    
+    return {
+      ...movie,
+      genrePositionScore: positionScore
+    };
+  });
+  
+  // Sort by position score (highest first), then by vote_average as tiebreaker
+  const sorted = scoredMovies.sort((a, b) => {
+    if (b.genrePositionScore !== a.genrePositionScore) {
+      return b.genrePositionScore - a.genrePositionScore;
+    }
+    return (b.vote_average || 0) - (a.vote_average || 0);
+  });
+  
+  console.log('📊 Genre position distribution:', {
+    primary: sorted.filter(m => m.genrePositionScore === 100).length,
+    secondary: sorted.filter(m => m.genrePositionScore === 50).length,
+    tertiary: sorted.filter(m => m.genrePositionScore === 25).length
+  });
+  
+  return sorted;
+};
+
+
 const getUnusedSymbolGroup = (recentGroups = []) => {
   const allGroups = Object.keys(SYMBOL_GROUPS);
   
@@ -677,33 +713,27 @@ const getMoodBasedMovies = async (moodAnswers, tasteProfile = null, excludedGenr
   }
   
   try {
-  // Extract era-genre-specific keywords (combines era context + genre + traits)
   const keywordIds = getAllKeywords(moodAnswers, finalGenreSelection, userPrefs || {});
   
-  // Fetch English-language movies first WITH era-genre keywords
   let movies = await fetchMoviesByGenre(finalGenreSelection, false, keywordIds);
   console.log('🇺🇸 Fetched English-language movies:', movies?.length || 0);
   
-  // If not enough English movies, allow foreign films as fallback
-  if (!movies || movies.length < 3) {
-    console.log('⚠️ Not enough English movies, allowing foreign films');
-    movies = await fetchMoviesByGenre(finalGenreSelection, true, keywordIds); // true = allow all languages
+  // NEW: Prioritize by genre position
+  if (movies && movies.length > 0) {
+    movies = prioritizeByGenrePosition(movies, finalGenreSelection);
   }
   
-  // Fallback to second highest scoring genre (English first)
+  // Rest of your existing fallback logic...
   if (!movies || movies.length < 3) {
-    const secondGenre = moodScore.topGenres[1]?.id;
-    if (secondGenre) {
-      console.log('🔄 Trying second genre (English only)');
-      movies = await fetchMoviesByGenre(secondGenre, false, keywordIds);
-      
-      // If still not enough, allow foreign for second genre
-      if (!movies || movies.length < 3) {
-        console.log('🔄 Trying second genre (all languages)');
-        movies = await fetchMoviesByGenre(secondGenre, true, keywordIds);
-      }
+    console.log('⚠️ Not enough English movies, allowing foreign films');
+    movies = await fetchMoviesByGenre(finalGenreSelection, true, keywordIds);
+    
+    // Also prioritize the foreign film results
+    if (movies && movies.length > 0) {
+      movies = prioritizeByGenrePosition(movies, finalGenreSelection);
     }
   }
+}
   
   return {
     movies: movies,

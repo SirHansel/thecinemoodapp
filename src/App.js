@@ -735,8 +735,7 @@ const getMoodBasedMovies = async (moodAnswers, tasteProfile = null, excludedGenr
     }
   }
 }
-  
-  return {
+    return {
     movies: movies,
     context: {
       chosenGenre: Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === finalGenreSelection),
@@ -748,9 +747,8 @@ const getMoodBasedMovies = async (moodAnswers, tasteProfile = null, excludedGenr
 } catch (error) {
   console.log('🚨 Mood+Taste API call failed:', error);
   return null;
- }
-}
-   };
+} 
+
 // ========================================
 // TASTE WEIGHTING ALGORITHM
 // ========================================

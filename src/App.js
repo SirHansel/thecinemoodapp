@@ -712,20 +712,16 @@ const getMoodBasedMovies = async (moodAnswers, tasteProfile = null, excludedGenr
     console.log('🎯 Final selection must be from allowed list');
   }
   
-  try {
+try {
   const keywordIds = getAllKeywords(moodAnswers, finalGenreSelection, userPrefs || {});
   
   let movies = await fetchMoviesByGenre(finalGenreSelection, false, keywordIds);
   console.log('🇺🇸 Fetched English-language movies:', movies?.length || 0);
+    
  console.log('🎯 PRIORITIZING:', movies.length, 'movies for genre', targetGenreId); // ADD THIS LINE
 
   // NEW: Prioritize by genre position
-  if (movies && movies.length > 0) {
-    movies = prioritizeByGenrePosition(movies, finalGenreSelection);
-  }
-  
-  // Rest of your existing fallback logic...
-  if (!movies || movies.length < 3) {
+ if (!movies || movies.length < 3) {
     console.log('⚠️ Not enough English movies, allowing foreign films');
     movies = await fetchMoviesByGenre(finalGenreSelection, true, keywordIds);
     
@@ -734,7 +730,7 @@ const getMoodBasedMovies = async (moodAnswers, tasteProfile = null, excludedGenr
       movies = prioritizeByGenrePosition(movies, finalGenreSelection);
     }
   }
-}
+  
     return {
     movies: movies,
     context: {

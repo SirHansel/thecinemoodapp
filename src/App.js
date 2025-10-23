@@ -463,45 +463,50 @@ const getKeywordsFromTraits = (userPrefs) => {
 };
 
 const prioritizeByGenrePosition = (movies, targetGenreId) => {
-     try {
+  try {
     console.log('🎯 PRIORITIZING:', movies?.length || 0, 'movies for genre', targetGenreId);
     
     if (!movies || movies.length === 0) {
       console.log('⚠️ No movies to prioritize');
       return movies;
     }
-  // Score each movie based on target genre position
-  const scoredMovies = movies.map(movie => {
-    const genrePosition = movie.genre_ids?.indexOf(targetGenreId);
     
-    // Scoring: primary=100, secondary=50, tertiary=25, not found=0
-    let positionScore = 0;
-    if (genrePosition === 0) positionScore = 100;      // Primary genre
-    else if (genrePosition === 1) positionScore = 50;  // Secondary genre
-    else if (genrePosition === 2) positionScore = 25;  // Tertiary genre
-    else if (genrePosition > 2) positionScore = 10;    // Beyond tertiary
+    // Score each movie based on target genre position
+    const scoredMovies = movies.map(movie => {
+      const genrePosition = movie.genre_ids?.indexOf(targetGenreId);
+      
+      // Scoring: primary=100, secondary=50, tertiary=25, not found=0
+      let positionScore = 0;
+      if (genrePosition === 0) positionScore = 100;
+      else if (genrePosition === 1) positionScore = 50;
+      else if (genrePosition === 2) positionScore = 25;
+      else if (genrePosition > 2) positionScore = 10;
+      
+      return {
+        ...movie,
+        genrePositionScore: positionScore
+      };
+    });
+  
+// Sort by position score
+    const sorted = scoredMovies.sort((a, b) => {
+      if (b.genrePositionScore !== a.genrePositionScore) {
+        return b.genrePositionScore - a.genrePositionScore;
+      }
+      return (b.vote_average || 0) - (a.vote_average || 0);
+    });
     
-    return {
-      ...movie,
-      genrePositionScore: positionScore
-    };
-  });
-  
-  // Sort by position score (highest first), then by vote_average as tiebreaker
-  const sorted = scoredMovies.sort((a, b) => {
-    if (b.genrePositionScore !== a.genrePositionScore) {
-      return b.genrePositionScore - a.genrePositionScore;
-    }
-    return (b.vote_average || 0) - (a.vote_average || 0);
-  });
-  
-  console.log('📊 Genre position distribution:', {
-    primary: sorted.filter(m => m.genrePositionScore === 100).length,
-    secondary: sorted.filter(m => m.genrePositionScore === 50).length,
-    tertiary: sorted.filter(m => m.genrePositionScore === 25).length
-  });
-  
-  return sorted;
+    console.log('📊 Genre position distribution:', {
+      primary: sorted.filter(m => m.genrePositionScore === 100).length,
+      secondary: sorted.filter(m => m.genrePositionScore === 50).length,
+      tertiary: sorted.filter(m => m.genrePositionScore === 25).length
+    });
+    
+    return sorted;
+  } catch (error) {
+    console.error('❌ Error in prioritizeByGenrePosition:', error);
+    return movies; // Return unsorted on error
+  }
 };
 
 

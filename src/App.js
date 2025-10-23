@@ -463,6 +463,7 @@ const getKeywordsFromTraits = (userPrefs) => {
 };
 
 const prioritizeByGenrePosition = (movies, targetGenreId) => {
+   console.log('🎯 PRIORITIZING:', movies?.length || 0, 'movies for genre', targetGenreId); // ADD THIS
   // Score each movie based on target genre position
   const scoredMovies = movies.map(movie => {
     const genrePosition = movie.genre_ids?.indexOf(targetGenreId);

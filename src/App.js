@@ -717,7 +717,8 @@ const getMoodBasedMovies = async (moodAnswers, tasteProfile = null, excludedGenr
   
   let movies = await fetchMoviesByGenre(finalGenreSelection, false, keywordIds);
   console.log('🇺🇸 Fetched English-language movies:', movies?.length || 0);
-  
+ console.log('🎯 PRIORITIZING:', movies.length, 'movies for genre', targetGenreId); // ADD THIS LINE
+
   // NEW: Prioritize by genre position
   if (movies && movies.length > 0) {
     movies = prioritizeByGenrePosition(movies, finalGenreSelection);

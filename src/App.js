@@ -748,6 +748,7 @@ const getMoodBasedMovies = async (moodAnswers, tasteProfile = null, excludedGenr
 } catch (error) {
   console.log('🚨 Mood+Taste API call failed:', error);
   return null;
+ }
 }
    };
 // ========================================

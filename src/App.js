@@ -487,8 +487,8 @@ const prioritizeByGenrePosition = (movies, targetGenreId) => {
         genrePositionScore: positionScore
       };
     });
-  
-// Sort by position score
+    
+    // Sort by position score (highest first), then by vote_average as tiebreaker
     const sorted = scoredMovies.sort((a, b) => {
       if (b.genrePositionScore !== a.genrePositionScore) {
         return b.genrePositionScore - a.genrePositionScore;
@@ -505,10 +505,9 @@ const prioritizeByGenrePosition = (movies, targetGenreId) => {
     return sorted;
   } catch (error) {
     console.error('❌ Error in prioritizeByGenrePosition:', error);
-    return movies; // Return unsorted on error
+    return movies;
   }
 };
-
 
 const getUnusedSymbolGroup = (recentGroups = []) => {
   const allGroups = Object.keys(SYMBOL_GROUPS);

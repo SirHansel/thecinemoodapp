@@ -1030,8 +1030,22 @@ const getDetailedRecommendations = async (rawMovies, userPrefs, allowRewatches =
   const filteredMovies = applyAllFilters(rawMovies, userPrefs, allowRewatches);
   
   if (filteredMovies.length >= 3) {
-    const shuffled = filteredMovies.sort(() => 0.5 - Math.random());
-    const selectedMovies = [shuffled[0], shuffled[1], shuffled[2]];
+    // DON'T shuffle - movies are already sorted by genre position priority
+    // Safe: Top of list (highest genre position score)
+    // Stretch: Middle of list (moderate genre position)
+    // Wild: Lower in list (more adventurous pick)
+    
+    const safeIndex = 0; // Best match (primary genre)
+    const stretchIndex = Math.floor(filteredMovies.length / 3); // Upper-middle
+    const wildIndex = Math.floor((filteredMovies.length * 2) / 3); // Lower third
+    
+    const selectedMovies = [
+      filteredMovies[safeIndex],
+      filteredMovies[stretchIndex],
+      filteredMovies[wildIndex]
+    ];
+    
+    console.log('🎯 Selected indices:', { safeIndex, stretchIndex, wildIndex, total: filteredMovies.length });
     
     const detailedMovies = await Promise.all(
       selectedMovies.map(async (movie) => {

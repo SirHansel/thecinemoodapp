@@ -541,8 +541,119 @@ const getAestheticGenreKeywords = (aestheticAnswer, primaryGenre) => {
   return aestheticKeywords;
 };
 
+const getEnergyGenreKeywords = (energyAnswer, primaryGenre) => {
+  if (!energyAnswer || !ENERGY_GENRE_KEYWORDS[energyAnswer]) {
+    return [];
+  }
+  
+  const energyKeywords = ENERGY_GENRE_KEYWORDS[energyAnswer]?.[primaryGenre] || [];
+  
+  console.log('⚡ Energy-Genre keywords:', energyAnswer, primaryGenre, energyKeywords);
+  
+  return energyKeywords;
+};
+
+const getCharacterGenreKeywords = (characterAnswer, primaryGenre) => {
+  if (!characterAnswer || !CHARACTER_GENRE_KEYWORDS[characterAnswer]) {
+    return [];
+  }
+  
+  const characterKeywords = CHARACTER_GENRE_KEYWORDS[characterAnswer]?.[primaryGenre] || [];
+  
+  console.log('👤 Character-Genre keywords:', characterAnswer, primaryGenre, characterKeywords);
+  
+  return characterKeywords;
+};
+
+const ENERGY_GENRE_KEYWORDS = {
+  // EXPLOSIVE - High intensity, fast-paced
+  explosive: {
+    [TMDB_GENRES.ACTION]: [849, 10051, 1299],           // chase, heist, survival
+    [TMDB_GENRES.THRILLER]: [1299, 10410, 4289],        // survival, conspiracy, espionage
+    [TMDB_GENRES.HORROR]: [1299],                       // survival-horror
+    [TMDB_GENRES.SCIENCE_FICTION]: [9715, 14544]        // dystopia, space (action-oriented)
+  },
+  
+  // CONTEMPLATIVE/RIVER - Slow, meditative, introspective
+  contemplative: {
+    [TMDB_GENRES.DRAMA]: [11436, 10683, 3616],          // character-study, family, coming-of-age
+    [TMDB_GENRES.ROMANCE]: [9799, 10555],               // romance, relationships
+    [TMDB_GENRES.MYSTERY]: [10629, 207046],             // investigation, slow-burn mystery
+    [TMDB_GENRES.SCIENCE_FICTION]: [14544, 4379]        // philosophical sci-fi
+  },
+  
+  river: {  // Alias for contemplative
+    [TMDB_GENRES.DRAMA]: [11436, 10683, 3616],
+    [TMDB_GENRES.ROMANCE]: [9799, 10555],
+    [TMDB_GENRES.MYSTERY]: [10629, 207046],
+    [TMDB_GENRES.SCIENCE_FICTION]: [14544, 4379]
+  },
+  
+  // SPRING/GENTLE - Light, uplifting, moderate pace
+  spring: {
+    [TMDB_GENRES.COMEDY]: [6054, 10683],                // friendship, family
+    [TMDB_GENRES.ROMANCE]: [9799, 6054],                // romance, friendship
+    [TMDB_GENRES.DRAMA]: [6054, 3616, 11436],           // friendship, coming-of-age, redemption
+    [TMDB_GENRES.ANIMATION]: [6054, 10683]              // friendship, family (uplifting)
+  },
+  
+  // STORM/CHAOTIC - Unpredictable, intense, turbulent
+  storm: {
+    [TMDB_GENRES.THRILLER]: [10410, 1299, 207046],      // conspiracy, survival, psychological
+    [TMDB_GENRES.HORROR]: [1299, 207046],               // survival, psychological-horror
+    [TMDB_GENRES.DRAMA]: [1299, 9748],                  // survival-drama, intense conflict
+    [TMDB_GENRES.ACTION]: [849, 1299]                   // chase, survival
+  }
+};
+const CHARACTER_GENRE_KEYWORDS = {
+  // HEROIC - Clear protagonists, triumph narratives
+  heroic: {
+    [TMDB_GENRES.ACTION]: [849, 10051],                 // chase, heist (hero stories)
+    [TMDB_GENRES.ADVENTURE]: [4759, 162342, 157155],    // exploration, discovery, hero's journey
+    [TMDB_GENRES.SCIENCE_FICTION]: [14544, 9951],       // space, alien (hero narratives)
+    [TMDB_GENRES.FANTASY]: [10340, 4759]                // epic fantasy, quest
+  },
+  
+  // FLAWED/COMPLEX - Morally ambiguous, character-driven
+  flawed: {
+    [TMDB_GENRES.DRAMA]: [11436, 3616, 10683],          // redemption, coming-of-age, family
+    [TMDB_GENRES.CRIME]: [4565, 9748, 10051],           // neo-noir, anti-hero, heist
+    [TMDB_GENRES.THRILLER]: [207046, 10410, 4565],      // psychological, conspiracy, noir
+    [TMDB_GENRES.WESTERN]: [9748, 11436]                // revenge, redemption (anti-heroes)
+  },
+  
+  complex: {  // Alias for flawed
+    [TMDB_GENRES.DRAMA]: [11436, 3616, 10683],
+    [TMDB_GENRES.CRIME]: [4565, 9748, 10051],
+    [TMDB_GENRES.THRILLER]: [207046, 10410, 4565],
+    [TMDB_GENRES.WESTERN]: [9748, 11436]
+  },
+  
+  // STRUGGLE/DRIVEN - Persistence, overcoming obstacles
+  struggle: {
+    [TMDB_GENRES.DRAMA]: [11436, 1299, 3616],           // redemption, survival, coming-of-age
+    [TMDB_GENRES.THRILLER]: [1299, 10629],              // survival-thriller, investigation
+    [TMDB_GENRES.BIOGRAPHY]: [11436, 6054],             // redemption, real stories (estimated genre)
+    [TMDB_GENRES.SPORT]: [11436, 6054]                  // underdog stories (estimated)
+  },
+  
+  driven: {  // Alias for struggle
+    [TMDB_GENRES.DRAMA]: [11436, 1299, 3616],
+    [TMDB_GENRES.THRILLER]: [1299, 10629],
+    [TMDB_GENRES.BIOGRAPHY]: [11436, 6054],
+    [TMDB_GENRES.SPORT]: [11436, 6054]
+  },
+  
+  // REBELLIOUS - Anti-establishment, outsider narratives
+  rebellious: {
+    [TMDB_GENRES.DRAMA]: [3616, 9748],                  // coming-of-age, rebellion
+    [TMDB_GENRES.CRIME]: [9748, 4565],                  // revenge, neo-noir
+    [TMDB_GENRES.THRILLER]: [10410, 9748],              // conspiracy, revenge
+    [TMDB_GENRES.SCIENCE_FICTION]: [9715, 10410]        // dystopia, conspiracy
+  }
+};
 const getAllKeywords = (moodAnswers, primaryGenre, userPrefs) => {
-  // Layer 1: Era-genre keywords (highest priority - defines time period)
+  // Layer 1: Era-genre keywords (highest priority - time period)
   const eraAnswer = moodAnswers.era;
   const eraKeywords = getEraGenreKeywords(eraAnswer, primaryGenre, userPrefs) || [];
   
@@ -550,16 +661,30 @@ const getAllKeywords = (moodAnswers, primaryGenre, userPrefs) => {
   const aestheticAnswer = moodAnswers.aesthetic;
   const aestheticKeywords = getAestheticGenreKeywords(aestheticAnswer, primaryGenre) || [];
   
-  // Layer 3: Trait keywords (emotional resonance - lowest priority)
+  // Layer 3: Energy-genre keywords (pacing/intensity)
+  const energyAnswer = moodAnswers.energy;
+  const energyKeywords = getEnergyGenreKeywords(energyAnswer, primaryGenre) || [];
+  
+  // Layer 4: Character-genre keywords (protagonist type)
+  const characterAnswer = moodAnswers.character;
+  const characterKeywords = getCharacterGenreKeywords(characterAnswer, primaryGenre) || [];
+  
+  // Layer 5: Trait keywords (emotional resonance - lowest priority)
   const traitKeywords = getKeywordsFromTraits(userPrefs) || [];
   
-  console.log('🔑 Keyword layers - Era:', eraKeywords.length, 'Aesthetic:', aestheticKeywords.length, 'Traits:', traitKeywords.length);
+console.log('🔑 Keyword layers - Era:', eraKeywords.length, 'Aesthetic:', aestheticKeywords.length, 
+            'Energy:', energyKeywords.length, 'Character:', characterKeywords.length, 'Traits:', traitKeywords.length);
   
-  // Merge with priority: era first, then aesthetic, then traits
-  // Remove duplicates but preserve order (era keywords stay at front)
-  const combined = [...new Set([...eraKeywords, ...aestheticKeywords, ...traitKeywords])];
+   // Merge with priority: era > aesthetic > energy > character > traits
+  const combined = [...new Set([
+    ...eraKeywords, 
+    ...aestheticKeywords, 
+    ...energyKeywords, 
+    ...characterKeywords, 
+    ...traitKeywords
+  ])];
   
-  console.log('🔑 Total combined keywords:', combined.length, '→ limited to 8');
+    console.log('🔑 Total combined keywords:', combined.length, '→ limited to 8');
   
   // Limit to 8 keywords max for API efficiency
   return combined.slice(0, 8);

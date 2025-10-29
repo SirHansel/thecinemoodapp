@@ -109,7 +109,8 @@ const AESTHETIC_GENRE_KEYWORDS = {
     [TMDB_GENRES.THRILLER]: [10410, 4289],        // conspiracy, espionage
     [TMDB_GENRES.SCIENCE_FICTION]: [9715, 14544], // dystopia, cyberpunk-adjacent
     [TMDB_GENRES.ACTION]: [849, 4289],            // chase, espionage (urban action)
-    [TMDB_GENRES.CRIME]: [10051, 4565]            // heist, neo-noir (neon-lit crime)
+    [TMDB_GENRES.CRIME]: [10051, 4565],           // heist, neo-noir (neon-lit crime)
+    [TMDB_GENRES.DRAMA]: [3616, 10683]  // urban coming-of-age, modern family dramas
   },
   
   // GOLD/VELVET - Classic, elegant, old Hollywood glamour
@@ -571,7 +572,8 @@ const ENERGY_GENRE_KEYWORDS = {
     [TMDB_GENRES.ACTION]: [849, 10051, 1299],           // chase, heist, survival
     [TMDB_GENRES.THRILLER]: [1299, 10410, 4289],        // survival, conspiracy, espionage
     [TMDB_GENRES.HORROR]: [1299],                       // survival-horror
-    [TMDB_GENRES.SCIENCE_FICTION]: [9715, 14544]        // dystopia, space (action-oriented)
+    [TMDB_GENRES.SCIENCE_FICTION]: [9715, 14544],        // dystopia, space (action-oriented)
+    [TMDB_GENRES.DRAMA]: [1299, 9748, 10410]  // survival, intense conflict, high-stakes
   },
   
   // CONTEMPLATIVE/RIVER - Slow, meditative, introspective
@@ -611,7 +613,8 @@ const CHARACTER_GENRE_KEYWORDS = {
     [TMDB_GENRES.ACTION]: [849, 10051],                 // chase, heist (hero stories)
     [TMDB_GENRES.ADVENTURE]: [4759, 162342, 157155],    // exploration, discovery, hero's journey
     [TMDB_GENRES.SCIENCE_FICTION]: [14544, 9951],       // space, alien (hero narratives)
-    [TMDB_GENRES.FANTASY]: [10340, 4759]                // epic fantasy, quest
+    [TMDB_GENRES.FANTASY]: [10340, 4759],                // epic fantasy, quest
+    [TMDB_GENRES.DRAMA]: [11436, 6054, 3616]  // redemption, triumph, inspirational
   },
   
   // FLAWED/COMPLEX - Morally ambiguous, character-driven

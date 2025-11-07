@@ -45,60 +45,42 @@ const TRAIT_TO_KEYWORDS = {
   dark: [5565, 207261, 4565]
 };
 const ERA_GENRE_KEYWORDS = {
-  // 1940s-1960s Golden Age
   golden: {
-    [TMDB_GENRES.DRAMA]: [11436, 6054, 10683],           // redemption, friendship, family
-    [TMDB_GENRES.THRILLER]: [207046, 4565, 9748],        // film-noir, mystery, detective
-    [TMDB_GENRES.ROMANCE]: [10340, 4344, 9799],          // classic-romance, musical, romance
-    [TMDB_GENRES.ADVENTURE]: [4759, 162342, 157155],     // exploration, discovery, explorer
-    [TMDB_GENRES.SCIENCE_FICTION]: [14544, 9951],        // space, alien (atomic-age sci-fi)
-    [TMDB_GENRES.WAR]: [6054, 11436],                    // friendship, redemption (war epics)
-    [TMDB_GENRES.WESTERN]: [9748, 11436]                 // revenge, redemption (classic westerns)
+    [TMDB_GENRES.DRAMA]: [11436, 6054, 10683],
+    [TMDB_GENRES.ROMANCE]: [9799, 10555],
+    [TMDB_GENRES.THRILLER]: [4565, 207046],
+    [TMDB_GENRES.MYSTERY]: [10629, 207046],
+    [TMDB_GENRES.CRIME]: [4565, 10051]
   },
   
-  // 1970s New Hollywood
-  seventies: {
-    [TMDB_GENRES.THRILLER]: [10410, 9748, 207046],       // conspiracy, paranoia, investigation
-    [TMDB_GENRES.DRAMA]: [11436, 3616, 10683],           // character-study, coming-of-age, family
-    [TMDB_GENRES.CRIME]: [9748, 4565, 10051],            // neo-noir, gritty, heist
-    [TMDB_GENRES.HORROR]: [1299, 9748],                  // survival, psychological
-    [TMDB_GENRES.ACTION]: [849, 4289],                   // car-chase, espionage
-    [TMDB_GENRES.SCIENCE_FICTION]: [9715, 14544, 9951]  // dystopia, space, alien
-  },
-  
-  // 1980s-1990s Retro Era
   vintage: {
-    [TMDB_GENRES.ACTION]: [849, 9748, 10051],            // chase, revenge, heist
-    [TMDB_GENRES.COMEDY]: [5565, 4344, 6054],            // dark-comedy, musical, friendship
-    [TMDB_GENRES.THRILLER]: [10410, 4289, 1299],         // conspiracy, espionage, survival
-    [TMDB_GENRES.HORROR]: [1299, 207046],                // survival-horror, slasher
-    [TMDB_GENRES.SCIENCE_FICTION]: [4379, 9951, 9715],   // time-travel, alien, dystopia
-    [TMDB_GENRES.ROMANCE]: [9799, 3616, 10555],          // romance, coming-of-age, love-triangle
-    [TMDB_GENRES.DRAMA]: [3616, 11436, 6054]             // coming-of-age, redemption, friendship
+    [TMDB_GENRES.DRAMA]: [3616, 11436, 6054],
+    [TMDB_GENRES.ACTION]: [849, 9748, 10051],
+    [TMDB_GENRES.THRILLER]: [4565, 207046],
+    [TMDB_GENRES.HORROR]: [1299, 207046]
   },
   
-  // 2000s-2015 Modern Era
-  modern: {
-    [TMDB_GENRES.THRILLER]: [10410, 207046, 10629],      // conspiracy, mystery, investigation
-    [TMDB_GENRES.DRAMA]: [11436, 10683, 3616],           // redemption, family, coming-of-age
-    [TMDB_GENRES.ACTION]: [10051, 849, 9748],            // heist, chase, revenge
-    [TMDB_GENRES.COMEDY]: [5565, 6054],                  // dark-comedy, friendship
-    [TMDB_GENRES.SCIENCE_FICTION]: [9715, 4379, 14544],  // dystopia, time-travel, space
-    [TMDB_GENRES.HORROR]: [1299, 207046],                // survival, psychological-horror
-    [TMDB_GENRES.CRIME]: [10051, 10410, 207046]          // heist, conspiracy, investigation
-  },
-  
-  // 2016+ Current/Pop Era
   pop: {
-    [TMDB_GENRES.ACTION]: [10051, 849],                  // heist, chase (modern blockbusters)
-    [TMDB_GENRES.THRILLER]: [10410, 207046],             // conspiracy, mystery
-    [TMDB_GENRES.DRAMA]: [11436, 10683],                 // redemption, family
-    [TMDB_GENRES.COMEDY]: [6054, 5565],                  // friendship, dark-comedy
-    [TMDB_GENRES.SCIENCE_FICTION]: [9715, 4379],         // dystopia, time-travel
-    [TMDB_GENRES.HORROR]: [1299, 207046]                 // survival, psychological
+    [TMDB_GENRES.DRAMA]: [11436, 10683],
+    [TMDB_GENRES.ROMANCE]: [9799, 10555],
+    [TMDB_GENRES.ADVENTURE]: [4759, 162342]
   },
   
-  // Timeless (wide range) - minimal keyword filtering
+  gritty: {
+    [TMDB_GENRES.THRILLER]: [10410, 1299, 4289],
+    [TMDB_GENRES.CRIME]: [4565, 9748, 10051],
+    [TMDB_GENRES.DRAMA]: [1299, 9748],
+    [TMDB_GENRES.HORROR]: [1299, 207046]
+  },
+  
+  // ADD THIS ENTIRE SECTION:
+  electric: {
+    [TMDB_GENRES.ACTION]: [849, 10051, 1299],        // chase, heist, survival
+    [TMDB_GENRES.SCIENCE_FICTION]: [9715, 14544],    // dystopia, space
+    [TMDB_GENRES.COMEDY]: [6054, 10683],             // friendship, family (upbeat)
+    [TMDB_GENRES.ADVENTURE]: [4759, 162342, 157155]  // quest, exploration, journey
+  },
+  
   timeless: {
     // Use trait-based keywords only, no era-specific filtering
   }

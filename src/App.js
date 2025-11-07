@@ -837,13 +837,32 @@ const getMoodBasedMovies = async (moodAnswers, tasteProfile = null, excludedGenr
     const keywordIds = getAllKeywords(moodAnswers, finalGenreSelection, userPrefs || {});
     
     // Fetch English-language movies first
-    let movies = await fetchMoviesByGenre(finalGenreSelection, false, keywordIds);
-console.log('🇺🇸 Fetched English-language movies:', movies?.length || 0);
-
-if (movies && movies.length > 0) {
-  movies = prioritizeByGenrePosition(movies, finalGenreSelection);
-}
-
+    try {
+  const keywordIds = getAllKeywords(moodAnswers, finalGenreSelection, userPrefs || {});
+  
+  // Fetch English-language movies first
+  let movies = await fetchMoviesByGenre(finalGenreSelection, false, keywordIds);
+  console.log('🇺🇸 Fetched English-language movies:', movies?.length || 0);
+  
+  // Prioritize by genre position
+  if (movies && movies.length > 0) {
+    movies = prioritizeByGenrePosition(movies, finalGenreSelection);
+  }
+  
+  // NEW: Fetch foreign films separately for wild card
+  let foreignMovies = await fetchMoviesByGenre(finalGenreSelection, true, keywordIds);
+  console.log('🌍 Fetched foreign-language movies:', foreignMovies?.length || 0);
+  
+  // Filter to only non-English films
+  if (foreignMovies && foreignMovies.length > 0) {
+    foreignMovies = foreignMovies.filter(m => m.original_language !== 'en');
+    console.log('🌍 Non-English films after filtering:', foreignMovies.length);
+    
+    // Prioritize foreign films by genre position too
+    if (foreignMovies.length > 0) {
+      foreignMovies = prioritizeByGenrePosition(foreignMovies, finalGenreSelection);
+    }
+  }
     
     // If not enough English movies, allow foreign films as fallback
     if (!movies || movies.length < 3) {
@@ -881,6 +900,7 @@ if (movies && movies.length > 0) {
     
     return {
       movies: movies,
+      foreignMovies: foreignMovies || [],
       context: {
         chosenGenre: Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === finalGenreSelection),
         moodScores: moodScore.topGenres,
@@ -1136,26 +1156,44 @@ const getFilteredRecommendations = (rawMovies, userPrefs, tasteThresholds, allow
   return null;
 };
 
-const getDetailedRecommendations = async (rawMovies, userPrefs, allowRewatches = false) => {
+const getDetailedRecommendations = async (rawMovies, foreignMovies, userPrefs, allowRewatches = false) => {
   const filteredMovies = applyAllFilters(rawMovies, userPrefs, allowRewatches);
+  const filteredForeign = foreignMovies && foreignMovies.length > 0 
+    ? applyAllFilters(foreignMovies, userPrefs, allowRewatches)
+    : [];
   
-  if (filteredMovies.length >= 3) {
-    // DON'T shuffle - movies are already sorted by genre position priority
-    // Safe: Top of list (highest genre position score)
-    // Stretch: Middle of list (moderate genre position)
-    // Wild: Lower in list (more adventurous pick)
+  console.log('🎬 Filtered English movies:', filteredMovies.length);
+  console.log('🌍 Filtered foreign movies:', filteredForeign.length);
+  
+  if (filteredMovies.length >= 2) {  // Need at least 2 English for safe/stretch
+    const safeIndex = 0;
+    const stretchIndex = Math.floor(filteredMovies.length / 3);
     
-    const safeIndex = 0; // Best match (primary genre)
-    const stretchIndex = Math.floor(filteredMovies.length / 3); // Upper-middle
-    const wildIndex = Math.floor((filteredMovies.length * 2) / 3); // Lower third
+    // Try to use foreign film for wild card, fallback to English
+    let wildMovie;
+    if (filteredForeign.length > 0) {
+      const wildIndex = Math.floor((filteredForeign.length * 2) / 3);
+      wildMovie = filteredForeign[wildIndex];
+      console.log('🌍 Using foreign film for wild card');
+    } else {
+      const wildIndex = Math.floor((filteredMovies.length * 2) / 3);
+      wildMovie = filteredMovies[wildIndex];
+      console.log('🇺🇸 No foreign films available, using English for wild card');
+    }
     
     const selectedMovies = [
       filteredMovies[safeIndex],
       filteredMovies[stretchIndex],
-      filteredMovies[wildIndex]
+      wildMovie
     ];
     
-    console.log('🎯 Selected indices:', { safeIndex, stretchIndex, wildIndex, total: filteredMovies.length });
+    console.log('🎯 Selected indices:', { 
+      safeIndex, 
+      stretchIndex, 
+      wildSource: filteredForeign.length > 0 ? 'foreign' : 'english',
+      totalEnglish: filteredMovies.length,
+      totalForeign: filteredForeign.length
+    });
     
     const detailedMovies = await Promise.all(
       selectedMovies.map(async (movie) => {
@@ -1174,7 +1212,7 @@ const getDetailedRecommendations = async (rawMovies, userPrefs, allowRewatches =
       },
       stretch: { 
         ...detailedMovies[1], 
-        reason: "↗️ Stretch: Trending on your services" 
+        reason: "↗️ Stretch: Close enough to be a new favorite" 
       },
       wild: { 
         ...detailedMovies[2], 

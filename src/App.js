@@ -837,32 +837,28 @@ const getMoodBasedMovies = async (moodAnswers, tasteProfile = null, excludedGenr
     const keywordIds = getAllKeywords(moodAnswers, finalGenreSelection, userPrefs || {});
     
     // Fetch English-language movies first
-    try {
-  const keywordIds = getAllKeywords(moodAnswers, finalGenreSelection, userPrefs || {});
-  
-  // Fetch English-language movies first
-  let movies = await fetchMoviesByGenre(finalGenreSelection, false, keywordIds);
-  console.log('🇺🇸 Fetched English-language movies:', movies?.length || 0);
-  
-  // Prioritize by genre position
-  if (movies && movies.length > 0) {
-    movies = prioritizeByGenrePosition(movies, finalGenreSelection);
-  }
-  
-  // NEW: Fetch foreign films separately for wild card
-  let foreignMovies = await fetchMoviesByGenre(finalGenreSelection, true, keywordIds);
-  console.log('🌍 Fetched foreign-language movies:', foreignMovies?.length || 0);
-  
-  // Filter to only non-English films
-  if (foreignMovies && foreignMovies.length > 0) {
-    foreignMovies = foreignMovies.filter(m => m.original_language !== 'en');
-    console.log('🌍 Non-English films after filtering:', foreignMovies.length);
+    let movies = await fetchMoviesByGenre(finalGenreSelection, false, keywordIds);
+    console.log('🇺🇸 Fetched English-language movies:', movies?.length || 0);
     
-    // Prioritize foreign films by genre position too
-    if (foreignMovies.length > 0) {
-      foreignMovies = prioritizeByGenrePosition(foreignMovies, finalGenreSelection);
+    // Prioritize by genre position
+    if (movies && movies.length > 0) {
+      movies = prioritizeByGenrePosition(movies, finalGenreSelection);
     }
-  }
+    
+    // NEW: Fetch foreign films separately for wild card
+    let foreignMovies = await fetchMoviesByGenre(finalGenreSelection, true, keywordIds);
+    console.log('🌍 Fetched foreign-language movies:', foreignMovies?.length || 0);
+    
+    // Filter to only non-English films
+    if (foreignMovies && foreignMovies.length > 0) {
+      foreignMovies = foreignMovies.filter(m => m.original_language !== 'en');
+      console.log('🌍 Non-English films after filtering:', foreignMovies.length);
+      
+      // Prioritize foreign films by genre position too
+      if (foreignMovies.length > 0) {
+        foreignMovies = prioritizeByGenrePosition(foreignMovies, finalGenreSelection);
+      }
+    }
     
     // If not enough English movies, allow foreign films as fallback
     if (!movies || movies.length < 3) {

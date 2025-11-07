@@ -917,36 +917,36 @@ if (movies && movies.length > 0) {
 // ========================================
 const applyTasteWeighting = (moodScore, tasteProfile) => {
   console.log('🧮 Calculating taste-weighted genre selection');
-  // ========================================
-// QUALITY BOOST SYSTEM this might fail because my assistant is confused
-// ========================================
   
-  // Extract genres from user's highly rated movies (simplified analysis)
-  const tasteGenreBoosts = {};
+  // Extract actual genre preferences from loved movies
+  const tasteGenreCounts = {};
   
-  // Boost Drama if user loves character-driven films
-  if (tasteProfile.averageRating > 3.5) {
-    tasteGenreBoosts[TMDB_GENRES.DRAMA] = 8; // Strong preference
-  }
-  
-  // Boost Action/Thriller for users who rate them highly
-  // (This is simplified - in production you'd analyze actual genres from CSV)
-  if (tasteProfile.totalWatched > 200) {
-    tasteGenreBoosts[TMDB_GENRES.THRILLER] = 6;
-  }
-  
-  // Apply 60/40 weighting: Combine mood scores with taste boosts
-  const combinedScores = {};
-  
-  // Start with mood scores (40% weight)
-  moodScore.topGenres.forEach(genre => {
-    combinedScores[genre.id] = Math.round(genre.score * 0.4);
+  tasteProfile.lovedMovies.forEach(movie => {
+    movie.genre_ids?.forEach(genreId => {
+      tasteGenreCounts[genreId] = (tasteGenreCounts[genreId] || 0) + 1;
+    });
   });
   
-  // Add taste boosts (60% weight)
+  // Convert counts to normalized scores (max 10 points)
+  const maxCount = Math.max(...Object.values(tasteGenreCounts), 1);
+  const tasteGenreBoosts = {};
+  
+  Object.entries(tasteGenreCounts).forEach(([genreId, count]) => {
+    tasteGenreBoosts[genreId] = Math.round((count / maxCount) * 10);
+  });
+  
+  // Apply 40% taste, 60% mood weighting
+  const combinedScores = {};
+  
+  // Start with mood scores (60% weight)
+  moodScore.topGenres.forEach(genre => {
+    combinedScores[genre.id] = Math.round(genre.score * 0.6);
+  });
+  
+  // Add taste boosts (40% weight)
   Object.entries(tasteGenreBoosts).forEach(([genreId, boost]) => {
     const id = parseInt(genreId);
-    combinedScores[id] = (combinedScores[id] || 0) + Math.round(boost * 0.6);
+    combinedScores[id] = (combinedScores[id] || 0) + Math.round(boost * 0.4);
   });
   
   // Find highest scoring genre after weighting

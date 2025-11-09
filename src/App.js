@@ -2187,60 +2187,67 @@ if (currentScreen === 'results') {
   );
 }
 
-  // Decision Screen
-  if (currentScreen === 'decision') {
-    return (
-      <div className="min-h-screen bg-gray-900 text-gray-200 p-4">
-        <div className="max-w-md mx-auto bg-gray-800 rounded-lg p-6 border-2 border-gray-600">
-          <h2 className="text-center bg-gray-700 text-gray-200 p-3 rounded mb-6 text-lg font-bold">
-            Can't Decide?
-          </h2>
-         
-          <div className="text-center mb-6">
-            <div
-              className={`w-48 h-48 mx-auto rounded-full border-4 border-gray-600 flex items-center justify-center transition-transform duration-2000 ${isSpinning ? 'animate-spin' : ''}`}
-              style={{
-                background: `conic-gradient(
-                  #0f3460 0deg 45deg,
-                  #e94560 45deg 90deg,
-                  #2d1b0e 90deg 135deg,
-                  #ff4444 135deg 180deg,
-                  #40e0d0 180deg 225deg,
-                  #8d6e63 225deg 270deg,
-                  #f2cf07 270deg 315deg,
-                  #5d4037 315deg 360deg
-                )`
-              }}
-            >
-              <div className="w-20 h-20 bg-gray-700 rounded-full flex items-center justify-center font-bold text-gray-200">
-                {isSpinning ? '...' : 'SPIN!'}
-              </div>
+ // Decision Screen
+if (currentScreen === 'decision') {
+  return (
+    <div className="min-h-screen bg-gray-900 text-gray-200 p-4">
+      <div className="max-w-md mx-auto bg-gray-800 rounded-lg p-6 border-2 border-gray-600">
+        <h2 className="text-center bg-gray-700 text-gray-200 p-3 rounded mb-6 text-lg font-bold">
+          Can't Decide?
+        </h2>
+       
+        <div className="text-center mb-6">
+          <div
+            className={`w-48 h-48 mx-auto rounded-full border-4 border-gray-600 flex items-center justify-center transition-transform duration-2000 ${isSpinning ? 'animate-spin' : ''}`}
+            style={{
+              background: `conic-gradient(
+                #0f3460 0deg 45deg,
+                #e94560 45deg 90deg,
+                #2d1b0e 90deg 135deg,
+                #ff4444 135deg 180deg,
+                #40e0d0 180deg 225deg,
+                #8d6e63 225deg 270deg,
+                #f2cf07 270deg 315deg,
+                #5d4037 315deg 360deg
+              )`
+            }}
+          >
+            <div className="w-20 h-20 bg-gray-700 rounded-full flex items-center justify-center font-bold text-gray-200">
+              {isSpinning ? '...' : 'SPIN!'}
             </div>
           </div>
-         
-          <button
-            onClick={spinWheel}
-            disabled={isSpinning}
-            className="w-full bg-green-600 hover:bg-green-700 disabled:bg-gray-600 text-white p-3 rounded font-medium mb-4"
-          >
-            {isSpinning ? 'Spinning...' : 'Spin the Wheel'}
-          </button>
-         
-          <button
-            onClick={() => {
-              const recommendations = currentRecommendations || getPersonalizedRecommendations();
-              const luckyMovie = Object.values(recommendations)[Math.floor(Math.random() * 3)];
-              setSelectedMovie({ ...luckyMovie, source: 'lucky' });
-              setCurrentScreen('luckyResult');
-            }}
-            className="w-full bg-gradient-to-r from-red-500 to-teal-500 hover:from-red-600 hover:to-teal-600 text-white p-3 rounded font-medium mb-2"
-          >
-            I'm Feeling Lucky
-          </button>
         </div>
+       
+        <button
+          onClick={spinWheel}
+          disabled={isSpinning}
+          className="w-full bg-green-600 hover:bg-green-700 disabled:bg-gray-600 text-white p-3 rounded font-medium mb-4"
+        >
+          {isSpinning ? 'Spinning...' : 'Spin the Wheel'}
+        </button>
+       
+        <button
+          onClick={() => {
+            const recommendations = currentRecommendations || getPersonalizedRecommendations();
+            const luckyMovie = Object.values(recommendations)[Math.floor(Math.random() * 3)];
+            setSelectedMovie({ ...luckyMovie, source: 'lucky' });
+            setCurrentScreen('luckyResult');
+          }}
+          className="w-full bg-gradient-to-r from-red-500 to-teal-500 hover:from-red-600 hover:to-teal-600 text-white p-3 rounded font-medium mb-2"
+        >
+          I'm Feeling Lucky
+        </button>
+        
+        <button
+          onClick={() => setCurrentScreen('results')}
+          className="w-full bg-gray-600 hover:bg-gray-700 text-white p-3 rounded font-medium mt-2"
+        >
+          Back to Results
+        </button>
       </div>
-    );
-  }
+    </div>
+  );
+}
 
   // Other screens follow the same pattern...
   if (currentScreen === 'spinResult') {

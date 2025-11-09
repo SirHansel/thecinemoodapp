@@ -2249,86 +2249,77 @@ if (currentScreen === 'decision') {
   );
 }
 
-  // Other screens follow the same pattern...
-  if (currentScreen === 'spinResult') {
-    return (
-      <div className="min-h-screen bg-gray-900 text-gray-200 p-4">
-        <div className="max-w-md mx-auto bg-gray-800 rounded-lg p-6 border-2 border-gray-600">
-          <h2 className="text-center bg-gray-700 text-gray-200 p-3 rounded mb-6 text-lg font-bold">
-            The Wheel Has Spoken!
-          </h2>
-          <div className="text-center mb-6">
-            <h3 className="text-2xl font-bold mb-2">{selectedMovie?.title}</h3>
-          </div>
-          <button
-            onClick={() => setCurrentScreen('watching')}
-            className="w-full bg-green-600 hover:bg-green-700 text-white p-3 rounded font-medium"
-          >
-            Start Watching
-          </button>
+  // Spin Result Screen
+if (currentScreen === 'spinResult') {
+  return (
+    <div className="min-h-screen bg-gray-900 text-gray-200 p-4">
+      <div className="max-w-md mx-auto bg-gray-800 rounded-lg p-6 border-2 border-gray-600">
+        <h2 className="text-center bg-gray-700 text-gray-200 p-3 rounded mb-6 text-lg font-bold">
+          The Wheel Has Spoken!
+        </h2>
+        <div className="text-center mb-6">
+          <h3 className="text-2xl font-bold mb-2">{selectedMovie?.title}</h3>
         </div>
+        <button
+          onClick={() => setCurrentScreen('watching')}
+          className="w-full bg-green-600 hover:bg-green-700 text-white p-3 rounded font-medium"
+        >
+          Start Watching
+        </button>
       </div>
-    );
-  }
+    </div>
+  );
+}
 
-  if (currentScreen === 'luckyResult') {
-    return (
-      <div className="min-h-screen bg-gray-900 text-gray-200 p-4">
-        <div className="max-w-md mx-auto bg-gray-800 rounded-lg p-6 border-2 border-gray-600">
-          <h2 className="text-center bg-gray-700 text-gray-200 p-3 rounded mb-6 text-lg font-bold">
-            Perfect Match!
-          </h2>
-          <div className="text-center mb-6">
-            <h3 className="text-2xl font-bold mb-2">{selectedMovie?.title}</h3>
-          </div>
-          <button
-            onClick={() => setCurrentScreen('watching')}
-            className="w-full bg-green-600 hover:bg-green-700 text-white p-3 rounded font-medium"
-          >
-            Let's Do This
-          </button>
+// Lucky Result Screen
+if (currentScreen === 'luckyResult') {
+  return (
+    <div className="min-h-screen bg-gray-900 text-gray-200 p-4">
+      <div className="max-w-md mx-auto bg-gray-800 rounded-lg p-6 border-2 border-gray-600">
+        <h2 className="text-center bg-gray-700 text-gray-200 p-3 rounded mb-6 text-lg font-bold">
+          Perfect Match!
+        </h2>
+        <div className="text-center mb-6">
+          <h3 className="text-2xl font-bold mb-2">{selectedMovie?.title}</h3>
         </div>
+        <button
+          onClick={() => setCurrentScreen('watching')}
+          className="w-full bg-green-600 hover:bg-green-700 text-white p-3 rounded font-medium"
+        >
+          Let's Do This
+        </button>
       </div>
-    );
-  }
+    </div>
+  );
+}
 
- if (currentScreen === 'watching') {
+// Watching/Feedback Screen
+if (currentScreen === 'watching') {
   const watchedMovie = selectedMovie || { title: "Heat", year: 1995 };
-   
+  
+  const [userRating, setUserRating] = useState(0);
+  
   const handleStarClick = (starValue) => {
-    if (userRating === starValue) {
-      // Clicking same star toggles half star
-      setUserRating(starValue - 0.5);
-      setIsHalfStar(true);
-    } else {
-      setUserRating(starValue);
-      setIsHalfStar(false);
-    }
-  };
-
- const saveRating = () => {
-  const movieRating = {
-    title: watchedMovie.title,
-    year: watchedMovie.year,
-    rating: userRating,
-    dateWatched: new Date().toISOString(),
-    source: 'cinemood'
+    setUserRating(starValue);
   };
   
-  setUserPrefs(prev => {
-    const newWatchedMovies = [...(prev.watchedMovies || []), movieRating];
-    const updatedTasteProfile = combineRatingsWithTaste(prev.tasteProfile, newWatchedMovies);
-    
-    return {
-      ...prev,
-      watchedMovies: newWatchedMovies,
-      tasteProfile: updatedTasteProfile
+  const saveRating = () => {
+    const movieRating = {
+      title: watchedMovie.title,
+      year: watchedMovie.year,
+      rating: userRating,
+      dateWatched: new Date().toISOString()
     };
-  });
+    
+    setUserPrefs(prev => ({
+      ...prev,
+      watchedMovies: [...(prev.watchedMovies || []), movieRating]
+    }));
+    
+    setUserRating(0);
+    setCurrentScreen('setup');
+  };
   
-  setCurrentScreen('setup');
-};
-
   return (
     <div className="min-h-screen bg-gray-900 text-gray-200 p-4">
       <div className="max-w-md mx-auto bg-gray-800 rounded-lg p-6 border-2 border-gray-600">
@@ -2338,7 +2329,6 @@ if (currentScreen === 'decision') {
         <div className="text-center mb-6">
           <h3 className="text-xl font-bold mb-4">{watchedMovie.title}</h3>
           
-          {/* 5-Star Rating System */}
           <div className="flex justify-center mb-4">
             {[1, 2, 3, 4, 5].map(star => (
               <button
@@ -2346,7 +2336,7 @@ if (currentScreen === 'decision') {
                 onClick={() => handleStarClick(star)}
                 className="text-3xl mx-1 transition-colors hover:text-yellow-400"
               >
-                {userRating >= star ? '★' : userRating >= star - 0.5 ? '⭐' : '☆'}
+                {userRating >= star ? '★' : '☆'}
               </button>
             ))}
           </div>

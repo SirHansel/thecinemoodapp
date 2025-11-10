@@ -202,6 +202,58 @@ const scoreMovieByTraits = (movie, traitScores) => {
 
 // Mood Answer → Genre Points Mapping
 const MOOD_SCORING = {
+  symbols: {
+    flame: {
+      primary: TMDB_GENRES.ACTION,            // +5 pts (intense, passionate)
+      secondary: TMDB_GENRES.THRILLER,        // +2 pts
+      tertiary: TMDB_GENRES.DRAMA             // +1 pt
+    },
+    wave: {
+      primary: TMDB_GENRES.ADVENTURE,         // +5 pts (flowing, journey)
+      secondary: TMDB_GENRES.DRAMA,           // +2 pts
+      tertiary: TMDB_GENRES.FANTASY           // +1 pt
+    },
+    star: {
+      primary: TMDB_GENRES.FANTASY,           // +5 pts (wonder, magic)
+      secondary: TMDB_GENRES.SCIENCE_FICTION, // +2 pts
+      tertiary: TMDB_GENRES.ADVENTURE         // +1 pt
+    },
+    moon: {
+      primary: TMDB_GENRES.MYSTERY,           // +5 pts (hidden, nocturnal)
+      secondary: TMDB_GENRES.HORROR,          // +2 pts
+      tertiary: TMDB_GENRES.THRILLER          // +1 pt
+    },
+    sphere: {
+      primary: TMDB_GENRES.COMEDY,            // +5 pts (wholesome, complete)
+      secondary: TMDB_GENRES.ROMANCE,         // +2 pts
+      tertiary: TMDB_GENRES.DRAMA             // +1 pt
+    },
+    cube: {
+      primary: TMDB_GENRES.SCIENCE_FICTION,   // +5 pts (structured, logical)
+      secondary: TMDB_GENRES.MYSTERY,         // +2 pts
+      tertiary: TMDB_GENRES.THRILLER          // +1 pt
+    },
+    pyramid: {
+      primary: TMDB_GENRES.ADVENTURE,         // +5 pts (ancient, epic)
+      secondary: TMDB_GENRES.HISTORY,         // +2 pts
+      tertiary: TMDB_GENRES.FANTASY           // +1 pt
+    },
+    key: {
+      primary: TMDB_GENRES.MYSTERY,           // +5 pts (unlocking secrets)
+      secondary: TMDB_GENRES.THRILLER,        // +2 pts
+      tertiary: TMDB_GENRES.ADVENTURE         // +1 pt
+    },
+    mirror: {
+      primary: TMDB_GENRES.HORROR,            // +5 pts (reflection, duality)
+      secondary: TMDB_GENRES.MYSTERY,         // +2 pts
+      tertiary: TMDB_GENRES.DRAMA             // +1 pt
+    },
+    compass: {
+      primary: TMDB_GENRES.ADVENTURE,         // +5 pts (navigation, journey)
+      secondary: TMDB_GENRES.ACTION,          // +2 pts
+      tertiary: TMDB_GENRES.FANTASY           // +1 pt
+    }
+  },
   aesthetic: {
     neon: {
       primary: TMDB_GENRES.SCIENCE_FICTION,   // +5 pts

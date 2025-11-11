@@ -1206,9 +1206,17 @@ const getFilteredRecommendations = (rawMovies, userPrefs, tasteThresholds, allow
 
 const getDetailedRecommendations = async (rawMovies, foreignMovies, userPrefs, allowRewatches = false) => {
   const filteredMovies = applyAllFilters(rawMovies, userPrefs, allowRewatches);
-  const filteredForeign = foreignMovies && foreignMovies.length > 0 
-    ? applyAllFilters(foreignMovies, userPrefs, allowRewatches)
-    : [];
+  // Skip platform filtering for foreign films (international releases)
+const filteredForeign = foreignMovies && foreignMovies.length > 0 
+  ? foreignMovies.filter(movie => {
+      // Only apply genre exclusions, not platform filtering
+      if (userPrefs.excludedGenreIds && userPrefs.excludedGenreIds.length > 0) {
+        const allowedGenres = Object.values(TMDB_GENRES).filter(id => !userPrefs.excludedGenreIds.includes(id));
+        return movie.genre_ids?.some(id => allowedGenres.includes(id));
+      }
+      return true; // Keep all foreign films if no genre exclusions
+    })
+  : [];
   
   console.log('🎬 Filtered English movies:', filteredMovies.length);
   console.log('🌍 Filtered foreign movies:', filteredForeign.length);

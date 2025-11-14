@@ -1361,8 +1361,8 @@ const movies = result?.movies;
     if (movies && movies.length >= 3) {
   console.log('✅ Using TMDB movies');
   const tasteThresholds = generateTasteThresholds(userPrefs.tasteProfile);
-const movieRecs = await getDetailedRecommendations(movies, userPrefs, tasteThresholds);
-  
+const movieRecs = await getDetailedRecommendations(movies, foreignMovies, userPrefs, tasteThresholds);
+      
   if (movieRecs) {
     setRecommendations(movieRecs);
   } else {

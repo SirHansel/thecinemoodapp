@@ -1351,6 +1351,7 @@ useEffect(() => {
   try {
     const result = await getMoodBasedMovies(userPrefs.moodAnswers, userPrefs.tasteProfile, userPrefs.excludedGenreIds, userPrefs);
 const movies = result?.movies;
+    const foreignMovies = result?.foreignMovies || []; 
     console.log('🎬 TMDB API Response:', movies);
     if (result) {
   console.log('🎯 Chosen genre:', result.context.chosenGenre);

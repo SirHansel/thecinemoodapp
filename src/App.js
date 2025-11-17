@@ -203,28 +203,7 @@ const scoreMovieByTraits = (movie, traitScores) => {
 // Mood Answer → Genre Points Mapping
 const MOOD_SCORING = {
   symbols: {
-    helix: {
-    primary: TMDB_GENRES.SCIENCE_FICTION,
-    secondary: TMDB_GENRES.MYSTERY,
-    tertiary: TMDB_GENRES.THRILLER
-  },
-  spiral: {
-    primary: TMDB_GENRES.MYSTERY,
-    secondary: TMDB_GENRES.HORROR,
-    tertiary: TMDB_GENRES.THRILLER
-  },
-  hammer: {
-    primary: TMDB_GENRES.ACTION,
-    secondary: TMDB_GENRES.CRIME,
-    tertiary: TMDB_GENRES.THRILLER
-  },
-  sun: {
-    primary: TMDB_GENRES.ADVENTURE,
-    secondary: TMDB_GENRES.FANTASY,
-    tertiary: TMDB_GENRES.COMEDY
-  }
-},
-  flame: {
+    flame: {
       primary: TMDB_GENRES.ACTION,            // +5 pts (intense, passionate)
       secondary: TMDB_GENRES.THRILLER,        // +2 pts
       tertiary: TMDB_GENRES.DRAMA             // +1 pt
@@ -273,8 +252,30 @@ const MOOD_SCORING = {
       primary: TMDB_GENRES.ADVENTURE,         // +5 pts (navigation, journey)
       secondary: TMDB_GENRES.ACTION,          // +2 pts
       tertiary: TMDB_GENRES.FANTASY           // +1 pt
+    },
+    helix: {
+      primary: TMDB_GENRES.SCIENCE_FICTION,
+      secondary: TMDB_GENRES.MYSTERY,
+      tertiary: TMDB_GENRES.THRILLER
+    },
+    spiral: {
+      primary: TMDB_GENRES.MYSTERY,
+      secondary: TMDB_GENRES.HORROR,
+      tertiary: TMDB_GENRES.THRILLER
+    },
+    hammer: {
+      primary: TMDB_GENRES.ACTION,
+      secondary: TMDB_GENRES.CRIME,
+      tertiary: TMDB_GENRES.THRILLER
+    },
+    sun: {
+      primary: TMDB_GENRES.ADVENTURE,
+      secondary: TMDB_GENRES.FANTASY,
+      tertiary: TMDB_GENRES.COMEDY
     }
   },
+  
+  aesthetic: {
   aesthetic: {
     neon: {
       primary: TMDB_GENRES.SCIENCE_FICTION,   // +5 pts

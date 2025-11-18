@@ -274,6 +274,11 @@ const MOOD_SCORING = {
       tertiary: TMDB_GENRES.COMEDY
     }
   },
+  triangle: {
+  primary: TMDB_GENRES.MYSTERY,
+  secondary: TMDB_GENRES.THRILLER,
+  tertiary: TMDB_GENRES.DRAMA
+},
   
   aesthetic: {
     neon: {

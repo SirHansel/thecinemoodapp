@@ -203,6 +203,11 @@ const scoreMovieByTraits = (movie, traitScores) => {
 // Mood Answer → Genre Points Mapping
 const MOOD_SCORING = {
   symbols: {
+   cylinder: {
+  primary: TMDB_GENRES.SCIENCE_FICTION,
+  secondary: TMDB_GENRES.MYSTERY,
+  tertiary: TMDB_GENRES.THRILLER
+},
     flame: {
       primary: TMDB_GENRES.ACTION,            // +5 pts (intense, passionate)
       secondary: TMDB_GENRES.THRILLER,        // +2 pts
@@ -272,12 +277,12 @@ const MOOD_SCORING = {
       primary: TMDB_GENRES.ADVENTURE,
       secondary: TMDB_GENRES.FANTASY,
       tertiary: TMDB_GENRES.COMEDY
-    }
-  },
+    },
   triangle: {
   primary: TMDB_GENRES.MYSTERY,
   secondary: TMDB_GENRES.THRILLER,
   tertiary: TMDB_GENRES.DRAMA
+  }
 },
   
   aesthetic: {

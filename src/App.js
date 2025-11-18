@@ -276,7 +276,6 @@ const MOOD_SCORING = {
   },
   
   aesthetic: {
-  aesthetic: {
     neon: {
       primary: TMDB_GENRES.SCIENCE_FICTION,   // +5 pts
       secondary: TMDB_GENRES.ACTION,          // +2 pts

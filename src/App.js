@@ -2243,12 +2243,15 @@ if (currentScreen === 'mood') {
 
 ) : currentQuestion.options ? (
   currentQuestion.options.map(option => (
-    <button
-      key={option.id}
-      onClick={() => handleMoodAnswer(currentQuestion.id, option.id)}
-      className="w-full h-20 rounded-lg border-2 flex flex-col items-center justify-center text-gray-900 font-bold font-medium transition-all hover:scale-105"
-      style={getMoodCardStyle(option.style)}
-    >
+   <button
+  key={option.id}
+  onClick={() => handleMoodAnswer(questionIndex, option.id)}
+  className="w-full h-20 rounded-lg border-2 flex flex-col items-center justify-center text-black font-bold transition-all hover:scale-105"
+  style={{
+    ...getMoodCardStyle(option.style),
+    textShadow: '0 0 3px rgba(128, 128, 128, 0.8), 0 0 5px rgba(128, 128, 128, 0.6)'
+  }}
+>
       <span>{option.text}</span>
       <span className="text-sm opacity-80">{option.subtext}</span>
     </button>

@@ -2250,7 +2250,7 @@ if (currentScreen === 'mood') {
   style={{
     ...getMoodCardStyle(option.style),
 textshadow: '0 0 2px rgba(160, 160, 160, 0.6), 0 0 4px rgba(160, 160, 160, 0.4)'
-    fontFamily: 'Arimo, sans-serif'
+    , fontFamily: 'Arimo, sans-serif'
   }}
 >
       <span>{option.text}</span>

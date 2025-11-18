@@ -1334,7 +1334,7 @@ const CineMoodApp = () => {
   const [currentScreen, setCurrentScreen] = useState('setup');
   const [userPrefs, setUserPrefs] = useState(() => {
   const savedPrefs = loadUserPrefs();
-  const [userRating, setUserRating] = useState(0);
+  
   
   return savedPrefs || {
     letterboxd: '',

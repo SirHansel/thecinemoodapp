@@ -2135,7 +2135,7 @@ if (currentScreen === 'mood') {
         <button
           key={option.id}
           onClick={() => handleMoodAnswer(currentQuestion.id, option.id)}
-          className="p-8 bg-transparent border-none flex flex-col items-center justify-center text-white font-medium transition-all hover:scale-110"
+          className="p-8 bg-transparent border-none flex flex-col items-center justify-center text-gray-900 font-bold font-medium transition-all hover:scale-110"
         >
           <div className="w-24 h-24 flex items-center justify-center mb-3">
             {option.id === 'upstairs' && (
@@ -2194,7 +2194,7 @@ if (currentScreen === 'mood') {
     <button
       key={option.id}
       onClick={() => handleMoodAnswer(currentQuestion.id, option.id)}
-      className="w-full h-20 rounded-lg border-2 flex flex-col items-center justify-center text-white font-medium transition-all hover:scale-105"
+      className="w-full h-20 rounded-lg border-2 flex flex-col items-center justify-center text-gray-900 font-bold font-medium transition-all hover:scale-105"
       style={getMoodCardStyle(option.style)}
     >
       <span>{option.text}</span>

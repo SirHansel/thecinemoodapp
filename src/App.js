@@ -203,7 +203,52 @@ const scoreMovieByTraits = (movie, traitScores) => {
 // Mood Answer → Genre Points Mapping
 const MOOD_SCORING = {
   symbols: {
-   cylinder: {
+   circle: {
+  primary: TMDB_GENRES.ROMANCE,
+  secondary: TMDB_GENRES.COMEDY,
+  tertiary: TMDB_GENRES.DRAMA
+},
+square: {
+  primary: TMDB_GENRES.MYSTERY,
+  secondary: TMDB_GENRES.THRILLER,
+  tertiary: TMDB_GENRES.HORROR
+},
+leaf: {
+  primary: TMDB_GENRES.FANTASY,
+  secondary: TMDB_GENRES.ADVENTURE,
+  tertiary: TMDB_GENRES.COMEDY
+},
+stone: {
+  primary: TMDB_GENRES.DRAMA,
+  secondary: TMDB_GENRES.WESTERN,
+  tertiary: TMDB_GENRES.HISTORY
+},
+cloud: {
+  primary: TMDB_GENRES.FANTASY,
+  secondary: TMDB_GENRES.ROMANCE,
+  tertiary: TMDB_GENRES.COMEDY
+},
+cone: {
+  primary: TMDB_GENRES.ACTION,
+  secondary: TMDB_GENRES.ADVENTURE,
+  tertiary: TMDB_GENRES.THRILLER
+},
+book: {
+  primary: TMDB_GENRES.MYSTERY,
+  secondary: TMDB_GENRES.DRAMA,
+  tertiary: TMDB_GENRES.FANTASY
+},
+lantern: {
+  primary: TMDB_GENRES.MYSTERY,
+  secondary: TMDB_GENRES.ROMANCE,
+  tertiary: TMDB_GENRES.FANTASY
+},
+bridge: {
+  primary: TMDB_GENRES.ADVENTURE,
+  secondary: TMDB_GENRES.ROMANCE,
+  tertiary: TMDB_GENRES.DRAMA
+},
+    cylinder: {
   primary: TMDB_GENRES.SCIENCE_FICTION,
   secondary: TMDB_GENRES.MYSTERY,
   tertiary: TMDB_GENRES.THRILLER

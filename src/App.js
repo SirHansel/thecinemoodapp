@@ -2249,7 +2249,7 @@ if (currentScreen === 'mood') {
   className="w-full h-20 rounded-lg border-2 flex flex-col items-center justify-center text-black font-bold transition-all hover:scale-105"
   style={{
     ...getMoodCardStyle(option.style),
-   textshadow: '0 0 3px rgba(255, 255, 255, 0.9), 0 0 6px rgba(255, 255, 255, 0.7)'
+textshadow: '0 0 2px rgba(160, 160, 160, 0.6), 0 0 4px rgba(160, 160, 160, 0.4)'
   }}
 >
       <span>{option.text}</span>

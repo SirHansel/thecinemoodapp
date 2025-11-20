@@ -1928,11 +1928,13 @@ const generateQuestionSet = () => {
   }));
   
   selectedQuestions.push({
-    id: 'symbols',
-    question: 'Choose a symbol',
-    type: 'symbols',
-    symbols: SYMBOL_GROUPS[selectedGroup],
-    groupName: selectedGroup
+  id: 'symbols',
+  category: 'symbols',  // ← ADD THIS LINE
+  question: 'Choose a symbol',
+  type: 'symbols',
+  symbols: SYMBOL_GROUPS[selectedGroup],
+  groupName: selectedGroup
+
   });
 }
    else {
@@ -1947,10 +1949,12 @@ const generateQuestionSet = () => {
       const randomIndex = Math.floor(Math.random() * pool.variations.length);
       const selectedVariation = pool.variations[randomIndex];
       
-      selectedQuestions.push({
-        id: category,
-        ...selectedVariation
-      });
+selectedQuestions.push({
+  id: category,
+  category: category,  // ← ADD THIS LINE
+  ...selectedVariation
+});
+     
     }
   });
   

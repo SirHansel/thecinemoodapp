@@ -1023,16 +1023,18 @@ if (!movies || movies.length < 3) {
       }
     }
     
-    return {
-      movies: movies,
-      foreignMovies: foreignMovies || [],
-      context: {
-        chosenGenre: Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === finalGenreSelection),
-        moodScores: moodScore.topGenres,
-        tasteInfluence: tasteProfile ? 'Applied' : 'None',
-        modifiers: moodScore.modifiers
-      }
-    };
+   return {
+  movies: movies,
+  foreignMovies: foreignMovies || [],
+  context: {
+    chosenGenre: Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === finalGenreSelection),
+    primaryGenre: finalGenreSelection,  // ← ADD THIS LINE
+    moodScores: moodScore.topGenres,
+    tasteInfluence: tasteProfile ? 'Applied' : 'None',
+    modifiers: moodScore.modifiers
+  }
+};
+    
   } catch (error) {
     console.log('🚨 Mood+Taste API call failed:', error);
     return null;

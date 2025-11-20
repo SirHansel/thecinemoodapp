@@ -1626,6 +1626,10 @@ useEffect(() => {
     const keywordIds = []; // You can pass keywords from mood if you want
     
     console.log('🎯 Primary Genre:', result.context.chosenGenre);
+  
+    console.log('🔍 userPrefs.letterboxdData:', userPrefs.letterboxdData);
+console.log('🔍 userPrefs.tasteProfile:', userPrefs.tasteProfile);
+const profileStrength = analyzeProfileStrength(userPrefs.letterboxdData);
     
     // ====== NEW: ANALYZE PROFILE STRENGTH ======
    const profileStrength = analyzeProfileStrength(userPrefs.letterboxdData);

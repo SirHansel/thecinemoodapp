@@ -400,7 +400,91 @@ export const analyzeUserTaste = (letterboxdData) => {
     }
   };
 };
-
+// ========================================
+// PROFILE STRENGTH ANALYZER
+// ========================================
+export const analyzeProfileStrength = (tasteData) => {
+  if (!tasteData || !tasteData.movies || tasteData.movies.length === 0) {
+    return {
+      strength: 'none',
+      confidence: 0,
+      totalMovies: 0,
+      topDecade: null,
+      topDecadePercentage: 0,
+      recommendation: 'Use popularity-based system (no profile data)'
+    };
+  }
+  
+  const movies = tasteData.movies;
+  const totalMovies = movies.length;
+  
+  // Count movies per decade
+  const decadeCounts = {};
+  movies.forEach(movie => {
+    if (movie.year) {
+      const decade = Math.floor(movie.year / 10) * 10;
+      decadeCounts[decade] = (decadeCounts[decade] || 0) + 1;
+    }
+  });
+  
+  // Find top decade
+  const sortedDecades = Object.entries(decadeCounts)
+    .sort(([,a], [,b]) => b - a);
+  
+  if (sortedDecades.length === 0) {
+    return {
+      strength: 'weak',
+      confidence: 0,
+      totalMovies,
+      topDecade: null,
+      topDecadePercentage: 0,
+      recommendation: 'Not enough year data'
+    };
+  }
+  
+  const [topDecade, topCount] = sortedDecades[0];
+  const topDecadePercentage = (topCount / totalMovies) * 100;
+  
+  // Determine strength based on thresholds
+  let strength, confidence, recommendation, decadeWeight;
+  
+  if (totalMovies >= 50 && topDecadePercentage >= 40) {
+    strength = 'strong';
+    confidence = 0.8;
+    decadeWeight = 0.75; // 75% chance use preferred decade
+    recommendation = `Strong ${topDecade}s preference - heavily weight classics`;
+  } else if (totalMovies >= 20 && topDecadePercentage >= 20) {
+    strength = 'moderate';
+    confidence = 0.5;
+    decadeWeight = 0.45; // 45% chance
+    recommendation = `Moderate ${topDecade}s preference - sometimes use classics`;
+  } else if (totalMovies >= 10) {
+    strength = 'weak';
+    confidence = 0.2;
+    decadeWeight = 0.1; // 10% chance
+    recommendation = 'Weak preference - rarely use decade filtering';
+  } else {
+    strength = 'none';
+    confidence = 0;
+    decadeWeight = 0;
+    recommendation = 'Not enough data - use popularity system';
+  }
+  
+  console.log(`📊 Profile Strength: ${strength.toUpperCase()}`);
+  console.log(`   ${totalMovies} movies, ${topDecadePercentage.toFixed(1)}% from ${topDecade}s`);
+  console.log(`   Decade weight: ${(decadeWeight * 100).toFixed(0)}%`);
+  
+  return {
+    strength,           // 'strong' | 'moderate' | 'weak' | 'none'
+    confidence,         // 0-1 scale
+    totalMovies,
+    topDecade: parseInt(topDecade),
+    topDecadePercentage: Math.round(topDecadePercentage),
+    secondDecade: sortedDecades[1] ? parseInt(sortedDecades[1][0]) : null,
+    decadeWeight,       // Probability to use decade filtering
+    recommendation
+  };
+};
 // ========================================
 // INTEGRATE USER RATINGS WITH TASTE PROFILE
 // ========================================

@@ -965,18 +965,18 @@ const getMoodBasedMovies = async (moodAnswers, tasteProfile = null, excludedGenr
   try {
     const keywordIds = getAllKeywords(moodAnswers, finalGenreSelection, userPrefs || {});
     
-    // Fetch English-language movies first
-    let movies = await fetchMoviesByGenre(finalGenreSelection, false, keywordIds);
-    console.log('🇺🇸 Fetched English-language movies:', movies?.length || 0);
-    
-    // Prioritize by genre position
-    if (movies && movies.length > 0) {
-      movies = prioritizeByGenrePosition(movies, finalGenreSelection);
-    }
-    
-    // NEW: Fetch foreign films separately for wild card
-    let foreignMovies = await fetchMoviesByGenre(finalGenreSelection, true, keywordIds);
-    console.log('🌍 Fetched foreign-language movies:', foreignMovies?.length || 0);
+   // Fetch English-language movies first
+let movies = await fetchMoviesByGenre(finalGenreSelection, false, []); 
+console.log('🇺🇸 Fetched English-language movies:', movies?.length || 0);
+
+// Prioritize by genre position
+if (movies && movies.length > 0) {
+  movies = prioritizeByGenrePosition(movies, finalGenreSelection);
+}
+
+// NEW: Fetch foreign films separately for wild card
+let foreignMovies = await fetchMoviesByGenre(finalGenreSelection, true, []); 
+console.log('🌍 Fetched foreign-language movies:', foreignMovies?.length || 0);
     
     // Filter to only non-English films
     if (foreignMovies && foreignMovies.length > 0) {
@@ -990,34 +990,34 @@ const getMoodBasedMovies = async (moodAnswers, tasteProfile = null, excludedGenr
     }
     
     // If not enough English movies, allow foreign films as fallback
-    if (!movies || movies.length < 3) {
-      console.log('⚠️ Not enough English movies, allowing foreign films');
-      movies = await fetchMoviesByGenre(finalGenreSelection, true, keywordIds);
-      
-      // Also prioritize the foreign film results
-      if (movies && movies.length > 0) {
-        movies = prioritizeByGenrePosition(movies, finalGenreSelection);
-      }
-    }
-    
-    // Fallback to second highest scoring genre (English first)
-    if (!movies || movies.length < 3) {
-      const secondGenre = moodScore.topGenres[1]?.id;
-      if (secondGenre) {
-        console.log('🔄 Trying second genre (English only)');
-        movies = await fetchMoviesByGenre(secondGenre, false, keywordIds);
+if (!movies || movies.length < 3) {
+  console.log('⚠️ Not enough English movies, allowing foreign films');
+  movies = await fetchMoviesByGenre(finalGenreSelection, true, []); // ← CHANGE keywordIds to []
+  
+  // Also prioritize the foreign film results
+  if (movies && movies.length > 0) {
+    movies = prioritizeByGenrePosition(movies, finalGenreSelection);
+  }
+}
+
+// Fallback to second highest scoring genre (English first)
+if (!movies || movies.length < 3) {
+  const secondGenre = moodScore.topGenres[1]?.id;
+  if (secondGenre) {
+    console.log('🔄 Trying second genre (English only)');
+    movies = await fetchMoviesByGenre(secondGenre, false, []); // ← CHANGE keywordIds to []
         
         if (movies && movies.length > 0) {
           movies = prioritizeByGenrePosition(movies, secondGenre);
         }
         
         // If still not enough, allow foreign for second genre
-        if (!movies || movies.length < 3) {
-          console.log('🔄 Trying second genre (all languages)');
-          movies = await fetchMoviesByGenre(secondGenre, true, keywordIds);
-          
-          if (movies && movies.length > 0) {
-            movies = prioritizeByGenrePosition(movies, secondGenre);
+if (!movies || movies.length < 3) {
+  console.log('🔄 Trying second genre (all languages)');
+  movies = await fetchMoviesByGenre(secondGenre, true, []); // ← CHANGE keywordIds to []
+  
+  if (movies && movies.length > 0) {
+    movies = prioritizeByGenrePosition(movies, secondGenre);          
           }
         }
       }

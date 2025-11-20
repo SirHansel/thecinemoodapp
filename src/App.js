@@ -2491,9 +2491,9 @@ if (currentScreen === 'results') {
           Your Perfect Three
         </h2>
        
-        {Object.entries(recommendedMovies).map(([type, movie]) => (
-          <div 
-            key={type} 
+       {recommendedMovies && Object.entries(recommendedMovies).map(([type, movie]) => (
+  <div key={type}
+         
             onClick={() => handleWatchMovie(movie)}
             className="bg-gray-700 border-2 border-gray-600 rounded-lg p-4 mb-4 cursor-pointer hover:border-green-500 transition-colors"
           >

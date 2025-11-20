@@ -2459,7 +2459,7 @@ if (currentScreen === 'mood') {
   currentQuestion.options.map(option => (
    <button
   key={option.id}
-  onClick={() => handleMoodAnswer(questionIndex, option.id)}
+onClick={() => handleMoodAnswer(currentQuestion.category, option.id)}
   className="w-full h-20 rounded-lg border-2 flex flex-col items-center justify-center text-black font-bold transition-all hover:scale-105"
   style={{
     ...getMoodCardStyle(option.style),

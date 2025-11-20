@@ -1628,7 +1628,7 @@ useEffect(() => {
     console.log('🎯 Primary Genre:', result.context.chosenGenre);
     
     // ====== NEW: ANALYZE PROFILE STRENGTH ======
-    const profileStrength = analyzeProfileStrength(userPrefs.tasteProfile);
+   const profileStrength = analyzeProfileStrength(userPrefs.letterboxdData);
     console.log('📊 Profile Analysis:', profileStrength);
     
     // ====== NEW: THREE-TIER FETCHING ======

@@ -1037,7 +1037,185 @@ const getMoodBasedMovies = async (moodAnswers, tasteProfile = null, excludedGenr
     return null;
   }
 };
+// ========================================
+// THREE-TIER RECOMMENDATION SYSTEM
+// ========================================
 
+// SAFE TIER: Popularity-based, modern, crowd-pleasers
+const getSafeRecommendation = async (genreId, keywordIds, userPrefs) => {
+  console.log('🎯 SAFE: Fetching popular modern movie');
+  
+  const movies = await fetchMoviesByGenre(genreId, false, keywordIds, {
+    sortBy: 'popularity.desc',
+    startYear: 2000,
+    endYear: new Date().getFullYear()
+  });
+  
+  // Apply user filters (platforms, watched, excluded genres)
+  const filtered = applyAllFilters(movies, userPrefs);
+  
+  if (filtered.length > 0) {
+    return {
+      movie: filtered[0], // Most popular
+      tier: 'safe',
+      reason: '🎯 Safe Bet: Popular recent choice that most people love'
+    };
+  }
+  
+  return null;
+};
+
+// STRETCH TIER: Decade-weighted, vote-average based
+const getStretchRecommendation = async (genreId, keywordIds, userPrefs, profileStrength) => {
+  console.log('↗️ STRETCH: Fetching personalized recommendation');
+  
+  let movies = [];
+  let reason = '';
+  
+  // Check profile strength and apply decade weighting
+  if (profileStrength.strength === 'strong') {
+    // 75% chance to use preferred decade
+    if (Math.random() < 0.75) {
+      console.log(`📅 Using preferred decade: ${profileStrength.topDecade}s`);
+      movies = await fetchMoviesByGenre(genreId, false, keywordIds, {
+        sortBy: 'vote_average.desc',
+        minVotes: 500,
+        startYear: profileStrength.topDecade,
+        endYear: profileStrength.topDecade + 9
+      });
+      reason = `↗️ Stretch: ${profileStrength.topDecade}s ${getGenreName(genreId)} matching your taste`;
+      
+      // Fallback: Try adjacent decade if not enough results
+      if (movies.length < 3) {
+        console.log('⚠️ Not enough movies, trying adjacent decade');
+        const adjacentDecade = profileStrength.secondDecade || (profileStrength.topDecade + 10);
+        movies = await fetchMoviesByGenre(genreId, false, keywordIds, {
+          sortBy: 'vote_average.desc',
+          minVotes: 500,
+          startYear: adjacentDecade,
+          endYear: adjacentDecade + 9
+        });
+        reason = `↗️ Stretch: ${adjacentDecade}s classic close to your preferences`;
+      }
+    }
+  } else if (profileStrength.strength === 'moderate') {
+    // 45% chance to use preferred decade
+    if (Math.random() < 0.45) {
+      console.log(`📅 Using preferred decade: ${profileStrength.topDecade}s`);
+      movies = await fetchMoviesByGenre(genreId, false, keywordIds, {
+        sortBy: 'vote_average.desc',
+        minVotes: 300,
+        startYear: profileStrength.topDecade,
+        endYear: profileStrength.topDecade + 9
+      });
+      reason = `↗️ Stretch: ${profileStrength.topDecade}s gem you might enjoy`;
+    }
+  }
+  
+  // Fallback: Use vote_average without decade filter
+  if (movies.length < 3) {
+    console.log('📊 Using vote_average, any decade');
+    movies = await fetchMoviesByGenre(genreId, false, keywordIds, {
+      sortBy: 'vote_average.desc',
+      minVotes: 500
+    });
+    reason = reason || '↗️ Stretch: Highly-rated film matching your mood';
+  }
+  
+  const filtered = applyAllFilters(movies, userPrefs);
+  
+  if (filtered.length > 0) {
+    const middleIndex = Math.floor(filtered.length / 3);
+    return {
+      movie: filtered[middleIndex],
+      tier: 'stretch',
+      reason: reason
+    };
+  }
+  
+  return null;
+};
+
+// WILD TIER: Foreign, Classic, Cult, or Genre Surprise
+const getWildRecommendation = async (genreId, keywordIds, userPrefs) => {
+  console.log('🎲 WILD: Fetching discovery recommendation');
+  
+  const roll = Math.random();
+  let movies = [];
+  let reason = '';
+  
+  if (roll < 0.4) {
+    // 40% - Foreign film
+    console.log('🌍 Wild: Foreign film');
+    movies = await fetchMoviesByGenre(genreId, true, keywordIds, {
+      sortBy: 'vote_average.desc',
+      minVotes: 100
+    });
+    movies = movies.filter(m => m.original_language !== 'en');
+    reason = '🎲 Wild: International cinema you haven\'t explored';
+    
+  } else if (roll < 0.7) {
+    // 30% - Classic (pre-1980)
+    console.log('🎬 Wild: Classic film');
+    movies = await fetchMoviesByGenre(genreId, false, keywordIds, {
+      sortBy: 'vote_average.desc',
+      minVotes: 300,
+      startYear: 1940,
+      endYear: 1979
+    });
+    reason = '🎲 Wild: Timeless classic from cinema\'s golden era';
+    
+  } else if (roll < 0.9) {
+    // 20% - Cult film (high rating, low-medium votes)
+    console.log('🎭 Wild: Cult film');
+    movies = await fetchMoviesByGenre(genreId, false, keywordIds, {
+      sortBy: 'vote_average.desc',
+      minRating: 7.0,
+      minVotes: 100
+    });
+    // Filter to cult range (100-5000 votes)
+    movies = movies.filter(m => m.vote_count >= 100 && m.vote_count <= 5000);
+    reason = '🎲 Wild: Cult favorite hidden gem';
+    
+  } else {
+    // 10% - Genre surprise (different genre)
+    console.log('🎨 Wild: Genre surprise');
+    const allGenres = Object.values(TMDB_GENRES);
+    const surpriseGenre = allGenres[Math.floor(Math.random() * allGenres.length)];
+    movies = await fetchMoviesByGenre(surpriseGenre, false, [], {
+      sortBy: 'vote_average.desc',
+      minVotes: 500
+    });
+    reason = '🎲 Wild: Unexpected genre - trust us on this one';
+  }
+  
+  // For wild card, skip platform filtering (discovery mode)
+  const filtered = movies.filter(movie => {
+    // Only apply genre exclusions, not platforms
+    if (userPrefs.excludedGenreIds && userPrefs.excludedGenreIds.length > 0) {
+      const allowedGenres = Object.values(TMDB_GENRES).filter(id => !userPrefs.excludedGenreIds.includes(id));
+      return movie.genre_ids?.some(id => allowedGenres.includes(id));
+    }
+    return true;
+  });
+  
+  if (filtered.length > 0) {
+    const wildIndex = Math.floor((filtered.length * 2) / 3);
+    return {
+      movie: filtered[wildIndex],
+      tier: 'wild',
+      reason: reason
+    };
+  }
+  
+  return null;
+};
+
+// Helper function to get genre name
+const getGenreName = (genreId) => {
+  const entry = Object.entries(TMDB_GENRES).find(([name, id]) => id === genreId);
+  return entry ? entry[0].toLowerCase() : 'film';
+};
 // ========================================
 // TASTE WEIGHTING ALGORITHM
 // ========================================

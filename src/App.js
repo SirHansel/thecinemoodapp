@@ -1427,7 +1427,7 @@ if (userPrefs.excludedGenreIds && userPrefs.excludedGenreIds.length > 0) {
 // ========================================
 // INTEGRATION POINT
 // ========================================
-// Add this to your generateRecommendations function after getting TMDB movies
+
 const getFilteredRecommendations = (rawMovies, userPrefs, tasteThresholds, allowRewatches = false) => {
   const filteredMovies = applyAllFilters(rawMovies, userPrefs, allowRewatches);
   
@@ -1605,105 +1605,138 @@ useEffect(() => {
  const generateRecommendations = async () => {
   setLoading(true);
   try {
-    const result = await getMoodBasedMovies(userPrefs.moodAnswers, userPrefs.tasteProfile, userPrefs.excludedGenreIds, userPrefs);
-const movies = result?.movies;
-    const foreignMovies = result?.foreignMovies || []; 
-    console.log('🎬 TMDB API Response:', movies);
-    if (result) {
-  console.log('🎯 Chosen genre:', result.context.chosenGenre);
-  console.log('📊 All genre scores:', result.context.allScores);
-}
-    console.log('🎬 Movies array length:', movies?.length);
+    // Get mood-based genre selection
+    const result = await getMoodBasedMovies(
+      userPrefs.moodAnswers, 
+      userPrefs.tasteProfile, 
+      userPrefs.excludedGenreIds, 
+      userPrefs
+    );
     
-    if (movies && movies.length >= 3) {
-  console.log('✅ Using TMDB movies');
-  const tasteThresholds = generateTasteThresholds(userPrefs.tasteProfile);
-const movieRecs = await getDetailedRecommendations(movies, foreignMovies, userPrefs, tasteThresholds);
-      
-  if (movieRecs) {
-    setRecommendations(movieRecs);
-  } else {
-    // Fall back to existing system if filtering fails
-    console.log('🔄 Using fallback system');
-    const shuffled = movies.sort(() => 0.5 - Math.random());
+    if (!result || !result.movies || result.movies.length < 3) {
+      console.log('❌ Not enough movies from TMDB');
+      setLoading(false);
+      return;
+    }
     
+    const primaryGenre = result.context.primaryGenre || TMDB_GENRES.DRAMA;
+    const keywordIds = []; // You can pass keywords from mood if you want
+    
+    console.log('🎯 Primary Genre:', result.context.chosenGenre);
+    
+    // ====== NEW: ANALYZE PROFILE STRENGTH ======
+    const profileStrength = analyzeProfileStrength(userPrefs.tasteProfile);
+    console.log('📊 Profile Analysis:', profileStrength);
+    
+    // ====== NEW: THREE-TIER FETCHING ======
+    console.log('🎬 Fetching three-tier recommendations...');
+    
+    const [safeRec, stretchRec, wildRec] = await Promise.all([
+      getSafeRecommendation(primaryGenre, keywordIds, userPrefs),
+      getStretchRecommendation(primaryGenre, keywordIds, userPrefs, profileStrength),
+      getWildRecommendation(primaryGenre, keywordIds, userPrefs)
+    ]);
+    
+    // Validate we got all three
+    if (!safeRec || !stretchRec || !wildRec) {
+      console.log('⚠️ Missing recommendations, using fallback');
+      // Fallback to your old system if needed
+      const shuffled = result.movies.sort(() => 0.5 - Math.random());
+      setRecommendations({
+        safe: {
+          title: shuffled[0].title,
+          year: shuffled[0].release_date?.slice(0, 4) || 'Unknown',
+          genre: "Drama",
+          runtime: "2h",
+          platform: userPrefs.platforms[0] || "Netflix",
+          reason: "🎯 Safe Bet: Popular choice"
+        },
+        stretch: {
+          title: shuffled[1].title,
+          year: shuffled[1].release_date?.slice(0, 4) || 'Unknown',
+          genre: "Drama",
+          runtime: "2h",
+          platform: userPrefs.platforms[0] || "Prime",
+          reason: "↗️ Stretch: Based on your mood"
+        },
+        wild: {
+          title: shuffled[2].title,
+          year: shuffled[2].release_date?.slice(0, 4) || 'Unknown',
+          genre: "Drama",
+          runtime: "2h",
+          platform: userPrefs.platforms[0] || "Hulu",
+          reason: "🎲 Wild: Something different"
+        }
+      });
+      setLoading(false);
+      return;
+    }
+    
+    // ====== NEW: GET MOVIE DETAILS ======
+    const detailedMovies = await Promise.all([
+      fetchMovieDetails(safeRec.movie.id),
+      fetchMovieDetails(stretchRec.movie.id),
+      fetchMovieDetails(wildRec.movie.id)
+    ]);
+    
+    // ====== NEW: FORMAT RECOMMENDATIONS ======
     const movieRecs = {
       safe: {
-        title: shuffled[0].title,
-        year: shuffled[0].release_date?.slice(0, 4) || 'Unknown',
-        genre: "Crime, Drama", 
-        runtime: "2h 31m",
-        platform: "Netflix",
-        reason: "🎯 Safe Bet: Popular choice"
+        ...safeRec.movie,
+        title: safeRec.movie.title,
+        year: safeRec.movie.release_date?.slice(0, 4) || 'Unknown',
+        genre: safeRec.movie.genre_ids?.map(id => 
+          Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === id)
+        ).slice(0, 2).join(', ') || 'Drama',
+        runtime: detailedMovies[0]?.runtime 
+          ? `${Math.floor(detailedMovies[0].runtime / 60)}h ${detailedMovies[0].runtime % 60}m` 
+          : '2h',
+        platform: userPrefs.platforms[0] || 'Netflix',
+        reason: safeRec.reason
       },
       stretch: {
-        title: shuffled[1].title,
-        year: shuffled[1].release_date?.slice(0, 4) || 'Unknown',
-        genre: "Thriller, Drama",
-        runtime: "2h 33m", 
-        platform: "Prime",
-        reason: "↗️ Stretch: Trending pick"
+        ...stretchRec.movie,
+        title: stretchRec.movie.title,
+        year: stretchRec.movie.release_date?.slice(0, 4) || 'Unknown',
+        genre: stretchRec.movie.genre_ids?.map(id => 
+          Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === id)
+        ).slice(0, 2).join(', ') || 'Drama',
+        runtime: detailedMovies[1]?.runtime 
+          ? `${Math.floor(detailedMovies[1].runtime / 60)}h ${detailedMovies[1].runtime % 60}m` 
+          : '2h',
+        platform: userPrefs.platforms[0] || 'Prime',
+        reason: stretchRec.reason
       },
       wild: {
-        title: shuffled[2].title,
-        year: shuffled[2].release_date?.slice(0, 4) || 'Unknown',
-        genre: "Action, Crime",
-        runtime: "1h 44m",
-        platform: "Criterion", 
-      reason: "🎲 Wild Card: Hidden gem"
+        ...wildRec.movie,
+        title: wildRec.movie.title,
+        year: wildRec.movie.release_date?.slice(0, 4) || 'Unknown',
+        genre: wildRec.movie.genre_ids?.map(id => 
+          Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === id)
+        ).slice(0, 2).join(', ') || 'Drama',
+        runtime: detailedMovies[2]?.runtime 
+          ? `${Math.floor(detailedMovies[2].runtime / 60)}h ${detailedMovies[2].runtime % 60}m` 
+          : '2h',
+        platform: userPrefs.platforms[0] || 'Hulu',
+        reason: wildRec.reason
       }
     };
     
+    console.log('✅ Three-tier recommendations ready:', movieRecs);
     setRecommendations(movieRecs);
-  }
-} else {
-  console.log('❌ Using fallbacks - movies:', movies);
-  setRecommendations({
-    safe: { title: "Dune", year: 2021, genre: "Sci-Fi, Adventure", runtime: "2h 35m", platform: "HBO Max", reason: "🎯 Safe Bet: Popular sci-fi epic" },
-    stretch: { title: "Minari", year: 2020, genre: "Drama, Family", runtime: "1h 55m", platform: "Prime", reason: "↗️ Stretch: Acclaimed indie drama" },
-    wild: { title: "The Green Knight", year: 2021, genre: "Fantasy, Adventure", runtime: "2h 10m", platform: "A24", reason: "🎲 Wild Card: Artsy fantasy adventure" }
-  });
-}
+    
   } catch (error) {
-    console.log('🚨 TMDB API Error:', error);
+    console.log('🚨 Recommendation error:', error);
+    // Fallback recommendations
     setRecommendations({
-      safe: { title: "Parasite", year: 2019, genre: "Thriller, Drama", runtime: "2h 12m", platform: "Hulu", reason: "🎯 Network Error Fallback" },
-      stretch: { title: "The Lighthouse", year: 2019, genre: "Horror, Drama", runtime: "1h 49m", platform: "Prime", reason: "↗️ Network Error Fallback" },
-      wild: { title: "Uncut Gems", year: 2019, genre: "Crime, Thriller", runtime: "2h 15m", platform: "Netflix", reason: "🎲 Network Error Fallback" }
+      safe: { title: "The Shawshank Redemption", year: 1994, genre: "Drama", runtime: "2h 22m", platform: "Netflix", reason: "🎯 Fallback recommendation" },
+      stretch: { title: "Inception", year: 2010, genre: "Sci-Fi", runtime: "2h 28m", platform: "Prime", reason: "↗️ Fallback recommendation" },
+      wild: { title: "Parasite", year: 2019, genre: "Thriller", runtime: "2h 12m", platform: "Hulu", reason: "🎲 Fallback recommendation" }
     });
   }
+  
   setLoading(false);
 };
-  // Enhanced movie recommendations
-  const getPersonalizedRecommendations = () => {
-    if (!recommendations) {
-      return recommendations || {
-        safe: { title: "Moonlight", year: 2016, genre: "Drama", runtime: "1h 51m", platform: "Netflix", reason: "🎯 Safe Bet: No TMDB data" },
-        stretch: { title: "First Cow", year: 2019, genre: "Drama, Western", runtime: "2h 2m", platform: "Showtime", reason: "↗️ Stretch: No TMDB data" },
-        wild: { title: "Sound of Metal", year: 2019, genre: "Drama, Music", runtime: "2h 1m", platform: "Prime", reason: "🎲 Wild Card: No TMDB data" }
-      };
-    }
-   
-    const recentWatches = letterboxdData.movies.map(m => m.title.toLowerCase());
-    const highRatedGenres = letterboxdData.movies.filter(m => m.rating >= 4).map(m => m.title);
-   
-    const personalizedMovies = {
-      safe: {
-        ...recommendations.safe,
-        reason: recommendations.safe.reason || "🎯 Safe Bet: Matches your preferences"
-      },
-      stretch: {
-        ...recommendations.stretch,
-        reason: `↗️ Stretch: Based on your ${highRatedGenres.length > 0 ? 'high ratings for thrillers' : 'viewing patterns'}`
-      },
-      wild: {
-        ...recommendations.wild,
-        reason: "🎲 Wild Card: Haven't logged yet"
-      }
-    };
-   
-    return personalizedMovies;
-  };
 
   const wheelMovies = [
     "Blade Runner 2049", "The Departed", "Mad Max: Fury Road", "Prisoners",

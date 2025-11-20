@@ -60,7 +60,7 @@ export const fetchMoviesByGenre = async (
     return [];
   }
 };  
-  => {
+  
   const API_KEY = TMDB_API_KEY;
   const languageParam = allowForeign ? '' : '&with_original_language=en';
   

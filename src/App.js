@@ -1627,11 +1627,10 @@ useEffect(() => {
     
     console.log('🎯 Primary Genre:', result.context.chosenGenre);
   
-    console.log('🔍 userPrefs.letterboxdData:', userPrefs.letterboxdData);
-console.log('🔍 userPrefs.tasteProfile:', userPrefs.tasteProfile);
-const profileStrength = analyzeProfileStrength(userPrefs.letterboxdData);
-    
     // ====== NEW: ANALYZE PROFILE STRENGTH ======
+       console.log('🔍 userPrefs.letterboxdData:', userPrefs.letterboxdData);
+console.log('🔍 userPrefs.tasteProfile:', userPrefs.tasteProfile);
+
    const profileStrength = analyzeProfileStrength(userPrefs.letterboxdData);
     console.log('📊 Profile Analysis:', profileStrength);
     

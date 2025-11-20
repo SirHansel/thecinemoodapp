@@ -2391,7 +2391,7 @@ if (currentScreen === 'mood') {
     ))}
  </div>
         
-  ) : currentQuestion.id === 'path' ? (
+  ) : currentQuestion.category === 'path' ? (
      console.log('Path question options:', currentQuestion.options),
   // Path-specific 2-over-1 layout
   <div className="space-y-4">
@@ -2434,7 +2434,7 @@ if (currentScreen === 'mood') {
       {currentQuestion.options.slice(2, 3).map(option => (
         <button
           key={option.id}
-          onClick={() => handleMoodAnswer(currentQuestion.id, option.id)}
+          onClick={() => handleMoodAnswer(currentQuestion.category, option.id)}
           className="p-8 bg-transparent border-none flex flex-col items-center justify-center text-white font-medium transition-all hover:scale-110"
         >
           <div className="w-24 h-24 flex items-center justify-center mb-3">

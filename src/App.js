@@ -1051,7 +1051,7 @@ const getSafeRecommendation = async (genreId, keywordIds, userPrefs) => {
   const movies = await fetchMoviesByGenre(genreId, false, keywordIds, {
     sortBy: 'popularity.desc',
     startYear: 2000,
-    endYear: new Date().getFullYear()
+    endYear: new Date().getFullYear(),
     fetchMultiplePages: true
   });
   

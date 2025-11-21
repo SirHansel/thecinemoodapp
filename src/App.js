@@ -1058,8 +1058,15 @@ const getSafeRecommendation = async (genreId, keywordIds, userPrefs) => {
   const filtered = applyAllFilters(movies, userPrefs);
   
   if (filtered.length > 0) {
+    // ✅ NEW: Randomly select from top 10 popular movies (or all if fewer)
+    const safePool = filtered.slice(0, Math.min(10, filtered.length));
+    const randomIndex = Math.floor(Math.random() * safePool.length);
+    const selectedMovie = safePool[randomIndex];
+    
+    console.log(`🎲 Safe: Selected #${randomIndex + 1} from top ${safePool.length} popular movies`);
+    
     return {
-      movie: filtered[0], // Most popular
+      movie: selectedMovie,
       tier: 'safe',
       reason: '🎯 Safe Bet: Popular recent choice that most people love'
     };

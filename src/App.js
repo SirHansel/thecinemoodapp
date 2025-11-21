@@ -1052,14 +1052,15 @@ const getSafeRecommendation = async (genreId, keywordIds, userPrefs) => {
     sortBy: 'popularity.desc',
     startYear: 2000,
     endYear: new Date().getFullYear()
+    fetchMultiplePages: true
   });
   
   // Apply user filters (platforms, watched, excluded genres)
   const filtered = applyAllFilters(movies, userPrefs);
   
   if (filtered.length > 0) {
-    // ✅ NEW: Randomly select from top 20 popular movies (or all if fewer)
-    const safePool = filtered.slice(0, Math.min(20, filtered.length));
+    // ✅ NEW: Randomly select from top 50 popular movies (or all if fewer)
+    const safePool = filtered.slice(0, Math.min(50, filtered.length));
     const randomIndex = Math.floor(Math.random() * safePool.length);
     const selectedMovie = safePool[randomIndex];
     

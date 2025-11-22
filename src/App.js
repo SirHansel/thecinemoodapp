@@ -6,7 +6,7 @@ import { analyzeProfileStrength } from './letterboxdApi';
 // ========================================
 // DESIGN: Each mood answer gives Primary(5) + Secondary(2) + Tertiary(1) points to different genres
 // BENEFIT: Prevents point inflation, easy to tune, future-proof for question rotation
-
+const STORAGE_VERSION = 2;
 // TMDB Genre IDs (verified)
 const TMDB_GENRES = {
   ACTION: 28,
@@ -1551,23 +1551,38 @@ const CineMoodApp = () => {
 //localStorage.removeItem('cinemood-prefs');
   
   const saveUserPrefs = (prefs) => {
-    try {
-      localStorage.setItem('cinemood-prefs', JSON.stringify(prefs));
-      console.log('Preferences saved to localStorage');
-    } catch (error) {
-      console.error('Failed to save preferences:', error);
-    }
-  };
+  try {
+    const prefsWithVersion = {
+      ...prefs,
+      storageVersion: STORAGE_VERSION
+    };
+    localStorage.setItem('cinemood-prefs', JSON.stringify(prefsWithVersion));
+    console.log('Preferences saved to localStorage');
+  } catch (error) {
+    console.error('Failed to save preferences:', error);
+  }
+};
 
-  const loadUserPrefs = () => {
-    try {
-      const saved = localStorage.getItem('cinemood-prefs');
-      return saved ? JSON.parse(saved) : null;
-    } catch (error) {
-      console.error('Failed to load preferences:', error);
+const loadUserPrefs = () => {
+  try {
+    const saved = localStorage.getItem('cinemood-prefs');
+    if (!saved) return null;
+    
+    const parsed = JSON.parse(saved);
+    
+    // Check version - clear old data if outdated
+    if (!parsed.storageVersion || parsed.storageVersion < STORAGE_VERSION) {
+      console.log(`🧹 Clearing outdated localStorage (v${parsed.storageVersion || 0} → v${STORAGE_VERSION})`);
+      localStorage.removeItem('cinemood-prefs');
       return null;
     }
-  };
+    
+    return parsed;
+  } catch (error) {
+    console.error('Failed to load preferences:', error);
+    return null;
+  }
+};
 
 
   const [currentScreen, setCurrentScreen] = useState('setup');
@@ -1581,7 +1596,8 @@ const CineMoodApp = () => {
     moodAnswers: {},
     excludedGenreIds: [],
     watchedMovies: [],
-    recentSymbolGroups: []  // ADD THIS LINE
+    recentSymbolGroups: [],
+    storageVersion: STORAGE_VERSION
   };
 });
   

@@ -2710,22 +2710,60 @@ if (currentScreen === 'watching') {
     setUserRating(starValue);
   };
   
-  const saveRating = () => {
-    const movieRating = {
-      title: watchedMovie.title,
-      year: watchedMovie.year,
-      rating: userRating,
-      dateWatched: new Date().toISOString()
-    };
-    
-    setUserPrefs(prev => ({
-      ...prev,
-      watchedMovies: [...(prev.watchedMovies || []), movieRating]
-    }));
-    
-    setUserRating(0);
-    setCurrentScreen('setup');
+const saveRating = () => {
+  const movieRating = {
+    title: watchedMovie.title,
+    year: watchedMovie.year,
+    rating: userRating,
+    dateWatched: new Date().toISOString(),
+    // NEW: Save genre_ids and keywords for weight calculation
+    genre_ids: watchedMovie.genre_ids || [],
+    keywords: watchedMovie.keywords || []
   };
+  
+  // Calculate influence from rating
+  const influence = getRatingInfluence(userRating);
+  console.log(`⭐ Rating ${userRating} → Influence: ${influence > 0 ? '+' : ''}${influence}`);
+  
+  setUserPrefs(prev => {
+    const newGenreWeights = { ...prev.genreWeights };
+    const newKeywordWeights = { ...prev.keywordWeights };
+    const newDecadeWeights = { ...prev.decadeWeights };
+    
+    // Update genre weights
+    if (movieRating.genre_ids) {
+      movieRating.genre_ids.forEach(genreId => {
+        newGenreWeights[genreId] = (newGenreWeights[genreId] || 0) + influence;
+        console.log(`  📊 Genre ${genreId}: ${newGenreWeights[genreId] > 0 ? '+' : ''}${newGenreWeights[genreId]}`);
+      });
+    }
+    
+    // Update keyword weights
+    if (movieRating.keywords) {
+      movieRating.keywords.forEach(keywordId => {
+        newKeywordWeights[keywordId] = (newKeywordWeights[keywordId] || 0) + influence;
+      });
+    }
+    
+    // Update decade weight
+    if (movieRating.year) {
+      const decade = Math.floor(movieRating.year / 10) * 10;
+      newDecadeWeights[decade] = (newDecadeWeights[decade] || 0) + influence;
+      console.log(`  📅 ${decade}s: ${newDecadeWeights[decade] > 0 ? '+' : ''}${newDecadeWeights[decade]}`);
+    }
+    
+    return {
+      ...prev,
+      watchedMovies: [...(prev.watchedMovies || []), movieRating],
+      genreWeights: newGenreWeights,
+      keywordWeights: newKeywordWeights,
+      decadeWeights: newDecadeWeights
+    };
+  });
+  
+  setUserRating(0);
+  setCurrentScreen('setup');
+};
   
   return (
     <div className="min-h-screen bg-gray-900 text-gray-200 p-4">

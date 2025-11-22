@@ -1545,6 +1545,24 @@ const filteredForeign = foreignMovies && foreignMovies.length > 0
   return null;
 };
 
+// Convert star rating to preference weight
+const getRatingInfluence = (rating) => {
+  const weights = {
+    5.0:  +5,  // Loved it
+    4.5:  +3,  // Really liked
+    4.0:  +2,  // Liked
+    3.5:  +1,  // Slightly above neutral
+    3.0:   0,  // Neutral - no influence
+    2.5:  -1,  // Slightly below neutral
+    2.0:  -2,  // Disliked
+    1.5:  -3,  // Really disliked
+    1.0:  -4,  // Hated
+    0.5:  -5   // Despised
+  };
+  
+  return weights[rating] || 0;
+};
+
 const CineMoodApp = () => {
 
 //  Add this temporarily at the top of CineMoodApp function
@@ -1597,7 +1615,10 @@ const loadUserPrefs = () => {
     excludedGenreIds: [],
     watchedMovies: [],
     recentSymbolGroups: [],
-    storageVersion: STORAGE_VERSION
+    storageVersion: STORAGE_VERSION,
+    genreWeights: {},
+    keywordWeights: {},
+    decadeWeights: {}
   };
 });
   

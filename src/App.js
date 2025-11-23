@@ -1352,7 +1352,6 @@ const filterByWatchedMovies = (movies, letterboxdData, allowRewatches = false) =
   );
 };
 
-// ========================================
 // MASTER FILTER FUNCTION
 // ========================================
 // This combines all filters and can be easily extended
@@ -1364,72 +1363,96 @@ const applyAllFilters = (movies, userPrefs, allowRewatches = false) => {
   // Filter 1: Platform availability
   filteredMovies = filterByPlatforms(filteredMovies, userPrefs.platforms);
   
-// Filter 2: Genre exclusions with trait fallback
-if (userPrefs.excludedGenreIds && userPrefs.excludedGenreIds.length > 0) {
-  const allowedGenres = Object.values(TMDB_GENRES).filter(id => !userPrefs.excludedGenreIds.includes(id));
-  
-  // Check if we're in heavy exclusion mode (few allowed genres)
-  const isHeavyExclusion = allowedGenres.length <= 3;
-  
-  if (isHeavyExclusion) {
-    console.log('🎨 Heavy exclusion detected, activating trait-based scoring');
+  // Filter 2: Genre exclusions with trait fallback
+  if (userPrefs.excludedGenreIds && userPrefs.excludedGenreIds.length > 0) {
+    const allowedGenres = Object.values(TMDB_GENRES).filter(id => !userPrefs.excludedGenreIds.includes(id));
     
-    // Compute trait profile from allowed genres
-    const traitScores = computeTraitScores(allowedGenres);
+    // Check if we're in heavy exclusion mode (few allowed genres)
+    const isHeavyExclusion = allowedGenres.length <= 3;
     
-    // Score all movies by trait compatibility + weighted genre scoring
-    const scoredMovies = filteredMovies.map(movie => {
-      const traitScore = scoreMovieByTraits(movie, traitScores);
+    if (isHeavyExclusion) {
+      console.log('🎨 Heavy exclusion detected, activating trait-based scoring');
       
-      // Still apply weighted genre scoring
-      let genreScore = 0;
-      movie.genre_ids?.forEach((genreId, index) => {
-        if (allowedGenres.includes(genreId)) {
-          genreScore += Math.max(3 - index, 1);
-        }
+      // Compute trait profile from allowed genres
+      const traitScores = computeTraitScores(allowedGenres);
+      
+      // Score all movies by trait compatibility + weighted genre scoring
+      const scoredMovies = filteredMovies.map(movie => {
+        const traitScore = scoreMovieByTraits(movie, traitScores);
+        
+        // Still apply weighted genre scoring
+        let genreScore = 0;
+        movie.genre_ids?.forEach((genreId, index) => {
+          if (allowedGenres.includes(genreId)) {
+            genreScore += Math.max(3 - index, 1);
+          }
+        });
+        
+        const combinedScore = (traitScore * 0.7) + (genreScore * 0.3); // 70% traits, 30% genre position
+        
+        return {
+          ...movie,
+          traitScore,
+          genreScore,
+          combinedScore
+        };
       });
       
-      const combinedScore = (traitScore * 0.7) + (genreScore * 0.3); // 70% traits, 30% genre position
+      // Filter and sort by combined score
+      const filteredByTraits = scoredMovies
+        .filter(movie => movie.combinedScore > 0)
+        .sort((a, b) => b.combinedScore - a.combinedScore);
       
-      return {
-        ...movie,
-        traitScore,
-        genreScore,
-        combinedScore
-      };
-    });
-    
-    // Filter and sort by combined score
-    const filteredByTraits = scoredMovies
-      .filter(movie => movie.combinedScore > 0)
-      .sort((a, b) => b.combinedScore - a.combinedScore);
-    
-    console.log(`🎨 Trait filtering: ${filteredMovies.length} → ${filteredByTraits.length} movies`);
-    filteredMovies = filteredByTraits;
-    
-  } else {
-    // Use existing weighted genre scoring for light exclusions
-    const filteredByGenre = filteredMovies.filter(movie => {
-      let score = 0;
-      movie.genre_ids?.forEach((genreId, index) => {
-        if (allowedGenres.includes(genreId)) {
-          score += Math.max(3 - index, 1);
-        }
+      console.log(`🎨 Trait filtering: ${filteredMovies.length} → ${filteredByTraits.length} movies`);
+      filteredMovies = filteredByTraits;
+      
+    } else {
+      // Use existing weighted genre scoring for light exclusions
+      const filteredByGenre = filteredMovies.filter(movie => {
+        let score = 0;
+        movie.genre_ids?.forEach((genreId, index) => {
+          if (allowedGenres.includes(genreId)) {
+            score += Math.max(3 - index, 1);
+          }
+        });
+        return score >= 3;
       });
-      return score >= 3;
-    });
-    
-    console.log(`🚫 Genre filtering: ${filteredMovies.length} → ${filteredByGenre.length} movies`);
-    filteredMovies = filteredByGenre;
+      
+      console.log(`🚫 Genre filtering: ${filteredMovies.length} → ${filteredByGenre.length} movies`);
+      filteredMovies = filteredByGenre;
+    }
   }
-}
   
-  // filteredMovies = filterByWatchedMovies(filteredMovies, letterboxdData, allowRewatches);
-  
-  // Future filters can be added here:
-  // filteredMovies = filterByExcludedGenres(filteredMovies, userPrefs.excludedGenres);
-  // filteredMovies = filterByRuntime(filteredMovies, userPrefs.maxRuntime);
-  
+  // Filter 3: Remove already-watched movies (unless allowRewatches is true)
+  if (!allowRewatches) {
+    // Build list of watched movie titles from both sources
+    const watchedTitles = new Set();
+    
+    // From in-app ratings (watchedMovies)
+    if (userPrefs.watchedMovies) {
+      userPrefs.watchedMovies.forEach(movie => {
+        watchedTitles.add(movie.title.toLowerCase().trim());
+      });
+    }
+    
+    // From Letterboxd CSV import (letterboxdData)
+    if (userPrefs.letterboxdData?.movies) {
+      userPrefs.letterboxdData.movies.forEach(movie => {
+        watchedTitles.add(movie.title.toLowerCase().trim());
+      });
+    }
+    
+    const beforeWatchedFilter = filteredMovies.length;
+    filteredMovies = filteredMovies.filter(movie => {
+      const movieTitle = movie.title.toLowerCase().trim();
+      return !watchedTitles.has(movieTitle);
+    });
+    
+    const removedCount = beforeWatchedFilter - filteredMovies.length;
+    if (removedCount > 0) {
+      console.log(`👁️ Removed ${removedCount} already-watched movies`);
+    }
+  }
   
   console.log('✨ Final filtered results:', filteredMovies.length, 'movies');
   return filteredMovies;

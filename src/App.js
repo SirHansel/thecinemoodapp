@@ -870,25 +870,23 @@ const applyQualityBoost = (movie, tasteThresholds) => {
 // ========================================
 // MAIN SCORING FUNCTION
 // ========================================
-const calculateMoodScore = (moodAnswers) => {
+const calculateMoodScore = (moodAnswers, userPrefs) => {
   console.log('🎯 Calculating scores for answers:', moodAnswers);
   
   const genreScores = {};
   let modifiers = {};
-
+  
   // Process each mood answer
- Object.entries(moodAnswers).forEach(([questionType, answer]) => {
-    
+  Object.entries(moodAnswers).forEach(([questionType, answer]) => {
     const scoring = MOOD_SCORING[questionType]?.[answer];
     const weights = SCORING_WEIGHTS[questionType];
-   
     
     if (!scoring || !weights) {
       console.log(`⚠️ Missing scoring for ${questionType}:${answer}`);
-      console.log('Available options for', questionType, ':', Object.keys(MOOD_SCORING[questionType] || {})); // CHANGED category to questionType
+      console.log('Available options for', questionType, ':', Object.keys(MOOD_SCORING[questionType] || {}));
       return;
     }
-
+    
     // Add genre points
     if (scoring.primary) {
       genreScores[scoring.primary] = (genreScores[scoring.primary] || 0) + weights.primary;
@@ -899,13 +897,29 @@ const calculateMoodScore = (moodAnswers) => {
     if (scoring.tertiary) {
       genreScores[scoring.tertiary] = (genreScores[scoring.tertiary] || 0) + weights.tertiary;
     }
-
+    
     // Handle modifiers (year ranges, popularity)
     if (scoring.modifier) {
       modifiers = { ...modifiers, ...scoring.modifier };
     }
   });
-
+  
+  // ========================================
+  // NEW: APPLY RATING-BASED WEIGHTS
+  // ========================================
+  if (userPrefs.genreWeights && Object.keys(userPrefs.genreWeights).length > 0) {
+    console.log('📊 Applying rating-based genre weights...');
+    
+    Object.entries(userPrefs.genreWeights).forEach(([genreId, weight]) => {
+      const id = parseInt(genreId);
+      if (genreScores[id]) {
+        const oldScore = genreScores[id];
+        genreScores[id] = genreScores[id] + weight;
+        console.log(`  Genre ${id}: ${oldScore} + ${weight} = ${genreScores[id]}`);
+      }
+    });
+  }
+  
   // Sort genres by score
   const rankedGenres = Object.entries(genreScores)
     .sort(([,a], [,b]) => b - a)
@@ -914,16 +928,16 @@ const calculateMoodScore = (moodAnswers) => {
       score: score,
       name: Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === parseInt(genre))
     }));
-
-console.log('🏆 Final genre scores:', rankedGenres);
-console.log('⚙️ Modifiers:', modifiers);
+    
+  console.log('🏆 Final genre scores (with weights):', rankedGenres);
+  console.log('⚙️ Modifiers:', modifiers);
   
-return {
+  return {
     topGenres: rankedGenres.slice(0, 3),
     modifiers: modifiers,
     primaryGenre: rankedGenres[0]?.id || TMDB_GENRES.ACTION
   };
-}; 
+};
 
 // ========================================
 // INTEGRATION READY FUNCTION
@@ -935,9 +949,9 @@ return {
 const getMoodBasedMovies = async (moodAnswers, tasteProfile = null, excludedGenreIds = [], userPrefs = {}) => {
   console.log('🎯 Starting mood + taste integration');
   
-  const moodScore = calculateMoodScore(moodAnswers);
+  const moodScore = calculateMoodScore(moodAnswers, userPrefs);
   let finalGenreSelection = moodScore.primaryGenre;
-  
+
   // If user has taste data, apply 60/40 weighting
   if (tasteProfile && tasteProfile.lovedMovies.length > 0) {
     console.log('💝 Applying taste weighting (40% taste, 60% mood)');

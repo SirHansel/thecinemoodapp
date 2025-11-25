@@ -1690,15 +1690,6 @@ useEffect(() => {
     
     console.log('📝 Tracked recently shown:', [safeRec?.id, stretchRec?.id, wildRec?.id]);
     
-    // ====== NEW: THREE-TIER FETCHING ======
-    console.log('🎬 Fetching three-tier recommendations...');
-    
-    const [safeRec, stretchRec, wildRec] = await Promise.all([
-      getSafeRecommendation(primaryGenre, keywordIds, userPrefs),
-      getStretchRecommendation(primaryGenre, keywordIds, userPrefs, profileStrength),
-      getWildRecommendation(primaryGenre, keywordIds, userPrefs)
-    ]);
-    
     // Validate we got all three
     if (!safeRec || !stretchRec || !wildRec) {
       console.log('⚠️ Missing recommendations, using fallback');

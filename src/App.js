@@ -1689,13 +1689,6 @@ useEffect(() => {
     ].filter(Boolean).slice(-30)); // Keep last 30 shown movies
     
     console.log('📝 Tracked recently shown:', [safeRec?.id, stretchRec?.id, wildRec?.id]);
-
-    // ====== NEW: ANALYZE PROFILE STRENGTH ======
-       console.log('🔍 userPrefs.letterboxdData:', userPrefs.letterboxdData);
-console.log('🔍 userPrefs.tasteProfile:', userPrefs.tasteProfile);
-
-   const profileStrength = analyzeProfileStrength(userPrefs.letterboxdData);
-    console.log('📊 Profile Analysis:', profileStrength);
     
     // ====== NEW: THREE-TIER FETCHING ======
     console.log('🎬 Fetching three-tier recommendations...');

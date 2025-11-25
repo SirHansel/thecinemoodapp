@@ -3,10 +3,12 @@ import { fetchMoviesByGenre, fetchMovieDetails } from './tmdbApi';
 import { parseLetterboxdCSV, analyzeUserTaste, combineRatingsWithTaste } from './letterboxdApi'; 
 import { Play, RotateCcw, Settings, Star, ThumbsUp, Circle, Triangle, Square, Waves, Sparkles, Leaf, Flame, Cloud, Sun, Box, Globe, Helix, BookOpen, Lamp, Hammer, Key, Mirror, Bridge } from 'lucide-react';// HYBRID SCORING SYSTEM
 import { analyzeProfileStrength } from './letterboxdApi';
+import { fetchMovieCredits, extractPersonIds } from './tmdbCredits';
+import { getLegendMultiplier, isScreenLegend } from './screenLegends';
 // ========================================
 // DESIGN: Each mood answer gives Primary(5) + Secondary(2) + Tertiary(1) points to different genres
 // BENEFIT: Prevents point inflation, easy to tune, future-proof for question rotation
-const STORAGE_VERSION = 2;
+const STORAGE_VERSION = 3;
 // TMDB Genre IDs (verified)
 const TMDB_GENRES = {
   ACTION: 28,
@@ -1655,7 +1657,11 @@ const loadUserPrefs = () => {
     storageVersion: STORAGE_VERSION,
     genreWeights: {},
     keywordWeights: {},
-    decadeWeights: {}
+    decadeWeights: {},
+   
+    enableCastCrewTracking: true,   // Toggle - default ON
+    castWeights: {},                // Stores actor preferences
+    crewWeights: {}, 
   };
 });
   

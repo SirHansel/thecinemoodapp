@@ -1509,79 +1509,31 @@ const getFilteredRecommendations = (rawMovies, userPrefs, tasteThresholds, allow
 };
 
 const getDetailedRecommendations = async (rawMovies, foreignMovies, userPrefs, allowRewatches = false) => {
-  const filteredMovies = applyAllFilters(rawMovies, userPrefs, allowRewatches);
-  // Skip platform filtering for foreign films (international releases)
-const filteredForeign = foreignMovies && foreignMovies.length > 0 
-  ? foreignMovies.filter(movie => {
-      // Only apply genre exclusions, not platform filtering
-      if (userPrefs.excludedGenreIds && userPrefs.excludedGenreIds.length > 0) {
-        const allowedGenres = Object.values(TMDB_GENRES).filter(id => !userPrefs.excludedGenreIds.includes(id));
-        return movie.genre_ids?.some(id => allowedGenres.includes(id));
-      }
-      return true; // Keep all foreign films if no genre exclusions
-    })
-  : [];
+  const applyAllFilters = (movies, userPrefs, allowRewatches = false) => {
+  console.log(`🔍 Applying filters to ${movies.length} movies`);
   
-  console.log('🎬 Filtered English movies:', filteredMovies.length);
-  console.log('🌍 Filtered foreign movies:', filteredForeign.length);
+  let filtered = movies;
   
-  if (filteredMovies.length >= 2) {  // Need at least 2 English for safe/stretch
-    const safeIndex = 0;
-    const stretchIndex = Math.floor(filteredMovies.length / 3);
-    
-    // Try to use foreign film for wild card, fallback to English
-    let wildMovie;
-    if (filteredForeign.length > 0) {
-      const wildIndex = Math.floor((filteredForeign.length * 2) / 3);
-      wildMovie = filteredForeign[wildIndex];
-      console.log('🌍 Using foreign film for wild card');
-    } else {
-      const wildIndex = Math.floor((filteredMovies.length * 2) / 3);
-      wildMovie = filteredMovies[wildIndex];
-      console.log('🇺🇸 No foreign films available, using English for wild card');
+  // Filter #1: Streaming platforms
+  filtered = filterByPlatforms(filtered, userPrefs);
+  
+  // Filter #2: Excluded genres  
+  filtered = filterByGenres(filtered, userPrefs);
+  
+  // Filter #3: Already watched
+  filtered = filterWatchedMovies(filtered, userPrefs, allowRewatches);
+  
+  // NEW Filter #4: Recently shown (prevent repeats on "Try Again")
+  if (recentlyShownMovies.length > 0) {
+    const beforeCount = filtered.length;
+    filtered = filtered.filter(m => !recentlyShownMovies.includes(m.id));
+    if (beforeCount !== filtered.length) {
+      console.log(`🔄 Removed ${beforeCount - filtered.length} recently shown movies`);
     }
-    
-    const selectedMovies = [
-      filteredMovies[safeIndex],
-      filteredMovies[stretchIndex],
-      wildMovie
-    ];
-    
-    console.log('🎯 Selected indices:', { 
-      safeIndex, 
-      stretchIndex, 
-      wildSource: filteredForeign.length > 0 ? 'foreign' : 'english',
-      totalEnglish: filteredMovies.length,
-      totalForeign: filteredForeign.length
-    });
-    
-    const detailedMovies = await Promise.all(
-      selectedMovies.map(async (movie) => {
-        const details = await fetchMovieDetails(movie.id);
-        return {
-          ...movie,
-          runtime: details?.runtime || Math.floor(Math.random() * 60) + 90
-        };
-      })
-    );
-    
-    return {
-      safe: { 
-        ...detailedMovies[0], 
-        reason: "🎯 Safe Bet: Available on your platforms" 
-      },
-      stretch: { 
-        ...detailedMovies[1], 
-        reason: "↗️ Stretch: Close enough to be a new favorite" 
-      },
-      wild: { 
-        ...detailedMovies[2], 
-        reason: "🎲 Wild Card: Hidden gem on your platforms" 
-      }
-    };
   }
   
-  return null;
+  console.log(`✨ Final filtered results: ${filtered.length} movies`);
+  return filtered;
 };
 
 // Convert star rating to preference weight
@@ -1714,7 +1666,30 @@ useEffect(() => {
     const keywordIds = []; // You can pass keywords from mood if you want
     
     console.log('🎯 Primary Genre:', result.context.chosenGenre);
-  
+  console.log('🔍 userPrefs.letterboxdData:', userPrefs.letterboxdData);
+    console.log('🔍 userPrefs.tasteProfile:', userPrefs.tasteProfile);
+    const profileStrength = analyzeProfileStrength(userPrefs.letterboxdData);
+    console.log('📊 Profile Analysis:', profileStrength);
+    
+    // ====== NEW: THREE-TIER FETCHING ======
+    console.log('🎬 Fetching three-tier recommendations...');
+    
+    const [safeRec, stretchRec, wildRec] = await Promise.all([
+      getSafeRecommendation(primaryGenre, keywordIds, userPrefs),
+      getStretchRecommendation(primaryGenre, keywordIds, userPrefs, profileStrength),
+      getWildRecommendation(primaryGenre, keywordIds, userPrefs)
+    ]);
+
+    // NEW: Track these movies so they don't reappear on "Try Again"
+    setRecentlyShownMovies(prev => [
+      ...prev,
+      safeRec?.id,
+      stretchRec?.id,
+      wildRec?.id
+    ].filter(Boolean).slice(-30)); // Keep last 30 shown movies
+    
+    console.log('📝 Tracked recently shown:', [safeRec?.id, stretchRec?.id, wildRec?.id]);
+
     // ====== NEW: ANALYZE PROFILE STRENGTH ======
        console.log('🔍 userPrefs.letterboxdData:', userPrefs.letterboxdData);
 console.log('🔍 userPrefs.tasteProfile:', userPrefs.tasteProfile);
@@ -2154,10 +2129,13 @@ const handleMoodAnswer = async (questionId, answerId) => {
     setQuestionIndex(questionIndex + 1);
   } else {
     await generateRecommendations();
+    
     setCurrentScreen('results');
   }
 };
 
+  
+  
   const spinWheel = () => {
     setIsSpinning(true);
     setTimeout(() => {

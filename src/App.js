@@ -2638,9 +2638,7 @@ if (currentScreen === 'results') {
     </div>
   );
 }
-<button onClick={handleStartOver}>
-  Start Over
-</button>
+
 
 {/* NEW: Add toggle here */}
 <div className="mt-6 p-4 bg-gray-800 rounded-lg border border-gray-700">

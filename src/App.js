@@ -1771,6 +1771,12 @@ const movieRecs = {
 setRecommendations(movieRecs);
 setLoading(false);
 
+      } catch (error) {
+    console.error('Error generating recommendations:', error);
+    setLoading(false);
+  }
+};
+
   const wheelMovies = [
     "Blade Runner 2049", "The Departed", "Mad Max: Fury Road", "Prisoners",
     "No Country for Old Men", "Drive", "Hell or High Water", "Wind River"

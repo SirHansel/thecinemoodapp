@@ -1724,14 +1724,7 @@ useEffect(() => {
       setLoading(false);
       return;
     }
-    
-    // ====== NEW: GET MOVIE DETAILS ======
-    const detailedMovies = await Promise.all([
-      fetchMovieDetails(safeRec.movie.id),
-      fetchMovieDetails(stretchRec.movie.id),
-      fetchMovieDetails(wildRec.movie.id)
-    ]);
-    
+        
     // ====== NEW: FORMAT RECOMMENDATIONS ======
     const movieRecs = {
       safe: {

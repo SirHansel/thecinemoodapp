@@ -2334,12 +2334,6 @@ if (currentScreen === 'setup') {
             </div>
           </label>
         </div>
-        
-        <button onClick={async () => { /* Start Finding Movies */ }}>
-          Start Finding Movies
-        </button>
-      </div>
-    </div>
   );
 }
   

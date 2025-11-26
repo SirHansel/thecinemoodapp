@@ -1622,6 +1622,7 @@ const loadUserPrefs = () => {
 const [userRating, setUserRating] = useState(0);
 const [isHalfStar, setIsHalfStar] = useState(false);
 const [showExclusions, setShowExclusions] = useState(false);
+const [recentlyShownMovies, setRecentlyShownMovies] = useState([]);
 
 useEffect(() => {
   saveUserPrefs(userPrefs);

@@ -2591,33 +2591,6 @@ if (currentScreen === 'results') {
   );
 }
 
-
-{/* NEW: Add toggle here */}
-<div className="mt-6 p-4 bg-gray-800 rounded-lg border border-gray-700">
-  <label className="flex items-center cursor-pointer">
-    <input
-      type="checkbox"
-      checked={userPrefs.enableCastCrewTracking}
-      onChange={(e) => {
-        const newPrefs = {
-          ...userPrefs,
-          enableCastCrewTracking: e.target.checked
-        };
-        setUserPrefs(newPrefs);
-       
-      saveUserPrefs(newPrefs);
-      }}
-      className="w-5 h-5 mr-3 cursor-pointer"
-    />
-    <div>
-      <span className="text-lg font-semibold">Track Actor & Director Preferences</span>
-      <p className="text-sm text-gray-400 mt-1">
-        Learn which actors and directors you prefer to improve recommendations. 
-        Includes 100 screen legends with bonus weighting. 👑
-      </p>
-    </div>
-  </label>
-</div>
  // Decision Screen
 if (currentScreen === 'decision') {
   return (

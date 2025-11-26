@@ -1786,6 +1786,7 @@ useEffect(() => {
   ];
   
   // Question Rotation System - Multiple variations per mood category
+
 const QUESTION_POOLS = {
   aesthetic: {
     variations: [
@@ -1797,7 +1798,7 @@ const QUESTION_POOLS = {
         { id: 'gold', text: 'Golden Radiant Halls', subtext: 'Opulent glows of triumph and luxury', style: 'gold' }
       ]
     },
-      {
+    {
       question: "What visual mood calls to you?",
       options: [
         { id: 'neon', text: 'Vibrant Electric Flash', subtext: 'Neon pinks and blues of bold energy', style: 'eighties' },
@@ -1813,8 +1814,8 @@ const QUESTION_POOLS = {
         { id: 'gold', text: 'Shadowy Noir Alleys', subtext: 'Mysterious blues cloaked in intrigue', style: 'shadow' }
       ]
     }
-  ]
-},
+    ]  // ← FIXED: Just close the array
+  },  // ← Then close the aesthetic object
   path: {
     variations: [
       {

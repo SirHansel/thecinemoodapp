@@ -1725,48 +1725,6 @@ useEffect(() => {
       return;
     }
         
-// ====== NEW: FORMAT RECOMMENDATIONS ======
-const movieRecs = {
-  safe: {
-    ...safeRec,  // safeRec already has all the movie data
-    title: safeRec.title,
-    year: safeRec.release_date?.slice(0, 4) || 'Unknown',
-    genre: safeRec.genre_ids?.map(id => 
-      Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === id)
-    ).slice(0, 2).join(', ') || 'Drama',
-    runtime: safeRec.runtime 
-      ? `${Math.floor(safeRec.runtime / 60)}h ${safeRec.runtime % 60}m` 
-      : '2h',
-    platform: userPrefs.platforms[0] || 'Netflix',
-    reason: "🎯 Safe Bet: Popular recent choice that most people love"
-  },
-  stretch: {
-    ...stretchRec,  // stretchRec already has all the movie data
-    title: stretchRec.title,
-    year: stretchRec.release_date?.slice(0, 4) || 'Unknown',
-    genre: stretchRec.genre_ids?.map(id => 
-      Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === id)
-    ).slice(0, 2).join(', ') || 'Drama',
-    runtime: stretchRec.runtime 
-      ? `${Math.floor(stretchRec.runtime / 60)}h ${stretchRec.runtime % 60}m` 
-      : '2h',
-    platform: userPrefs.platforms[0] || 'Prime',
-    reason: "↗️ Stretch: Highly-rated film matching your mood"
-  },
-  wild: {
-    ...wildRec,  // wildRec already has all the movie data
-    title: wildRec.title,
-    year: wildRec.release_date?.slice(0, 4) || 'Unknown',
-    genre: wildRec.genre_ids?.map(id => 
-      Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === id)
-    ).slice(0, 2).join(', ') || 'Drama',
-    runtime: wildRec.runtime 
-      ? `${Math.floor(wildRec.runtime / 60)}h ${wildRec.runtime % 60}m` 
-      : '2h',
-    platform: userPrefs.platforms[0] || 'Hulu',
-    reason: "🎲 Wild: Cult favorite hidden gem"
-  }
-};
 
 setRecommendations(movieRecs);
 setLoading(false);

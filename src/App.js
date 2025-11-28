@@ -2827,6 +2827,6 @@ const saveRating = () => {
 
   // Default fallback
   return null;
-};
+
 
 export default CineMoodApp;

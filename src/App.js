@@ -2813,7 +2813,7 @@ const saveRating = () => {
           </p>
         </div>
         
-        <button
+       <button
           onClick={saveRating}
           disabled={userRating === 0}
           className="w-full bg-green-600 hover:bg-green-700 disabled:bg-gray-600 text-white p-3 rounded font-medium"
@@ -2823,9 +2823,8 @@ const saveRating = () => {
       </div>
     </div>
   );
-}
+}  // ← Closes "watching" screen
 
- };
-
+};  // ← Closes CineMoodApp component
 
 export default CineMoodApp;

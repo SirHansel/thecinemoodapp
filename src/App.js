@@ -2279,7 +2279,7 @@ if (currentScreen === 'setup') {
   Clear All Exclusions (Debug)
 </button>
 
-{/* Expandable genre exclusions */}
+
 <div className="mb-4">
   <button 
     onClick={() => setShowExclusions(!showExclusions)}
@@ -2334,8 +2334,6 @@ if (currentScreen === 'setup') {
             </div>
           </label>
         </div>
-  );
-}
   
 <button
 
@@ -2374,11 +2372,11 @@ if (currentScreen === 'setup') {
 >   
   {csvProcessing ? 'Processing CSV...' : 'Start Finding Movies'}
 </button>
-          <p className="text-center text-sm text-gray-400 mt-3">Takes about 2 minutes</p>
-        </div>
-      </div>
-    );
-  }
+<p className="text-center text-sm text-gray-400 mt-3">Takes about 2 minutes</p>
+        </div>  
+      </div>   
+    );          
+  }      
 
 // Mood Discovery Screen
 if (currentScreen === 'mood') {
@@ -2469,7 +2467,7 @@ if (currentScreen === 'mood') {
      console.log('Path question options:', currentQuestion.options),
   // Path-specific 2-over-1 layout
   <div className="space-y-4">
-    {/* Top row: First two options */}
+   
     <div className="grid grid-cols-2 gap-4">
       {currentQuestion.options.slice(0, 2).map(option => (
         <button
@@ -2503,7 +2501,7 @@ if (currentScreen === 'mood') {
       ))}
     </div>
     
-    {/* Bottom row: Third option centered */}
+   
     <div className="flex justify-center">
       {currentQuestion.options.slice(2, 3).map(option => (
         <button

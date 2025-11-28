@@ -2824,66 +2824,7 @@ const saveRating = () => {
     </div>
   );
 }
-// Results Screen
-if (currentScreen === 'results') {
-  const recommendedMovies = currentRecommendations || {
-    safe: { title: "Loading...", year: 2024, genre: "Drama", runtime: "2h", platform: "Netflix", reason: "Finding movies..." },
-    stretch: { title: "Loading...", year: 2024, genre: "Drama", runtime: "2h", platform: "Prime", reason: "Finding movies..." },
-    wild: { title: "Loading...", year: 2024, genre: "Drama", runtime: "2h", platform: "Hulu", reason: "Finding movies..." }
-  };
- 
-  return (
-    <div className="min-h-screen bg-gray-900 text-gray-200 p-4">
-      <div className="max-w-md mx-auto bg-gray-800 rounded-lg p-6 border-2 border-gray-600">
-        <h2 className="text-center bg-gray-700 text-gray-200 p-3 rounded mb-6 text-lg font-bold">
-          Your Perfect Three
-        </h2>
-       
-        {loading && <div className="text-center text-blue-400 mb-4">Finding perfect movies...</div>}
-       
-        {Object.entries(recommendedMovies).map(([type, movie]) => (
-          <div 
-            key={type} 
-            onClick={() => handleWatchMovie(movie)}
-            className="bg-gray-700 border-2 border-gray-600 rounded-lg p-4 mb-4 cursor-pointer hover:border-green-500 transition-colors"
-          >
-            <div className="font-bold text-lg">{movie.title} ({movie.year})</div>
-            <div className="text-gray-400 text-sm mb-2">
-              {movie.genre} • {movie.runtime} • {movie.platform}
-            </div>
-            <div className="bg-blue-900/50 p-2 rounded text-xs italic text-blue-300 mt-2">
-              {movie.reason}
-            </div>
-            <div className="text-green-400 text-sm mt-2 flex items-center">
-              <Play className="inline w-4 h-4 mr-1" />
-              Click to watch
-            </div>
-          </div>
-        ))}
-       
-        <div className="grid grid-cols-2 gap-3 mt-4">
-          <button
-            onClick={() => setCurrentScreen('decision')}
-            className="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded font-medium"
-          >
-            Can't Decide?
-          </button>
-          <button
-            onClick={() => {
-              setQuestionIndex(0); 
-              setUserPrefs(prev => ({...prev, moodAnswers: {}}));
-              setCurrentScreen('mood');
-            }}
-            className="bg-gray-600 hover:bg-gray-700 text-white p-3 rounded font-medium flex items-center justify-center"
-          >
-            <RotateCcw className="inline w-4 h-4 mr-2" />
-            Try Again
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
+
   // Default fallback
   return null;
 };

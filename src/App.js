@@ -2745,7 +2745,7 @@ const saveRating = () => {
   
   // Calculate influence from rating
   const influence = getRatingInfluence(userRating);
-  console.log(`⭐ Rating ${userRating} → Influence: ${influence > 0 ? '+' : ''}${influence}`);
+   console.log(`⭐ Rating ${userRating} → Influence: ${influence > 0 ? '+' : ''}${influence}`);
   
   setUserPrefs(prev => {
     const newGenreWeights = { ...prev.genreWeights };
@@ -2756,7 +2756,7 @@ const saveRating = () => {
     if (movieRating.genre_ids) {
       movieRating.genre_ids.forEach(genreId => {
         newGenreWeights[genreId] = (newGenreWeights[genreId] || 0) + influence;
-        console.log(`  📊 Genre ${genreId}: ${newGenreWeights[genreId] > 0 ? '+' : ''}${newGenreWeights[genreId]}`);
+   console.log(`  📊 Genre ${genreId}: ${newGenreWeights[genreId] > 0 ? '+' : ''}${newGenreWeights[genreId]}`);
       });
     }
     
@@ -2771,7 +2771,7 @@ const saveRating = () => {
     if (movieRating.year) {
       const decade = Math.floor(movieRating.year / 10) * 10;
       newDecadeWeights[decade] = (newDecadeWeights[decade] || 0) + influence;
-      console.log(`  📅 ${decade}s: ${newDecadeWeights[decade] > 0 ? '+' : ''}${newDecadeWeights[decade]}`);
+   console.log(`  📅 ${decade}s: ${newDecadeWeights[decade] > 0 ? '+' : ''}${newDecadeWeights[decade]}`);
     }
     
     return {

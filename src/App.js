@@ -1711,7 +1711,7 @@ useEffect(() => {
           ? `${Math.floor(safeRec.runtime / 60)}h ${safeRec.runtime % 60}m` 
           : '2h',
         platform: userPrefs.platforms[0] || 'Netflix',
-        reason: "🎯 Safe Bet: Popular recent choice that most people love"
+        reason: safeRec.reason
       },
       stretch: {
         ...stretchRec.movie,
@@ -1724,7 +1724,7 @@ useEffect(() => {
           ? `${Math.floor(stretchRec.runtime / 60)}h ${stretchRec.runtime % 60}m` 
           : '2h',
         platform: userPrefs.platforms[0] || 'Prime',
-        reason: "↗️ Stretch: Highly-rated film matching your mood"
+        reason: safeStretch.reason
       },
       wild: {
         ...wildRec.movie,
@@ -1737,7 +1737,7 @@ useEffect(() => {
           ? `${Math.floor(wildRec.runtime / 60)}h ${wildRec.runtime % 60}m` 
           : '2h',
         platform: userPrefs.platforms[0] || 'Hulu',
-        reason: "🎲 Wild: Cult favorite hidden gem"
+        reason: safeWild.reason
       }
     };
     

@@ -1701,7 +1701,7 @@ useEffect(() => {
     // ====== FORMAT RECOMMENDATIONS ======
     const movieRecs = {
       safe: {
-        ...safeRec,
+            ...safeRec.movie,  // ← Add .movie
         title: safeRec.title,
         year: safeRec.release_date?.slice(0, 4) || 'Unknown',
         genre: safeRec.genre_ids?.map(id => 
@@ -1714,7 +1714,7 @@ useEffect(() => {
         reason: "🎯 Safe Bet: Popular recent choice that most people love"
       },
       stretch: {
-        ...stretchRec,
+        ...stretchRec.movie,
         title: stretchRec.title,
         year: stretchRec.release_date?.slice(0, 4) || 'Unknown',
         genre: stretchRec.genre_ids?.map(id => 
@@ -1727,7 +1727,7 @@ useEffect(() => {
         reason: "↗️ Stretch: Highly-rated film matching your mood"
       },
       wild: {
-        ...wildRec,
+        ...wildRec.movie,
         title: wildRec.title,
         year: wildRec.release_date?.slice(0, 4) || 'Unknown',
         genre: wildRec.genre_ids?.map(id => 

@@ -1509,33 +1509,7 @@ const getFilteredRecommendations = (rawMovies, userPrefs, tasteThresholds, allow
 };
 
 const getDetailedRecommendations = async (rawMovies, foreignMovies, userPrefs, allowRewatches = false) => {
-  const applyAllFilters = (movies, userPrefs, allowRewatches = false) => {
-  console.log(`🔍 Applying filters to ${movies.length} movies`);
   
-  let filtered = movies;
-  
-  // Filter #1: Streaming platforms
-  filtered = filterByPlatforms(filtered, userPrefs);
-  
-  // Filter #2: Excluded genres  
-  filtered = filterByGenres(filtered, userPrefs);
-  
-  // Filter #3: Already watched
-  filtered = filterWatchedMovies(filtered, userPrefs, allowRewatches);
-  
-  // NEW Filter #4: Recently shown (prevent repeats on "Try Again")
-  if (recentlyShownMovies.length > 0) {
-    const beforeCount = filtered.length;
-    filtered = filtered.filter(m => !recentlyShownMovies.includes(m.id));
-    if (beforeCount !== filtered.length) {
-      console.log(`🔄 Removed ${beforeCount - filtered.length} recently shown movies`);
-    }
-  }
-  
-  console.log(`✨ Final filtered results: ${filtered.length} movies`);
-  return filtered;
-};
-
 // Convert star rating to preference weight
 const getRatingInfluence = (rating) => {
   const weights = {

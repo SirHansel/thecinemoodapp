@@ -1508,8 +1508,6 @@ const getFilteredRecommendations = (rawMovies, userPrefs, tasteThresholds, allow
   return null;
 };
 
-const getDetailedRecommendations = async (rawMovies, foreignMovies, userPrefs, allowRewatches = false) => {
-  
 // Convert star rating to preference weight
 const getRatingInfluence = (rating) => {
   const weights = {

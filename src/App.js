@@ -2372,12 +2372,11 @@ if (currentScreen === 'setup') {
 >   
   {csvProcessing ? 'Processing CSV...' : 'Start Finding Movies'}
 </button>
-<p className="text-center text-sm text-gray-400 mt-3">Takes about 2 minutes</p>
-        </div>  
-      </div>   
-    );          
-  }      
-
+          <p className="text-center text-sm text-gray-400 mt-3">Takes about 2 minutes</p>
+        </div>
+      </div>
+    );
+  }
 // Mood Discovery Screen
 if (currentScreen === 'mood') {
   // console.log('Mood screen rendering');
@@ -2553,7 +2552,6 @@ textshadow: '0 0 2px rgba(160, 160, 160, 0.6), 0 0 4px rgba(160, 160, 160, 0.4)'
 </div>
 );
 }
-
 // Results Screen
 if (currentScreen === 'results') {
   const recommendedMovies = recommendations;
@@ -2627,8 +2625,7 @@ if (currentScreen === 'decision') {
        
         <div className="text-center mb-6">
           <div
-            className={`w-48 h-48 mx-auto rounded-full border-4 border-gray-600 flex items-center justify-center transition-transform duration-2000 ${isSpinning ? 'animate-spin' : ''}`}
-            style={{
+className={`w-48 h-48 mx-auto rounded-full border-4 border-gray-600 flex items-center justify-center transition-transform duration-2000 ${isSpinning ? 'animate-spin' : ''}`}            style={{
               background: `conic-gradient(
                 #0f3460 0deg 45deg,
                 #e94560 45deg 90deg,

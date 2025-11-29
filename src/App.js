@@ -2719,7 +2719,7 @@ if (currentScreen === 'luckyResult') {
   );
 }
 
-// Watching/Feedback Screen
+// WatchingFeedback Screen
 if (currentScreen === 'watching') {
   const watchedMovie = selectedMovie || { title: "Heat", year: 1995 };
   
@@ -2740,8 +2740,7 @@ const saveRating = () => {
   
   // Calculate influence from rating
   const influence = getRatingInfluence(userRating);
-   console.log(`⭐ Rating ${userRating} → Influence: ${influence > 0 ? '+' : ''}${influence}`);
-  
+console.log(`⭐ Rating ${userRating} → Influence: ${influence > 0 ? '+' : ''}${influence}`);
   setUserPrefs(prev => {
     const newGenreWeights = { ...prev.genreWeights };
     const newKeywordWeights = { ...prev.keywordWeights };
@@ -2752,8 +2751,8 @@ const saveRating = () => {
       movieRating.genre_ids.forEach(genreId => {
         newGenreWeights[genreId] = (newGenreWeights[genreId] || 0) + influence;
    console.log(`  📊 Genre ${genreId}: ${newGenreWeights[genreId] > 0 ? '+' : ''}${newGenreWeights[genreId]}`);
-      });
-    }
+});
+}
     
     // Update keyword weights
     if (movieRating.keywords) {
@@ -2766,7 +2765,7 @@ const saveRating = () => {
     if (movieRating.year) {
       const decade = Math.floor(movieRating.year / 10) * 10;
       newDecadeWeights[decade] = (newDecadeWeights[decade] || 0) + influence;
-   console.log(`  📅 ${decade}s: ${newDecadeWeights[decade] > 0 ? '+' : ''}${newDecadeWeights[decade]}`);
+     console.log(`  📅 ${decade}s: ${newDecadeWeights[decade] > 0 ? '+' : ''}${newDecadeWeights[decade]}`);
     }
     
     return {

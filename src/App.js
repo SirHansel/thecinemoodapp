@@ -1654,12 +1654,12 @@ useEffect(() => {
     ]);
 
     // NEW: Track these movies so they don't reappear on "Try Again"
-    setRecentlyShownMovies(prev => [
-      ...prev,
-      safeRec?.id,
-      stretchRec?.id,
-      wildRec?.id
-    ].filter(Boolean).slice(-30)); // Keep last 30 shown movies
+   setRecentlyShownMovies(prev => [
+  ...prev,
+  safeRec?.movie?.id,
+  stretchRec?.movie?.id,
+  wildRec?.movie?.id
+].filter(Boolean).slice(-30)); // Keep last 30 shown movies
     
     console.log('📝 Tracked recently shown:', [safeRec?.id, stretchRec?.id, wildRec?.id]);
     
@@ -1699,47 +1699,47 @@ useEffect(() => {
     }
     
     // ====== FORMAT RECOMMENDATIONS ======
-    const movieRecs = {
-      safe: {
-            ...safeRec.movie,  // ← Add .movie
-        title: safeRec.title,
-        year: safeRec.release_date?.slice(0, 4) || 'Unknown',
-        genre: safeRec.genre_ids?.map(id => 
-          Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === id)
-        ).slice(0, 2).join(', ') || 'Drama',
-        runtime: safeRec.runtime 
-          ? `${Math.floor(safeRec.runtime / 60)}h ${safeRec.runtime % 60}m` 
-          : '2h',
-        platform: userPrefs.platforms[0] || 'Netflix',
-        reason: safeRec.reason
-      },
-      stretch: {
-        ...stretchRec.movie,
-        title: stretchRec.title,
-        year: stretchRec.release_date?.slice(0, 4) || 'Unknown',
-        genre: stretchRec.genre_ids?.map(id => 
-          Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === id)
-        ).slice(0, 2).join(', ') || 'Drama',
-        runtime: stretchRec.runtime 
-          ? `${Math.floor(stretchRec.runtime / 60)}h ${stretchRec.runtime % 60}m` 
-          : '2h',
-        platform: userPrefs.platforms[0] || 'Prime',
-        reason: stretchRec.reason
-      },
-      wild: {
-        ...wildRec.movie,
-        title: wildRec.title,
-        year: wildRec.release_date?.slice(0, 4) || 'Unknown',
-        genre: wildRec.genre_ids?.map(id => 
-          Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === id)
-        ).slice(0, 2).join(', ') || 'Drama',
-        runtime: wildRec.runtime 
-          ? `${Math.floor(wildRec.runtime / 60)}h ${wildRec.runtime % 60}m` 
-          : '2h',
-        platform: userPrefs.platforms[0] || 'Hulu',
-        reason: wildRec.reason
-      }
-    };
+   const movieRecs = {
+  safe: {
+    ...safeRec.movie,
+    title: safeRec.movie.title,
+    year: safeRec.movie.release_date?.slice(0, 4) || 'Unknown',
+    genre: safeRec.movie.genre_ids?.map(id => 
+      Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === id)
+    ).slice(0, 2).join(', ') || 'Drama',
+    runtime: safeRec.movie.runtime 
+      ? `${Math.floor(safeRec.movie.runtime / 60)}h ${safeRec.movie.runtime % 60}m` 
+      : '2h',
+    platform: userPrefs.platforms[0] || 'Netflix',
+    reason: safeRec.reason
+  },
+  stretch: {
+    ...stretchRec.movie,
+    title: stretchRec.movie.title,
+    year: stretchRec.movie.release_date?.slice(0, 4) || 'Unknown',
+    genre: stretchRec.movie.genre_ids?.map(id => 
+      Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === id)
+    ).slice(0, 2).join(', ') || 'Drama',
+    runtime: stretchRec.movie.runtime 
+      ? `${Math.floor(stretchRec.movie.runtime / 60)}h ${stretchRec.movie.runtime % 60}m` 
+      : '2h',
+    platform: userPrefs.platforms[0] || 'Prime',
+    reason: stretchRec.reason
+  },
+  wild: {
+    ...wildRec.movie,
+    title: wildRec.movie.title,
+    year: wildRec.movie.release_date?.slice(0, 4) || 'Unknown',
+    genre: wildRec.movie.genre_ids?.map(id => 
+      Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === id)
+    ).slice(0, 2).join(', ') || 'Drama',
+    runtime: wildRec.movie.runtime 
+      ? `${Math.floor(wildRec.movie.runtime / 60)}h ${wildRec.movie.runtime % 60}m` 
+      : '2h',
+    platform: userPrefs.platforms[0] || 'Hulu',
+    reason: wildRec.reason
+  }
+};
     
     setRecommendations(movieRecs);
     setLoading(false);

@@ -1659,41 +1659,52 @@ useEffect(() => {
   safeRec?.movie?.id,
   stretchRec?.movie?.id,
   wildRec?.movie?.id
-].filter(Boolean).slice(-30)); // Keep last 30 shown movies
+].filter(Boolean).slice(-30));
+
+console.log('📝 Tracked IDs:', safeRec?.movie?.id, stretchRec?.movie?.id, wildRec?.movie?.id); 
     
     console.log('📝 Tracked recently shown:', [safeRec?.id, stretchRec?.id, wildRec?.id]);
-    
+    console.log('🔍 safeRec:', safeRec);
+console.log('🔍 stretchRec:', stretchRec);
+console.log('🔍 wildRec:', wildRec);
+
     // Validate we got all three
-    if (!safeRec || !stretchRec || !wildRec) {
-      console.log('⚠️ Missing recommendations, using fallback');
-      // Fallback to your old system if needed
-      const shuffled = result.movies.sort(() => 0.5 - Math.random());
-      setRecommendations({
-        safe: {
-          title: shuffled[0].title,
-          year: shuffled[0].release_date?.slice(0, 4) || 'Unknown',
-          genre: "Drama",
-          runtime: "2h",
-          platform: userPrefs.platforms[0] || "Netflix",
-          reason: "🎯 Safe Bet: Popular choice"
-        },
-        stretch: {
-          title: shuffled[1].title,
-          year: shuffled[1].release_date?.slice(0, 4) || 'Unknown',
-          genre: "Drama",
-          runtime: "2h",
-          platform: userPrefs.platforms[0] || "Prime",
-          reason: "↗️ Stretch: Based on your mood"
-        },
-        wild: {
-          title: shuffled[2].title,
-          year: shuffled[2].release_date?.slice(0, 4) || 'Unknown',
-          genre: "Drama",
-          runtime: "2h",
-          platform: userPrefs.platforms[0] || "Hulu",
-          reason: "🎲 Wild: Something different"
-        }
-      });
+  const shuffled = result.movies.sort(() => 0.5 - Math.random());
+setRecommendations({
+  safe: {
+    ...shuffled[0],
+    title: shuffled[0].title,
+    year: shuffled[0].release_date?.slice(0, 4) || 'Unknown',
+    genre: shuffled[0].genre_ids?.map(id => 
+      Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === id)
+    ).slice(0, 2).join(', ') || "Drama",
+    runtime: shuffled[0].runtime || "Unknown runtime",
+    platform: userPrefs.platforms[0] || "Netflix",
+    reason: "🎯 Safe Bet: Popular choice"
+  },
+  stretch: {
+    ...shuffled[1],
+    title: shuffled[1].title,
+    year: shuffled[1].release_date?.slice(0, 4) || 'Unknown',
+    genre: shuffled[1].genre_ids?.map(id => 
+      Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === id)
+    ).slice(0, 2).join(', ') || "Drama",
+    runtime: shuffled[1].runtime || "Unknown runtime",
+    platform: userPrefs.platforms[0] || "Prime",
+    reason: "↗️ Stretch: Based on your mood"
+  },
+  wild: {
+    ...shuffled[2],
+    title: shuffled[2].title,
+    year: shuffled[2].release_date?.slice(0, 4) || 'Unknown',
+    genre: shuffled[2].genre_ids?.map(id => 
+      Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === id)
+    ).slice(0, 2).join(', ') || "Drama",
+    runtime: shuffled[2].runtime || "Unknown runtime",
+    platform: userPrefs.platforms[0] || "Hulu",
+    reason: "🎲 Wild: Something different"
+  }
+});
       setLoading(false);
       return;
     }

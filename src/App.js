@@ -1646,111 +1646,114 @@ useEffect(() => {
     
     // ====== NEW: THREE-TIER FETCHING ======
     console.log('🎬 Fetching three-tier recommendations...');
-    
-    const [safeRec, stretchRec, wildRec] = await Promise.all([
+   const [safeRec, stretchRec, wildRec] = await Promise.all([
       getSafeRecommendation(primaryGenre, keywordIds, userPrefs),
       getStretchRecommendation(primaryGenre, keywordIds, userPrefs, profileStrength),
       getWildRecommendation(primaryGenre, keywordIds, userPrefs)
     ]);
 
-    // NEW: Track these movies so they don't reappear on "Try Again"
-   setRecentlyShownMovies(prev => [
-  ...prev,
-  safeRec?.movie?.id,
-  stretchRec?.movie?.id,
-  wildRec?.movie?.id
-].filter(Boolean).slice(-30));
-
-console.log('📝 Tracked IDs:', safeRec?.movie?.id, stretchRec?.movie?.id, wildRec?.movie?.id); 
-    
-    console.log('📝 Tracked recently shown:', [safeRec?.id, stretchRec?.id, wildRec?.id]);
+    // ====== DEBUG LOGGING ======
     console.log('🔍 safeRec:', safeRec);
-console.log('🔍 stretchRec:', stretchRec);
-console.log('🔍 wildRec:', wildRec);
+    console.log('🔍 stretchRec:', stretchRec);
+    console.log('🔍 wildRec:', wildRec);
 
-    // Validate we got all three
-  const shuffled = result.movies.sort(() => 0.5 - Math.random());
-setRecommendations({
-  safe: {
-    ...shuffled[0],
-    title: shuffled[0].title,
-    year: shuffled[0].release_date?.slice(0, 4) || 'Unknown',
-    genre: shuffled[0].genre_ids?.map(id => 
-      Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === id)
-    ).slice(0, 2).join(', ') || "Drama",
-    runtime: shuffled[0].runtime || "Unknown runtime",
-    platform: userPrefs.platforms[0] || "Netflix",
-    reason: "🎯 Safe Bet: Popular choice"
-  },
-  stretch: {
-    ...shuffled[1],
-    title: shuffled[1].title,
-    year: shuffled[1].release_date?.slice(0, 4) || 'Unknown',
-    genre: shuffled[1].genre_ids?.map(id => 
-      Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === id)
-    ).slice(0, 2).join(', ') || "Drama",
-    runtime: shuffled[1].runtime || "Unknown runtime",
-    platform: userPrefs.platforms[0] || "Prime",
-    reason: "↗️ Stretch: Based on your mood"
-  },
-  wild: {
-    ...shuffled[2],
-    title: shuffled[2].title,
-    year: shuffled[2].release_date?.slice(0, 4) || 'Unknown',
-    genre: shuffled[2].genre_ids?.map(id => 
-      Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === id)
-    ).slice(0, 2).join(', ') || "Drama",
-    runtime: shuffled[2].runtime || "Unknown runtime",
-    platform: userPrefs.platforms[0] || "Hulu",
-    reason: "🎲 Wild: Something different"
-  }
-});
+    // ====== TRACK RECENTLY SHOWN MOVIES ======
+    setRecentlyShownMovies(prev => [
+      ...prev,
+      safeRec?.movie?.id,
+      stretchRec?.movie?.id,
+      wildRec?.movie?.id
+    ].filter(Boolean).slice(-30));
+    
+    console.log('📝 Tracked IDs:', safeRec?.movie?.id, stretchRec?.movie?.id, wildRec?.movie?.id);
+    
+    // ====== VALIDATE WE GOT ALL THREE ======
+    if (!safeRec || !stretchRec || !wildRec) {
+      console.log('⚠️ Missing recommendations, using fallback');
+      
+      // Fallback to basic system
+      const shuffled = result.movies.sort(() => 0.5 - Math.random());
+      setRecommendations({
+        safe: {
+          ...shuffled[0],
+          title: shuffled[0].title,
+          year: shuffled[0].release_date?.slice(0, 4) || 'Unknown',
+          genre: shuffled[0].genre_ids?.map(id => 
+            Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === id)
+          ).slice(0, 2).join(', ') || "Drama",
+          runtime: shuffled[0].runtime || "Unknown runtime",
+          platform: userPrefs.platforms[0] || "Netflix",
+          reason: "🎯 Safe Bet: Popular choice"
+        },
+        stretch: {
+          ...shuffled[1],
+          title: shuffled[1].title,
+          year: shuffled[1].release_date?.slice(0, 4) || 'Unknown',
+          genre: shuffled[1].genre_ids?.map(id => 
+            Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === id)
+          ).slice(0, 2).join(', ') || "Drama",
+          runtime: shuffled[1].runtime || "Unknown runtime",
+          platform: userPrefs.platforms[0] || "Prime",
+          reason: "↗️ Stretch: Based on your mood"
+        },
+        wild: {
+          ...shuffled[2],
+          title: shuffled[2].title,
+          year: shuffled[2].release_date?.slice(0, 4) || 'Unknown',
+          genre: shuffled[2].genre_ids?.map(id => 
+            Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === id)
+          ).slice(0, 2).join(', ') || "Drama",
+          runtime: shuffled[2].runtime || "Unknown runtime",
+          platform: userPrefs.platforms[0] || "Hulu",
+          reason: "🎲 Wild: Something different"
+        }
+      });
       setLoading(false);
       return;
     }
     
-    // ====== FORMAT RECOMMENDATIONS ======
-   const movieRecs = {
-  safe: {
-    ...safeRec.movie,
-    title: safeRec.movie.title,
-    year: safeRec.movie.release_date?.slice(0, 4) || 'Unknown',
-    genre: safeRec.movie.genre_ids?.map(id => 
-      Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === id)
-    ).slice(0, 2).join(', ') || 'Drama',
-    runtime: safeRec.movie.runtime 
-      ? `${Math.floor(safeRec.movie.runtime / 60)}h ${safeRec.movie.runtime % 60}m` 
-      : '2h',
-    platform: userPrefs.platforms[0] || 'Netflix',
-    reason: safeRec.reason
-  },
-  stretch: {
-    ...stretchRec.movie,
-    title: stretchRec.movie.title,
-    year: stretchRec.movie.release_date?.slice(0, 4) || 'Unknown',
-    genre: stretchRec.movie.genre_ids?.map(id => 
-      Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === id)
-    ).slice(0, 2).join(', ') || 'Drama',
-    runtime: stretchRec.movie.runtime 
-      ? `${Math.floor(stretchRec.movie.runtime / 60)}h ${stretchRec.movie.runtime % 60}m` 
-      : '2h',
-    platform: userPrefs.platforms[0] || 'Prime',
-    reason: stretchRec.reason
-  },
-  wild: {
-    ...wildRec.movie,
-    title: wildRec.movie.title,
-    year: wildRec.movie.release_date?.slice(0, 4) || 'Unknown',
-    genre: wildRec.movie.genre_ids?.map(id => 
-      Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === id)
-    ).slice(0, 2).join(', ') || 'Drama',
-    runtime: wildRec.movie.runtime 
-      ? `${Math.floor(wildRec.movie.runtime / 60)}h ${wildRec.movie.runtime % 60}m` 
-      : '2h',
-    platform: userPrefs.platforms[0] || 'Hulu',
-    reason: wildRec.reason
-  }
-};
+    // ====== FORMAT RECOMMENDATIONS (MAIN PATH) ======
+    const movieRecs = {
+      safe: {
+        ...safeRec.movie,
+        title: safeRec.movie.title,
+        year: safeRec.movie.release_date?.slice(0, 4) || 'Unknown',
+        genre: safeRec.movie.genre_ids?.map(id => 
+          Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === id)
+        ).slice(0, 2).join(', ') || 'Drama',
+        runtime: safeRec.movie.runtime 
+          ? `${Math.floor(safeRec.movie.runtime / 60)}h ${safeRec.movie.runtime % 60}m` 
+          : '2h',
+        platform: userPrefs.platforms[0] || 'Netflix',
+        reason: safeRec.reason
+      },
+      stretch: {
+        ...stretchRec.movie,
+        title: stretchRec.movie.title,
+        year: stretchRec.movie.release_date?.slice(0, 4) || 'Unknown',
+        genre: stretchRec.movie.genre_ids?.map(id => 
+          Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === id)
+        ).slice(0, 2).join(', ') || 'Drama',
+        runtime: stretchRec.movie.runtime 
+          ? `${Math.floor(stretchRec.movie.runtime / 60)}h ${stretchRec.movie.runtime % 60}m` 
+          : '2h',
+        platform: userPrefs.platforms[0] || 'Prime',
+        reason: stretchRec.reason
+      },
+      wild: {
+        ...wildRec.movie,
+        title: wildRec.movie.title,
+        year: wildRec.movie.release_date?.slice(0, 4) || 'Unknown',
+        genre: wildRec.movie.genre_ids?.map(id => 
+          Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === id)
+        ).slice(0, 2).join(', ') || 'Drama',
+        runtime: wildRec.movie.runtime 
+          ? `${Math.floor(wildRec.movie.runtime / 60)}h ${wildRec.movie.runtime % 60}m` 
+          : '2h',
+        platform: userPrefs.platforms[0] || 'Hulu',
+        reason: wildRec.reason
+      }
+    };
     
     setRecommendations(movieRecs);
     setLoading(false);
@@ -1760,8 +1763,6 @@ setRecommendations({
     setLoading(false);
   }
 };
-
- 
 
   const wheelMovies = [
     "Blade Runner 2049", "The Departed", "Mad Max: Fury Road", "Prisoners",

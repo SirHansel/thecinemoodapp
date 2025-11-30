@@ -1724,7 +1724,7 @@ useEffect(() => {
           ? `${Math.floor(stretchRec.runtime / 60)}h ${stretchRec.runtime % 60}m` 
           : '2h',
         platform: userPrefs.platforms[0] || 'Prime',
-        reason: safeStretch.reason
+        reason: stretchRec.reason
       },
       wild: {
         ...wildRec.movie,
@@ -1737,7 +1737,7 @@ useEffect(() => {
           ? `${Math.floor(wildRec.runtime / 60)}h ${wildRec.runtime % 60}m` 
           : '2h',
         platform: userPrefs.platforms[0] || 'Hulu',
-        reason: safeWild.reason
+        reason: wildRec.reason
       }
     };
     

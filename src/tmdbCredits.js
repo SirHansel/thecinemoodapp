@@ -1,5 +1,5 @@
 // src/tmdbCredits.js
-
+import { getLegendMultiplier } from './screenLegends';
 const TMDB_API_KEY = 'ff6802ce657f3eb0920728b788c1842b';
 const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
 

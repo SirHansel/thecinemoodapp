@@ -1656,7 +1656,30 @@ useEffect(() => {
     console.log('🔍 safeRec:', safeRec);
     console.log('🔍 stretchRec:', stretchRec);
     console.log('🔍 wildRec:', wildRec);
+// ====== NEW: FETCH RUNTIME DETAILS ======
+console.log('⏱️ Fetching runtime details...');
+const [safeDetails, stretchDetails, wildDetails] = await Promise.all([
+  safeRec?.movie?.id ? fetchMovieDetails(safeRec.movie.id) : null,
+  stretchRec?.movie?.id ? fetchMovieDetails(stretchRec.movie.id) : null,
+  wildRec?.movie?.id ? fetchMovieDetails(wildRec.movie.id) : null
+]);
 
+// Enrich movies with runtime data
+if (safeRec && safeDetails) {
+  safeRec.movie.runtime = safeDetails.runtime;
+}
+if (stretchRec && stretchDetails) {
+  stretchRec.movie.runtime = stretchDetails.runtime;
+}
+if (wildRec && wildDetails) {
+  wildRec.movie.runtime = wildDetails.runtime;
+}
+
+console.log('✅ Runtimes fetched:', {
+  safe: safeDetails?.runtime,
+  stretch: stretchDetails?.runtime,
+  wild: wildDetails?.runtime
+});
     // ====== TRACK RECENTLY SHOWN MOVIES ======
     setRecentlyShownMovies(prev => [
       ...prev,
@@ -1681,7 +1704,9 @@ useEffect(() => {
           genre: shuffled[0].genre_ids?.map(id => 
             Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === id)
           ).slice(0, 2).join(', ') || "Drama",
-          runtime: shuffled[0].runtime || "Unknown runtime",
+          runtime: shuffled[0].runtime 
+  ? `${Math.floor(shuffled[0].runtime / 60)}h ${shuffled[0].runtime % 60}m` 
+  : 'Runtime N/A',
           platform: userPrefs.platforms[0] || "Netflix",
           reason: "🎯 Safe Bet: Popular choice"
         },
@@ -1692,7 +1717,9 @@ useEffect(() => {
           genre: shuffled[1].genre_ids?.map(id => 
             Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === id)
           ).slice(0, 2).join(', ') || "Drama",
-          runtime: shuffled[1].runtime || "Unknown runtime",
+         runtime: shuffled[0].runtime 
+  ? `${Math.floor(shuffled[0].runtime / 60)}h ${shuffled[0].runtime % 60}m` 
+  : 'Runtime N/A',
           platform: userPrefs.platforms[0] || "Prime",
           reason: "↗️ Stretch: Based on your mood"
         },
@@ -1703,7 +1730,9 @@ useEffect(() => {
           genre: shuffled[2].genre_ids?.map(id => 
             Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === id)
           ).slice(0, 2).join(', ') || "Drama",
-          runtime: shuffled[2].runtime || "Unknown runtime",
+          runtime: shuffled[0].runtime 
+  ? `${Math.floor(shuffled[0].runtime / 60)}h ${shuffled[0].runtime % 60}m` 
+  : 'Runtime N/A',
           platform: userPrefs.platforms[0] || "Hulu",
           reason: "🎲 Wild: Something different"
         }

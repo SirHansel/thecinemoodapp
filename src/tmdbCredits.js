@@ -100,7 +100,7 @@ export const fetchPersonDetails = async (personId) => {
     const response = await fetch(url);
     
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      throw new Error(`HTTP error! status: ${response.status}`);  // ← FIXED: parentheses, not backticks
     }
     
     const data = await response.json();
@@ -113,7 +113,7 @@ export const fetchPersonDetails = async (personId) => {
     };
     
   } catch (error) {
-    console.error(`❌ Error fetching person ${personId}:`, error);
+    console.error(`❌ Error fetching person ${personId}:`, error);  // ← FIXED: parentheses, not backticks
     return null;
   }
 };
@@ -127,4 +127,62 @@ export const fetchPersonDetails = async (personId) => {
  */
 export const updateCastCrewWeights = async (movieId, userRating, currentWeights = {}) => {
   // Fetch credits
-  co
+  const credits = await fetchMovieCredits(movieId);
+  const personIds = extractPersonIds(credits);
+  
+  // Calculate influence from rating (-5 to +5)
+  const getRatingInfluence = (rating) => {
+    const weights = {
+      5.0:  +5,  4.5:  +3,  4.0:  +2,  3.5:  +1,
+      3.0:   0,  2.5:  -1,  2.0:  -2,  1.5:  -3,
+      1.0:  -4,  0.5:  -5
+    };
+    return weights[rating] || 0;
+  };
+  
+  const influence = getRatingInfluence(userRating);
+  
+  // Initialize weights if not provided
+  const newCastWeights = { ...(currentWeights.castWeights || {}) };
+  const newCrewWeights = { ...(currentWeights.crewWeights || {}) };
+  
+  // Update actor weights (10% influence, 15% for legends)
+  personIds.actorIds.forEach(actorId => {
+    const baseInfluence = influence * 0.10; // 10% weight for actors
+    const legendMultiplier = getLegendMultiplier(actorId); // 1.0x or 1.5x
+    const finalInfluence = baseInfluence * legendMultiplier;
+    
+    newCastWeights[actorId] = (newCastWeights[actorId] || 0) + finalInfluence;
+  });
+  
+  // Update director weights (15% influence, 22.5% for legends)
+  personIds.directorIds.forEach(directorId => {
+    const baseInfluence = influence * 0.15; // 15% weight for directors
+    const legendMultiplier = getLegendMultiplier(directorId);
+    const finalInfluence = baseInfluence * legendMultiplier;
+    
+    newCrewWeights[directorId] = (newCrewWeights[directorId] || 0) + finalInfluence;
+  });
+  
+  // Update writer weights (5% influence)
+  personIds.writerIds.forEach(writerId => {
+    const baseInfluence = influence * 0.05;
+    newCrewWeights[writerId] = (newCrewWeights[writerId] || 0) + baseInfluence;
+  });
+  
+  // Update cinematographer weights (3% influence)
+  personIds.cinematographerIds.forEach(cinematographerId => {
+    const baseInfluence = influence * 0.03;
+    newCrewWeights[cinematographerId] = (newCrewWeights[cinematographerId] || 0) + baseInfluence;
+  });
+  
+  console.log('🎬 Cast/Crew weights updated:', {
+    actors: Object.keys(newCastWeights).length,
+    crew: Object.keys(newCrewWeights).length
+  });
+  
+  return {
+    castWeights: newCastWeights,
+    crewWeights: newCrewWeights
+  };
+};

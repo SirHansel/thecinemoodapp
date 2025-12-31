@@ -2586,7 +2586,7 @@ if (currentScreen === 'results') {
   
             <div className="text-gray-400 text-sm mb-2">
               {movie.genre_ids ? movie.genre_ids.map(id => getGenreName(id)).join(', ') : 'Unknown'} • 
-              {movie.runtime ? `${movie.runtime}m` : 'Unknown runtime'} • 
+              {movie.runtime || 'Runtime N/A'} • 
               {movie.availablePlatforms?.[0] || userPrefs.platforms[Math.floor(Math.random() * userPrefs.platforms.length)]}
             </div>
             <div className="bg-blue-900/50 p-2 rounded text-xs italic text-blue-300 mt-2">

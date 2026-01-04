@@ -6,7 +6,6 @@ import { Play, RotateCcw, Settings, Star, ThumbsUp, Circle, Triangle, Square, Wa
 import { analyzeProfileStrength } from './letterboxdApi';
 import { fetchMovieCredits, extractPersonIds } from './tmdbCredits';
 import { getLegendMultiplier, isScreenLegend } from './screenLegends';
-import { getLegendMultiplier } from './screenLegends';
 // ========================================
 // DESIGN: Each mood answer gives Primary(5) + Secondary(2) + Tertiary(1) points to different genres
 // BENEFIT: Prevents point inflation, easy to tune, future-proof for question rotation

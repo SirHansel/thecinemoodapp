@@ -6,6 +6,7 @@ import { Play, RotateCcw, Settings, Star, ThumbsUp, Circle, Triangle, Square, Wa
 import { analyzeProfileStrength } from './letterboxdApi';
 import { fetchMovieCredits, extractPersonIds } from './tmdbCredits';
 import { getLegendMultiplier, isScreenLegend } from './screenLegends';
+import { getLegendMultiplier } from './screenLegends';
 // ========================================
 // DESIGN: Each mood answer gives Primary(5) + Secondary(2) + Tertiary(1) points to different genres
 // BENEFIT: Prevents point inflation, easy to tune, future-proof for question rotation
@@ -1057,6 +1058,89 @@ if (!movies || movies.length < 3) {
     return null;
   }
 };
+
+// ========================================
+// CAST/CREW SCORING SYSTEM
+// ========================================
+const scoreMovieByCastCrew = async (movie, userPrefs) => {
+  // Skip if cast/crew tracking is disabled
+  if (!userPrefs.enableCastCrewTracking) {
+    return 0;
+  }
+  
+  // Skip if no weights have been collected yet
+  const castWeights = userPrefs.castWeights || {};
+  const crewWeights = userPrefs.crewWeights || {};
+  
+  if (Object.keys(castWeights).length === 0 && Object.keys(crewWeights).length === 0) {
+    return 0;
+  }
+  
+  try {
+    // Fetch credits for this movie
+    const credits = await fetchMovieCredits(movie.id);
+    const personIds = extractPersonIds(credits);
+    
+    let totalScore = 0;
+    
+    // Score actors (10% base weight, 15% for legends)
+    personIds.actorIds.forEach(actorId => {
+      const actorWeight = castWeights[actorId] || 0;
+      if (actorWeight !== 0) {
+        const legendMultiplier = getLegendMultiplier(actorId);
+        const actorScore = actorWeight * 0.10 * legendMultiplier;
+        totalScore += actorScore;
+        
+        if (actorScore > 0.5) {
+          console.log(`  🎭 Actor ${actorId}: +${actorScore.toFixed(2)} ${legendMultiplier > 1 ? '👑' : ''}`);
+        }
+      }
+    });
+    
+    // Score directors (15% base weight, 22.5% for legends)
+    personIds.directorIds.forEach(directorId => {
+      const directorWeight = crewWeights[directorId] || 0;
+      if (directorWeight !== 0) {
+        const legendMultiplier = getLegendMultiplier(directorId);
+        const directorScore = directorWeight * 0.15 * legendMultiplier;
+        totalScore += directorScore;
+        
+        if (directorScore > 0.5) {
+          console.log(`  🎬 Director ${directorId}: +${directorScore.toFixed(2)} ${legendMultiplier > 1 ? '👑' : ''}`);
+        }
+      }
+    });
+    
+    // Score writers (5% weight)
+    personIds.writerIds.forEach(writerId => {
+      const writerWeight = crewWeights[writerId] || 0;
+      if (writerWeight !== 0) {
+        const writerScore = writerWeight * 0.05;
+        totalScore += writerScore;
+      }
+    });
+    
+    // Score cinematographers (3% weight)
+    personIds.cinematographerIds.forEach(cinematographerId => {
+      const cinematographerWeight = crewWeights[cinematographerId] || 0;
+      if (cinematographerWeight !== 0) {
+        const cinematographerScore = cinematographerWeight * 0.03;
+        totalScore += cinematographerScore;
+      }
+    });
+    
+    if (totalScore !== 0) {
+      console.log(`  🎯 Total cast/crew score: ${totalScore > 0 ? '+' : ''}${totalScore.toFixed(2)}`);
+    }
+    
+    return totalScore;
+    
+  } catch (error) {
+    console.error('❌ Error scoring movie by cast/crew:', error);
+    return 0;
+  }
+};
+
 // ========================================
 // THREE-TIER RECOMMENDATION SYSTEM
 // ========================================
@@ -1076,12 +1160,31 @@ const getSafeRecommendation = async (genreId, keywordIds, userPrefs) => {
   const filtered = applyAllFilters(movies, userPrefs);
   
   if (filtered.length > 0) {
-    // ✅ NEW: Randomly select from top 50 popular movies (or all if fewer)
     const safePool = filtered.slice(0, Math.min(50, filtered.length));
-    const randomIndex = Math.floor(Math.random() * safePool.length);
-    const selectedMovie = safePool[randomIndex];
     
-    console.log(`🎲 Safe: Selected #${randomIndex + 1} from top ${safePool.length} popular movies`);
+    // ====== NEW: CAST/CREW SCORING ======
+    console.log('🎬 Scoring Safe tier by cast/crew...');
+    
+    const scoredMovies = await Promise.all(
+      safePool.map(async (movie) => {
+        const castCrewScore = await scoreMovieByCastCrew(movie, userPrefs);
+        return {
+          ...movie,
+          castCrewScore,
+          finalScore: movie.popularity + (castCrewScore * 100) // Boost popularity by cast/crew score
+        };
+      })
+    );
+    
+    // Sort by final score (popularity + cast/crew boost)
+    const sorted = scoredMovies.sort((a, b) => b.finalScore - a.finalScore);
+    
+    // Pick from top 10 after cast/crew scoring
+    const topCandidates = sorted.slice(0, Math.min(10, sorted.length));
+    const randomIndex = Math.floor(Math.random() * topCandidates.length);
+    const selectedMovie = topCandidates[randomIndex];
+    
+    console.log(`🎲 Safe: Selected #${randomIndex + 1} from top ${topCandidates.length} (cast/crew scored)`);
     
     return {
       movie: selectedMovie,

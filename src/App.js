@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { fetchMoviesByGenre, fetchMovieDetails } from './tmdbApi';
+import { updateCastCrewWeights } from './tmdbCredits';
 import { parseLetterboxdCSV, analyzeUserTaste, combineRatingsWithTaste } from './letterboxdApi'; 
 import { Play, RotateCcw, Settings, Star, ThumbsUp, Circle, Triangle, Square, Waves, Sparkles, Leaf, Flame, Cloud, Sun, Box, Globe, Helix, BookOpen, Lamp, Hammer, Key, Mirror, Bridge } from 'lucide-react';// HYBRID SCORING SYSTEM
 import { analyzeProfileStrength } from './letterboxdApi';
@@ -2740,20 +2741,41 @@ if (currentScreen === 'watching') {
     setUserRating(starValue);
   };
   
-const saveRating = () => {
+const saveRating = async () => {  // ← ADD async
   const movieRating = {
     title: watchedMovie.title,
     year: watchedMovie.year,
     rating: userRating,
     dateWatched: new Date().toISOString(),
-    // NEW: Save genre_ids and keywords for weight calculation
     genre_ids: watchedMovie.genre_ids || [],
-    keywords: watchedMovie.keywords || []
+    keywords: watchedMovie.keywords || [],
+    id: watchedMovie.id  // ← ADD movie ID for credits fetching
   };
   
   // Calculate influence from rating
   const influence = getRatingInfluence(userRating);
-console.log(`⭐ Rating ${userRating} → Influence: ${influence > 0 ? '+' : ''}${influence}`);
+  console.log(`⭐ Rating ${userRating} → Influence: ${influence > 0 ? '+' : ''}${influence}`);
+  
+  // ====== NEW: FETCH CAST/CREW WEIGHTS ======
+  let castCrewUpdate = { castWeights: {}, crewWeights: {} };
+  
+  if (userPrefs.enableCastCrewTracking && movieRating.id) {
+    console.log('🎬 Fetching cast/crew for weight update...');
+    try {
+      castCrewUpdate = await updateCastCrewWeights(
+        movieRating.id, 
+        userRating, 
+        {
+          castWeights: userPrefs.castWeights || {},
+          crewWeights: userPrefs.crewWeights || {}
+        }
+      );
+      console.log('✅ Cast/crew weights updated');
+    } catch (error) {
+      console.error('❌ Failed to update cast/crew weights:', error);
+    }
+  }
+  
   setUserPrefs(prev => {
     const newGenreWeights = { ...prev.genreWeights };
     const newKeywordWeights = { ...prev.keywordWeights };
@@ -2763,9 +2785,9 @@ console.log(`⭐ Rating ${userRating} → Influence: ${influence > 0 ? '+' : ''}
     if (movieRating.genre_ids) {
       movieRating.genre_ids.forEach(genreId => {
         newGenreWeights[genreId] = (newGenreWeights[genreId] || 0) + influence;
-   console.log(`  📊 Genre ${genreId}: ${newGenreWeights[genreId] > 0 ? '+' : ''}${newGenreWeights[genreId]}`);
-});
-}
+        console.log(`  📊 Genre ${genreId}: ${newGenreWeights[genreId] > 0 ? '+' : ''}${newGenreWeights[genreId]}`);
+      });
+    }
     
     // Update keyword weights
     if (movieRating.keywords) {
@@ -2778,7 +2800,7 @@ console.log(`⭐ Rating ${userRating} → Influence: ${influence > 0 ? '+' : ''}
     if (movieRating.year) {
       const decade = Math.floor(movieRating.year / 10) * 10;
       newDecadeWeights[decade] = (newDecadeWeights[decade] || 0) + influence;
-     console.log(`  📅 ${decade}s: ${newDecadeWeights[decade] > 0 ? '+' : ''}${newDecadeWeights[decade]}`);
+      console.log(`  📅 ${decade}s: ${newDecadeWeights[decade] > 0 ? '+' : ''}${newDecadeWeights[decade]}`);
     }
     
     return {
@@ -2786,7 +2808,9 @@ console.log(`⭐ Rating ${userRating} → Influence: ${influence > 0 ? '+' : ''}
       watchedMovies: [...(prev.watchedMovies || []), movieRating],
       genreWeights: newGenreWeights,
       keywordWeights: newKeywordWeights,
-      decadeWeights: newDecadeWeights
+      decadeWeights: newDecadeWeights,
+      castWeights: castCrewUpdate.castWeights,      // ← ADD
+      crewWeights: castCrewUpdate.crewWeights       // ← ADD
     };
   });
   

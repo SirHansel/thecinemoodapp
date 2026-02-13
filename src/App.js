@@ -2347,6 +2347,49 @@ if (currentScreen === 'setup') {
     return (
       <div className="min-h-screen bg-gray-900 text-gray-200 p-4">
         <div className="max-w-md mx-auto bg-gray-800 rounded-lg p-6 border-2 border-gray-600">
+     
+      <div className="mb-6 bg-purple-900/30 p-4 rounded-lg">
+  <div className="font-bold mb-3 text-purple-300">
+    🎭 Quiz Mode
+  </div>
+  <div className="space-y-2">
+    <label className="flex items-center space-x-3 cursor-pointer">
+      <input
+        type="radio"
+        name="quizMode"
+        value="standard"
+        checked={userPrefs.quizMode === 'standard' || !userPrefs.quizMode}
+        onChange={(e) => {
+          const newPrefs = { ...userPrefs, quizMode: e.target.value };
+          setUserPrefs(newPrefs);
+          savePreferences(newPrefs);
+        }}
+        className="w-4 h-4"
+      />
+      <span className="text-gray-300">
+        Standard (Abstract symbols & aesthetics)
+      </span>
+    </label>
+    
+    <label className="flex items-center space-x-3 cursor-pointer">
+      <input
+        type="radio"
+        name="quizMode"
+        value="intuitive"
+        checked={userPrefs.quizMode === 'intuitive'}
+        onChange={(e) => {
+          const newPrefs = { ...userPrefs, quizMode: e.target.value };
+          setUserPrefs(newPrefs);
+          savePreferences(newPrefs);
+        }}
+        className="w-4 h-4"
+      />
+      <span className="text-gray-300">
+        Intuitive (Scenario-based questions)
+      </span>
+    </label>
+  </div>
+</div>
           <h2 className="text-center bg-gray-700 text-gray-200 p-3 rounded mb-6 text-lg font-bold">
             Welcome to CineMood
           </h2>

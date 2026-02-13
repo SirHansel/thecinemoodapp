@@ -2769,6 +2769,9 @@ if (currentScreen === 'results') {
           </button>
         </div>
       </div>
+              <div className="mt-8 text-center text-gray-500 text-xs pb-4">
+  © 2026 TheCineMood. All rights reserved.
+</div>
     </div>
   );
 }

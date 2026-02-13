@@ -3003,7 +3003,65 @@ const saveRating = async () => {  // ← ADD async
     </div>
   );
 }  // ← Closes "watching" screen
-
+const TermsOfService = ({ isOpen, onClose }) => {
+  if (!isOpen) return null;
+  
+  return (
+    <div className="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50" onClick={onClose}>
+      <div className="bg-gray-800 rounded-lg p-6 max-w-2xl max-h-[80vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+        <h2 className="text-2xl font-bold text-purple-400 mb-4">Terms of Service</h2>
+        
+        <div className="text-gray-300 space-y-4 text-sm">
+          <p className="font-bold text-white">© 2025 TheCineMood. All Rights Reserved.</p>
+          
+          <p>
+            TheCineMood and all associated code, algorithms, designs, and content are proprietary 
+            and confidential intellectual property.
+          </p>
+          
+          <p className="font-semibold text-white">Prohibited Uses:</p>
+          <ul className="list-disc ml-6 space-y-2">
+            <li>Unauthorized copying, reproduction, or distribution of this software</li>
+            <li>Reverse engineering, decompiling, or disassembling the application</li>
+            <li>Using this site's content or code for AI training or machine learning</li>
+            <li>Scraping, crawling, or automated data collection</li>
+            <li>Creating derivative works without explicit written permission</li>
+          </ul>
+          
+          <p className="font-semibold text-white">Use of Service:</p>
+          <p>
+            By accessing TheCineMood, you agree to use the service solely for personal, 
+            non-commercial movie discovery purposes. You may not reproduce, modify, or 
+            distribute any part of this application.
+          </p>
+          
+          <p className="font-semibold text-white">Data & Privacy:</p>
+          <p>
+            Your Letterboxd data and movie ratings are stored locally in your browser. 
+            We do not collect, store, or share your personal information.
+          </p>
+          
+          <p className="font-semibold text-white">TMDB Attribution:</p>
+          <p>
+            This product uses the TMDB API but is not endorsed or certified by TMDB. 
+            Movie data and images are property of their respective copyright holders.
+          </p>
+          
+          <p className="text-gray-400 text-xs mt-6">
+            For licensing inquiries or permissions, contact via GitHub repository.
+          </p>
+        </div>
+        
+        <button 
+          onClick={onClose}
+          className="mt-6 w-full bg-purple-600 hover:bg-purple-700 text-white p-3 rounded"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  );
+};
 };  // ← Closes CineMoodApp component
 
 export default CineMoodApp;

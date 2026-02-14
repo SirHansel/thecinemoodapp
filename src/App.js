@@ -1670,6 +1670,7 @@ const loadUserPrefs = () => {
 
 
   const [currentScreen, setCurrentScreen] = useState('setup');
+  const [showTerms, setShowTerms] = useState(false);
   const [userPrefs, setUserPrefs] = useState(() => {
   const savedPrefs = loadUserPrefs();
   

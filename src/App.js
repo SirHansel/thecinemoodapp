@@ -2708,7 +2708,18 @@ textshadow: '0 0 2px rgba(160, 160, 160, 0.6), 0 0 4px rgba(160, 160, 160, 0.4)'
 <p className="text-center text-sm text-gray-400 mt-6">
   Question {questionIndex + 1} of {currentQuestionSet.length}
 </p>
+
+  <div className="mt-8 text-center text-gray-500 text-xs pb-4 space-y-1">
+  <div>© 2025 TheCineMood. All rights reserved.</div>
+  <button 
+    onClick={() => setShowTerms(true)}
+    className="text-purple-400 hover:text-purple-300 underline"
+  >
+    Terms of Service
+  </button>
 </div>
+      
+  </div>
 </div>
 );
 }

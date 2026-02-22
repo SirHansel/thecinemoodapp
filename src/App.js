@@ -1748,6 +1748,78 @@ useEffect(() => {
       return;
     }
     
+   // ========================================
+// INTUITIVE MODE - GENERATE QUESTIONS
+// ========================================
+const generateIntuitiveQuestions = () => {
+  console.log('🎭 Generating Intuitive Mode questions...');
+  
+  const categories = ['setting', 'activity', 'object', 'time', 'weather', 'texture', 'color'];
+  const questions = [];
+  
+  // Get recently used scenarios from localStorage to avoid repetition
+  const recentScenarios = userPrefs.recentIntuitiveScenarios || [];
+  
+  categories.forEach(category => {
+    if (category === 'time') {
+      // Time has only one scenario with 4 fixed options
+      const scenario = INTUITIVE_SCENARIOS.time.time_of_day;
+      questions.push({
+        category: 'time',
+        scenarioKey: 'time_of_day',
+        scenario: scenario,
+        actions: shuffleArray(Object.entries(scenario.actions).map(([key, action]) => ({
+          key,
+          ...action
+        })))
+      });
+    } else if (category === 'weather') {
+      // Weather has rotating question framings
+      const scenario = INTUITIVE_SCENARIOS.weather.atmospheric_state;
+      const randomFraming = getRandomWeatherFraming();
+      questions.push({
+        category: 'weather',
+        scenarioKey: 'atmospheric_state',
+        scenario: { ...scenario, question: randomFraming },
+        actions: shuffleArray(Object.entries(scenario.actions).map(([key, action]) => ({
+          key,
+          ...action
+        })))
+      });
+    } else {
+      // Other categories: pick random scenario from pool
+      const recentForCategory = recentScenarios.filter(r => r.category === category).map(r => r.scenarioKey);
+      const { key, scenario } = getRandomScenario(category, recentForCategory);
+      
+      questions.push({
+        category,
+        scenarioKey: key,
+        scenario: scenario,
+        actions: shuffleArray(Object.entries(scenario.actions).map(([key, action]) => ({
+          key,
+          ...action
+        })))
+      });
+      
+      // Track this scenario as recently used
+      recentScenarios.push({ category, scenarioKey: key });
+    }
+  });
+  
+  // Keep only last 21 recent scenarios (3 per category)
+  const trimmedRecent = recentScenarios.slice(-21);
+  
+  // Save to preferences
+  setUserPrefs(prev => ({
+    ...prev,
+    recentIntuitiveScenarios: trimmedRecent
+  }));
+  
+  console.log('✅ Generated 7 intuitive questions:', questions);
+  setIntuitiveQuestions(questions);
+  setQuestionIndex(0);
+  setIntuitiveAnswers({});
+};
     const primaryGenre = result.context.primaryGenre || TMDB_GENRES.DRAMA;
     const keywordIds = []; // You can pass keywords from mood if you want
     

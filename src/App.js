@@ -6,6 +6,13 @@ import { Play, RotateCcw, Settings, Star, ThumbsUp, Circle, Triangle, Square, Wa
 import { analyzeProfileStrength } from './letterboxdApi';
 import { fetchMovieCredits, extractPersonIds } from './tmdbCredits';
 import { getLegendMultiplier, isScreenLegend } from './screenLegends';
+import { 
+  calculateIntuitiveScore, 
+  INTUITIVE_SCENARIOS, 
+  getRandomScenario, 
+  getRandomWeatherFraming, 
+  shuffleArray 
+} from './moodScoringIntuitive';
 // ========================================
 // DESIGN: Each mood answer gives Primary(5) + Secondary(2) + Tertiary(1) points to different genres
 // BENEFIT: Prevents point inflation, easy to tune, future-proof for question rotation
@@ -1671,6 +1678,8 @@ const loadUserPrefs = () => {
 
   const [currentScreen, setCurrentScreen] = useState('setup');
   const [showTerms, setShowTerms] = useState(false);
+  const [intuitiveAnswers, setIntuitiveAnswers] = useState({});
+  const [intuitiveQuestions, setIntuitiveQuestions] = useState(null);
   const [userPrefs, setUserPrefs] = useState(() => {
   const savedPrefs = loadUserPrefs();
   

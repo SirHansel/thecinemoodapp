@@ -2601,17 +2601,25 @@ if (currentScreen === 'setup') {
       setCsvProcessing(false);
     }
   
-    console.log('About to generate questions');
-    const questionSet = generateQuestionSet();
-    console.log('Generated question set:', questionSet);
-    setCurrentQuestionSet(questionSet);
-    
-    setCurrentScreen('mood');
+    // Check quiz mode and launch appropriate quiz
+    if (userPrefs.quizMode === 'intuitive') {
+      console.log('🎭 Launching Intuitive Mode');
+      generateIntuitiveQuestions();
+      setCurrentScreen('intuitive');
+    } else {
+      console.log('🎨 Launching Standard Mode');
+      const questionSet = generateQuestionSet();
+      console.log('Generated question set:', questionSet);
+      setCurrentQuestionSet(questionSet);
+      setCurrentScreen('mood');
+    }
   }}
+  
   disabled={csvProcessing}
   className="w-full bg-green-600 hover:bg-green-700 disabled:bg-gray-600 text-white p-3 rounded font-medium"
 >   
-  {csvProcessing ? 'Processing CSV...' : 'Start Finding Movies'}
+ {csvProcessing ? 'Processing CSV...' : 
+ userPrefs.quizMode === 'intuitive' ? '🎭 Start Intuitive Quiz' : '🎨 Start Mood Quiz'}
 </button>
           <p className="text-center text-sm text-gray-400 mt-3">Takes about 2 minutes</p>
         </div>

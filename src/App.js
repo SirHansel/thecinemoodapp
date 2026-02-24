@@ -2920,11 +2920,10 @@ textshadow: '0 0 2px rgba(160, 160, 160, 0.6), 0 0 4px rgba(160, 160, 160, 0.4)'
   >
     Terms of Service
   </button>
-</div>
-      
-  </div>
-</div>
-);
+</div>  
+       </div>
+    </div>
+  );
 }
 // Results Screen
 if (currentScreen === 'results') {
@@ -3218,6 +3217,7 @@ const saveRating = async () => {  // ← ADD async
     </div>
   );
 }  // ← Closes "watching" screen
+}; // ← Closes CineMoodApp component
 const TermsOfService = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
   

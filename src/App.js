@@ -2770,9 +2770,8 @@ if (currentScreen === 'intuitive') {
     </div>
   );
 }
-  const currentQuestion = currentQuestionSet[questionIndex];
-  const progress = ((questionIndex + 1) / currentQuestionSet.length) * 100;
-  
+ 
+
 //  console.log('Current question:', currentQuestion); 
 //  console.log('Question type:', currentQuestion?.type); 
 //  console.log('Has options:', !!currentQuestion?.options); 

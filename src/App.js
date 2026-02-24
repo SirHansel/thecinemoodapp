@@ -1729,24 +1729,6 @@ useEffect(() => {
   // Platforms array
   const platforms = ['Netflix', 'Prime', 'Hulu', 'Disney+', 'Criterion', 'Tubi'];
   const [letterboxdError, setLetterboxdError] = useState('');
-
-  // TMDB Integration - Test version without API
- const generateRecommendations = async () => {
-  setLoading(true);
-  try {
-    // Get mood-based genre selection
-    const result = await getMoodBasedMovies(
-      userPrefs.moodAnswers, 
-      userPrefs.tasteProfile, 
-      userPrefs.excludedGenreIds, 
-      userPrefs
-    );
-    
-    if (!result || !result.movies || result.movies.length < 3) {
-      console.log('❌ Not enough movies from TMDB');
-      setLoading(false);
-      return;
-    }
     
    // ========================================
 // INTUITIVE MODE - GENERATE QUESTIONS
@@ -1836,7 +1818,23 @@ const generateIntuitiveQuestions = () => {
       getStretchRecommendation(primaryGenre, keywordIds, userPrefs, profileStrength),
       getWildRecommendation(primaryGenre, keywordIds, userPrefs)
     ]);
-
+  // TMDB Integration - Test version without API
+ const generateRecommendations = async () => {
+  setLoading(true);
+  try {
+    // Get mood-based genre selection
+    const result = await getMoodBasedMovies(
+      userPrefs.moodAnswers, 
+      userPrefs.tasteProfile, 
+      userPrefs.excludedGenreIds, 
+      userPrefs
+    );
+    
+    if (!result || !result.movies || result.movies.length < 3) {
+      console.log('❌ Not enough movies from TMDB');
+      setLoading(false);
+      return;
+    }
     // ====== DEBUG LOGGING ======
     console.log('🔍 safeRec:', safeRec);
     console.log('🔍 stretchRec:', stretchRec);

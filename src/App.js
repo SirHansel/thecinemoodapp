@@ -1730,111 +1730,104 @@ useEffect(() => {
   const platforms = ['Netflix', 'Prime', 'Hulu', 'Disney+', 'Criterion', 'Tubi'];
   const [letterboxdError, setLetterboxdError] = useState('');
     
-   // ========================================
-// INTUITIVE MODE - GENERATE QUESTIONS
 // ========================================
-const generateIntuitiveQuestions = () => {
-  console.log('🎭 Generating Intuitive Mode questions...');
-  
-  const categories = ['setting', 'activity', 'object', 'time', 'weather', 'texture', 'color'];
-  const questions = [];
-  
-  // Get recently used scenarios from localStorage to avoid repetition
-  const recentScenarios = userPrefs.recentIntuitiveScenarios || [];
-  
-  categories.forEach(category => {
-    if (category === 'time') {
-      // Time has only one scenario with 4 fixed options
-      const scenario = INTUITIVE_SCENARIOS.time.time_of_day;
-      questions.push({
-        category: 'time',
-        scenarioKey: 'time_of_day',
-        scenario: scenario,
-        actions: shuffleArray(Object.entries(scenario.actions).map(([key, action]) => ({
-          key,
-          ...action
-        })))
-      });
-    } else if (category === 'weather') {
-      // Weather has rotating question framings
-      const scenario = INTUITIVE_SCENARIOS.weather.atmospheric_state;
-      const randomFraming = getRandomWeatherFraming();
-      questions.push({
-        category: 'weather',
-        scenarioKey: 'atmospheric_state',
-        scenario: { ...scenario, question: randomFraming },
-        actions: shuffleArray(Object.entries(scenario.actions).map(([key, action]) => ({
-          key,
-          ...action
-        })))
-      });
-    } else {
-      // Other categories: pick random scenario from pool
-      const recentForCategory = recentScenarios.filter(r => r.category === category).map(r => r.scenarioKey);
-      const { key, scenario } = getRandomScenario(category, recentForCategory);
+  // INTUITIVE MODE - GENERATE QUESTIONS
+  // ========================================
+  const generateIntuitiveQuestions = () => {
+    console.log('🎭 Generating Intuitive Mode questions...');
+    
+    const categories = ['setting', 'activity', 'object', 'time', 'weather', 'texture', 'color'];
+    const questions = [];
+    
+    const recentScenarios = userPrefs.recentIntuitiveScenarios || [];
+    
+    categories.forEach(category => {
+      if (category === 'time') {
+        const scenario = INTUITIVE_SCENARIOS.time.time_of_day;
+        questions.push({
+          category: 'time',
+          scenarioKey: 'time_of_day',
+          scenario: scenario,
+          actions: shuffleArray(Object.entries(scenario.actions).map(([key, action]) => ({
+            key,
+            ...action
+          })))
+        });
+      } else if (category === 'weather') {
+        const scenario = INTUITIVE_SCENARIOS.weather.atmospheric_state;
+        const randomFraming = getRandomWeatherFraming();
+        questions.push({
+          category: 'weather',
+          scenarioKey: 'atmospheric_state',
+          scenario: { ...scenario, question: randomFraming },
+          actions: shuffleArray(Object.entries(scenario.actions).map(([key, action]) => ({
+            key,
+            ...action
+          })))
+        });
+      } else {
+        const recentForCategory = recentScenarios.filter(r => r.category === category).map(r => r.scenarioKey);
+        const { key, scenario } = getRandomScenario(category, recentForCategory);
+        
+        questions.push({
+          category,
+          scenarioKey: key,
+          scenario: scenario,
+          actions: shuffleArray(Object.entries(scenario.actions).map(([key, action]) => ({
+            key,
+            ...action
+          })))
+        });
+        
+        recentScenarios.push({ category, scenarioKey: key });
+      }
+    });
+    
+    const trimmedRecent = recentScenarios.slice(-21);
+    
+    setUserPrefs(prev => ({
+      ...prev,
+      recentIntuitiveScenarios: trimmedRecent
+    }));
+    
+    console.log('✅ Generated 7 intuitive questions:', questions);
+    setIntuitiveQuestions(questions);
+    setQuestionIndex(0);
+    setIntuitiveAnswers({});
+  };
+
+  // TMDB Integration
+  const generateRecommendations = async () => {
+    setLoading(true);
+    try {
+      const result = await getMoodBasedMovies(
+        userPrefs.moodAnswers, 
+        userPrefs.tasteProfile, 
+        userPrefs.excludedGenreIds, 
+        userPrefs
+      );
       
-      questions.push({
-        category,
-        scenarioKey: key,
-        scenario: scenario,
-        actions: shuffleArray(Object.entries(scenario.actions).map(([key, action]) => ({
-          key,
-          ...action
-        })))
-      });
+      if (!result || !result.movies || result.movies.length < 3) {
+        console.log('❌ Not enough movies from TMDB');
+        setLoading(false);
+        return;
+      }
+
+      const primaryGenre = result.context.primaryGenre || TMDB_GENRES.DRAMA;
+      const keywordIds = [];
       
-      // Track this scenario as recently used
-      recentScenarios.push({ category, scenarioKey: key });
-    }
-  });
-  
-  // Keep only last 21 recent scenarios (3 per category)
-  const trimmedRecent = recentScenarios.slice(-21);
-  
-  // Save to preferences
-  setUserPrefs(prev => ({
-    ...prev,
-    recentIntuitiveScenarios: trimmedRecent
-  }));
-  
-  console.log('✅ Generated 7 intuitive questions:', questions);
-  setIntuitiveQuestions(questions);
-  setQuestionIndex(0);
-  setIntuitiveAnswers({});
-};
-    const primaryGenre = result.context.primaryGenre || TMDB_GENRES.DRAMA;
-    const keywordIds = []; // You can pass keywords from mood if you want
-    
-    console.log('🎯 Primary Genre:', result.context.chosenGenre);
-  console.log('🔍 userPrefs.letterboxdData:', userPrefs.letterboxdData);
-    console.log('🔍 userPrefs.tasteProfile:', userPrefs.tasteProfile);
-    const profileStrength = analyzeProfileStrength(userPrefs.letterboxdData);
-    console.log('📊 Profile Analysis:', profileStrength);
-    
-    // ====== NEW: THREE-TIER FETCHING ======
-    console.log('🎬 Fetching three-tier recommendations...');
-   const [safeRec, stretchRec, wildRec] = await Promise.all([
-      getSafeRecommendation(primaryGenre, keywordIds, userPrefs),
-      getStretchRecommendation(primaryGenre, keywordIds, userPrefs, profileStrength),
-      getWildRecommendation(primaryGenre, keywordIds, userPrefs)
-    ]);
-  // TMDB Integration - Test version without API
- const generateRecommendations = async () => {
-  setLoading(true);
-  try {
-    // Get mood-based genre selection
-    const result = await getMoodBasedMovies(
-      userPrefs.moodAnswers, 
-      userPrefs.tasteProfile, 
-      userPrefs.excludedGenreIds, 
-      userPrefs
-    );
-    
-    if (!result || !result.movies || result.movies.length < 3) {
-      console.log('❌ Not enough movies from TMDB');
-      setLoading(false);
-      return;
-    }
+      console.log('🎯 Primary Genre:', result.context.chosenGenre);
+      console.log('🔍 userPrefs.letterboxdData:', userPrefs.letterboxdData);
+      console.log('🔍 userPrefs.tasteProfile:', userPrefs.tasteProfile);
+      const profileStrength = analyzeProfileStrength(userPrefs.letterboxdData);
+      console.log('📊 Profile Analysis:', profileStrength);
+      
+      console.log('🎬 Fetching three-tier recommendations...');
+      const [safeRec, stretchRec, wildRec] = await Promise.all([
+        getSafeRecommendation(primaryGenre, keywordIds, userPrefs),
+        getStretchRecommendation(primaryGenre, keywordIds, userPrefs, profileStrength),
+        getWildRecommendation(primaryGenre, keywordIds, userPrefs)
+      ]);
     // ====== DEBUG LOGGING ======
     console.log('🔍 safeRec:', safeRec);
     console.log('🔍 stretchRec:', stretchRec);

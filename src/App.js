@@ -2620,34 +2620,14 @@ if (currentScreen === 'setup') {
   }
 // Mood Discovery Screen
 if (currentScreen === 'mood') {
+   if (!currentQuestionSet) {
+    return <div>Loading questions...</div>;
+  }
   // console.log('Mood screen rendering');
 //  console.log('Current question set:', currentQuestionSet);
   const currentQuestion = currentQuestionSet[questionIndex];
   const progress = ((questionIndex + 1) / currentQuestionSet.length) * 100;
   
-  if (!currentQuestionSet) {
-    return <div>Loading questions...</div>;
-  }
-  // ========================================
-// INTUITIVE MODE QUIZ SCREEN
-// ========================================
-if (currentScreen === 'intuitive') {
-  if (!intuitiveQuestions || intuitiveQuestions.length === 0) {
-    return (
-      <div className="min-h-screen bg-gray-900 text-gray-200 p-4 flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-xl mb-4">Preparing your questions...</p>
-          <button 
-            onClick={generateIntuitiveQuestions}
-            className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded"
-          >
-            Start Quiz
-          </button>
-        </div>
-      </div>
-    );
-  }
-
   
   return (
     <div className="min-h-screen bg-gray-900 text-gray-200 p-4">

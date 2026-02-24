@@ -494,5 +494,5 @@ export const calculateIntuitiveScore = (intuitiveAnswers, userPrefs = {}) => {
   
   return finalGenreScores;
 };
- export { calculateIntuitiveScore, INTUITIVE_SCENARIOS, getRandomScenario, getRandomWeatherFraming, shuffleArray };
+
 

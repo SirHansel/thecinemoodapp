@@ -2594,6 +2594,7 @@ if (currentScreen === 'setup') {
   
     // Check quiz mode and launch appropriate quiz
     if (userPrefs.quizMode === 'intuitive') {
+      
       console.log('🎭 Launching Intuitive Mode');
       generateIntuitiveQuestions();
       setCurrentScreen('intuitive');
@@ -2621,6 +2622,8 @@ if (currentScreen === 'setup') {
 if (currentScreen === 'mood') {
   // console.log('Mood screen rendering');
 //  console.log('Current question set:', currentQuestionSet);
+  const currentQuestion = currentQuestionSet[questionIndex];
+  const progress = ((questionIndex + 1) / currentQuestionSet.length) * 100;
   
   if (!currentQuestionSet) {
     return <div>Loading questions...</div>;
@@ -2645,9 +2648,7 @@ if (currentScreen === 'intuitive') {
     );
   }
 
-  const currentQuestion = intuitiveQuestions[questionIndex];
-  const progress = ((questionIndex + 1) / intuitiveQuestions.length) * 100;
-
+  
   return (
     <div className="min-h-screen bg-gray-900 text-gray-200 p-4">
       <div className="max-w-2xl mx-auto">

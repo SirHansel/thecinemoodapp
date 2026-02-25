@@ -959,7 +959,6 @@ const calculateMoodScore = (moodAnswers, userPrefs) => {
 const getMoodBasedMovies = async (moodAnswers, tasteProfile = null, excludedGenreIds = [], userPrefs = {}) => {
   console.log('🎯 Starting mood + taste integration');
   
-  const moodScore = calculateMoodScore(moodAnswers, userPrefs);
   let finalGenreSelection = moodScore.primaryGenre;
 
   // If user has taste data, apply 60/40 weighting

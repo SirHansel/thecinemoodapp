@@ -2618,6 +2618,121 @@ if (currentScreen === 'setup') {
       </div>
     );
   }
+// INTUITIVE MODE QUIZ SCREEN
+if (currentScreen === 'intuitive') {
+  if (!intuitiveQuestions || intuitiveQuestions.length === 0) {
+    return (
+      <div className="min-h-screen bg-gray-900 text-gray-200 p-4 flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-xl mb-4">Preparing your questions...</p>
+          <button onClick={generateIntuitiveQuestions}
+            className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded">
+            Start Quiz
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  const currentQuestion = intuitiveQuestions[questionIndex];
+  const progress = ((questionIndex + 1) / intuitiveQuestions.length) * 100;
+
+  return (
+    <div className="min-h-screen bg-gray-900 text-gray-200 p-4">
+      <div className="max-w-2xl mx-auto">
+        <div className="mb-6">
+          <div className="flex justify-between text-sm text-gray-400 mb-2">
+            <span>Question {questionIndex + 1} of {intuitiveQuestions.length}</span>
+            <span>{Math.round(progress)}%</span>
+          </div>
+          <div className="w-full bg-gray-700 rounded-full h-2">
+            <div className="bg-purple-600 h-2 rounded-full transition-all duration-300"
+              style={{ width: `${progress}%` }} />
+          </div>
+        </div>
+
+        <div className="bg-gray-800 rounded-lg border-2 border-gray-600 overflow-hidden">
+          <div className="bg-gray-700 h-64 flex items-center justify-center border-b-2 border-gray-600">
+            <div className="text-center">
+              <div className="text-6xl mb-4">🎨</div>
+              <p className="text-gray-400 text-sm">Vintage illustration style</p>
+              <p className="text-gray-500 text-xs mt-1">{currentQuestion.scenario.image}</p>
+            </div>
+          </div>
+
+          <div className="p-6">
+            <h2 className="text-2xl font-bold text-purple-400 mb-2 text-center">
+              {currentQuestion.scenario.label}
+            </h2>
+            <p className="text-gray-300 text-center mb-6">
+              {currentQuestion.scenario.question}
+            </p>
+
+            <div className="space-y-3">
+              {currentQuestion.actions.map((action) => (
+                <button key={action.key}
+                  onClick={() => {
+                    const newAnswers = {
+                      ...intuitiveAnswers,
+                      [currentQuestion.category]: {
+                        scenarioKey: currentQuestion.scenarioKey,
+                        actionKey: action.key
+                      }
+                    };
+                    setIntuitiveAnswers(newAnswers);
+                    if (questionIndex < intuitiveQuestions.length - 1) {
+                      setQuestionIndex(questionIndex + 1);
+                    } else {
+                      console.log('🎭 Intuitive quiz complete! Answers:', newAnswers);
+                      setCurrentScreen('loading');
+                      const intuitiveGenreScores = calculateIntuitiveScore(newAnswers, userPrefs);
+                      setUserPrefs(prev => ({
+                        ...prev,
+                        intuitiveAnswers: newAnswers,
+                        moodAnswers: intuitiveGenreScores
+                      }));
+                      setTimeout(() => { generateRecommendations(); }, 500);
+                    }
+                  }}
+                  className="w-full p-4 bg-gray-700 hover:bg-purple-900/50 border-2 border-gray-600 hover:border-purple-500 rounded-lg text-left transition-all group"
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="text-lg text-gray-200 group-hover:text-purple-300">{action.text}</span>
+                    <span className="text-gray-500 group-hover:text-purple-400">→</span>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <button
+          onClick={() => {
+            if (questionIndex > 0) {
+              setQuestionIndex(questionIndex - 1);
+            } else {
+              setCurrentScreen('setup');
+            }
+          }}
+          className="mt-6 text-gray-400 hover:text-gray-200 flex items-center mx-auto"
+        >
+          ← {questionIndex > 0 ? 'Previous Question' : 'Back to Setup'}
+        </button>
+
+        <div className="mt-8 text-center text-gray-500 text-xs pb-4 space-y-1">
+          <div>© 2025 TheCineMood. All rights reserved.</div>
+          <button onClick={() => setShowTerms(true)}
+            className="text-purple-400 hover:text-purple-300 underline">
+            Terms of Service
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Mood Discovery Screen
+
 // Mood Discovery Screen
 if (currentScreen === 'mood') {
    if (!currentQuestionSet) {

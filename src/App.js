@@ -3157,6 +3157,6 @@ const TermsOfService = ({ isOpen, onClose }) => {
     </div>
   );
 };
-};  // ← Closes CineMoodApp component
+
 
 export default CineMoodApp;

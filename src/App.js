@@ -959,6 +959,25 @@ const calculateMoodScore = (moodAnswers, userPrefs) => {
 const getMoodBasedMovies = async (moodAnswers, tasteProfile = null, excludedGenreIds = [], userPrefs = {}) => {
   console.log('🎯 Starting mood + taste integration');
   
+  let moodScore;
+  
+  const isPrecomputed = typeof Object.keys(moodAnswers)[0] === 'string' && 
+                        !isNaN(Object.keys(moodAnswers)[0]);
+  
+  if (isPrecomputed) {
+    console.log('🎭 Using pre-computed intuitive scores');
+    const rankedGenres = Object.entries(moodAnswers)
+      .sort(([,a], [,b]) => b - a)
+      .map(([genre, score]) => ({ id: parseInt(genre), score }));
+    moodScore = {
+      topGenres: rankedGenres.slice(0, 3),
+      modifiers: {},
+      primaryGenre: rankedGenres[0]?.id || TMDB_GENRES.DRAMA
+    };
+  } else {
+    moodScore = calculateMoodScore(moodAnswers, userPrefs);
+  }
+  
   let finalGenreSelection = moodScore.primaryGenre;
 
   // If user has taste data, apply 60/40 weighting

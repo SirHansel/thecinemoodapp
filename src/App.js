@@ -1797,11 +1797,11 @@ useEffect(() => {
   };
 
   // TMDB Integration
-  const generateRecommendations = async () => {
+ const generateRecommendations = async (precomputedScores = null) => {
     setLoading(true);
     try {
       const result = await getMoodBasedMovies(
-        userPrefs.moodAnswers, 
+  precomputedScores || userPrefs.moodAnswers,
         userPrefs.tasteProfile, 
         userPrefs.excludedGenreIds, 
         userPrefs
@@ -2685,13 +2685,17 @@ if (currentScreen === 'intuitive') {
                     } else {
                       console.log('🎭 Intuitive quiz complete! Answers:', newAnswers);
                       setCurrentScreen('loading');
-                      const intuitiveGenreScores = calculateIntuitiveScore(newAnswers, userPrefs);
-                      setUserPrefs(prev => ({
-                        ...prev,
-                        intuitiveAnswers: newAnswers,
-                        moodAnswers: intuitiveGenreScores
-                      }));
-                      setTimeout(() => { generateRecommendations(); }, 500);
+                     
+                     const intuitiveGenreScores = calculateIntuitiveScore(newAnswers, userPrefs);
+
+setUserPrefs(prev => ({
+  ...prev,
+  intuitiveAnswers: newAnswers,
+  moodAnswers: intuitiveGenreScores,
+  intuitiveGenreScores: intuitiveGenreScores  
+}));
+
+setTimeout(() => { generateRecommendations(intuitiveGenreScores); }, 500);
                     }
                   }}
                   className="w-full p-4 bg-gray-700 hover:bg-purple-900/50 border-2 border-gray-600 hover:border-purple-500 rounded-lg text-left transition-all group"

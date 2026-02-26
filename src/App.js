@@ -1931,7 +1931,9 @@ console.log('✅ Runtimes fetched:', {
           reason: "🎲 Wild: Something different"
         }
       });
+     
       setLoading(false);
+      setCurrentScreen('results');
       return;
     }
     
@@ -1980,6 +1982,7 @@ console.log('✅ Runtimes fetched:', {
     
     setRecommendations(movieRecs);
     setLoading(false);
+      setCurrentScreen('results');
     
   } catch (error) {
     console.error('Error generating recommendations:', error);

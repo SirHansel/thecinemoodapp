@@ -2682,12 +2682,14 @@ if (currentScreen === 'intuitive') {
           </div>
 
           <div className="p-6">
-            <h2 className="text-2xl font-bold text-purple-400 mb-2 text-center">
-              {currentQuestion.scenario.label}
-            </h2>
-            <p className="text-gray-300 text-center mb-6">
-              {currentQuestion.scenario.question}
-            </p>
+            {currentQuestion.scenario.label && (
+  <h2 className="text-2xl font-bold text-purple-400 mb-2 text-center">
+    {currentQuestion.scenario.label}
+  </h2>
+)}
+<p className="text-gray-300 text-center mb-6">
+  {currentQuestion.scenario.question}
+</p>
 
             <div className="space-y-3">
               {currentQuestion.actions.map((action) => (

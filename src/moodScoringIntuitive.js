@@ -327,9 +327,10 @@ export const INTUITIVE_SCENARIOS = {
     sound: { text: 'The sound', needs: { COMFORT: 3, ESCAPE: 1 } },
     fluidity: { text: 'The rhythm of it', needs: { ESCAPE: 2, STIMULATION: 2 } }
   }
-},
+ }
+  },
   
-color: {
+  color: {
     warm_reds_oranges: {
       image: 'warm_tones.jpg',
       label: '',

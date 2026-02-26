@@ -330,49 +330,49 @@ export const INTUITIVE_SCENARIOS = {
     }
   },
   
-  color: {
+color: {
     warm_reds_oranges: {
       image: 'warm_tones.jpg',
-      label: 'Warm Tones',
-      question: 'What draws you?',
+      label: '',
+      question: 'What atmosphere are you drawn to right now?',
       actions: {
-        passion: { text: 'The passion', needs: { RELEASE: 3, CONNECTION: 1 } },
-        energy: { text: 'The energy', needs: { RELEASE: 3, ESCAPE: 1 } },
-        warmth: { text: 'The warmth', needs: { COMFORT: 3, CONNECTION: 1 } },
-        vibrancy: { text: 'The vibrancy', needs: { ESCAPE: 2, STIMULATION: 2 } }
+        passion: { text: 'Something warm and alive', needs: { RELEASE: 3, CONNECTION: 1 } },
+        energy: { text: 'Something urgent and charged', needs: { RELEASE: 3, ESCAPE: 1 } },
+        warmth: { text: 'Something cozy and close', needs: { COMFORT: 3, CONNECTION: 1 } },
+        vibrancy: { text: 'Something bold and vivid', needs: { ESCAPE: 2, STIMULATION: 2 } }
       }
     },
     cool_blues_purples: {
       image: 'cool_tones.jpg',
-      label: 'Cool Tones',
-      question: 'What calls to you?',
+      label: '',
+      question: 'What atmosphere are you drawn to right now?',
       actions: {
-        distance: { text: 'The distance', needs: { ESCAPE: 3, COMFORT: 1 } },
-        mystery: { text: 'The mystery', needs: { ESCAPE: 2, STIMULATION: 2 } },
-        calm: { text: 'The calm', needs: { COMFORT: 3, CATHARSIS: 1 } },
-        depth: { text: 'The depth', needs: { STIMULATION: 3, CATHARSIS: 1 } }
+        distance: { text: 'Something vast and remote', needs: { ESCAPE: 3, STIMULATION: 1 } },
+        mystery: { text: 'Something shadowy and unknown', needs: { ESCAPE: 2, STIMULATION: 2 } },
+        calm: { text: 'Something still and quiet', needs: { COMFORT: 3, CATHARSIS: 1 } },
+        depth: { text: 'Something deep and layered', needs: { STIMULATION: 3, CATHARSIS: 1 } }
       }
     },
     soft_yellows_greens: {
       image: 'soft_tones.jpg',
-      label: 'Gentle Tones',
-      question: 'What resonates?',
+      label: '',
+      question: 'What atmosphere are you drawn to right now?',
       actions: {
-        ease: { text: 'The ease', needs: { COMFORT: 3, ESCAPE: 1 } },
-        growth: { text: 'The growth', needs: { ESCAPE: 2, CONNECTION: 2 } },
-        lightness: { text: 'The lightness', needs: { COMFORT: 3 } },
-        nature: { text: 'The nature', needs: { COMFORT: 2, ESCAPE: 2 } }
+        ease: { text: 'Something light and effortless', needs: { COMFORT: 3, ESCAPE: 1 } },
+        growth: { text: 'Something fresh and alive', needs: { ESCAPE: 2, CONNECTION: 2 } },
+        lightness: { text: 'Something gentle and unhurried', needs: { COMFORT: 3, CATHARSIS: 1 } },
+        nature: { text: 'Something open and natural', needs: { COMFORT: 2, ESCAPE: 2 } }
       }
     },
     stark_black_white: {
       image: 'contrast_tones.jpg',
-      label: 'Stark Contrast',
-      question: 'What appeals to you?',
+      label: '',
+      question: 'What atmosphere are you drawn to right now?',
       actions: {
-        clarity: { text: 'The clarity', needs: { STIMULATION: 3, RELEASE: 1 } },
-        drama: { text: 'The drama', needs: { RELEASE: 3, CATHARSIS: 1 } },
-        simplicity: { text: 'The simplicity', needs: { COMFORT: 2, STIMULATION: 2 } },
-        tension: { text: 'The tension', needs: { RELEASE: 2, CATHARSIS: 2 } }
+        clarity: { text: 'Something sharp and clear', needs: { STIMULATION: 3, RELEASE: 1 } },
+        drama: { text: 'Something stark and dramatic', needs: { RELEASE: 3, CATHARSIS: 1 } },
+        simplicity: { text: 'Something stripped and simple', needs: { COMFORT: 2, STIMULATION: 2 } },
+        tension: { text: 'Something tense and unresolved', needs: { RELEASE: 2, CATHARSIS: 2 } }
       }
     }
   }

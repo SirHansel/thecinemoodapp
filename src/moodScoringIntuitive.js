@@ -317,18 +317,17 @@ export const INTUITIVE_SCENARIOS = {
         clarity: { text: 'The clarity', needs: { STIMULATION: 2, CATHARSIS: 2 } }
       }
     },
-    flowing_water: {
-      image: 'flowing_water.jpg',
-      label: 'Flowing Water',
-      question: 'What calls to you?',
-      actions: {
-        movement: { text: 'The movement', needs: { ESCAPE: 3, RELEASE: 1 } },
-        transformation: { text: 'The transformation', needs: { CATHARSIS: 3, ESCAPE: 1 } },
-        sound: { text: 'The sound', needs: { COMFORT: 3, ESCAPE: 1 } },
-        fluidity: { text: 'The fluidity', needs: { ESCAPE: 2, STIMULATION: 2 } }
-      }
-    }
-  },
+   flowing_water: {
+  image: 'flowing_water.jpg',
+  label: 'A River Passes By',
+  question: 'You stop for a moment. What draws you in?',
+  actions: {
+    movement: { text: 'The movement', needs: { ESCAPE: 3, RELEASE: 1 } },
+    transformation: { text: 'The transformation', needs: { CATHARSIS: 3, ESCAPE: 1 } },
+    sound: { text: 'The sound', needs: { COMFORT: 3, ESCAPE: 1 } },
+    fluidity: { text: 'The rhythm of it', needs: { ESCAPE: 2, STIMULATION: 2 } }
+  }
+},
   
 color: {
     warm_reds_oranges: {

@@ -1,6 +1,7 @@
 const TMDB_API_KEY = 'ff6802ce657f3eb0920728b788c1842b';
 const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
 
+
 export const fetchMoviesByGenre = async (
   genreId, 
   includeForeign = false, 
@@ -88,5 +89,22 @@ export const fetchMovieDetails = async (movieId) => {
   } catch (error) {
     console.error('TMDB detail fetch error:', error);
     return null;
+  }
+};
+export const fetchWatchProviders = async (movieId, region = 'US') => {
+  try {
+    const response = await fetch(
+      `${TMDB_BASE_URL}/movie/${movieId}/watch/providers?api_key=${TMDB_API_KEY}`
+    );
+    const data = await response.json();
+    const regionData = data.results?.[region];
+    if (!regionData) return [];
+    
+    // flatrate = subscription streaming (Netflix, Prime etc)
+    const providers = regionData.flatrate || [];
+    return providers.map(p => p.provider_name);
+  } catch (error) {
+    console.error('Watch provider fetch error:', error);
+    return [];
   }
 };

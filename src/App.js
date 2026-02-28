@@ -3228,16 +3228,30 @@ const saveRating = async () => {  // ← ADD async
           <h3 className="text-xl font-bold mb-4">{watchedMovie.title}</h3>
           
           <div className="flex justify-center mb-4">
-            {[1, 2, 3, 4, 5].map(star => (
-              <button
-                key={star}
-                onClick={() => handleStarClick(star)}
-                className="text-3xl mx-1 transition-colors hover:text-yellow-400"
-              >
-                {userRating >= star ? '★' : '☆'}
-              </button>
-            ))}
-          </div>
+  {[1, 2, 3, 4, 5].map(star => (
+    <div key={star} className="relative flex mx-1">
+      {/* Left half = half star */}
+      <button
+        onClick={() => setUserRating(star - 0.5)}
+        className="text-3xl w-4 overflow-hidden transition-colors hover:text-yellow-400"
+        style={{ color: userRating >= star - 0.5 ? '#FBBF24' : '#6B7280' }}
+      >
+        ★
+      </button>
+      {/* Right half = full star */}
+      <button
+        onClick={() => setUserRating(star)}
+        className="text-3xl w-4 overflow-hidden transition-colors hover:text-yellow-400"
+        style={{ 
+          color: userRating >= star ? '#FBBF24' : '#6B7280',
+          direction: 'rtl'
+        }}
+      >
+        ★
+      </button>
+    </div>
+  ))}
+</div>
           
           <p className="text-sm text-gray-400 mb-4">
             {userRating > 0 ? `Rated: ${userRating}/5 stars` : 'Click stars to rate'}

@@ -1874,6 +1874,14 @@ console.log('✅ Runtimes fetched:', {
   stretch: stretchDetails?.runtime,
   wild: wildDetails?.runtime
 });
+      console.log('📺 Fetching watch providers...');
+const [safePlatforms, stretchPlatforms, wildPlatforms] = await Promise.all([
+  safeRec?.movie?.id ? fetchWatchProviders(safeRec.movie.id) : [],
+  stretchRec?.movie?.id ? fetchWatchProviders(stretchRec.movie.id) : [],
+  wildRec?.movie?.id ? fetchWatchProviders(wildRec.movie.id) : []
+]);
+console.log('✅ Platforms fetched:', { safe: safePlatforms, stretch: stretchPlatforms, wild: wildPlatforms });
+      
     // ====== TRACK RECENTLY SHOWN MOVIES ======
     setRecentlyShownMovies(prev => [
       ...prev,

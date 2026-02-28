@@ -2947,6 +2947,22 @@ textshadow: '0 0 2px rgba(160, 160, 160, 0.6), 0 0 4px rgba(160, 160, 160, 0.4)'
     </div>
   );
 }
+if (currentScreen === 'loading') {
+  return (
+    <div className="min-h-screen bg-gray-900 text-gray-200 flex items-center justify-center">
+      <div className="text-center">
+        <div className="text-6xl mb-6">🎬</div>
+        <h2 className="text-2xl font-bold text-purple-400 mb-3">Finding your films...</h2>
+        <p className="text-gray-400">Reading your choices</p>
+        <div className="mt-6 flex justify-center gap-2">
+          <div className="w-2 h-2 bg-purple-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+          <div className="w-2 h-2 bg-purple-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+          <div className="w-2 h-2 bg-purple-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+        </div>
+      </div>
+    </div>
+  );
+}
 // Results Screen
 if (currentScreen === 'results') {
   const recommendedMovies = recommendations;

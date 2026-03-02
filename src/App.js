@@ -1957,7 +1957,7 @@ console.log('✅ Platforms fetched:', { safe: safePlatforms, stretch: stretchPla
         runtime: safeRec.movie.runtime 
           ? `${Math.floor(safeRec.movie.runtime / 60)}h ${safeRec.movie.runtime % 60}m` 
           : '2h',
-        platform: userPrefs.platforms[0] || 'Netflix',
+       platform: safePlatforms[0] || userPrefs.platforms[0] || 'Netflix',
         reason: safeRec.reason
       },
       stretch: {
@@ -1970,7 +1970,7 @@ console.log('✅ Platforms fetched:', { safe: safePlatforms, stretch: stretchPla
         runtime: stretchRec.movie.runtime 
           ? `${Math.floor(stretchRec.movie.runtime / 60)}h ${stretchRec.movie.runtime % 60}m` 
           : '2h',
-        platform: userPrefs.platforms[0] || 'Prime',
+        platform: stretchPlatforms[0] || userPrefs.platforms[0] || 'Netflix',
         reason: stretchRec.reason
       },
       wild: {
@@ -1983,7 +1983,7 @@ console.log('✅ Platforms fetched:', { safe: safePlatforms, stretch: stretchPla
         runtime: wildRec.movie.runtime 
           ? `${Math.floor(wildRec.movie.runtime / 60)}h ${wildRec.movie.runtime % 60}m` 
           : '2h',
-        platform: userPrefs.platforms[0] || 'Hulu',
+        platform: wildPlatforms[0] || userPrefs.platforms[0] || 'Netflix',
         reason: wildRec.reason
       }
     };

@@ -1814,6 +1814,22 @@ useEffect(() => {
     setIntuitiveAnswers({});
   };
 
+  const matchPlatform = (tmdbPlatforms, userPlatforms) => {
+  if (!tmdbPlatforms || tmdbPlatforms.length === 0) return null;
+  if (!userPlatforms || userPlatforms.length === 0) return tmdbPlatforms[0];
+  
+  // Check if any TMDB platform contains a user platform name
+  for (const userPlatform of userPlatforms) {
+    const match = tmdbPlatforms.find(p => 
+      p.toLowerCase().includes(userPlatform.toLowerCase()) ||
+      userPlatform.toLowerCase().includes(p.toLowerCase())
+    );
+    if (match) return userPlatform; // Return the user's clean name, not TMDB's verbose one
+  }
+  
+  return null; // No match found
+};
+  
   // TMDB Integration
  const generateRecommendations = async (precomputedScores = null) => {
     setLoading(true);
@@ -1957,7 +1973,7 @@ console.log('✅ Platforms fetched:', { safe: safePlatforms, stretch: stretchPla
         runtime: safeRec.movie.runtime 
           ? `${Math.floor(safeRec.movie.runtime / 60)}h ${safeRec.movie.runtime % 60}m` 
           : '2h',
-       platform: safePlatforms[0] || userPrefs.platforms[0] || 'Netflix',
+platform: matchPlatform(safePlatforms, userPrefs.platforms) || userPrefs.platforms[0] || 'Netflix',
         reason: safeRec.reason
       },
       stretch: {
@@ -1970,7 +1986,7 @@ console.log('✅ Platforms fetched:', { safe: safePlatforms, stretch: stretchPla
         runtime: stretchRec.movie.runtime 
           ? `${Math.floor(stretchRec.movie.runtime / 60)}h ${stretchRec.movie.runtime % 60}m` 
           : '2h',
-        platform: stretchPlatforms[0] || userPrefs.platforms[0] || 'Netflix',
+platform: matchPlatform(stretchPlatforms, userPrefs.platforms) || userPrefs.platforms[0] || 'Netflix',
         reason: stretchRec.reason
       },
       wild: {
@@ -1983,7 +1999,7 @@ console.log('✅ Platforms fetched:', { safe: safePlatforms, stretch: stretchPla
         runtime: wildRec.movie.runtime 
           ? `${Math.floor(wildRec.movie.runtime / 60)}h ${wildRec.movie.runtime % 60}m` 
           : '2h',
-        platform: wildPlatforms[0] || userPrefs.platforms[0] || 'Netflix',
+platform: matchPlatform(wildPlatforms, userPrefs.platforms) || userPrefs.platforms[0] || 'Netflix',
         reason: wildRec.reason
       }
     };

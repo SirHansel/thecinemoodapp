@@ -2992,7 +2992,7 @@ if (currentScreen === 'results') {
   {movie.platform && movie.platform !== userPrefs.platforms[0] 
     ? <span className="ml-1 text-green-400">Available on {movie.platform}</span>
     : 
-        href={`https://www.themoviedb.org/movie/${movie.id}`}
+        href={"https://www.themoviedb.org/movie/" + movie.id}
         target="_blank"
         rel="noopener noreferrer"
         onClick={(e) => e.stopPropagation()}
@@ -3002,6 +3002,7 @@ if (currentScreen === 'results') {
       </a>
   }
 </div>
+  
             <div className="bg-blue-900/50 p-2 rounded text-xs italic text-blue-300 mt-2">
               {movie.reason}
             </div>

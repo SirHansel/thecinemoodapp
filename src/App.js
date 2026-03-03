@@ -1452,38 +1452,6 @@ const filterByPlatforms = (movies, selectedPlatforms) => {
   return movies;
 };
 
-  // For now, assign random platforms to movies (since TMDB doesn't have reliable platform data)
-  // TODO: Replace with real platform API data when available
-  const availablePlatforms = ['Netflix', 'Prime', 'Hulu', 'Disney+', 'Criterion', 'Tubi'];
-  
-  const filteredMovies = movies.map(movie => {
-    // Randomly assign 1-2 platforms per movie for testing
-    const randomPlatforms = availablePlatforms
-      .sort(() => 0.5 - Math.random())
-      .slice(0, Math.random() > 0.5 ? 1 : 2);
-    
-    return {
-      ...movie,
-      availablePlatforms: randomPlatforms,
-      // Check if movie is on any of user's platforms
-      isAvailable: randomPlatforms.some(platform => selectedPlatforms.includes(platform))
-    };
-  });
-
-  // Return only movies available on user's platforms
-  const availableMovies = filteredMovies.filter(movie => movie.isAvailable);
-  
-  console.log(`📺 Platform filtering: ${movies.length} → ${availableMovies.length} movies`);
-  
-  // If not enough movies after filtering, include some unavailable ones as backup
-  if (availableMovies.length < 5) {
-    console.log('⚠️ Not enough platform matches, adding backup movies');
-    const backupMovies = filteredMovies.filter(movie => !movie.isAvailable).slice(0, 3);
-    return [...availableMovies, ...backupMovies];
-  }
-  
-  return availableMovies;
-};
 
 // ========================================
 // FUTURE FILTER: LETTERBOXD WATCHED MOVIES

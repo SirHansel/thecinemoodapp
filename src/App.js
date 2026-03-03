@@ -2987,7 +2987,7 @@ if (currentScreen === 'results') {
           >
             <div className="font-bold text-lg">{movie.title} ({movie.release_date?.slice(0, 4) || 'Unknown'})</div>
   
-          <<div className="text-gray-400 text-sm mb-2">
+          <div className="text-gray-400 text-sm mb-2">
   {movie.genre} • {movie.runtime} • 
   {movie.platform && movie.platform !== userPrefs.platforms[0] 
     ? <span className="ml-1 text-green-400">Available on {movie.platform}</span>

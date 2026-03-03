@@ -2997,9 +2997,7 @@ if (currentScreen === 'results') {
         rel="noopener noreferrer"
         onClick={(e) => e.stopPropagation()}
         className="text-blue-400 hover:text-blue-300 underline ml-1"
-      >
-        Check availability →
-      </a>
+      >Check availability →</a>
   }
 </div>
   

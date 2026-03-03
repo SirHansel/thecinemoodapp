@@ -1441,7 +1441,9 @@ const PLATFORM_MAPPING = {
 // FILTER: PLATFORM AVAILABILITY
 // ========================================
 const filterByPlatforms = (movies, selectedPlatforms) => {
-  console.log('🎬 Filtering by platforms:', selectedPlatforms);
+  console.log('🎬 Skipping mock platform filter - using real providers on final selection');
+  return movies; // No longer filtering here - real check happens after selection
+};
   
   if (!selectedPlatforms || selectedPlatforms.length === 0) {
     console.log('⚠️ No platforms selected, returning all movies');
@@ -1897,7 +1899,16 @@ const [safePlatforms, stretchPlatforms, wildPlatforms] = await Promise.all([
   wildRec?.movie?.id ? fetchWatchProviders(wildRec.movie.id) : []
 ]);
 console.log('✅ Platforms fetched:', { safe: safePlatforms, stretch: stretchPlatforms, wild: wildPlatforms });
-      
+    // If a rec doesn't match user's platforms, log it
+if (!matchPlatform(safePlatforms, userPrefs.platforms)) {
+  console.log('⚠️ Safe rec not on user platforms - showing anyway with fallback');
+}
+if (!matchPlatform(stretchPlatforms, userPrefs.platforms)) {
+  console.log('⚠️ Stretch rec not on user platforms - showing anyway with fallback');
+}
+if (!matchPlatform(wildPlatforms, userPrefs.platforms)) {
+  console.log('⚠️ Wild rec not on user platforms - showing anyway with fallback');
+}  
     // ====== TRACK RECENTLY SHOWN MOVIES ======
     setRecentlyShownMovies(prev => [
       ...prev,

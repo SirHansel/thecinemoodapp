@@ -1441,14 +1441,16 @@ const PLATFORM_MAPPING = {
 // FILTER: PLATFORM AVAILABILITY
 // ========================================
 const filterByPlatforms = (movies, selectedPlatforms) => {
-  console.log('🎬 Skipping mock platform filter - using real providers on final selection');
-  return movies; // No longer filtering here - real check happens after selection
-};
+  console.log('🎬 Filtering by platforms:', selectedPlatforms);
   
   if (!selectedPlatforms || selectedPlatforms.length === 0) {
     console.log('⚠️ No platforms selected, returning all movies');
     return movies;
   }
+
+  console.log('🎬 Skipping mock platform filter - using real providers on final selection');
+  return movies;
+};
 
   // For now, assign random platforms to movies (since TMDB doesn't have reliable platform data)
   // TODO: Replace with real platform API data when available

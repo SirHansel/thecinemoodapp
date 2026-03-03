@@ -2987,17 +2987,20 @@ if (currentScreen === 'results') {
           >
             <div className="font-bold text-lg">{movie.title} ({movie.release_date?.slice(0, 4) || 'Unknown'})</div>
   
-          <div className="text-gray-400 text-sm mb-2">
+          <<div className="text-gray-400 text-sm mb-2">
   {movie.genre} • {movie.runtime} • 
-  <a 
-    href={`https://www.themoviedb.org/movie/${movie.id}`}
-    target="_blank"
-    rel="noopener noreferrer"
-    onClick={(e) => e.stopPropagation()}
-    className="text-blue-400 hover:text-blue-300 underline ml-1"
-  >
-    Where to Watch →
-  </a>
+  {movie.platform && movie.platform !== userPrefs.platforms[0] 
+    ? <span className="ml-1 text-green-400">Available on {movie.platform}</span>
+    : 
+        href={`https://www.themoviedb.org/movie/${movie.id}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        onClick={(e) => e.stopPropagation()}
+        className="text-blue-400 hover:text-blue-300 underline ml-1"
+      >
+        Check availability →
+      </a>
+  }
 </div>
             <div className="bg-blue-900/50 p-2 rounded text-xs italic text-blue-300 mt-2">
               {movie.reason}

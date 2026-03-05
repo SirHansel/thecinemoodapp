@@ -2995,7 +2995,7 @@ if (currentScreen === 'results') {
       return <span className="ml-1 text-green-400">Available on {movie.platform}</span>;
     }
     return (
-      
+      <a
         href={"https://www.themoviedb.org/movie/" + movie.id}
         target="_blank"
         rel="noopener noreferrer"

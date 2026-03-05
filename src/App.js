@@ -2990,7 +2990,7 @@ if (currentScreen === 'results') {
     <div className="text-gray-400 text-sm mb-2">
   {movie.genre} • {movie.runtime} • 
   {(() => {
-    const isRealMatch = movie.platform && movie.platform !== userPrefs.platforms[0];
+    const isRealMatch = movie.platform && userPrefs.platforms.includes(movie.platform);
     if (isRealMatch) {
       return <span className="ml-1 text-green-400">Available on {movie.platform}</span>;
     }

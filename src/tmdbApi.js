@@ -108,3 +108,15 @@ export const fetchWatchProviders = async (movieId, region = 'US') => {
     return [];
   }
 };
+ export const fetchSimilarMovies = async (movieId) => {
+  try {
+    const response = await fetch(
+      `${TMDB_BASE_URL}/movie/${movieId}/recommendations?api_key=${TMDB_API_KEY}&language=en-US&page=1`
+    );
+    const data = await response.json();
+    return data.results || [];
+  } catch (error) {
+    console.error('Similar movies fetch error:', error);
+    return [];
+  }
+};

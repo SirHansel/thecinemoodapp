@@ -4,7 +4,7 @@ import { updateCastCrewWeights } from './tmdbCredits';
 import { parseLetterboxdCSV, analyzeUserTaste, combineRatingsWithTaste } from './letterboxdApi'; 
 import { Play, RotateCcw, Settings, Star, ThumbsUp, Circle, Triangle, Square, Waves, Sparkles, Leaf, Flame, Cloud, Sun, Box, Globe, Helix, BookOpen, Lamp, Hammer, Key, Mirror, Bridge } from 'lucide-react';// HYBRID SCORING SYSTEM
 import { analyzeProfileStrength } from './letterboxdApi';
-import { fetchMovieCredits, extractPersonIds } from './tmdbCredits';
+import { fetchMoviesByGenre, fetchMovieDetails, fetchWatchProviders, fetchSimilarMovies } from './tmdbApi';
 import { getLegendMultiplier, isScreenLegend } from './screenLegends';
 import { 
   calculateIntuitiveScore, 

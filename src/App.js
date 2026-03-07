@@ -2204,10 +2204,17 @@ const generateQuestionSet = () => {
       const randomIndex = Math.floor(Math.random() * pool.variations.length);
       const selectedVariation = pool.variations[randomIndex];
       
+const isPath = category === 'path';
+const variation = { ...selectedVariation };
+
+if (!isPath && variation.options) {
+  variation.options = [...variation.options].sort(() => 0.5 - Math.random());
+}
+
 selectedQuestions.push({
   id: category,
-  category: category,  // ← ADD THIS LINE
-  ...selectedVariation
+  category: category,
+  ...variation
 });
      
     }

@@ -1818,19 +1818,7 @@ useEffect(() => {
         setLoading(false);
         return;
       }
-const generateSimilarRecommendations = async (seedMovie) => {
-  console.log('🎬 Generating similar recommendations for:', seedMovie.title);
-  setCurrentScreen('loading');
-  
-  try {
-    const similarMovies = await fetchSimilarMovies(seedMovie.id);
-    console.log('🎬 Similar movies fetched:', similarMovies.length);
-    
-    if (!similarMovies || similarMovies.length < 3) {
-      console.log('⚠️ Not enough similar movies found');
-      return;
-    }
-    
+   
     // Apply standard filters
     let filtered = similarMovies.filter(m => 
       !userPrefs.watchedMovies?.some(w => w.title === m.title) &&
@@ -1892,6 +1880,19 @@ const generateSimilarRecommendations = async (seedMovie) => {
     setCurrentScreen('results');
   }
 };
+
+  const generateSimilarRecommendations = async (seedMovie) => {
+  console.log('🎬 Generating similar recommendations for:', seedMovie.title);
+  setCurrentScreen('loading');
+  
+  try {
+    const similarMovies = await fetchSimilarMovies(seedMovie.id);
+    console.log('🎬 Similar movies fetched:', similarMovies.length);
+    
+    if (!similarMovies || similarMovies.length < 3) {
+      console.log('⚠️ Not enough similar movies found');
+      return;
+    } 
       const primaryGenre = result.context.primaryGenre || TMDB_GENRES.DRAMA;
       const keywordIds = [];
       

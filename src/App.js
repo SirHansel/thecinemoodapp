@@ -3091,10 +3091,21 @@ if (currentScreen === 'results') {
             <div className="bg-blue-900/50 p-2 rounded text-xs italic text-blue-300 mt-2">
               {movie.reason}
             </div>
-            <div className="text-green-400 text-sm mt-2 flex items-center">
-              <Play className="inline w-4 h-4 mr-1" />
-              Click to watch and rate
-            </div>
+            <div className="flex items-center justify-between mt-2">
+  <div className="text-green-400 text-sm flex items-center">
+    <Play className="inline w-4 h-4 mr-1" />
+    Click to watch and rate
+  </div>
+  <button
+    onClick={(e) => {
+      e.stopPropagation();
+      generateSimilarRecommendations(movie);
+    }}
+    className="text-purple-400 hover:text-purple-300 text-xs underline"
+  >
+    More like this →
+  </button>
+</div>
           </div>
         ))}
        

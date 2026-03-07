@@ -1819,80 +1819,7 @@ useEffect(() => {
         return;
       }
    
-    // Apply standard filters
-    let filtered = similarMovies.filter(m => 
-      !userPrefs.watchedMovies?.some(w => w.title === m.title) &&
-      !userPrefs.letterboxdData?.movies?.some(w => w.title.toLowerCase() === m.title.toLowerCase())
-    );
-    
-    console.log('✅ After watched filter:', filtered.length);
-    
-    if (filtered.length < 3) filtered = similarMovies; // fallback if too many filtered
-    
-    // Pick three tiers
-    const shuffled = [...filtered].sort(() => 0.5 - Math.random());
-    const safeMovie = shuffled[0];
-    const stretchMovie = shuffled[Math.floor(shuffled.length / 3)];
-    const wildMovie = shuffled[shuffled.length - 1];
-    
-    // Fetch details and providers
-    const [safeDetails, stretchDetails, wildDetails] = await Promise.all([
-      fetchMovieDetails(safeMovie.id),
-      fetchMovieDetails(stretchMovie.id),
-      fetchMovieDetails(wildMovie.id)
-    ]);
-    
-    const [safePlatforms, stretchPlatforms, wildPlatforms] = await Promise.all([
-      fetchWatchProviders(safeMovie.id),
-      fetchWatchProviders(stretchMovie.id),
-      fetchWatchProviders(wildMovie.id)
-    ]);
-    
-    const movieRecs = {
-      safe: {
-        ...safeMovie,
-        runtime: safeDetails?.runtime ? `${Math.floor(safeDetails.runtime / 60)}h ${safeDetails.runtime % 60}m` : 'N/A',
-        genre: safeMovie.genre_ids?.map(id => Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === id)).filter(Boolean).slice(0, 2).join(', ') || 'Drama',
-        platform: matchPlatform(safePlatforms, userPrefs.platforms) || userPrefs.platforms[0] || 'Netflix',
-        reason: `🎯 Similar to ${seedMovie.title}`
-      },
-      stretch: {
-        ...stretchMovie,
-        runtime: stretchDetails?.runtime ? `${Math.floor(stretchDetails.runtime / 60)}h ${stretchDetails.runtime % 60}m` : 'N/A',
-        genre: stretchMovie.genre_ids?.map(id => Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === id)).filter(Boolean).slice(0, 2).join(', ') || 'Drama',
-        platform: matchPlatform(stretchPlatforms, userPrefs.platforms) || userPrefs.platforms[0] || 'Netflix',
-        reason: `↗️ You might also like this`
-      },
-      wild: {
-        ...wildMovie,
-        runtime: wildDetails?.runtime ? `${Math.floor(wildDetails.runtime / 60)}h ${wildDetails.runtime % 60}m` : 'N/A',
-        genre: wildMovie.genre_ids?.map(id => Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === id)).filter(Boolean).slice(0, 2).join(', ') || 'Drama',
-        platform: matchPlatform(wildPlatforms, userPrefs.platforms) || userPrefs.platforms[0] || 'Netflix',
-        reason: `🎲 Unexpected pick from this world`
-      }
-    };
-    
-    setRecommendations(movieRecs);
-    setCurrentScreen('results');
-    
-  } catch (error) {
-    console.error('Error generating similar recommendations:', error);
-    setCurrentScreen('results');
-  }
-};
-
-  const generateSimilarRecommendations = async (seedMovie) => {
-  console.log('🎬 Generating similar recommendations for:', seedMovie.title);
-  setCurrentScreen('loading');
   
-  try {
-    const similarMovies = await fetchSimilarMovies(seedMovie.id);
-    console.log('🎬 Similar movies fetched:', similarMovies.length);
-    
-    if (!similarMovies || similarMovies.length < 3) {
-      console.log('⚠️ Not enough similar movies found');
-      return;
-    } 
       const primaryGenre = result.context.primaryGenre || TMDB_GENRES.DRAMA;
       const keywordIds = [];
       
@@ -2068,7 +1995,19 @@ platform: matchPlatform(wildPlatforms, userPrefs.platforms) || userPrefs.platfor
     setLoading(false);
   }
 };
-
+const generateSimilarRecommendations = async (seedMovie) => {
+  console.log('🎬 Generating similar recommendations for:', seedMovie.title);
+  setCurrentScreen('loading');
+  
+  try {
+    const similarMovies = await fetchSimilarMovies(seedMovie.id);
+    console.log('🎬 Similar movies fetched:', similarMovies.length);
+    
+    if (!similarMovies || similarMovies.length < 3) {
+      console.log('⚠️ Not enough similar movies found');
+      return;
+    } 
+  
   const wheelMovies = [
     "Blade Runner 2049", "The Departed", "Mad Max: Fury Road", "Prisoners",
     "No Country for Old Men", "Drive", "Hell or High Water", "Wind River"

@@ -1831,11 +1831,10 @@ useEffect(() => {
       const profileStrength = analyzeProfileStrength(userPrefs.letterboxdData);
       console.log('📊 Profile Analysis:', profileStrength);
       
-      console.log('🎬 Fetching three-tier recommendations...');
-      const [safeRec, stretchRec, wildRec] = await Promise.all([
-       const safeRec = await getSafeRecommendation(primaryGenre, keywordIds, userPrefs, recentlyShownMovies);
-        const stretchRec = await getStretchRecommendation(primaryGenre, keywordIds, userPrefs, profileStrength, [...recentlyShownMovies, safeRec?.movie?.id]);
-          const wildRec = await getWildRecommendation(primaryGenre, keywordIds, userPrefs, [...recentlyShownMovies, safeRec?.movie?.id, stretchRec?.movie?.id]);
+   console.log('🎬 Fetching three-tier recommendations...');
+const safeRec = await getSafeRecommendation(primaryGenre, keywordIds, userPrefs, recentlyShownMovies);
+const stretchRec = await getStretchRecommendation(primaryGenre, keywordIds, userPrefs, profileStrength, [...recentlyShownMovies, safeRec?.movie?.id]);
+const wildRec = await getWildRecommendation(primaryGenre, keywordIds, userPrefs, [...recentlyShownMovies, safeRec?.movie?.id, stretchRec?.movie?.id]);
       ]);
     // ====== DEBUG LOGGING ======
     console.log('🔍 safeRec:', safeRec);

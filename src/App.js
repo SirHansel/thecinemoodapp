@@ -1835,7 +1835,7 @@ useEffect(() => {
 const safeRec = await getSafeRecommendation(primaryGenre, keywordIds, userPrefs, recentlyShownMovies);
 const stretchRec = await getStretchRecommendation(primaryGenre, keywordIds, userPrefs, profileStrength, [...recentlyShownMovies, safeRec?.movie?.id]);
 const wildRec = await getWildRecommendation(primaryGenre, keywordIds, userPrefs, [...recentlyShownMovies, safeRec?.movie?.id, stretchRec?.movie?.id]);
-      ]);
+    
     // ====== DEBUG LOGGING ======
     console.log('🔍 safeRec:', safeRec);
     console.log('🔍 stretchRec:', stretchRec);

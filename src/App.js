@@ -2028,11 +2028,15 @@ const scored = filtered.map(movie => {
 // Sort by taste score high to low
 scored.sort((a, b) => b.tasteScore - a.tasteScore);
 
-const safeMovie = scored[0];
-const stretchMovie = scored[Math.floor(scored.length / 2)];
-const wildMovie = scored[scored.length - 1];
+// Filter out recently shown movies
+const unseenScored = scored.filter(m => !recentlyShownMovies.includes(m.id));
+const pool = unseenScored.length >= 3 ? unseenScored : scored;
 
-console.log('🎯 Similar movies ranked by taste:', scored.slice(0, 3).map(m => `${m.title} (${m.tasteScore})`));
+const safeMovie = pool[0];
+const stretchMovie = pool[Math.floor(pool.length / 2)];
+const wildMovie = pool[pool.length - 1];
+
+console.log('🎯 Similar movies ranked by taste:', pool.slice(0, 3).map(m => `${m.title} (${m.tasteScore})`));
     
     
     const [safeDetails, stretchDetails, wildDetails] = await Promise.all([
@@ -2070,6 +2074,13 @@ console.log('🎯 Similar movies ranked by taste:', scored.slice(0, 3).map(m => 
         reason: `🎲 Unexpected pick from this world`
       }
     };
+
+     setRecentlyShownMovies(prev => [
+      ...prev,
+      safeMovie.id,
+      stretchMovie.id,
+      wildMovie.id
+    ].filter(Boolean).slice(-30));
     
     setRecommendations(movieRecs);
     setCurrentScreen('results');

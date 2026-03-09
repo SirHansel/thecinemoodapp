@@ -2017,10 +2017,23 @@ const generateSimilarRecommendations = async (seedMovie) => {
     console.log('✅ After watched filter:', filtered.length);
     if (filtered.length < 3) filtered = similarMovies;
     
-    const shuffled = [...filtered].sort(() => 0.5 - Math.random());
-    const safeMovie = shuffled[0];
-    const stretchMovie = shuffled[Math.floor(shuffled.length / 3)];
-    const wildMovie = shuffled[shuffled.length - 1];
+// Score each movie by user's genre preferences
+const scored = filtered.map(movie => {
+  const score = movie.genre_ids?.reduce((total, genreId) => {
+    return total + (userPrefs.genreWeights?.[genreId] || 0);
+  }, 0) || 0;
+  return { ...movie, tasteScore: score };
+});
+
+// Sort by taste score high to low
+scored.sort((a, b) => b.tasteScore - a.tasteScore);
+
+const safeMovie = scored[0];
+const stretchMovie = scored[Math.floor(scored.length / 2)];
+const wildMovie = scored[scored.length - 1];
+
+console.log('🎯 Similar movies ranked by taste:', scored.slice(0, 3).map(m => `${m.title} (${m.tasteScore})`));
+    
     
     const [safeDetails, stretchDetails, wildDetails] = await Promise.all([
       fetchMovieDetails(safeMovie.id),

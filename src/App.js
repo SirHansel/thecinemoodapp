@@ -1170,7 +1170,7 @@ const scoreMovieByCastCrew = async (movie, userPrefs) => {
 // ========================================
 
 // SAFE TIER: Popularity-based, modern, crowd-pleasers
-const getSafeRecommendation = async (genreId, keywordIds, userPrefs) => {
+const getSafeRecommendation = async (genreId, keywordIds, userPrefs, recentlyShown = []) => {
   console.log('🎯 SAFE: Fetching popular modern movie');
   
   const movies = await fetchMoviesByGenre(genreId, false, keywordIds, {
@@ -1181,7 +1181,8 @@ const getSafeRecommendation = async (genreId, keywordIds, userPrefs) => {
   });
   
   // Apply user filters (platforms, watched, excluded genres)
-  const filtered = applyAllFilters(movies, userPrefs);
+  const filtered = applyAllFilters(movies, userPrefs)
+  .filter(m => !recentlyShown.includes(m.id));
   
   if (filtered.length > 0) {
     const safePool = filtered.slice(0, Math.min(50, filtered.length));
@@ -1293,7 +1294,7 @@ const filtered = applyAllFilters(movies, userPrefs)
 };
 
 // WILD TIER: Foreign, Classic, Cult, or Genre Surprise
-const getWildRecommendation = async (genreId, keywordIds, userPrefs) => {
+const getWildRecommendation = async (genreId, keywordIds, userPrefs, recentlyShown = []) => {
   console.log('🎲 WILD: Fetching discovery recommendation');
   
   const roll = Math.random();
@@ -1832,9 +1833,9 @@ useEffect(() => {
       
       console.log('🎬 Fetching three-tier recommendations...');
       const [safeRec, stretchRec, wildRec] = await Promise.all([
-        getSafeRecommendation(primaryGenre, keywordIds, userPrefs),
-       getStretchRecommendation(primaryGenre, keywordIds, userPrefs, profileStrength, recentlyShownMovies),
-        getWildRecommendation(primaryGenre, keywordIds, userPrefs)
+       const safeRec = await getSafeRecommendation(primaryGenre, keywordIds, userPrefs, recentlyShownMovies);
+        const stretchRec = await getStretchRecommendation(primaryGenre, keywordIds, userPrefs, profileStrength, [...recentlyShownMovies, safeRec?.movie?.id]);
+          const wildRec = await getWildRecommendation(primaryGenre, keywordIds, userPrefs, [...recentlyShownMovies, safeRec?.movie?.id, stretchRec?.movie?.id]);
       ]);
     // ====== DEBUG LOGGING ======
     console.log('🔍 safeRec:', safeRec);

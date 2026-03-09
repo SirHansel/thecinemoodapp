@@ -1277,7 +1277,8 @@ const getStretchRecommendation = async (genreId, keywordIds, userPrefs, profileS
     reason = reason || '↗️ Stretch: Highly-rated film matching your mood';
   }
   
-  const filtered = applyAllFilters(movies, userPrefs);
+const filtered = applyAllFilters(movies, userPrefs)
+  .filter(m => !recentlyShownMovies.includes(m.id));
   
   if (filtered.length > 0) {
     const middleIndex = Math.floor(filtered.length / 3);

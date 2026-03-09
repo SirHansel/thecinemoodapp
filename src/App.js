@@ -1221,7 +1221,7 @@ const getSafeRecommendation = async (genreId, keywordIds, userPrefs) => {
 };
 
 // STRETCH TIER: Decade-weighted, vote-average based
-const getStretchRecommendation = async (genreId, keywordIds, userPrefs, profileStrength) => {
+const getStretchRecommendation = async (genreId, keywordIds, userPrefs, profileStrength, recentlyShown = []) => {
   console.log('↗️ STRETCH: Fetching personalized recommendation');
   
   let movies = [];
@@ -1278,7 +1278,7 @@ const getStretchRecommendation = async (genreId, keywordIds, userPrefs, profileS
   }
   
 const filtered = applyAllFilters(movies, userPrefs)
-  .filter(m => !recentlyShownMovies.includes(m.id));
+  .filter(m => !recentlyShown.includes(m.id));
   
   if (filtered.length > 0) {
     const middleIndex = Math.floor(filtered.length / 3);
@@ -1833,7 +1833,7 @@ useEffect(() => {
       console.log('🎬 Fetching three-tier recommendations...');
       const [safeRec, stretchRec, wildRec] = await Promise.all([
         getSafeRecommendation(primaryGenre, keywordIds, userPrefs),
-        getStretchRecommendation(primaryGenre, keywordIds, userPrefs, profileStrength),
+       getStretchRecommendation(primaryGenre, keywordIds, userPrefs, profileStrength, recentlyShownMovies),
         getWildRecommendation(primaryGenre, keywordIds, userPrefs)
       ]);
     // ====== DEBUG LOGGING ======

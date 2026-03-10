@@ -495,17 +495,51 @@ export const combineRatingsWithTaste = (csvTasteProfile, userRatings) => {
   
   console.log('🔄 Combining CSV taste with CineMood ratings');
   
-  // Create combined movie list
-  const combinedMovies = [
-    ...(csvTasteProfile?.movies || []),
-    ...userRatings.map(rating => ({
-      title: rating.title,
-      year: rating.year,
-      rating: rating.rating,
-      source: 'cinemood',
-      watchedDate: rating.dateWatched
-    }))
-  ];
+  // Letterboxd movies at 1x weight
+  const csvMovies = (csvTasteProfile?.movies || []).map(m => ({
+    ...m,
+    weightedRating: m.rating || 3,
+    source: 'letterboxd'
+  }));
+  
+  // In-app ratings at 2x weight — more intentional signal
+  const inAppMovies = userRatings.map(r => ({
+    title: r.title,
+    year: r.year,
+    rating: r.rating,
+    weightedRating: r.rating * 2,
+    genre_ids: r.genre_ids || [],
+    source: 'cinemood',
+    watchedDate: r.dateWatched
+  }));
+  
+  const combinedMovies = [...csvMovies, ...inAppMovies];
+  
+  // Sort by weighted rating to surface best signals first
+  combinedMovies.sort((a, b) => b.weightedRating - a.weightedRating);
+  
+  // Build loved/liked/disliked using weighted rating
+  const lovedMovies = combinedMovies.filter(m => m.weightedRating >= 8);   // 4★ in-app OR 8+ weighted
+  const likedMovies = combinedMovies.filter(m => m.weightedRating >= 6);   // 3★ in-app OR 6+ weighted  
+  const dislikedMovies = combinedMovies.filter(m => m.weightedRating <= 2); // 1★ in-app OR low weighted
+
+  const ratedMovies = combinedMovies.filter(m => m.rating > 0);
+  const averageRating = ratedMovies.length > 0
+    ? ratedMovies.reduce((sum, m) => sum + m.rating, 0) / ratedMovies.length
+    : 3;
+
+  return {
+    ...(csvTasteProfile || {}),
+    totalWatched: combinedMovies.length,
+    totalRated: ratedMovies.length,
+    averageRating: Math.round(averageRating * 10) / 10,
+    lovedMovies: lovedMovies.slice(0, 20),
+    likedMovies: likedMovies.slice(0, 40),
+    dislikedMovies: dislikedMovies.slice(0, 10),
+    movies: combinedMovies,
+    source: 'combined'
+  };
+};
   
   // Recalculate taste analysis with both datasets
   return analyzeUserTaste({

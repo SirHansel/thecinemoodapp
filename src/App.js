@@ -1383,47 +1383,83 @@ const getGenreName = (genreId) => {
 // ========================================
 const applyTasteWeighting = (moodScore, tasteProfile) => {
   console.log('🧮 Calculating taste-weighted genre selection');
+
+  // ── Layer 1: Scale mood/taste split by how many movies rated ──
+  const ratedCount = (tasteProfile.lovedMovies?.length || 0) + 
+                     (tasteProfile.likedMovies?.length || 0);
   
-  // Extract actual genre preferences from loved movies
+  let moodWeight, tasteWeight;
+  if (ratedCount < 5) {
+    moodWeight = 0.90; tasteWeight = 0.10;
+  } else if (ratedCount < 16) {
+    moodWeight = 0.75; tasteWeight = 0.25;
+  } else if (ratedCount < 31) {
+    moodWeight = 0.65; tasteWeight = 0.35;
+  } else {
+    moodWeight = 0.60; tasteWeight = 0.40;
+  }
+  console.log(`⚖️ Rated count: ${ratedCount} → Mood: ${moodWeight*100}% / Taste: ${tasteWeight*100}%`);
+
+  // ── Layer 2: Build taste genre counts using star ratings ──
   const tasteGenreCounts = {};
-  
-  tasteProfile.lovedMovies.forEach(movie => {
+
+  const allRatedMovies = [
+    ...(tasteProfile.lovedMovies || []),
+    ...(tasteProfile.likedMovies || []),
+    ...(tasteProfile.dislikedMovies || [])
+  ];
+
+  allRatedMovies.forEach(movie => {
+    const rating = movie.rating || 3;
+    let influence = 0;
+    if (rating >= 4.5) influence = 4;
+    else if (rating >= 4) influence = 2;
+    else if (rating >= 3) influence = 0.5;
+    else if (rating >= 2) influence = -1;
+    else influence = -2;
+
+    // 2x multiplier for in-app ratings
+    if (movie.source === 'cinemood') influence *= 2;
+
     movie.genre_ids?.forEach(genreId => {
-      tasteGenreCounts[genreId] = (tasteGenreCounts[genreId] || 0) + 1;
+      tasteGenreCounts[genreId] = (tasteGenreCounts[genreId] || 0) + influence;
     });
   });
-  
-  // Convert counts to normalized scores (max 10 points)
+
+  // Normalize taste scores to max 10
   const maxCount = Math.max(...Object.values(tasteGenreCounts), 1);
   const tasteGenreBoosts = {};
-  
   Object.entries(tasteGenreCounts).forEach(([genreId, count]) => {
-    tasteGenreBoosts[genreId] = Math.round((count / maxCount) * 10);
+    tasteGenreBoosts[genreId] = (count / maxCount) * 10;
   });
-  
-  // Apply 40% taste, 60% mood weighting
+
+  // ── Combine mood + taste ──
   const combinedScores = {};
-  
-  // Start with mood scores (60% weight)
+
   moodScore.topGenres.forEach(genre => {
-    combinedScores[genre.id] = Math.round(genre.score * 0.6);
+    combinedScores[genre.id] = genre.score * moodWeight;
   });
-  
-  // Add taste boosts (40% weight)
+
   Object.entries(tasteGenreBoosts).forEach(([genreId, boost]) => {
     const id = parseInt(genreId);
-    combinedScores[id] = (combinedScores[id] || 0) + Math.round(boost * 0.4);
+    combinedScores[id] = (combinedScores[id] || 0) + (boost * tasteWeight);
   });
+
+  // ── Layer 3: Guardrail — winner must be in mood's top 3 ──
+  const moodTop3 = moodScore.topGenres.slice(0, 3).map(g => g.id);
   
-  // Find highest scoring genre after weighting
-  const topWeightedGenre = Object.entries(combinedScores)
-    .sort(([,a], [,b]) => b - a)[0];
+  const sorted = Object.entries(combinedScores).sort(([,a], [,b]) => b - a);
   
-  const selectedGenre = parseInt(topWeightedGenre[0]);
+  const guardrailed = sorted.find(([genreId]) => moodTop3.includes(parseInt(genreId)));
+  const topEntry = guardrailed || sorted[0];
+  
+  const selectedGenre = parseInt(topEntry[0]);
   const genreName = Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === selectedGenre);
   
-  console.log('🏆 Taste-weighted selection:', genreName, 'Score:', topWeightedGenre[1]);
+  console.log('🏆 Taste-weighted selection:', genreName, 'Score:', topEntry[1]);
   console.log('📊 Combined scores:', combinedScores);
+  console.log('🎯 Mood top 3:', moodTop3.map(id => Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === id)));
+  console.log(guardrailed ? '✅ Guardrail: winner was in mood top 3' : '⚠️ Guardrail: fell back to mood top pick');
   
   return selectedGenre;
 };

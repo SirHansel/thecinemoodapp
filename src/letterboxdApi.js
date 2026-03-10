@@ -541,13 +541,6 @@ export const combineRatingsWithTaste = (csvTasteProfile, userRatings) => {
   };
 };
   
-  // Recalculate taste analysis with both datasets
-  return analyzeUserTaste({
-    totalMovies: combinedMovies.length,
-    movies: combinedMovies,
-    source: 'combined'
-  });
-};
 
 // ========================================
 // INTEGRATION HELPER FUNCTIONS

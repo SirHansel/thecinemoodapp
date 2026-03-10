@@ -1348,11 +1348,16 @@ const getWildRecommendation = async (genreId, keywordIds, userPrefs, recentlySho
   
   // For wild card, skip platform filtering (discovery mode)
   const filtered = movies.filter(movie => {
-    // Only apply genre exclusions, not platforms
+    // Apply genre exclusions
     if (userPrefs.excludedGenreIds && userPrefs.excludedGenreIds.length > 0) {
       const allowedGenres = Object.values(TMDB_GENRES).filter(id => !userPrefs.excludedGenreIds.includes(id));
-      return movie.genre_ids?.some(id => allowedGenres.includes(id));
+      if (!movie.genre_ids?.some(id => allowedGenres.includes(id))) return false;
     }
+    // Filter out recently shown movies
+    if (recentlyShown.includes(movie.id)) return false;
+    // Filter out already watched
+    if (userPrefs.watchedMovies?.some(w => w.title === movie.title)) return false;
+    if (userPrefs.letterboxdData?.movies?.some(w => w.title.toLowerCase() === movie.title.toLowerCase())) return false;
     return true;
   });
   

@@ -470,29 +470,7 @@ export const calculateIntuitiveScore = (intuitiveAnswers, userPrefs = {}) => {
   const emotionalNeeds = calculateEmotionalNeeds(intuitiveAnswers);
   const intuitiveGenreScores = convertEmotionalNeedsToGenres(emotionalNeeds);
   
-  const tasteWeight = 0.4;
-  const intuitiveWeight = 0.6;
+  console.log('🎭 Pure intuitive scores (no taste merge):', intuitiveGenreScores);
   
-  const finalGenreScores = {};
-  
-  Object.keys(intuitiveGenreScores).forEach(genreId => {
-    const intuitiveScore = intuitiveGenreScores[genreId] || 0;
-    const tasteScore = userPrefs.genreWeights?.[genreId] || 0;
-    finalGenreScores[genreId] = (intuitiveScore * intuitiveWeight) + (tasteScore * tasteWeight);
-  });
-  
-  if (userPrefs.genreWeights) {
-    Object.keys(userPrefs.genreWeights).forEach(genreId => {
-      if (!finalGenreScores[genreId]) {
-        const tasteScore = userPrefs.genreWeights[genreId] || 0;
-        finalGenreScores[genreId] = tasteScore * tasteWeight;
-      }
-    });
-  }
-  
-  console.log('💝 Final scores after Letterboxd merge (60% intuitive / 40% taste):', finalGenreScores);
-  
-  return finalGenreScores;
+  return intuitiveGenreScores;
 };
-
-

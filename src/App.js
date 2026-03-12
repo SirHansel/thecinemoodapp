@@ -1280,27 +1280,6 @@ if (movies.length < 3) {
   console.log(`📦 Stretch pool: ${movies.length} movies`);
   reason = reason || '↗️ Stretch: Highly-rated film matching your mood';
 }
-  // });
-  const page2 = await fetchMoviesByGenre(genreId, false, keywordIds, {
-    sortBy: 'vote_average.desc',
-    minVotes: 200,
-    page: pageOffset + 1
-  });
-  const page3 = await fetchMoviesByGenre(genreId, false, keywordIds, {
-    sortBy: 'vote_average.desc',
-    minVotes: 200,
-    page: pageOffset + 2
-  });
-  // Deduplicate by id
-  const seen = new Set();
-  movies = [...page1, ...page2, ...page3].filter(m => {
-    if (seen.has(m.id)) return false;
-    seen.add(m.id);
-    return true;
-  });
-  console.log(`📦 Stretch pool: ${movies.length} movies across 3 pages (offset ${pageOffset})`);
-  reason = reason || '↗️ Stretch: Highly-rated film matching your mood';
-}
   
 const filtered = applyAllFilters(movies, userPrefs)
   .filter(m => !recentlyShown.includes(m.id));

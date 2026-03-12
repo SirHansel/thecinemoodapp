@@ -1328,10 +1328,10 @@ const getWildRecommendation = async (genreId, keywordIds, userPrefs, recentlySho
     movies = await fetchMoviesByGenre(genreId, false, keywordIds, {
       sortBy: 'vote_average.desc',
       minRating: 7.0,
-      minVotes: 100
+      minVotes: 2000
     });
-    // Filter to cult range (100-5000 votes)
-    movies = movies.filter(m => m.vote_count >= 100 && m.vote_count <= 5000);
+    // Filter to cult range (2000-50000 votes)
+    movies = movies.filter(m => m.vote_count >= 2000 && m.vote_count <= 50000);
     reason = '🎲 Wild: Cult favorite hidden gem';
     
   } else {

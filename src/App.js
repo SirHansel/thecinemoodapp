@@ -2869,7 +2869,7 @@ setUserPrefs(prev => ({
   intuitiveGenreScores: intuitiveGenreScores  
 }));
 
-setTimeout(() => { generateRecommendations(intuitiveGenreScores); }, 500);
+generateRecommendations(intuitiveGenreScores);
                     }
                   }}
                   className="w-full p-4 bg-gray-700 hover:bg-purple-900/50 border-2 border-gray-600 hover:border-purple-500 rounded-lg text-left transition-all group"

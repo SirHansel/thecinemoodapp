@@ -1268,15 +1268,19 @@ const getStretchRecommendation = async (genreId, keywordIds, userPrefs, profileS
     }
   }
   
-  // Fallback: Use vote_average without decade filter - fetch 3 pages with random offset
+  // Fallback: Use vote_average without decade filter
 if (movies.length < 3) {
   console.log('📊 Using vote_average, any decade');
-  const pageOffset = Math.floor(Math.random() * 3) + 1;
-  const page1 = await fetchMoviesByGenre(genreId, false, keywordIds, {
+  movies = await fetchMoviesByGenre(genreId, false, keywordIds, {
     sortBy: 'vote_average.desc',
     minVotes: 200,
-    page: pageOffset
+    fetchMultiplePages: true
   });
+  movies = movies.sort(() => Math.random() - 0.5);
+  console.log(`📦 Stretch pool: ${movies.length} movies`);
+  reason = reason || '↗️ Stretch: Highly-rated film matching your mood';
+}
+  // });
   const page2 = await fetchMoviesByGenre(genreId, false, keywordIds, {
     sortBy: 'vote_average.desc',
     minVotes: 200,

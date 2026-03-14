@@ -2101,21 +2101,21 @@ console.log('🎯 Similar movies ranked by taste:', pool.slice(0, 3).map(m => `$
         ...safeMovie,
         runtime: safeDetails?.runtime ? `${Math.floor(safeDetails.runtime / 60)}h ${safeDetails.runtime % 60}m` : 'N/A',
         genre: safeMovie.genre_ids?.map(id => Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === id)).filter(Boolean).slice(0, 2).join(', ') || 'Drama',
-        platform: matchPlatform(safePlatforms, userPrefs.platforms) || userPrefs.platforms[0] || 'Netflix',
+       platform: matchPlatform(stretchPlatforms, userPrefs.platforms) || null,
         reason: `🎯 Similar to ${seedMovie.title}`
       },
       stretch: {
         ...stretchMovie,
         runtime: stretchDetails?.runtime ? `${Math.floor(stretchDetails.runtime / 60)}h ${stretchDetails.runtime % 60}m` : 'N/A',
         genre: stretchMovie.genre_ids?.map(id => Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === id)).filter(Boolean).slice(0, 2).join(', ') || 'Drama',
-        platform: matchPlatform(stretchPlatforms, userPrefs.platforms) || userPrefs.platforms[0] || 'Netflix',
+       platform: matchPlatform(stretchPlatforms, userPrefs.platforms) || null,
         reason: `↗️ You might also like this`
       },
       wild: {
         ...wildMovie,
         runtime: wildDetails?.runtime ? `${Math.floor(wildDetails.runtime / 60)}h ${wildDetails.runtime % 60}m` : 'N/A',
         genre: wildMovie.genre_ids?.map(id => Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === id)).filter(Boolean).slice(0, 2).join(', ') || 'Drama',
-        platform: matchPlatform(wildPlatforms, userPrefs.platforms) || userPrefs.platforms[0] || 'Netflix',
+       platform: matchPlatform(stretchPlatforms, userPrefs.platforms) || null,
         reason: `🎲 Unexpected pick from this world`
       }
     };

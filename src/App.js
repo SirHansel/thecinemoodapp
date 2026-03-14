@@ -2000,7 +2000,7 @@ if (!matchPlatform(wildPlatforms, userPrefs.platforms)) {
         runtime: safeRec.movie.runtime 
           ? `${Math.floor(safeRec.movie.runtime / 60)}h ${safeRec.movie.runtime % 60}m` 
           : '2h',
-platform: matchPlatform(safePlatforms, userPrefs.platforms) || userPrefs.platforms[0] || 'Netflix',
+platform: matchPlatform(safePlatforms, userPrefs.platforms) || null,
         reason: safeRec.reason
       },
       stretch: {
@@ -2013,7 +2013,7 @@ platform: matchPlatform(safePlatforms, userPrefs.platforms) || userPrefs.platfor
         runtime: stretchRec.movie.runtime 
           ? `${Math.floor(stretchRec.movie.runtime / 60)}h ${stretchRec.movie.runtime % 60}m` 
           : '2h',
-platform: matchPlatform(stretchPlatforms, userPrefs.platforms) || userPrefs.platforms[0] || 'Netflix',
+platform: matchPlatform(safePlatforms, userPrefs.platforms) || null,
         reason: stretchRec.reason
       },
       wild: {
@@ -2026,7 +2026,7 @@ platform: matchPlatform(stretchPlatforms, userPrefs.platforms) || userPrefs.plat
         runtime: wildRec.movie.runtime 
           ? `${Math.floor(wildRec.movie.runtime / 60)}h ${wildRec.movie.runtime % 60}m` 
           : '2h',
-platform: matchPlatform(wildPlatforms, userPrefs.platforms) || userPrefs.platforms[0] || 'Netflix',
+platform: matchPlatform(safePlatforms, userPrefs.platforms) || null,
         reason: wildRec.reason
       }
     };

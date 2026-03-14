@@ -1309,7 +1309,7 @@ const getWildRecommendation = async (genreId, keywordIds, userPrefs, recentlySho
     console.log('🌍 Wild: Foreign film');
     movies = await fetchMoviesByGenre(genreId, true, keywordIds, {
       sortBy: 'vote_average.desc',
-      minVotes: 100
+      minVotes: 1000
     });
     movies = movies.filter(m => m.original_language !== 'en');
     reason = '🎲 Wild: International cinema you haven\'t explored';

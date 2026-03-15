@@ -1994,7 +1994,14 @@ if (!matchPlatform(wildPlatforms, userPrefs.platforms)) {
         ...safeRec.movie,
         title: safeRec.movie.title,
         year: safeRec.movie.release_date?.slice(0, 4) || 'Unknown',
-       genre: (() => {  const allGenres = safeRec.movie.genre_ids?.map(id%20=%3E%20%20%20%20%20Object.keys(TMDB_GENRES).find(key%20=%3E%20TMDB_GENRES[key]%20===%20id)%20%20).filter(Boolean)%20||%20[];%20%20const%20primary%20=%20Object.keys(TMDB_GENRES).find(key%20=%3E%20TMDB_GENRES[key]%20===%20genreId);%20%20const%20rest%20=%20allGenres.filter(g%20=%3E%20g%20!==%20primary);%20%20return%20[primary,%20...rest].slice(0,%202).join(%27,%20%27)%20||%20%27Drama%27;})(),
+genre: (() => {
+  const allGenres = safeRec.movie.genre_ids?.map(id => 
+    Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === id)
+  ).filter(Boolean) || [];
+  const primary = Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === genreId);
+  const rest = allGenres.filter(g => g !== primary);
+  return [primary, ...rest].slice(0, 2).join(', ') || 'Drama';
+})(),
         runtime: safeRec.movie.runtime 
           ? `${Math.floor(safeRec.movie.runtime / 60)}h ${safeRec.movie.runtime % 60}m` 
           : '2h',
@@ -2005,7 +2012,14 @@ platform: matchPlatform(safePlatforms, userPrefs.platforms) || null,
         ...stretchRec.movie,
         title: stretchRec.movie.title,
         year: stretchRec.movie.release_date?.slice(0, 4) || 'Unknown',
-       genre: (() => {  const allGenres = safeRec.movie.genre_ids?.map(id%20=%3E%20%20%20%20%20Object.keys(TMDB_GENRES).find(key%20=%3E%20TMDB_GENRES[key]%20===%20id)%20%20).filter(Boolean)%20||%20[];%20%20const%20primary%20=%20Object.keys(TMDB_GENRES).find(key%20=%3E%20TMDB_GENRES[key]%20===%20genreId);%20%20const%20rest%20=%20allGenres.filter(g%20=%3E%20g%20!==%20primary);%20%20return%20[primary,%20...rest].slice(0,%202).join(%27,%20%27)%20||%20%27Drama%27;})(),
+genre: (() => {
+  const allGenres = stretchRec.movie.genre_ids?.map(id => 
+    Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === id)
+  ).filter(Boolean) || [];
+  const primary = Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === genreId);
+  const rest = allGenres.filter(g => g !== primary);
+  return [primary, ...rest].slice(0, 2).join(', ') || 'Drama';
+})(),
         runtime: stretchRec.movie.runtime 
           ? `${Math.floor(stretchRec.movie.runtime / 60)}h ${stretchRec.movie.runtime % 60}m` 
           : '2h',
@@ -2016,7 +2030,14 @@ platform: matchPlatform(safePlatforms, userPrefs.platforms) || null,
         ...wildRec.movie,
         title: wildRec.movie.title,
         year: wildRec.movie.release_date?.slice(0, 4) || 'Unknown',
-       genre: (() => {  const allGenres = safeRec.movie.genre_ids?.map(id%20=%3E%20%20%20%20%20Object.keys(TMDB_GENRES).find(key%20=%3E%20TMDB_GENRES[key]%20===%20id)%20%20).filter(Boolean)%20||%20[];%20%20const%20primary%20=%20Object.keys(TMDB_GENRES).find(key%20=%3E%20TMDB_GENRES[key]%20===%20genreId);%20%20const%20rest%20=%20allGenres.filter(g%20=%3E%20g%20!==%20primary);%20%20return%20[primary,%20...rest].slice(0,%202).join(%27,%20%27)%20||%20%27Drama%27;})(),
+genre: (() => {
+  const allGenres = wildRec.movie.genre_ids?.map(id => 
+    Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === id)
+  ).filter(Boolean) || [];
+  const primary = Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === genreId);
+  const rest = allGenres.filter(g => g !== primary);
+  return [primary, ...rest].slice(0, 2).join(', ') || 'Drama';
+})(),
         runtime: wildRec.movie.runtime 
           ? `${Math.floor(wildRec.movie.runtime / 60)}h ${wildRec.movie.runtime % 60}m` 
           : '2h',

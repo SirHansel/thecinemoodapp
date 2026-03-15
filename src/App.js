@@ -1989,62 +1989,62 @@ genre: wildRec.movie.genre_ids?.map(id =>
     }
     
     // ====== FORMAT RECOMMENDATIONS (MAIN PATH) ======
-    const movieRecs = {
-      safe: {
-        ...safeRec.movie,
-        title: safeRec.movie.title,
-        year: safeRec.movie.release_date?.slice(0, 4) || 'Unknown',
-genre: (() => {
-  const allGenres = safeRec.movie.genre_ids?.map(id => 
-    Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === id)
-  ).filter(Boolean) || [];
-  const primary = Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === genreId);
-  const rest = allGenres.filter(g => g !== primary);
-  return [primary, ...rest].slice(0, 2).join(', ') || 'Drama';
-})(),
-        runtime: safeRec.movie.runtime 
-          ? `${Math.floor(safeRec.movie.runtime / 60)}h ${safeRec.movie.runtime % 60}m` 
-          : '2h',
-platform: matchPlatform(safePlatforms, userPrefs.platforms) || null,
-        reason: safeRec.reason
-      },
-      stretch: {
-        ...stretchRec.movie,
-        title: stretchRec.movie.title,
-        year: stretchRec.movie.release_date?.slice(0, 4) || 'Unknown',
-genre: (() => {
-  const allGenres = stretchRec.movie.genre_ids?.map(id => 
-    Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === id)
-  ).filter(Boolean) || [];
-  const primary = Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === genreId);
-  const rest = allGenres.filter(g => g !== primary);
-  return [primary, ...rest].slice(0, 2).join(', ') || 'Drama';
-})(),
-        runtime: stretchRec.movie.runtime 
-          ? `${Math.floor(stretchRec.movie.runtime / 60)}h ${stretchRec.movie.runtime % 60}m` 
-          : '2h',
-platform: matchPlatform(safePlatforms, userPrefs.platforms) || null,
-        reason: stretchRec.reason
-      },
-      wild: {
-        ...wildRec.movie,
-        title: wildRec.movie.title,
-        year: wildRec.movie.release_date?.slice(0, 4) || 'Unknown',
-genre: (() => {
-  const allGenres = wildRec.movie.genre_ids?.map(id => 
-    Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === id)
-  ).filter(Boolean) || [];
-  const primary = Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === genreId);
-  const rest = allGenres.filter(g => g !== primary);
-  return [primary, ...rest].slice(0, 2).join(', ') || 'Drama';
-})(),
-        runtime: wildRec.movie.runtime 
-          ? `${Math.floor(wildRec.movie.runtime / 60)}h ${wildRec.movie.runtime % 60}m` 
-          : '2h',
-platform: matchPlatform(safePlatforms, userPrefs.platforms) || null,
-        reason: wildRec.reason
-      }
-    };
+  const movieRecs = {
+  safe: {
+    ...safeRec.movie,
+    title: safeRec.movie.title,
+    year: safeRec.movie.release_date?.slice(0, 4) || 'Unknown',
+    genre: (() => {
+      const allGenres = safeRec.movie.genre_ids?.map(id => 
+        Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === id)
+      ).filter(Boolean) || [];
+      const primary = Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === primaryGenre);
+      const rest = allGenres.filter(g => g !== primary);
+      return [primary, ...rest].slice(0, 2).join(', ') || 'Drama';
+    })(),
+    runtime: safeRec.movie.runtime 
+      ? `${Math.floor(safeRec.movie.runtime / 60)}h ${safeRec.movie.runtime % 60}m` 
+      : '2h',
+    platform: matchPlatform(safePlatforms, userPrefs.platforms) || null,
+    reason: safeRec.reason
+  },
+  stretch: {
+    ...stretchRec.movie,
+    title: stretchRec.movie.title,
+    year: stretchRec.movie.release_date?.slice(0, 4) || 'Unknown',
+    genre: (() => {
+      const allGenres = stretchRec.movie.genre_ids?.map(id => 
+        Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === id)
+      ).filter(Boolean) || [];
+      const primary = Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === primaryGenre);
+      const rest = allGenres.filter(g => g !== primary);
+      return [primary, ...rest].slice(0, 2).join(', ') || 'Drama';
+    })(),
+    runtime: stretchRec.movie.runtime 
+      ? `${Math.floor(stretchRec.movie.runtime / 60)}h ${stretchRec.movie.runtime % 60}m` 
+      : '2h',
+    platform: matchPlatform(stretchPlatforms, userPrefs.platforms) || null,
+    reason: stretchRec.reason
+  },
+  wild: {
+    ...wildRec.movie,
+    title: wildRec.movie.title,
+    year: wildRec.movie.release_date?.slice(0, 4) || 'Unknown',
+    genre: (() => {
+      const allGenres = wildRec.movie.genre_ids?.map(id => 
+        Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === id)
+      ).filter(Boolean) || [];
+      const primary = Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === primaryGenre);
+      const rest = allGenres.filter(g => g !== primary);
+      return [primary, ...rest].slice(0, 2).join(', ') || 'Drama';
+    })(),
+    runtime: wildRec.movie.runtime 
+      ? `${Math.floor(wildRec.movie.runtime / 60)}h ${wildRec.movie.runtime % 60}m` 
+      : '2h',
+    platform: matchPlatform(wildPlatforms, userPrefs.platforms) || null,
+    reason: wildRec.reason
+  }
+};
     
     setRecommendations(movieRecs);
     setLoading(false);

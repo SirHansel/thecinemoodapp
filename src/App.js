@@ -1946,9 +1946,9 @@ if (!matchPlatform(wildPlatforms, userPrefs.platforms)) {
           ...shuffled[0],
           title: shuffled[0].title,
           year: shuffled[0].release_date?.slice(0, 4) || 'Unknown',
-          genre: shuffled[0].genre_ids?.map(id => 
-            Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === id)
-          ).slice(0, 2).join(', ') || "Drama",
+         genre: safeRec.movie.genre_ids?.map(id => 
+  Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === id)
+).slice(0, 2).join(', ') || 'Drama',
           runtime: shuffled[0].runtime 
   ? `${Math.floor(shuffled[0].runtime / 60)}h ${shuffled[0].runtime % 60}m` 
   : 'Runtime N/A',
@@ -1959,9 +1959,9 @@ if (!matchPlatform(wildPlatforms, userPrefs.platforms)) {
           ...shuffled[1],
           title: shuffled[1].title,
           year: shuffled[1].release_date?.slice(0, 4) || 'Unknown',
-          genre: shuffled[1].genre_ids?.map(id => 
-            Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === id)
-          ).slice(0, 2).join(', ') || "Drama",
+genre: stretchRec.movie.genre_ids?.map(id => 
+  Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === id)
+).slice(0, 2).join(', ') || 'Drama',
          runtime: shuffled[0].runtime 
   ? `${Math.floor(shuffled[0].runtime / 60)}h ${shuffled[0].runtime % 60}m` 
   : 'Runtime N/A',
@@ -1972,9 +1972,9 @@ if (!matchPlatform(wildPlatforms, userPrefs.platforms)) {
           ...shuffled[2],
           title: shuffled[2].title,
           year: shuffled[2].release_date?.slice(0, 4) || 'Unknown',
-          genre: shuffled[2].genre_ids?.map(id => 
-            Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === id)
-          ).slice(0, 2).join(', ') || "Drama",
+genre: wildRec.movie.genre_ids?.map(id => 
+  Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === id)
+).slice(0, 2).join(', ') || 'Drama',
           runtime: shuffled[0].runtime 
   ? `${Math.floor(shuffled[0].runtime / 60)}h ${shuffled[0].runtime % 60}m` 
   : 'Runtime N/A',

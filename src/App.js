@@ -1332,6 +1332,7 @@ const getWildRecommendation = async (genreId, keywordIds, userPrefs, recentlySho
       sortBy: 'vote_average.desc',
       minRating: 6.0,
       minVotes: 1000
+      // vote_count >= 2000 && vote_count <= 500000 (This is incast i want the filter back with a
     });
     // Filter to cult range (2000-50000 votes)
     movies = movies.filter(m => m.vote_count >= 2000 && m.vote_count <= 50000);

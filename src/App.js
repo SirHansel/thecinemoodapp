@@ -1936,58 +1936,42 @@ if (!matchPlatform(wildPlatforms, userPrefs.platforms)) {
     
     console.log('📝 Tracked IDs:', safeRec?.movie?.id, stretchRec?.movie?.id, wildRec?.movie?.id);
     
-    // ====== VALIDATE WE GOT ALL THREE ======
-    if (!safeRec || !stretchRec || !wildRec) {
-      console.log('⚠️ Missing recommendations, using fallback');
-      
-      // Fallback to basic system
-      const shuffled = result.movies.sort(() => 0.5 - Math.random());
-      setRecommendations({
-        safe: {
-          ...shuffled[0],
-          title: shuffled[0].title,
-          year: shuffled[0].release_date?.slice(0, 4) || 'Unknown',
-         genre: safeRec.movie.genre_ids?.map(id => 
-  Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === id)
-).slice(0, 2).join(', ') || 'Drama',
-          runtime: shuffled[0].runtime 
-  ? `${Math.floor(shuffled[0].runtime / 60)}h ${shuffled[0].runtime % 60}m` 
-  : 'Runtime N/A',
-          platform: userPrefs.platforms[0] || "Netflix",
-          reason: "🎯 Safe Bet: Popular choice"
-        },
-        stretch: {
-          ...shuffled[1],
-          title: shuffled[1].title,
-          year: shuffled[1].release_date?.slice(0, 4) || 'Unknown',
-genre: stretchRec.movie.genre_ids?.map(id => 
-  Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === id)
-).slice(0, 2).join(', ') || 'Drama',
-         runtime: shuffled[0].runtime 
-  ? `${Math.floor(shuffled[0].runtime / 60)}h ${shuffled[0].runtime % 60}m` 
-  : 'Runtime N/A',
-          platform: userPrefs.platforms[0] || "Prime",
-          reason: "↗️ Stretch: Based on your mood"
-        },
-        wild: {
-          ...shuffled[2],
-          title: shuffled[2].title,
-          year: shuffled[2].release_date?.slice(0, 4) || 'Unknown',
-genre: wildRec.movie.genre_ids?.map(id => 
-  Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === id)
-).slice(0, 2).join(', ') || 'Drama',
-          runtime: shuffled[0].runtime 
-  ? `${Math.floor(shuffled[0].runtime / 60)}h ${shuffled[0].runtime % 60}m` 
-  : 'Runtime N/A',
-          platform: userPrefs.platforms[0] || "Hulu",
-          reason: "🎲 Wild: Something different"
-        }
-      });
-     
-      setLoading(false);
-      setCurrentScreen('results');
-      return;
+   // ====== VALIDATE WE GOT ALL THREE ======
+if (!safeRec || !stretchRec || !wildRec) {
+  console.log('⚠️ Missing one or more recs, attempting retry...');
+  
+  if (!wildRec) {
+    console.log('🔄 Wild card null - retrying with foreign film fallback');
+    const fallbackMovies = await fetchMoviesByGenre(primaryGenre, true, [], {
+      sortBy: 'vote_average.desc',
+      minVotes: 1000
+    });
+    const filteredFallback = fallbackMovies
+      .filter(m => m.original_language !== 'en')
+      .filter(m => !userPrefs.letterboxdData?.movies?.some(w => 
+        w.title.toLowerCase() === m.title.toLowerCase()
+      ))
+      .filter(m => !recentlyShownMovies.includes(m.id));
+    
+    if (filteredFallback.length > 0) {
+      const idx = Math.floor(filteredFallback.length / 2);
+      wildRec = { 
+        movie: filteredFallback[idx], 
+        tier: 'wild', 
+        reason: "🎲 Wild: International cinema you haven't explored" 
+      };
+      console.log('✅ Wild card retry succeeded:', wildRec.movie.title);
     }
+  }
+
+  if (!safeRec || !stretchRec || !wildRec) {
+    console.log('⚠️ Still missing recs after retry - aborting gracefully');
+    setLoading(false);
+    return;
+  }
+}
+      
+    
     
     // ====== FORMAT RECOMMENDATIONS (MAIN PATH) ======
   const movieRecs = {

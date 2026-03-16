@@ -2625,7 +2625,7 @@ if (currentScreen === 'setup') {
         onChange={(e) => {
           const newPrefs = { ...userPrefs, quizMode: e.target.value };
           setUserPrefs(newPrefs);
-          savePreferences(newPrefs);
+          saveUserPrefs(newPrefs);
         }}
         className="w-4 h-4"
       />
@@ -2643,7 +2643,7 @@ if (currentScreen === 'setup') {
         onChange={(e) => {
           const newPrefs = { ...userPrefs, quizMode: e.target.value };
           setUserPrefs(newPrefs);
-          savePreferences(newPrefs);
+          saveUserPrefs(newPrefs);
         }}
         className="w-4 h-4"
       />

@@ -1321,7 +1321,7 @@ const getWildRecommendation = async (genreId, keywordIds, userPrefs, recentlySho
       sortBy: 'vote_average.desc',
       minVotes: 300,
       startYear: 1940,
-      endYear: 1979
+      endYear: 1980
     });
     reason = '🎲 Wild: Timeless classic from cinema\'s golden era';
     
@@ -1330,8 +1330,8 @@ const getWildRecommendation = async (genreId, keywordIds, userPrefs, recentlySho
     console.log('🎭 Wild: Cult film');
     movies = await fetchMoviesByGenre(genreId, false, keywordIds, {
       sortBy: 'vote_average.desc',
-      minRating: 7.0,
-      minVotes: 2000
+      minRating: 6.0,
+      minVotes: 1000
     });
     // Filter to cult range (2000-50000 votes)
     movies = movies.filter(m => m.vote_count >= 2000 && m.vote_count <= 50000);

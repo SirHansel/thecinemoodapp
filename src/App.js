@@ -2154,8 +2154,7 @@ console.log('🎯 Similar movies ranked by taste:', pool.slice(0, 3).map(m => `$
 
   
   const wheelMovies = [
-    "Blade Runner 2049", "The Departed", "Mad Max: Fury Road", "Prisoners",
-    "No Country for Old Men", "Drive", "Hell or High Water", "Wind River", "8 1/2"
+    "https://api.themoviedb.org/3/list/10?api_key=..."
   ];
   
   // Question Rotation System - Multiple variations per mood category
@@ -3240,7 +3239,8 @@ if (currentScreen === 'decision') {
        
         <div className="text-center mb-6">
           <div
-className={`w-48 h-48 mx-auto rounded-full border-4 border-gray-600 flex items-center justify-center transition-transform duration-2000 ${isSpinning ? 'animate-spin' : ''}`}            style={{
+className={`w-48 h-48 mx-auto rounded-full border-4 border-gray-600 flex items-center justify-center transition-transform duration-2000 ${isSpinning ? 'animate-spin' : ''}`}   
+style={{
               background: `conic-gradient(
                 #0f3460 0deg 45deg,
                 #e94560 45deg 90deg,
@@ -3267,17 +3267,6 @@ className={`w-48 h-48 mx-auto rounded-full border-4 border-gray-600 flex items-c
           {isSpinning ? 'Spinning...' : 'Spin the Wheel'}
         </button>
        
-        <button
-          onClick={() => {
-            const recommendations = currentRecommendations || getPersonalizedRecommendations();
-            const luckyMovie = Object.values(recommendations)[Math.floor(Math.random() * 3)];
-            setSelectedMovie({ ...luckyMovie, source: 'lucky' });
-            setCurrentScreen('luckyResult');
-          }}
-          className="w-full bg-gradient-to-r from-red-500 to-teal-500 hover:from-red-600 hover:to-teal-600 text-white p-3 rounded font-medium mb-2"
-        >
-          I'm Feeling Lucky
-        </button>
         
         <button
           onClick={() => setCurrentScreen('results')}
@@ -3306,28 +3295,6 @@ if (currentScreen === 'spinResult') {
           className="w-full bg-green-600 hover:bg-green-700 text-white p-3 rounded font-medium"
         >
           Start Watching
-        </button>
-      </div>
-    </div>
-  );
-}
-
-// Lucky Result Screen
-if (currentScreen === 'luckyResult') {
-  return (
-    <div className="min-h-screen bg-gray-900 text-gray-200 p-4">
-      <div className="max-w-md mx-auto bg-gray-800 rounded-lg p-6 border-2 border-gray-600">
-        <h2 className="text-center bg-gray-700 text-gray-200 p-3 rounded mb-6 text-lg font-bold">
-          Perfect Match!
-        </h2>
-        <div className="text-center mb-6">
-          <h3 className="text-2xl font-bold mb-2">{selectedMovie?.title}</h3>
-        </div>
-        <button
-          onClick={() => setCurrentScreen('watching')}
-          className="w-full bg-green-600 hover:bg-green-700 text-white p-3 rounded font-medium"
-        >
-          Let's Do This
         </button>
       </div>
     </div>

@@ -3203,14 +3203,18 @@ if (currentScreen === 'results') {
           </button>
           <button
             onClick={() => {
-              setQuestionIndex(0); 
-              setUserPrefs(prev => ({...prev, moodAnswers: {}}));
-              setRecommendations(null);
-              setCurrentRecommendations(null);
-              const newQuestionSet = generateQuestionSet();
-              setCurrentQuestionSet(newQuestionSet);
-              setCurrentScreen('mood');
-            }}
+  setQuestionIndex(0); 
+  setUserPrefs(prev => ({...prev, moodAnswers: {}}));
+  setRecommendations(null);
+  setCurrentRecommendations(null);
+  if (userPrefs.quizMode === 'intuitive') {
+    setCurrentScreen('intuitive');
+  } else {
+    const newQuestionSet = generateQuestionSet();
+    setCurrentQuestionSet(newQuestionSet);
+    setCurrentScreen('mood');
+  }
+}}
             className="bg-gray-600 hover:bg-gray-700 text-white p-3 rounded font-medium"
           >
             <RotateCcw className="inline w-4 h-4 mr-2" />

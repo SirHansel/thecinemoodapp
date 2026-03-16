@@ -2117,7 +2117,8 @@ console.log('🎯 Similar movies ranked by taste:', pool.slice(0, 3).map(m => `$
         ...safeMovie,
         runtime: safeDetails?.runtime ? `${Math.floor(safeDetails.runtime / 60)}h ${safeDetails.runtime % 60}m` : 'N/A',
         genre: safeMovie.genre_ids?.map(id => Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === id)).filter(Boolean).slice(0, 2).join(', ') || 'Drama',
-       platform: matchPlatform(stretchPlatforms, userPrefs.platforms) || null,
+platform: matchPlatform(safePlatforms, userPrefs.platforms) || null,
+        
         reason: `🎯 Similar to ${seedMovie.title}`
       },
       stretch: {
@@ -2131,7 +2132,8 @@ console.log('🎯 Similar movies ranked by taste:', pool.slice(0, 3).map(m => `$
         ...wildMovie,
         runtime: wildDetails?.runtime ? `${Math.floor(wildDetails.runtime / 60)}h ${wildDetails.runtime % 60}m` : 'N/A',
         genre: wildMovie.genre_ids?.map(id => Object.keys(TMDB_GENRES).find(key => TMDB_GENRES[key] === id)).filter(Boolean).slice(0, 2).join(', ') || 'Drama',
-       platform: matchPlatform(stretchPlatforms, userPrefs.platforms) || null,
+       platform: matchPlatform(wildPlatforms, userPrefs.platforms) || null,
+
         reason: `🎲 Unexpected pick from this world`
       }
     };
@@ -2487,17 +2489,28 @@ const handleMoodAnswer = async (questionId, answerId) => {
   }
 };
 
-  
-  
-  const spinWheel = () => {
-    setIsSpinning(true);
-    setTimeout(() => {
-      const randomMovie = wheelMovies[Math.floor(Math.random() * wheelMovies.length)];
-      setSelectedMovie({ title: randomMovie, year: 2023, source: 'wheel' });
-      setIsSpinning(false);
-      setCurrentScreen('spinResult');
-    }, 2000);
-  };
+  const spinWheel = async () => {
+  setIsSpinning(true);
+  try {
+    const response = await fetch(
+      `https://api.themoviedb.org/3/list/10?api_key=ff6802ce657f3eb0920728b788c1842b`
+    );
+    const data = await response.json();
+    const films = data.items || [];
+    const randomMovie = films[Math.floor(Math.random() * films.length)];
+    setSelectedMovie({ 
+      ...randomMovie,
+      title: randomMovie.title,
+      year: randomMovie.release_date?.slice(0, 4) || 'Unknown',
+      source: 'wheel' 
+    });
+    setIsSpinning(false);
+    setCurrentScreen('spinResult');
+  } catch (error) {
+    console.error('Wheel fetch error:', error);
+    setIsSpinning(false);
+  }
+};
 
   const handleWatchMovie = (movie) => {
     setSelectedMovie({ ...movie, source: 'recommendation' });

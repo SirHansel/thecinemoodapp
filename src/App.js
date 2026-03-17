@@ -3345,14 +3345,20 @@ const saveRating = async () => {  // ← ADD async
     const newGenreWeights = { ...prev.genreWeights };
     const newKeywordWeights = { ...prev.keywordWeights };
     const newDecadeWeights = { ...prev.decadeWeights };
-    
-    // Update genre weights
-    if (movieRating.genre_ids) {
-      movieRating.genre_ids.forEach(genreId => {
-        newGenreWeights[genreId] = (newGenreWeights[genreId] || 0) + influence;
-        console.log(`  📊 Genre ${genreId}: ${newGenreWeights[genreId] > 0 ? '+' : ''}${newGenreWeights[genreId]}`);
-      });
+
+    //updated genre weights   
+  if (movieRating.genre_ids) {
+  movieRating.genre_ids.forEach((genreId, index) => {
+    const positionMultiplier = index === 0 ? 1.0 : 
+                               index === 1 ? 0.5 : 
+                               index === 2 ? 0.2 : 0;
+    const weightedInfluence = influence * positionMultiplier;
+    if (weightedInfluence !== 0) {
+      newGenreWeights[genreId] = (newGenreWeights[genreId] || 0) + weightedInfluence;
+      console.log(`  📊 Genre ${genreId} (position ${index}, multiplier ${positionMultiplier}): ${weightedInfluence > 0 ? '+' : ''}${weightedInfluence.toFixed(2)}`);
     }
+  });
+}
     
     // Update keyword weights
     if (movieRating.keywords) {

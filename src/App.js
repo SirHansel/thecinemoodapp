@@ -1953,15 +1953,37 @@ if (!safeRec || !stretchRec || !wildRec) {
       ))
       .filter(m => !recentlyShownMovies.includes(m.id));
     
-    if (filteredFallback.length > 0) {
-      const idx = Math.floor(filteredFallback.length / 2);
-      wildRec = { 
-        movie: filteredFallback[idx], 
-        tier: 'wild', 
-        reason: "🎲 Wild: International cinema you haven't explored" 
-      };
-      console.log('✅ Wild card retry succeeded:', wildRec.movie.title);
-    }
+   if (filteredFallback.length > 0) {
+  const idx = Math.floor(filteredFallback.length / 2);
+  wildRec = { 
+    movie: filteredFallback[idx], 
+    tier: 'wild', 
+    reason: "🎲 Wild: International cinema you haven't explored" 
+  };
+  console.log('✅ Wild card retry succeeded:', wildRec.movie.title);
+} else {
+  // Final fallback - try domestic cult film with lower threshold
+  console.log('🔄 Foreign fallback empty - trying domestic cult fallback');
+  const domesticFallback = await fetchMoviesByGenre(primaryGenre, false, [], {
+    sortBy: 'vote_average.desc',
+    minVotes: 500,
+    minRating: 6.0
+  });
+  const filteredDomestic = domesticFallback
+    .filter(m => !userPrefs.letterboxdData?.movies?.some(w => 
+      w.title.toLowerCase() === m.title.toLowerCase()
+    ))
+    .filter(m => !recentlyShownMovies.includes(m.id));
+  if (filteredDomestic.length > 0) {
+    const idx = Math.floor(filteredDomestic.length / 2);
+    wildRec = {
+      movie: filteredDomestic[idx],
+      tier: 'wild',
+      reason: '🎲 Wild: Cult favorite hidden gem'
+    };
+    console.log('✅ Domestic cult fallback succeeded:', wildRec.movie.title);
+  }
+}
   }
 
   if (!safeRec || !stretchRec || !wildRec) {

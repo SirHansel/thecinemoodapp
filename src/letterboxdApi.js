@@ -445,30 +445,39 @@ export const analyzeProfileStrength = (tasteData) => {
   const [topDecade, topCount] = sortedDecades[0];
   const topDecadePercentage = (topCount / totalMovies) * 100;
   
-  // Determine strength based on thresholds
-  let strength, confidence, recommendation, decadeWeight;
-  
-  if (totalMovies >= 50 && topDecadePercentage >= 40) {
-    strength = 'strong';
-    confidence = 0.8;
-    decadeWeight = 0.75; // 75% chance use preferred decade
-    recommendation = `Strong ${topDecade}s preference - heavily weight classics`;
-  } else if (totalMovies >= 20 && topDecadePercentage >= 20) {
-    strength = 'moderate';
-    confidence = 0.5;
-    decadeWeight = 0.45; // 45% chance
-    recommendation = `Moderate ${topDecade}s preference - sometimes use classics`;
-  } else if (totalMovies >= 10) {
-    strength = 'weak';
-    confidence = 0.2;
-    decadeWeight = 0.1; // 10% chance
-    recommendation = 'Weak preference - rarely use decade filtering';
-  } else {
-    strength = 'none';
-    confidence = 0;
-    decadeWeight = 0;
-    recommendation = 'Not enough data - use popularity system';
-  }
+  // Profile strength based purely on movie count
+// Decade confidence is tracked separately
+let strength, confidence, recommendation, decadeWeight;
+
+if (totalMovies >= 200) {
+  strength = 'strong';
+  confidence = 0.8;
+  recommendation = `Large profile - strong taste signals`;
+} else if (totalMovies >= 50) {
+  strength = 'moderate';
+  confidence = 0.5;
+  recommendation = `Medium profile - reasonable taste signals`;
+} else if (totalMovies >= 10) {
+  strength = 'weak';
+  confidence = 0.2;
+  recommendation = 'Small profile - limited taste signals';
+} else {
+  strength = 'none';
+  confidence = 0;
+  recommendation = 'Not enough data - use popularity system';
+}
+
+// Decade weight calculated separately based on concentration
+// High concentration = more decade filtering, low = less
+if (topDecadePercentage >= 40) {
+  decadeWeight = 0.75;
+} else if (topDecadePercentage >= 25) {
+  decadeWeight = 0.45;
+} else if (topDecadePercentage >= 15) {
+  decadeWeight = 0.2;
+} else {
+  decadeWeight = 0.1;
+}
   
   console.log(`📊 Profile Strength: ${strength.toUpperCase()}`);
   console.log(`   ${totalMovies} movies, ${topDecadePercentage.toFixed(1)}% from ${topDecade}s`);

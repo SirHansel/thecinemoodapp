@@ -1866,12 +1866,16 @@ useEffect(() => {
  const generateRecommendations = async (precomputedScores = null) => {
     setLoading(true);
     try {
-      const result = await getMoodBasedMovies(
+   const profileStrength = analyzeProfileStrength(userPrefs.letterboxdData);
+console.log('📊 Profile Analysis:', profileStrength);
+
+const result = await getMoodBasedMovies(
   precomputedScores || userPrefs.moodAnswers,
-        userPrefs.tasteProfile, 
-        userPrefs.excludedGenreIds, 
-        userPrefs
-      );
+  userPrefs.tasteProfile, 
+  userPrefs.excludedGenreIds, 
+  userPrefs,
+  profileStrength
+);
       
       if (!result || !result.movies || result.movies.length < 3) {
         console.log('❌ Not enough movies from TMDB');

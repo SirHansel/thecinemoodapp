@@ -1385,25 +1385,39 @@ const getGenreName = (genreId) => {
 // ========================================
 // TASTE WEIGHTING ALGORITHM
 // ========================================
-const applyTasteWeighting = (moodScore, tasteProfile) => {
+const applyTasteWeighting = (moodScore, tasteProfile, profileStrength) => {
   console.log('🧮 Calculating taste-weighted genre selection');
 
-  // ── Layer 1: Scale mood/taste split by how many movies rated ──
-  const ratedCount = (tasteProfile.lovedMovies?.length || 0) + 
-                     (tasteProfile.likedMovies?.length || 0);
-  
-  let moodWeight, tasteWeight;
-  if (ratedCount < 5) {
-    moodWeight = 0.90; tasteWeight = 0.10;
-  } else if (ratedCount < 16) {
-    moodWeight = 0.75; tasteWeight = 0.25;
-  } else if (ratedCount < 31) {
-    moodWeight = 0.65; tasteWeight = 0.35;
-  } else {
-    moodWeight = 0.60; tasteWeight = 0.40;
-  }
-  console.log(`⚖️ Rated count: ${ratedCount} → Mood: ${moodWeight*100}% / Taste: ${tasteWeight*100}%`);
+ // ── Layer 1: Two-dimensional split using profile strength + rated confidence ──
+const ratedConfidence = profileStrength?.ratedConfidence || 'none';
+const profileStr = profileStrength?.strength || 'none';
 
+let moodWeight, tasteWeight;
+
+if (profileStr === 'strong' && ratedConfidence === 'high') {
+  moodWeight = 0.6; tasteWeight = 0.4;
+} else if (profileStr === 'strong' && ratedConfidence === 'medium') {
+  moodWeight = 0.65; tasteWeight = 0.35;
+} else if (profileStr === 'strong' && ratedConfidence === 'low') {
+  moodWeight = 0.8; tasteWeight = 0.2;
+} else if (profileStr === 'strong' && ratedConfidence === 'none') {
+  moodWeight = 0.95; tasteWeight = 0.05;
+} else if (profileStr === 'moderate' && ratedConfidence === 'high') {
+  moodWeight = 0.65; tasteWeight = 0.35;
+} else if (profileStr === 'moderate' && ratedConfidence === 'medium') {
+  moodWeight = 0.75; tasteWeight = 0.25;
+} else if (profileStr === 'moderate' && ratedConfidence === 'low') {
+  moodWeight = 0.85; tasteWeight = 0.15;
+} else if (profileStr === 'weak' && ratedConfidence === 'high') {
+  moodWeight = 0.7; tasteWeight = 0.3;
+} else if (profileStr === 'weak' && ratedConfidence === 'medium') {
+  moodWeight = 0.8; tasteWeight = 0.2;
+} else {
+  moodWeight = 0.95; tasteWeight = 0.05;
+}
+
+console.log(`⚖️ Profile: ${profileStr} / Rated confidence: ${ratedConfidence} → Mood: ${moodWeight*100}% / Taste: ${tasteWeight*100}%`);
+  
   // ── Layer 2: Build taste genre counts using star ratings ──
   const tasteGenreCounts = {};
 

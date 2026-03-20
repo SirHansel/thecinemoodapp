@@ -444,7 +444,19 @@ export const analyzeProfileStrength = (tasteData) => {
   
   const [topDecade, topCount] = sortedDecades[0];
   const topDecadePercentage = (topCount / totalMovies) * 100;
-  
+  // Calculate rated confidence separately from watched count
+const ratedCount = movies.filter(m => m.rating && m.rating > 0).length;
+
+let ratedConfidence;
+if (ratedCount >= 100) {
+  ratedConfidence = 'high';
+} else if (ratedCount >= 30) {
+  ratedConfidence = 'medium';
+} else if (ratedCount >= 10) {
+  ratedConfidence = 'low';
+} else {
+  ratedConfidence = 'none';
+}
   // Profile strength based purely on movie count
 // Decade confidence is tracked separately
 let strength, confidence, recommendation, decadeWeight;
@@ -483,15 +495,17 @@ if (topDecadePercentage >= 40) {
   console.log(`   ${totalMovies} movies, ${topDecadePercentage.toFixed(1)}% from ${topDecade}s`);
   console.log(`   Decade weight: ${(decadeWeight * 100).toFixed(0)}%`);
   
-  return {
-    strength,           // 'strong' | 'moderate' | 'weak' | 'none'
-    confidence,         // 0-1 scale
-    totalMovies,
-    topDecade: parseInt(topDecade),
-    topDecadePercentage: Math.round(topDecadePercentage),
-    secondDecade: sortedDecades[1] ? parseInt(sortedDecades[1][0]) : null,
-    decadeWeight,       // Probability to use decade filtering
-    recommendation
+return {
+  strength,
+  confidence,
+  totalMovies,
+  ratedCount,
+  ratedConfidence,
+  topDecade: parseInt(topDecade),
+  topDecadePercentage: Math.round(topDecadePercentage),
+  secondDecade: sortedDecades[1] ? parseInt(sortedDecades[1][0]) : null,
+  decadeWeight,
+  recommendation
   };
 };
 // ========================================

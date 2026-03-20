@@ -1489,13 +1489,16 @@ console.log(`⚖️ Profile: ${profileStr} / Rated confidence: ${ratedConfidence
 
 // Platform availability mapping (simplified for now - can be enhanced later)
 const PLATFORM_MAPPING = {
-  // Map your platform names to common ways they appear in movie data
   'Netflix': ['netflix', 'Netflix'],
   'Prime': ['amazon prime', 'prime video', 'amazon', 'prime'],
   'Hulu': ['hulu', 'Hulu'],
   'Disney+': ['disney+', 'disney plus', 'disney', 'Disney+'],
   'Criterion': ['criterion', 'criterion channel', 'Criterion'],
-  'Tubi': ['tubi', 'Tubi']
+  'Tubi': ['tubi', 'Tubi'],
+  'HBO Max': ['hbo max', 'max', 'HBO Max', 'Max'],
+  'MUBI': ['mubi', 'MUBI'],
+  'Apple TV+': ['apple tv+', 'apple tv plus', 'apple', 'Apple TV+'],
+  'Peacock': ['peacock', 'Peacock']
 };
 
 // ========================================
@@ -1778,7 +1781,7 @@ useEffect(() => {
   const [currentQuestionSet, setCurrentQuestionSet] = useState(null);
 
   // Platforms array
-  const platforms = ['Netflix', 'Prime', 'Hulu', 'Disney+', 'Criterion', 'Tubi'];
+ const platforms = ['Netflix', 'Prime', 'Hulu', 'Disney+', 'Criterion', 'Tubi', 'HBO Max', 'MUBI', 'Apple TV+', 'Peacock'];
   const [letterboxdError, setLetterboxdError] = useState('');
     
 // ========================================

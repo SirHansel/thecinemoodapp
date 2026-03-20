@@ -983,8 +983,7 @@ const getMoodBasedMovies = async (moodAnswers, tasteProfile = null, excludedGenr
   // If user has taste data, apply 60/40 weighting
   if (tasteProfile && tasteProfile.lovedMovies.length > 0) {
     console.log('💝 Applying taste weighting (40% taste, 60% mood)');
-    finalGenreSelection = applyTasteWeighting(moodScore, tasteProfile);
-  } else {
+finalGenreSelection = applyTasteWeighting(moodScore, tasteProfile, profileStrength);]  } else {
     console.log('🎭 Using pure mood scoring (no taste data)');
   }
   

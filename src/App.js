@@ -956,7 +956,7 @@ const calculateMoodScore = (moodAnswers, userPrefs) => {
 // ========================================
 // ENHANCED MOOD + TASTE INTEGRATION
 // ========================================
-const getMoodBasedMovies = async (moodAnswers, tasteProfile = null, excludedGenreIds = [], userPrefs = {}) => {
+const getMoodBasedMovies = async (moodAnswers, tasteProfile = null, excludedGenreIds = [], userPrefs = {}, profileStrength = null) => {
   console.log('🎯 Starting mood + taste integration');
   
   let moodScore;
@@ -1891,8 +1891,7 @@ const result = await getMoodBasedMovies(
       console.log('🎯 Primary Genre:', result.context.chosenGenre);
       console.log('🔍 userPrefs.letterboxdData:', userPrefs.letterboxdData);
       console.log('🔍 userPrefs.tasteProfile:', userPrefs.tasteProfile);
-      const profileStrength = analyzeProfileStrength(userPrefs.letterboxdData);
-      console.log('📊 Profile Analysis:', profileStrength);
+      
       
    console.log('🎬 Fetching three-tier recommendations...');
 const safeRec = await getSafeRecommendation(primaryGenre, keywordIds, userPrefs, recentlyShownMovies);

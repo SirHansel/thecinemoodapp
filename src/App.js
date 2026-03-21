@@ -1776,6 +1776,7 @@ useEffect(() => {
   const [recommendations, setRecommendations] = useState(null);
   const [loading, setLoading] = useState(false);
   const [csvFile, setCsvFile] = useState(null);
+  const [ratingsFile, setRatingsFile] = useState(null);
   const [csvProcessing, setCsvProcessing] = useState(false);
   const [csvError, setCsvError] = useState('');
   const [currentQuestionSet, setCurrentQuestionSet] = useState(null);
@@ -2704,7 +2705,17 @@ if (currentScreen === 'setup') {
   <input
     type="file"
     accept=".csv"
-    onChange={(e) => setCsvFile(e.target.files[0])}
+    multiple
+    onChange={(e) => {
+  const files = Array.from(e.target.files);
+  files.forEach(file => {
+    if (file.name.toLowerCase().includes('ratings')) {
+      setRatingsFile(file);
+    } else {
+      setCsvFile(file);
+    }
+  });
+}}
     className="w-full p-3 border-2 border-gray-600 rounded bg-gray-700 text-gray-200 mb-2 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:bg-gray-600 file:text-gray-200"
   />
   {csvError && (

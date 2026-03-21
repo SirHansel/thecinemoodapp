@@ -3471,13 +3471,22 @@ const saveRating = async () => {  // ← ADD async
           </p>
         </div>
         
-       <button
-          onClick={saveRating}
-          disabled={userRating === 0}
-          className="w-full bg-green-600 hover:bg-green-700 disabled:bg-gray-600 text-white p-3 rounded font-medium"
-        >
-          {userRating > 0 ? 'Save Rating & Find Another' : 'Rate to Continue'}
-        </button>    
+      <button
+  onClick={saveRating}
+  disabled={userRating === 0}
+  className="w-full bg-green-600 hover:bg-green-700 disabled:bg-gray-600 text-white p-3 rounded font-medium"
+>
+  {userRating > 0 ? 'Save Rating & Find Another' : 'Rate to Continue'}
+</button>
+<button
+  onClick={() => {
+    setUserRating(0);
+    setCurrentScreen('setup');
+  }}
+  className="w-full bg-gray-600 hover:bg-gray-700 text-white p-3 rounded font-medium mt-3"
+>
+  Skip
+</button>   
       </div>
     </div>
   );

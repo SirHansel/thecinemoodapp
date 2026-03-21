@@ -2721,9 +2721,12 @@ if (currentScreen === 'setup') {
   {csvError && (
     <p className="text-red-400 text-sm">{csvError}</p>
   )}
-  {csvFile && (
-    <p className="text-green-400 text-sm">Ready to import: {csvFile.name}</p>
-  )}
+{csvFile && (
+  <p className="text-green-400 text-sm">✓ Watched list: {csvFile.name}</p>
+)}
+{ratingsFile && (
+  <p className="text-green-400 text-sm">✓ Ratings: {ratingsFile.name}</p>
+)}
 </div>
          
        <p className="text-sm text-gray-400 mb-3">Select your streaming platforms:</p>

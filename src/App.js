@@ -2816,24 +2816,49 @@ if (currentScreen === 'setup') {
     setQuestionIndex(0);
     console.log('Setup button clicked');
     
+  if (csvFile || ratingsFile) {
+  setCsvProcessing(true);
+  setCsvError('');
+  try {
+    // Parse watched CSV if provided
+    let letterboxdData = null;
     if (csvFile) {
-      setCsvProcessing(true);
-      setCsvError('');
-      try {
-        const letterboxdData = await parseLetterboxdCSV(csvFile);
-        const tasteData = analyzeUserTaste(letterboxdData);
-        setUserPrefs(prev => {
-        const combinedTaste = combineRatingsWithTaste(tasteData, prev.watchedMovies);
-        return {...prev, letterboxdData: letterboxdData, tasteProfile: combinedTaste};
-});
-        console.log('CSV imported successfully:', tasteData);
-      } catch (error) {
-        setCsvError(error.message);
-        setCsvProcessing(false);
-        return;
-      }
-      setCsvProcessing(false);
+      letterboxdData = await parseLetterboxdCSV(csvFile);
     }
+
+    // Parse ratings CSV if provided and merge into watched data
+    if (ratingsFile) {
+      const ratingsData = await parseLetterboxdCSV(ratingsFile);
+      if (letterboxdData) {
+        // Merge ratings into watched data by matching title + year
+        const ratingsMap = {};
+        ratingsData.movies.forEach(m => {
+          const key = `${m.title.toLowerCase()}_${m.year}`;
+          ratingsMap[key] = m.rating;
+        });
+        letterboxdData.movies = letterboxdData.movies.map(m => {
+          const key = `${m.title.toLowerCase()}_${m.year}`;
+          return ratingsMap[key] ? { ...m, rating: ratingsMap[key] } : m;
+        });
+      } else {
+        // Only ratings file provided, use it directly
+        letterboxdData = ratingsData;
+      }
+    }
+
+    const tasteData = analyzeUserTaste(letterboxdData);
+    setUserPrefs(prev => {
+      const combinedTaste = combineRatingsWithTaste(tasteData, prev.watchedMovies);
+      return {...prev, letterboxdData: letterboxdData, tasteProfile: combinedTaste};
+    });
+    console.log('CSV imported successfully:', tasteData);
+  } catch (error) {
+    setCsvError(error.message);
+    setCsvProcessing(false);
+    return;
+  }
+  setCsvProcessing(false);
+}
   
     // Check quiz mode and launch appropriate quiz
     if (userPrefs.quizMode === 'intuitive') {

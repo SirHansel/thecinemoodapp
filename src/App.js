@@ -1328,9 +1328,9 @@ const getWildRecommendation = async (genreId, keywordIds, userPrefs, recentlySho
 } else if (roll < 0.9) {
   // 20% - Cult film - uses cult/arthouse keywords for better targeting
   console.log('🎭 Wild: Cult film');
-  const cultKeywords = [9715, 10683, 14544, 11236]; // cult film, underground, midnight movie, arthouse
-  const combinedKeywords = [...new Set([...keywordIds, ...cultKeywords])];
-  movies = await fetchMoviesByGenre(genreId, false, combinedKeywords, {
+ const cultKeywords = [9715, 10683, 14544, 11236];  // cult film, underground, midnight movie, arthouse
+movies = await fetchMoviesByGenre(genreId, false, cultKeywords, {
+
     sortBy: 'vote_average.desc',
     minRating: 6.0,
     minVotes: 1000

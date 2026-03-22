@@ -1325,18 +1325,28 @@ const getWildRecommendation = async (genreId, keywordIds, userPrefs, recentlySho
     });
     reason = '🎲 Wild: Timeless classic from cinema\'s golden era';
     
-  } else if (roll < 0.9) {
-    // 20% - Cult film (high rating, low-medium votes)
-    console.log('🎭 Wild: Cult film');
+} else if (roll < 0.9) {
+  // 20% - Cult film - uses cult/arthouse keywords for better targeting
+  console.log('🎭 Wild: Cult film');
+  const cultKeywords = [9715, 10683, 14544, 11236]; // cult film, underground, midnight movie, arthouse
+  const combinedKeywords = [...new Set([...keywordIds, ...cultKeywords])];
+  movies = await fetchMoviesByGenre(genreId, false, combinedKeywords, {
+    sortBy: 'vote_average.desc',
+    minRating: 6.0,
+    minVotes: 1000
+  });
+  // If keyword search returns too few results fall back to vote range filter
+  if (movies.length < 5) {
+    console.log('🔄 Cult keyword search thin, falling back to vote range');
     movies = await fetchMoviesByGenre(genreId, false, keywordIds, {
       sortBy: 'vote_average.desc',
-      minRating: 6.0,
+      minRating: 6.5,
       minVotes: 1000
-      // vote_count >= 2000 && vote_count <= 500000 (This is incast i want the filter back with a
     });
-    // Filter to cult range (2000-50000 votes)
-    movies = movies.filter(m => m.vote_count >= 2000 && m.vote_count <= 50000);
-    reason = '🎲 Wild: Cult favorite hidden gem';
+    movies = movies.filter(m => m.vote_count >= 2000 && m.vote_count <= 300000);
+  }
+  reason = '🎲 Wild: Cult favorite hidden gem';
+    
     
   } else {
     // 10% - Genre surprise (different genre)

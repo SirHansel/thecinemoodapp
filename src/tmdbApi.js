@@ -43,6 +43,10 @@ export const fetchMoviesByGenre = async (
       url += `&vote_count.gte=${options.minVotes}`;
       if (page === 1) console.log(`⭐ Min votes: ${options.minVotes}`);
     }
+
+    if (options.maxVotes) {
+  url += `&vote_count.lte=${options.maxVotes}`;
+}
     
     if (options.minRating) {
       url += `&vote_average.gte=${options.minRating}`;

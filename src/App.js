@@ -1996,10 +1996,11 @@ if (!safeRec || !stretchRec || !wildRec) {
   // Final fallback - try domestic cult film with lower threshold
   console.log('🔄 Foreign fallback empty - trying domestic cult fallback');
   const domesticFallback = await fetchMoviesByGenre(primaryGenre, false, [], {
-    sortBy: 'vote_average.desc',
-    minVotes: 500,
-    minRating: 6.0
-  });
+  sortBy: 'vote_average.desc',
+  minVotes: 500,
+  minRating: 6.0,
+  maxVotes: 300000
+});
   const filteredDomestic = domesticFallback
     .filter(m => !userPrefs.letterboxdData?.movies?.some(w => 
       w.title.toLowerCase() === m.title.toLowerCase()

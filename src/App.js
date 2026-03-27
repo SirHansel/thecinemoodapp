@@ -686,27 +686,6 @@ const getCharacterGenreKeywords = (characterAnswer, primaryGenre) => {
   return characterKeywords;
 };
 
-const updateShownHistory = (movieIds) => {
-  setUserPrefs(prev => {
-    const newHistory = { ...prev.shownHistory };
-    
-    // Increment all existing entries by 1
-    Object.keys(newHistory).forEach(id => {
-      newHistory[id] += 1;
-      // Remove entries older than 5 sessions
-      if (newHistory[id] > 5) {
-        delete newHistory[id];
-      }
-    });
-    
-    // Add newly shown movies at session count 0
-    movieIds.filter(Boolean).forEach(id => {
-      newHistory[id] = 0;
-    });
-    
-    return { ...prev, shownHistory: newHistory };
-  });
-};
 const ENERGY_GENRE_KEYWORDS = {
   // EXPLOSIVE - High intensity, fast-paced
   explosive: {
@@ -1779,7 +1758,28 @@ const loadUserPrefs = () => {
     return null;
   }
 };
-
+//moves this to inside the app componant 
+  const updateShownHistory = (movieIds) => {
+  setUserPrefs(prev => {
+    const newHistory = { ...prev.shownHistory };
+    
+    // Increment all existing entries by 1
+    Object.keys(newHistory).forEach(id => {
+      newHistory[id] += 1;
+      // Remove entries older than 5 sessions
+      if (newHistory[id] > 5) {
+        delete newHistory[id];
+      }
+    });
+    
+    // Add newly shown movies at session count 0
+    movieIds.filter(Boolean).forEach(id => {
+      newHistory[id] = 0;
+    });
+    
+    return { ...prev, shownHistory: newHistory };
+  });
+};
 
   const [currentScreen, setCurrentScreen] = useState('setup');
   const [showTerms, setShowTerms] = useState(false);

@@ -2044,12 +2044,21 @@ if (!safeRec || !stretchRec || !wildRec) {
   minRating: 6.0,
   maxVotes: 300000
 });
-  const filteredDomestic = domesticFallback
-    .filter(m => m.vote_count <= 300000) 
-    .filter(m => !userPrefs.letterboxdData?.movies?.some(w => 
-      w.title.toLowerCase() === m.title.toLowerCase()
-    ))
-    .filter(m => !recentlyShownMovies.includes(m.id));
+ const filteredDomestic = domesticFallback
+  .filter(m => m.vote_count <= 300000)  // Extra safety net
+  .filter(m => !userPrefs.letterboxdData?.movies?.some(w => 
+    w.title.toLowerCase() === m.title.toLowerCase()
+  ))
+  .filter(m => !recentlyShownMovies.includes(m.id))
+  .filter(m => {
+    const sessionAge = userPrefs.shownHistory?.[m.id];
+    if (sessionAge === undefined) return true;
+    const skipProbability = sessionAge === 0 ? 0.90 :
+                            sessionAge === 1 ? 0.70 :
+                            sessionAge === 2 ? 0.40 :
+                            sessionAge === 3 ? 0.15 : 0;
+    return Math.random() >= skipProbability;
+  });
   if (filteredDomestic.length > 0) {
     const idx = Math.floor(filteredDomestic.length / 2);
     wildRec = {

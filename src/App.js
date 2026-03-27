@@ -707,7 +707,6 @@ const updateShownHistory = (movieIds) => {
     return { ...prev, shownHistory: newHistory };
   });
 };
-
 const ENERGY_GENRE_KEYWORDS = {
   // EXPLOSIVE - High intensity, fast-paced
   explosive: {

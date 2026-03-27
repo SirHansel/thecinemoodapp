@@ -1671,7 +1671,22 @@ const applyAllFilters = (movies, userPrefs, allowRewatches = false) => {
       console.log(`👁️ Removed ${removedCount} already-watched movies`);
     }
   }
-  
+  // Filter 4: Session history penalty - probabilistic reduction for recently shown films
+  if (userPrefs.shownHistory && Object.keys(userPrefs.shownHistory).length > 0) {
+    filteredMovies = filteredMovies.filter(movie => {
+      const sessionAge = userPrefs.shownHistory[movie.id];
+      if (sessionAge === undefined) return true;
+      const skipProbability = sessionAge === 0 ? 0.90 :
+                              sessionAge === 1 ? 0.70 :
+                              sessionAge === 2 ? 0.40 :
+                              sessionAge === 3 ? 0.15 : 0;
+      return Math.random() >= skipProbability;
+    });
+  }
+
+  console.log('✨ Final filtered results:', filteredMovies.length, 'movies');
+  return filteredMovies;
+};
   console.log('✨ Final filtered results:', filteredMovies.length, 'movies');
   return filteredMovies;
 };

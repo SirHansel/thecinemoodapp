@@ -2045,6 +2045,7 @@ if (!safeRec || !stretchRec || !wildRec) {
   maxVotes: 300000
 });
   const filteredDomestic = domesticFallback
+    .filter(m => m.vote_count <= 300000) 
     .filter(m => !userPrefs.letterboxdData?.movies?.some(w => 
       w.title.toLowerCase() === m.title.toLowerCase()
     ))

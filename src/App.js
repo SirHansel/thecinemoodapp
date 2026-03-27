@@ -1381,19 +1381,27 @@ movies = await fetchMoviesByGenre(genreId, false, cultKeywords, {
   }
   
   // For wild card, skip platform filtering (discovery mode)
-  const filtered = movies.filter(movie => {
-    // Apply genre exclusions
-    if (userPrefs.excludedGenreIds && userPrefs.excludedGenreIds.length > 0) {
-      const allowedGenres = Object.values(TMDB_GENRES).filter(id => !userPrefs.excludedGenreIds.includes(id));
-      if (!movie.genre_ids?.some(id => allowedGenres.includes(id))) return false;
-    }
-    // Filter out recently shown movies
-    if (recentlyShown.includes(movie.id)) return false;
-    // Filter out already watched
-    if (userPrefs.watchedMovies?.some(w => w.title === movie.title)) return false;
-    if (userPrefs.letterboxdData?.movies?.some(w => w.title.toLowerCase() === movie.title.toLowerCase())) return false;
-    return true;
-  });
+const filtered = movies.filter(movie => {
+  if (userPrefs.excludedGenreIds && userPrefs.excludedGenreIds.length > 0) {
+    const allowedGenres = Object.values(TMDB_GENRES).filter(id => !userPrefs.excludedGenreIds.includes(id));
+    if (!movie.genre_ids?.some(id => allowedGenres.includes(id))) return false;
+  }
+  if (recentlyShown.includes(movie.id)) return false;
+  if (userPrefs.watchedMovies?.some(w => w.title === movie.title)) return false;
+  if (userPrefs.letterboxdData?.movies?.some(w => w.title.toLowerCase() === movie.title.toLowerCase())) return false;
+  
+  // Apply session penalty - probabilistic reduction based on recency
+  const sessionAge = userPrefs.shownHistory?.[movie.id];
+  if (sessionAge !== undefined) {
+    const skipProbability = sessionAge === 0 ? 0.90 :
+                            sessionAge === 1 ? 0.70 :
+                            sessionAge === 2 ? 0.40 :
+                            sessionAge === 3 ? 0.15 : 0;
+    if (Math.random() < skipProbability) return false;
+  }
+  
+  return true;
+});
   
   if (filtered.length > 0) {
     const wildIndex = Math.floor((filtered.length * 2) / 3);

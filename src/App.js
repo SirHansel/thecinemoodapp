@@ -1687,9 +1687,7 @@ const applyAllFilters = (movies, userPrefs, allowRewatches = false) => {
   console.log('✨ Final filtered results:', filteredMovies.length, 'movies');
   return filteredMovies;
 };
-  console.log('✨ Final filtered results:', filteredMovies.length, 'movies');
-  return filteredMovies;
-};
+
 
 // ========================================
 // INTEGRATION POINT

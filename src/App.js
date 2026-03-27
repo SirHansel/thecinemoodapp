@@ -650,7 +650,6 @@ const getUnusedSymbolGroup = (recentGroups = []) => {
   return availableGroups[Math.floor(Math.random() * availableGroups.length)];
 };  // ← ADD THESE TWO LINES
 
-// NOW add Step 2 function here
 const getAestheticGenreKeywords = (aestheticAnswer, primaryGenre) => {
   if (!aestheticAnswer || !AESTHETIC_GENRE_KEYWORDS[aestheticAnswer]) {
     return [];
@@ -685,6 +684,28 @@ const getCharacterGenreKeywords = (characterAnswer, primaryGenre) => {
   console.log('👤 Character-Genre keywords:', characterAnswer, primaryGenre, characterKeywords);
   
   return characterKeywords;
+};
+
+const updateShownHistory = (movieIds) => {
+  setUserPrefs(prev => {
+    const newHistory = { ...prev.shownHistory };
+    
+    // Increment all existing entries by 1
+    Object.keys(newHistory).forEach(id => {
+      newHistory[id] += 1;
+      // Remove entries older than 5 sessions
+      if (newHistory[id] > 5) {
+        delete newHistory[id];
+      }
+    });
+    
+    // Add newly shown movies at session count 0
+    movieIds.filter(Boolean).forEach(id => {
+      newHistory[id] = 0;
+    });
+    
+    return { ...prev, shownHistory: newHistory };
+  });
 };
 
 const ENERGY_GENRE_KEYWORDS = {
@@ -1759,7 +1780,7 @@ const loadUserPrefs = () => {
     genreWeights: {},
     keywordWeights: {},
     decadeWeights: {},
-   
+    shownHistory: {},
     enableCastCrewTracking: true,   // Toggle - default ON
     castWeights: {},                // Stores actor preferences
     crewWeights: {}, 
@@ -1965,8 +1986,10 @@ if (!matchPlatform(wildPlatforms, userPrefs.platforms)) {
       wildRec?.movie?.id
     ].filter(Boolean).slice(-30));
     
-    console.log('📝 Tracked IDs:', safeRec?.movie?.id, stretchRec?.movie?.id, wildRec?.movie?.id);
-    
+      console.log('📝 Tracked IDs:', safeRec?.movie?.id, stretchRec?.movie?.id, wildRec?.movie?.id);
+
+updateShownHistory([safeRec?.movie?.id, stretchRec?.movie?.id, wildRec?.movie?.id]);
+      
    // ====== VALIDATE WE GOT ALL THREE ======
 if (!safeRec || !stretchRec || !wildRec) {
   console.log('⚠️ Missing one or more recs, attempting retry...');

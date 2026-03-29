@@ -2986,19 +2986,20 @@ if (currentScreen === 'intuitive') {
           </div>
         </div>
 
-       <div className="bg-gray-900 flex items-center justify-center border-b-2 border-gray-600" style={{height: '300px'}}>
-  <WeatherAnimation />
-</div>
+  <div className="bg-gray-800 rounded-lg border-2 border-gray-600 overflow-hidden">
+  <div className="bg-gray-900 flex items-center justify-center border-b-2 border-gray-600" style={{height: '300px'}}>
+    <WeatherAnimation />
+  </div>
+  <div className="p-6">
+    {currentQuestion.scenario.label && (
+      <h2 className="text-2xl font-bold text-purple-400 mb-2 text-center">
+        {currentQuestion.scenario.label}
+      </h2>
+    )}
+    <p className="text-gray-300 text-center mb-6">
+      {currentQuestion.scenario.question}
+    </p>
 
-          <div className="p-6">
-            {currentQuestion.scenario.label && (
-  <h2 className="text-2xl font-bold text-purple-400 mb-2 text-center">
-    {currentQuestion.scenario.label}
-  </h2>
-)}
-<p className="text-gray-300 text-center mb-6">
-  {currentQuestion.scenario.question}
-</p>
 
             <div className="space-y-3">
               {currentQuestion.actions.map((action) => (

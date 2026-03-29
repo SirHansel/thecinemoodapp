@@ -13,6 +13,9 @@ import {
   getRandomWeatherFraming, 
   shuffleArray 
 } from './moodScoringIntuitive';
+import WeatherAnimation from './components/WeatherAnimation';
+
+
 // ========================================
 // DESIGN: Each mood answer gives Primary(5) + Secondary(2) + Tertiary(1) points to different genres
 // BENEFIT: Prevents point inflation, easy to tune, future-proof for question rotation
@@ -2983,14 +2986,9 @@ if (currentScreen === 'intuitive') {
           </div>
         </div>
 
-        <div className="bg-gray-800 rounded-lg border-2 border-gray-600 overflow-hidden">
-          <div className="bg-gray-700 h-64 flex items-center justify-center border-b-2 border-gray-600">
-            <div className="text-center">
-              <div className="text-6xl mb-4">🎨</div>
-              <p className="text-gray-400 text-sm">Vintage illustration style</p>
-              <p className="text-gray-500 text-xs mt-1">{currentQuestion.scenario.image}</p>
-            </div>
-          </div>
+       <div className="bg-gray-900 flex items-center justify-center border-b-2 border-gray-600" style={{height: '300px'}}>
+  <WeatherAnimation />
+</div>
 
           <div className="p-6">
             {currentQuestion.scenario.label && (

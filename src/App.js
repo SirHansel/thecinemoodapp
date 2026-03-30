@@ -1791,10 +1791,6 @@ const loadUserPrefs = () => {
   const [userPrefs, setUserPrefs] = useState(() => {
   const savedPrefs = loadUserPrefs();
    
-    const [animating, setAnimating] = useState(false);
-
-  
-  
   return savedPrefs || {
     letterboxd: '',
     platforms: [],
@@ -1814,7 +1810,7 @@ const loadUserPrefs = () => {
 });
   
 //react imports
-  
+ const [animating, setAnimating] = useState(false); 
 const [userRating, setUserRating] = useState(0);
 const [isHalfStar, setIsHalfStar] = useState(false);
 const [showExclusions, setShowExclusions] = useState(false);

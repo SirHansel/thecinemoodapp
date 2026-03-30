@@ -2577,7 +2577,7 @@ const handleMoodAnswer = async (questionId, answerId) => {
   }
 
   // Continue with existing navigation logic... 
-if (questionIndex < currentQuestionSet.length - 1) {
+if (currentQuestionSet && questionIndex < currentQuestionSet.length - 1) {
   setAnimating(true);
   setTimeout(() => {
     setQuestionIndex(questionIndex + 1);

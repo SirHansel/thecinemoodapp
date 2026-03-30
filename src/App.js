@@ -2582,7 +2582,6 @@ if (questionIndex < currentQuestionSet.length - 1) {
   setTimeout(() => {
     setQuestionIndex(questionIndex + 1);
     setAnimating(false);
-    console.log('✅ Generated 7 intuitive questions:', questions);
   }, 500);
 } else {
   await generateRecommendations();

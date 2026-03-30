@@ -1790,6 +1790,9 @@ const loadUserPrefs = () => {
   const [intuitiveQuestions, setIntuitiveQuestions] = useState(null);
   const [userPrefs, setUserPrefs] = useState(() => {
   const savedPrefs = loadUserPrefs();
+   
+    const [animating, setAnimating] = useState(false);
+
   
   
   return savedPrefs || {
@@ -2575,7 +2578,13 @@ const handleMoodAnswer = async (questionId, answerId) => {
 
   // Continue with existing navigation logic...
   if (questionIndex < currentQuestionSet.length - 1) {
-    setQuestionIndex(questionIndex + 1);
+   
+    console.log('✅ Generated 7 intuitive questions:', questions);
+    setIntuitiveQuestions(questions);
+    setQuestionIndex(0);
+    setIntuitiveAnswers({});
+
+  };
   } else {
     await generateRecommendations();
     

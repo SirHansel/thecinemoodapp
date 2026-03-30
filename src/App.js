@@ -2987,9 +2987,12 @@ if (currentScreen === 'intuitive') {
         </div>
 
   <div className="bg-gray-800 rounded-lg border-2 border-gray-600 overflow-hidden">
-  <div className="bg-gray-900 flex items-center justify-center border-b-2 border-gray-600" style={{height: '300px'}}>
-    <WeatherAnimation />
-  </div>
+ 
+                <div className="bg-gray-900 flex items-center justify-center border-b-2 border-gray-600" 
+  style={{height: '300px', opacity: animating ? 0 : 1, transition: 'opacity 0.5s ease'}}>
+  <WeatherAnimation />
+</div>
+    
   <div className="p-6">
     {currentQuestion.scenario.label && (
       <h2 className="text-2xl font-bold text-purple-400 mb-2 text-center">

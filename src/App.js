@@ -2576,20 +2576,18 @@ const handleMoodAnswer = async (questionId, answerId) => {
     }
   }
 
-  // Continue with existing navigation logic...
-  if (questionIndex < currentQuestionSet.length - 1) {
-   
+  // Continue with existing navigation logic... 
+if (questionIndex < currentQuestionSet.length - 1) {
+  setAnimating(true);
+  setTimeout(() => {
+    setQuestionIndex(questionIndex + 1);
+    setAnimating(false);
     console.log('✅ Generated 7 intuitive questions:', questions);
-    setIntuitiveQuestions(questions);
-    setQuestionIndex(0);
-    setIntuitiveAnswers({});
-
-  };
-  } else {
-    await generateRecommendations();
-    
-    setCurrentScreen('results');
-  }
+  }, 500);
+} else {
+  await generateRecommendations();
+  setCurrentScreen('results');
+}
 };
 
   const spinWheel = async () => {

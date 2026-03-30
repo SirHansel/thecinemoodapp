@@ -51,7 +51,7 @@ const WeatherAnimation = () => {
     function animate() {
       ctx.fillStyle = '#1a1a2e';
       ctx.fillRect(0, 0, W, H);
-      t += 0.003;
+      t += 0.006;
       const bAlpha = (Math.sin(t * 0.35) * 0.5 + 0.5) * 0.12;
       softBreak(W/2 + Math.sin(t*0.25)*25, H/2 + Math.cos(t*0.18)*12, 70, 28, bAlpha);
       const clouds = [

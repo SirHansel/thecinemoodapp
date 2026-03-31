@@ -14,8 +14,14 @@ import {
   shuffleArray 
 } from './moodScoringIntuitive';
 
+// imports animation from the components file
+
 import WeatherAnimation from './components/WeatherAnimation';
 import TimeAnimation from './components/TimeAnimation';
+import MountainAnimation from './components/MountainAnimation';
+import BookshopAnimation from './components/BookshopAnimation';
+import FoggyForestAnimation from './components/FoggyForestAnimation';
+import NeonCityAnimation from './components/NeonCityAnimation';
 
 
 // ========================================
@@ -2996,7 +3002,13 @@ if (currentScreen === 'intuitive') {
 
                 
                <div className="bg-gray-900 flex items-center justify-center border-b-2 border-gray-600" style={{height: '300px', opacity: animating ? 0 : 1, transition: 'opacity 0.5s ease'}}>
-  {currentQuestion.category === 'time' ? <TimeAnimation /> : <WeatherAnimation />}
+{currentQuestion.category === 'time' ? <TimeAnimation /> :
+ currentQuestion.category === 'weather' ? <WeatherAnimation /> :
+ currentQuestion.scenario?.key === 'mountain_peak' ? <MountainAnimation /> :
+ currentQuestion.scenario?.key === 'bookshop' ? <BookshopAnimation /> :
+ currentQuestion.scenario?.key === 'foggy_forest' ? <FoggyForestAnimation /> :
+ currentQuestion.scenario?.key === 'neon_city' ? <NeonCityAnimation /> :
+ <WeatherAnimation />}
 </div>
     
   <div className="p-6">

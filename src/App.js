@@ -13,7 +13,9 @@ import {
   getRandomWeatherFraming, 
   shuffleArray 
 } from './moodScoringIntuitive';
+
 import WeatherAnimation from './components/WeatherAnimation';
+import TimeAnimation from './components/TimeAnimation';
 
 
 // ========================================

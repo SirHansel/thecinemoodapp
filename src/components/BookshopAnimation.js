@@ -1,6 +1,6 @@
 import React from 'react';
+// themes: the city as nervous system, every light a thought, every street a synapse — v2
 
-// themes: the city as nervous system, every light a thought, every street a synapse
 // visualization: A geometric grid breathes and pulses — lines of light surge and fade
 // like traffic, like crowds, like neon signs cycling through the night
 

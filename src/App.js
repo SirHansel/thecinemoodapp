@@ -23,6 +23,7 @@ import BookshopAnimation from './components/BookshopAnimation';
 import FoggyForestAnimation from './components/FoggyForestAnimation';
 import NeonCityAnimation from './components/NeonCityAnimation';
 import OldKeyAnimation from'./components/OldKeyAnimation';
+import WornBladeAnimation from'./components/WornBladeAnimation';
 
 // ========================================
 // DESIGN: Each mood answer gives Primary(5) + Secondary(2) + Tertiary(1) points to different genres
@@ -3010,6 +3011,7 @@ if (currentScreen === 'intuitive') {
  currentQuestion.scenarioKey === 'neon_city' ? <NeonCityAnimation /> :
 
   currentQuestion.scenarioKey === 'old_key' ? <OldKeyAnimation /> :
+  currentQuestion.scenarioKey === 'worn_blade' ? <WornBladeAnimation /> :
  <WeatherAnimation />}
 </div>
     

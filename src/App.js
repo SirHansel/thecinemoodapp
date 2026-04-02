@@ -23,7 +23,6 @@ import BookshopAnimation from './components/BookshopAnimation';
 import FoggyForestAnimation from './components/FoggyForestAnimation';
 import NeonCityAnimation from './components/NeonCityAnimation';
 
-
 // ========================================
 // DESIGN: Each mood answer gives Primary(5) + Secondary(2) + Tertiary(1) points to different genres
 // BENEFIT: Prevents point inflation, easy to tune, future-proof for question rotation

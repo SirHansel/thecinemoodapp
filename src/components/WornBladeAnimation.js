@@ -107,9 +107,9 @@ const WornBladeAnimation = () => {
       // increase alpha value = bolder/more visible lines
       // spacing controls density — lower = more lines
       const angleLines = [
-        { angle: Math.PI / 4,  spacing: 22, alpha: 0.06, speed: 0.008 },  // 45° lines — alpha: 0.06
-        { angle: -Math.PI / 4, spacing: 28, alpha: 0.05, speed: 0.006 },  // -45° lines — alpha: 0.05
-        { angle: Math.PI / 6,  spacing: 35, alpha: 0.04, speed: 0.005 },  // 30° lines — alpha: 0.04
+        { angle: Math.PI / 4,  spacing: 22, alpha: 0.12, speed: 0.008 },
+{ angle: -Math.PI / 4, spacing: 28, alpha: 0.10, speed: 0.006 },
+{ angle: Math.PI / 6,  spacing: 35, alpha: 0.08, speed: 0.005 },
       ];
       // ──────────────────────────────────────────────────────
 
@@ -133,34 +133,40 @@ const WornBladeAnimation = () => {
       // ── DIAMOND SHAPES ─────────────────────────────────────
       // alpha range 0.06-0.10 — increase base alpha for bolder diamonds
       // size controls how large each diamond is
-      const diamonds = [
-        { x: W*0.15, y: H*0.2,  size: 18, phase: 0   },
-        { x: W*0.85, y: H*0.25, size: 14, phase: 1.2  },
-        { x: W*0.1,  y: H*0.75, size: 16, phase: 2.4  },
-        { x: W*0.88, y: H*0.72, size: 12, phase: 3.6  },
-        { x: W*0.2,  y: H*0.5,  size: 10, phase: 0.8  },
-        { x: W*0.8,  y: H*0.5,  size: 11, phase: 1.8  },
-      ];
+     const diamonds = [
+  { x: W*0.15, y: H*0.2,  size: 18, phase: 0,   dx: 0.12, dy: 0.09 },
+  { x: W*0.85, y: H*0.25, size: 14, phase: 1.2,  dx: 0.08, dy: 0.11 },
+  { x: W*0.1,  y: H*0.75, size: 16, phase: 2.4,  dx: 0.10, dy: 0.07 },
+  { x: W*0.88, y: H*0.72, size: 12, phase: 3.6,  dx: 0.09, dy: 0.13 },
+  { x: W*0.2,  y: H*0.5,  size: 10, phase: 0.8,  dx: 0.11, dy: 0.08 },
+  { x: W*0.8,  y: H*0.5,  size: 11, phase: 1.8,  dx: 0.07, dy: 0.10 },
+];
       // ──────────────────────────────────────────────────────
 
-      diamonds.forEach(d => {
-        const breathe = Math.sin(t * 0.25 + d.phase) * 0.5 + 0.5;
-        // ── DIAMOND LINE BOLDNESS: alpha 0.06-0.10 ────────────
-        const alpha = 0.06 + breathe * 0.04;
-        // ──────────────────────────────────────────────────────
-        const s = d.size * (0.9 + breathe * 0.1);
-        ctx.beginPath();
-        ctx.moveTo(d.x, d.y - s);
-        ctx.lineTo(d.x + s * 0.6, d.y);
-        ctx.lineTo(d.x, d.y + s);
-        ctx.lineTo(d.x - s * 0.6, d.y);
-        ctx.closePath();
-        // ── DIAMOND STROKE WEIGHT: lineWidth 0.5 ─────────────
-        ctx.strokeStyle = `rgba(185, 165, 120, ${alpha})`;
-        ctx.lineWidth = 0.5;
-        // ──────────────────────────────────────────────────────
-        ctx.stroke();
-      });
+    diamonds.forEach(d => {
+  const breathe = Math.sin(t * 0.25 + d.phase) * 0.5 + 0.5;
+  const alpha = 0.14 + breathe * 0.08;
+  const s = d.size * (0.9 + breathe * 0.1);
+
+  // ── DRIFT SPEED: dx/dy values control direction and speed ─
+  // increase values = faster drift, decrease = slower
+  const driftX = Math.sin(t * d.dx + d.phase) * 12;
+  const driftY = Math.cos(t * d.dy + d.phase) * 10;
+  // ──────────────────────────────────────────────────────────
+
+  const px = d.x + driftX;
+  const py = d.y + driftY;
+
+  ctx.beginPath();
+  ctx.moveTo(px, py - s);
+  ctx.lineTo(px + s * 0.6, py);
+  ctx.lineTo(px, py + s);
+  ctx.lineTo(px - s * 0.6, py);
+  ctx.closePath();
+  ctx.strokeStyle = `rgba(185, 165, 120, ${alpha})`;
+  ctx.lineWidth = 0.9;
+  ctx.stroke();
+});
     }
 
     function animate() {

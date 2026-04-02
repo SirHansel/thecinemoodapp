@@ -113,4 +113,69 @@ const NeonCityAnimation = () => {
           const x = p.progress * W;
           const grad = ctx.createLinearGradient(x - 40, 0, x + 10, 0);
           grad.addColorStop(0, `rgba(${p.color}, 0)`);
-          grad.addColorSto
+          grad.addColorStop(0.6, `rgba(${p.color}, ${alpha * 0.8})`);
+          grad.addColorStop(1, `rgba(${p.color}, ${alpha})`);
+          ctx.beginPath();
+          ctx.strokeStyle = grad;
+          ctx.lineWidth = 1.2;
+          ctx.moveTo(Math.max(0, x - 40), y);
+          ctx.lineTo(x, y);
+          ctx.stroke();
+        } else {
+          const x = p.pos * cellW;
+          const y = p.progress * H;
+          const grad = ctx.createLinearGradient(0, y - 40, 0, y + 10);
+          grad.addColorStop(0, `rgba(${p.color}, 0)`);
+          grad.addColorStop(0.6, `rgba(${p.color}, ${alpha * 0.8})`);
+          grad.addColorStop(1, `rgba(${p.color}, ${alpha})`);
+          ctx.beginPath();
+          ctx.strokeStyle = grad;
+          ctx.lineWidth = 1.2;
+          ctx.moveTo(x, Math.max(0, y - 40));
+          ctx.lineTo(x, y);
+          ctx.stroke();
+        }
+
+        if (p.progress > 1.2) pulses.splice(i, 1);
+      }
+
+      nodes.forEach(n => {
+        const pulse = Math.sin(t * n.speed + n.phase) * 0.5 + 0.5;
+        const alpha = 0.08 + pulse * 0.25;
+        const size = 0.8 + pulse * 1.2;
+        const color = n.bright > 0.7 ? '180, 100, 255' : n.bright > 0.4 ? '100, 200, 255' : '140, 170, 210';
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${color}, ${alpha})`;
+        ctx.fill();
+      });
+
+      buildings.forEach(b => {
+        const bh = b.h * H;
+        const by = H - bh;
+        ctx.fillStyle = `rgba(10, 12, 28, 0.85)`;
+        ctx.fillRect(b.x, by, b.w, bh);
+        for (let wy = by + 8; wy < H - 5; wy += 10) {
+          for (let wx = b.x + 4; wx < b.x + b.w - 4; wx += 8) {
+            if (Math.random() < 0.003) continue;
+            const winAlpha = 0.15 + Math.sin(t * 0.4 + wx + wy) * 0.05;
+            const winColor = Math.random() < 0.3 ? '255, 200, 100' : '180, 220, 255';
+            ctx.fillStyle = `rgba(${winColor}, ${winAlpha})`;
+            ctx.fillRect(wx, wy, 3, 4);
+          }
+        }
+      });
+
+      animId = requestAnimationFrame(animate);
+    }
+
+    animate();
+    return () => { if (animId) cancelAnimationFrame(animId); };
+  }, []);
+
+  return (
+    <canvas ref={canvasRef} width={300} height={300} style={{display:'block', margin:'auto'}} />
+  );
+};
+
+export default NeonCityAnimation;

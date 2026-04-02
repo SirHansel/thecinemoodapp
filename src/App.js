@@ -22,6 +22,7 @@ import MountainAnimation from './components/MountainAnimation';
 import BookshopAnimation from './components/BookshopAnimation';
 import FoggyForestAnimation from './components/FoggyForestAnimation';
 import NeonCityAnimation from './components/NeonCityAnimation';
+import OldKeyAnimation from'./components/OldKeyAnimation';
 
 // ========================================
 // DESIGN: Each mood answer gives Primary(5) + Secondary(2) + Tertiary(1) points to different genres
@@ -3007,6 +3008,8 @@ if (currentScreen === 'intuitive') {
  currentQuestion.scenarioKey === 'bookshop' ? <BookshopAnimation /> :
  currentQuestion.scenarioKey === 'foggy_forest' ? <FoggyForestAnimation /> :
  currentQuestion.scenarioKey === 'neon_city' ? <NeonCityAnimation /> :
+
+  currentQuestion.scenarioKey === 'old_key' ? <OldKeyAnimation /> :
  <WeatherAnimation />}
 </div>
     

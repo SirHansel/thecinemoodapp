@@ -1,3 +1,5 @@
+import from 'react'
+
 
 const canvas = document.getElementById('wf');
 const ctx = canvas.getContext('2d');

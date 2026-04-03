@@ -1,5 +1,9 @@
 import React from 'react';
 
+const WanderFreelyAnimation = () => {
+  const canvasRef = React.useRef(null);
+
+
 const canvas = document.getElementById('wf');
 const ctx = canvas.getContext('2d');
 const W = 300, H = 300;

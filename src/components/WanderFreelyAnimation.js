@@ -236,3 +236,6 @@ function animate() {
 }
 
 animate();
+
+
+  export default WanderFreelyAnimation;

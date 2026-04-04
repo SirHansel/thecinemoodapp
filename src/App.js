@@ -30,7 +30,7 @@ import CreateSomethingAnimation from './components/CreateSomethingAnimation';
 import WanderFreelyAnimation from './components/WanderFreelyAnimation';
 import SoftCandleAnimation from './components/SoftCandleAnimation' ;
 import RoughStoneAnimation from './components/RoughStoneAnimation' ;
-import SoftFabric from './components/SoftFabric' ;
+import SoftFabric from './components/SoftFabricAnimation' ;
 import SharpCrystal from './components/SharpCrystalAnimation' ;
 
    
@@ -3027,7 +3027,7 @@ if (currentScreen === 'intuitive') {
   currentQuestion.scenarioKey === 'wander_freely' ? <WanderFreelyAnimation /> :
   currentQuestion.scenarioKey === 'soft_candle' ? <SoftCandleAnimation /> :
   currentQuestion.scenarioKey === 'rough_stone' ? <RoughStoneAnimation /> : 
-   currentQuestion.scenarioKey === 'soft_fabric' ? <SoftFabricAnimation /> :
+  currentQuestion.scenarioKey === 'soft_fabric' ? <SoftFabricAnimation /> :
   currentQuestion.scenarioKey === 'sharp_crystal' ? <SharpCrystalAnimation /> :
 
  // currentQuestion.scenarioKey === ' x ' ? <  y /> : 

@@ -3019,7 +3019,7 @@ if (currentScreen === 'intuitive') {
   currentQuestion.scenarioKey === 'cracked_mirror' ? <CrackedMirrorAnimation /> :
   currentQuestion.scenarioKey === 'solve_puzzle' ? <SolvePuzzleAnimation /> :
   currentQuestion.scenarioKey === 'create_something' ? <CreateSomethingAnimation /> :
-  currentQuestion.scenarioKey == 'wander_freely' ? <WanderFreelyAnimation /> :
+  currentQuestion.scenarioKey === 'wander_freely' ? <WanderFreelyAnimation /> :
   
  <WeatherAnimation />}
 </div>

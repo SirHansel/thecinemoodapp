@@ -31,6 +31,8 @@ import WanderFreelyAnimation from './components/WanderFreelyAnimation';
 import SoftCandleAnimation from './components/SoftCandleAnimation' ;
 import RoughStoneAnimation from './components/RoughStoneAnimation' ;
 import SoftFabric from './components/SoftFabric' ;
+import SharpCrystal from './components/SharpCrystalAnimation' ;
+
    
 // ========================================
 // DESIGN: Each mood answer gives Primary(5) + Secondary(2) + Tertiary(1) points to different genres
@@ -3025,7 +3027,9 @@ if (currentScreen === 'intuitive') {
   currentQuestion.scenarioKey === 'wander_freely' ? <WanderFreelyAnimation /> :
   currentQuestion.scenarioKey === 'soft_candle' ? <SoftCandleAnimation /> :
   currentQuestion.scenarioKey === 'rough_stone' ? <RoughStoneAnimation /> : 
-   currentQuestion.scenarioKey === 'soft_fabric' ? <SoftFabricAnimation /> : 
+   currentQuestion.scenarioKey === 'soft_fabric' ? <SoftFabricAnimation /> :
+  currentQuestion.scenarioKey === 'sharp_crystal' ? <SharpCrystalAnimation /> :
+
  // currentQuestion.scenarioKey === ' x ' ? <  y /> : 
  <WeatherAnimation />}
 </div>

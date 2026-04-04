@@ -27,7 +27,7 @@ import WornBladeAnimation from'./components/WornBladeAnimation';
 import CrackedMirrorAnimation from './components/CrackedMirrorAnimation';
 import SolvePuzzleAnimation from './components/SolvePuzzleAnimation';
 import CreateSomethingAnimation from './components/CreateSomethingAnimation';
-import WanderFreelyAnimation from './components/WanderfreelyAnimation';
+import WanderFreelyAnimation from './components/WanderFreelyAnimation';
 
 // ========================================
 // DESIGN: Each mood answer gives Primary(5) + Secondary(2) + Tertiary(1) points to different genres

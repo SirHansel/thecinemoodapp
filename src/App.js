@@ -32,6 +32,7 @@ import SoftCandleAnimation from './components/SoftCandleAnimation' ;
 import RoughStoneAnimation from './components/RoughStoneAnimation' ;
 import SoftFabric from './components/SoftFabricAnimation' ;
 import SharpCrystal from './components/SharpCrystalAnimation' ;
+import FlowingWater from './components/FlowingWaterAnimation' ;
 
    
 // ========================================
@@ -3029,6 +3030,7 @@ if (currentScreen === 'intuitive') {
   currentQuestion.scenarioKey === 'rough_stone' ? <RoughStoneAnimation /> : 
   currentQuestion.scenarioKey === 'soft_fabric' ? <SoftFabricAnimation /> :
   currentQuestion.scenarioKey === 'sharp_crystal' ? <SharpCrystalAnimation /> :
+  currentQuestion.scenarioKey === 'flowing_water' ? <FlowingWaterAnimation /> :
 
  // currentQuestion.scenarioKey === ' x ' ? <  y /> : 
  <WeatherAnimation />}

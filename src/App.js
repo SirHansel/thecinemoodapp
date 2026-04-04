@@ -29,7 +29,7 @@ import SolvePuzzleAnimation from './components/SolvePuzzleAnimation';
 import CreateSomethingAnimation from './components/CreateSomethingAnimation';
 import WanderFreelyAnimation from './components/WanderFreelyAnimation';
 import SoftCandleAnimation from './components/SoftCandleAnimation' ;
-
+import RoughStoneAnimation from './components/RoughStoneAnimation' ;
 
 // ========================================
 // DESIGN: Each mood answer gives Primary(5) + Secondary(2) + Tertiary(1) points to different genres
@@ -3023,7 +3023,8 @@ if (currentScreen === 'intuitive') {
   currentQuestion.scenarioKey === 'create_something' ? <CreateSomethingAnimation /> :
   currentQuestion.scenarioKey === 'wander_freely' ? <WanderFreelyAnimation /> :
   currentQuestion.scenarioKey === 'soft_candle' ? <SoftCandleAnimation /> :
-
+  currentQuestion.scenarioKey === 'rough_stone' ? <RoughStoneAnimation /> : 
+ // currentQuestion.scenarioKey === ' x ' ? <  y /> : 
  <WeatherAnimation />}
 </div>
     

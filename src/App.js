@@ -3029,7 +3029,7 @@ if (currentScreen === 'intuitive') {
   currentQuestion.scenarioKey === 'soft_candle' ? <SoftCandleAnimation /> :
   currentQuestion.scenarioKey === 'rough_stone' ? <RoughStoneAnimation /> : 
   currentQuestion.scenarioKey === 'soft_fabric' ? <SoftFabricAnimation /> :
-  currentQuestion.scenarioKey === 'sharp_crystal' ? <SharpCrystalAnimation /> :
+//  currentQuestion.scenarioKey === 'sharp_crystal' ? <SharpCrystalAnimation /> :
  // currentQuestion.scenarioKey === 'flowing_water' ? <FlowingWaterAnimation /> :
 
  // currentQuestion.scenarioKey === ' x ' ? <  y /> : 

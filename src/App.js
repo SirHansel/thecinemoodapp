@@ -3439,7 +3439,7 @@ if (currentScreen === 'results') {
   setRecommendations(null);
   setCurrentRecommendations(null);
   if (userPrefs.quizMode === 'intuitive') {
-    setCurrentScreen('intuitive');
+    setCurrentScreen('intuitive-intro');
   } else {
     const newQuestionSet = generateQuestionSet();
     setCurrentQuestionSet(newQuestionSet);

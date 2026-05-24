@@ -15,7 +15,7 @@ const ContrastTonesAnimation = () => {
     let t = 0;
     let animId = null;
     
-    const GRID_SIZE = 6;
+    const GRID_SIZE = 10;  // ← Changed from 6 to 10 (more tiles)
     const CELL_SIZE = W / GRID_SIZE;
     
     function animate() {
@@ -41,33 +41,33 @@ const ContrastTonesAnimation = () => {
           const currentBrightness = brightness * fadeAmount + 40 * (1 - fadeAmount);
           
           ctx.fillStyle = `rgb(${currentBrightness}, ${currentBrightness}, ${currentBrightness})`;
-          ctx.fillRect(x, y, CELL_SIZE - 2, CELL_SIZE - 2);
+          ctx.fillRect(x, y, CELL_SIZE - 1, CELL_SIZE - 1);  // ← Adjusted gap for smaller tiles
         }
       }
       
-      // Diagonal lines sweeping across
+      // ← REMOVED: Central rotating square
+      
+      // Diagonal lines sweeping across - TWO SETS OF TWO (4 total)
       ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
       ctx.lineWidth = 2;
       
-      for (let i = 0; i < 3; i++) {
-        const offset = (t * 30 + i * 100) % (W + H);
+      // First set of two
+      for (let i = 0; i < 2; i++) {
+        const offset = (t * 30 + i * 150) % (W + H);
         ctx.beginPath();
         ctx.moveTo(offset, 0);
         ctx.lineTo(offset - H, H);
         ctx.stroke();
       }
       
-      // Central rotating square
-      ctx.save();
-      ctx.translate(W / 2, H / 2);
-      ctx.rotate(t * 0.5);
-      
-      const squareSize = 40 + Math.sin(t * 0.7) * 10;
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.8)';
-      ctx.lineWidth = 3;
-      ctx.strokeRect(-squareSize / 2, -squareSize / 2, squareSize, squareSize);
-      
-      ctx.restore();
+      // Second set of two (opposite direction)
+      for (let i = 0; i < 2; i++) {
+        const offset = (t * 30 + i * 150) % (W + H);
+        ctx.beginPath();
+        ctx.moveTo(0, offset);
+        ctx.lineTo(W, offset - W);
+        ctx.stroke();
+      }
       
       // Corner accents
       const accentSize = 20 + Math.sin(t * 0.9) * 5;

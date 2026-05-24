@@ -434,8 +434,14 @@ export const convertEmotionalNeedsToGenres = (emotionalNeeds) => {
   console.log('🎬 Converting emotional needs to genres...');
   
   const sortedNeeds = Object.entries(emotionalNeeds)
-    .sort(([,a], [,b]) => b - a)
-    .filter(([,score]) => score > 0);
+  .sort(([,a], [,b]) => {
+    if (b === a) {
+      // Tie-breaker: random
+      return Math.random() - 0.5;
+    }
+    return b - a;
+  })
+  .filter(([,score]) => score > 0);
   
   console.log('📊 Needs ranked:', sortedNeeds.map(([need, score]) => `${need}: ${score}`));
   

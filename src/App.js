@@ -22,23 +22,22 @@ import MountainAnimation from './components/MountainAnimation';
 import BookshopAnimation from './components/BookshopAnimation';
 import FoggyForestAnimation from './components/FoggyForestAnimation';
 import NeonCityAnimation from './components/NeonCityAnimation';
-import OldKeyAnimation from'./components/OldKeyAnimation';
-import WornBladeAnimation from'./components/WornBladeAnimation';
+import OldKeyAnimation from './components/OldKeyAnimation';
+import WornBladeAnimation from './components/WornBladeAnimation';
 import CrackedMirrorAnimation from './components/CrackedMirrorAnimation';
+import SoftCandleAnimation from './components/SoftCandleAnimation';
 import SolvePuzzleAnimation from './components/SolvePuzzleAnimation';
 import CreateSomethingAnimation from './components/CreateSomethingAnimation';
 import WanderFreelyAnimation from './components/WanderFreelyAnimation';
-import SoftCandleAnimation from './components/SoftCandleAnimation' ;
-import RoughStoneAnimation from './components/RoughStoneAnimation' ;
-import SoftFabric from './components/SoftFabricAnimation' ;
-import SharpCrystal from './components/SharpCrystalAnimation' ;
-import FlowingWater from './components/FlowingWaterAnimation' ;
 import HelpSomeoneAnimation from './components/HelpSomeoneAnimation';
+import RoughStoneAnimation from './components/RoughStoneAnimation';
+import SoftFabricAnimation from './components/SoftFabricAnimation';
+import SharpCrystalAnimation from './components/SharpCrystalAnimation';
+import FlowingWaterAnimation from './components/FlowingWaterAnimation';
 import WarmTonesAnimation from './components/WarmTonesAnimation';
 import CoolTonesAnimation from './components/CoolTonesAnimation';
 import SoftTonesAnimation from './components/SoftTonesAnimation';
 import ContrastTonesAnimation from './components/ContrastTonesAnimation';
-
    
 // ========================================
 // DESIGN: Each mood answer gives Primary(5) + Secondary(2) + Tertiary(1) points to different genres

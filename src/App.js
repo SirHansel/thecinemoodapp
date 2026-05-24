@@ -33,6 +33,11 @@ import RoughStoneAnimation from './components/RoughStoneAnimation' ;
 import SoftFabric from './components/SoftFabricAnimation' ;
 import SharpCrystal from './components/SharpCrystalAnimation' ;
 import FlowingWater from './components/FlowingWaterAnimation' ;
+import HelpSomeoneAnimation from './components/HelpSomeoneAnimation';
+import WarmTonesAnimation from './components/WarmTonesAnimation';
+import CoolTonesAnimation from './components/CoolTonesAnimation';
+import SoftTonesAnimation from './components/SoftTonesAnimation';
+import ContrastTonesAnimation from './components/ContrastTonesAnimation';
 
    
 // ========================================
@@ -3072,13 +3077,31 @@ if (currentScreen === 'intuitive') {
               {console.log('Current question:', currentQuestion)}
 
                 
-              {/* Scenario Image Placeholder */}
-<div className="bg-gray-700 h-64 flex items-center justify-center border-b-2 border-gray-600">
-  <div className="text-center">
-    <div className="text-6xl mb-4">🎨</div>
-    <p className="text-gray-400 text-sm">Vintage illustration style</p>
-    <p className="text-gray-500 text-xs mt-1">{currentQuestion.scenario.image}</p>
-  </div>
+{/* Scenario Animation */}
+<div className="bg-gray-900 flex items-center justify-center border-b-2 border-gray-600" style={{height: '300px'}}>
+  {currentQuestion.category === 'time' ? <TimeAnimation /> :
+   currentQuestion.category === 'weather' ? <WeatherAnimation /> :
+   currentQuestion.scenarioKey === 'mountain_peak' ? <MountainAnimation /> :
+   currentQuestion.scenarioKey === 'bookshop' ? <BookshopAnimation /> :
+   currentQuestion.scenarioKey === 'foggy_forest' ? <FoggyForestAnimation /> :
+   currentQuestion.scenarioKey === 'neon_city' ? <NeonCityAnimation /> :
+   currentQuestion.scenarioKey === 'old_key' ? <OldKeyAnimation /> :
+   currentQuestion.scenarioKey === 'worn_blade' ? <WornBladeAnimation /> :
+   currentQuestion.scenarioKey === 'cracked_mirror' ? <CrackedMirrorAnimation /> :
+   currentQuestion.scenarioKey === 'soft_candle' ? <SoftCandleAnimation /> :
+   currentQuestion.scenarioKey === 'solve_puzzle' ? <SolvePuzzleAnimation /> :
+   currentQuestion.scenarioKey === 'create_something' ? <CreateSomethingAnimation /> :
+   currentQuestion.scenarioKey === 'wander_freely' ? <WanderFreelyAnimation /> :
+   currentQuestion.scenarioKey === 'help_someone' ? <HelpSomeoneAnimation /> :
+   currentQuestion.scenarioKey === 'rough_stone' ? <RoughStoneAnimation /> :
+   currentQuestion.scenarioKey === 'soft_fabric' ? <SoftFabricAnimation /> :
+   currentQuestion.scenarioKey === 'sharp_crystal' ? <SharpCrystalAnimation /> :
+   currentQuestion.scenarioKey === 'flowing_water' ? <FlowingWaterAnimation /> :
+   currentQuestion.scenarioKey === 'warm_reds_oranges' ? <WarmTonesAnimation /> :
+   currentQuestion.scenarioKey === 'cool_blues_purples' ? <CoolTonesAnimation /> :
+   currentQuestion.scenarioKey === 'soft_yellows_greens' ? <SoftTonesAnimation /> :
+   currentQuestion.scenarioKey === 'stark_black_white' ? <ContrastTonesAnimation /> :
+   <WeatherAnimation />}
 </div>
     
   <div className="p-6">

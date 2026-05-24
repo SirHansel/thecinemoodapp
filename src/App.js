@@ -2949,12 +2949,12 @@ if (currentScreen === 'setup') {
 }
   
     // Check quiz mode and launch appropriate quiz
-    if (userPrefs.quizMode === 'intuitive') {
-      
-      console.log('🎭 Launching Intuitive Mode');
-      generateIntuitiveQuestions();
-      setCurrentScreen('intuitive');
-    } else {
+   if (userPrefs.quizMode === 'intuitive') {
+  console.log('🎭 Launching Intuitive Mode');
+  setCurrentScreen('intuitive-intro');  // ← Go to intro first
+}
+   
+    else {
       console.log('🎨 Launching Standard Mode');
       const questionSet = generateQuestionSet();
       console.log('Generated question set:', questionSet);
@@ -2974,6 +2974,66 @@ if (currentScreen === 'setup') {
       </div>
     );
   }
+// ========================================
+// INTUITIVE MODE - INTRO SCREEN
+// ========================================
+if (currentScreen === 'intuitive-intro') {
+  return (
+    <div className="min-h-screen bg-gray-900 text-gray-200 p-4 flex items-center justify-center">
+      <div className="max-w-lg mx-auto text-center">
+        
+        {/* Icon/Symbol */}
+        <div className="text-8xl mb-6">🎭</div>
+        
+        {/* Title */}
+        <h1 className="text-4xl font-bold text-purple-400 mb-6">
+          Intuitive Mode
+        </h1>
+        
+        {/* Instructions */}
+        <div className="bg-gray-800 rounded-lg p-8 border-2 border-gray-600 mb-8">
+          <p className="text-2xl text-gray-300 mb-6">
+            Don't think.<br/>
+            Just feel.
+          </p>
+          
+          <p className="text-gray-400 mb-4">
+            Answer with your first instinct.
+          </p>
+          
+          <p className="text-gray-400 mb-4">
+            There are no wrong choices.
+          </p>
+          
+          <p className="text-gray-400">
+            Trust what draws you in this moment.
+          </p>
+        </div>
+        
+        {/* Begin Button */}
+        <button
+          onClick={() => {
+            generateIntuitiveQuestions();
+            setCurrentScreen('intuitive');
+          }}
+          className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 rounded-lg text-xl font-bold transition-all"
+        >
+          Begin →
+        </button>
+        
+        {/* Back Link */}
+        <button
+          onClick={() => setCurrentScreen('setup')}
+          className="mt-6 text-gray-400 hover:text-gray-200 block mx-auto"
+        >
+          ← Back to Setup
+        </button>
+        
+      </div>
+    </div>
+  );
+}
+
 // INTUITIVE MODE QUIZ SCREEN
 if (currentScreen === 'intuitive') {
   if (!intuitiveQuestions || intuitiveQuestions.length === 0) {

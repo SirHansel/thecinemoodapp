@@ -3186,18 +3186,22 @@ className="w-full p-4 bg-gray-700 hover:bg-purple-900/50 hover:scale-105 hover:b
           </div>
         </div>
 
-        <button
-          onClick={() => {
-            if (questionIndex > 0) {
-              setQuestionIndex(questionIndex - 1);
-            } else {
-              setCurrentScreen('setup');
-            }
-          }}
-          className="mt-6 text-gray-400 hover:text-gray-200 flex items-center mx-auto"
-        >
-          ← {questionIndex > 0 ? 'Previous Question' : 'Back to Setup'}
-        </button>
+       <button
+  onClick={() => {
+    setAnimating(true);
+    setTimeout(() => {
+      if (questionIndex > 0) {
+        setQuestionIndex(questionIndex - 1);
+      } else {
+        setCurrentScreen('intuitive-intro');
+      }
+      setTimeout(() => setAnimating(false), 150);
+    }, 300);
+  }}
+  className="mt-6 text-gray-400 hover:text-gray-200 flex items-center mx-auto"
+>
+  ← {questionIndex > 0 ? 'Previous Question' : 'Start Over'}
+</button>
 
         <div className="mt-8 text-center text-gray-500 text-xs pb-4 space-y-1">
           <div>© 2025 TheCineMood. All rights reserved.</div>

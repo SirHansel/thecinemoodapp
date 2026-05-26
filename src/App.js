@@ -3274,15 +3274,15 @@ if (currentScreen === 'mood-intro') {
           onClick={() => setCurrentScreen('setup')}
           className="mt-6 text-gray-400 hover:text-gray-200 block mx-auto"
         >
-          ← Back to Setup
+         ← Back to Setup
         </button>
         
       </div>
     </div>
-
   );
 }
-   if (!currentQuestionSet) {
+
+if (!currentQuestionSet) {
     return <div>Loading questions...</div>;
   }
   // console.log('Mood screen rendering');

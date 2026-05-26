@@ -1833,12 +1833,19 @@ const loadUserPrefs = () => {
 });
   
 //react imports
- const [animating, setAnimating] = useState(false); 
+const [animating, setAnimating] = useState(true);
 const [userRating, setUserRating] = useState(0);
 const [isHalfStar, setIsHalfStar] = useState(false);
 const [showExclusions, setShowExclusions] = useState(false);
 const [recentlyShownMovies, setRecentlyShownMovies] = useState([]);
 
+  useEffect(() => {
+  if (currentScreen === 'intuitive-intro' || currentScreen === 'intuitive') {
+    setTimeout(() => setAnimating(false), 50);
+  }
+}, [currentScreen]);
+  
+  
 useEffect(() => {
   saveUserPrefs(userPrefs);
 }, [userPrefs]);

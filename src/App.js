@@ -1843,12 +1843,15 @@ useEffect(() => {
   if (
     currentScreen === 'intuitive-intro' || 
     currentScreen === 'intuitive' ||
-    currentScreen === 'mood-intro' ||
-    currentScreen === 'mood'
+    currentScreen === 'mood-intro'
   ) {
     setTimeout(() => setAnimating(false), 50);
   }
-}, [currentScreen]);
+  // Mood quiz screen has no currentScreen value - trigger on questionSet change
+  if (currentQuestionSet && currentScreen !== 'results' && currentScreen !== 'loading') {
+    setTimeout(() => setAnimating(false), 50);
+  }
+}, [currentScreen, currentQuestionSet]);
   
   
 useEffect(() => {
@@ -3300,8 +3303,14 @@ if (currentScreen === 'mood-intro') {
 //  console.log('Has options:', !!currentQuestion?.options); 
 //  console.log('Has symbols:', !!currentQuestion?.symbols);
   
-  return (
-    <div className="min-h-screen bg-gray-900 text-gray-200 p-4">
+return (
+    <div 
+      className="min-h-screen bg-gray-900 text-gray-200 p-4"
+      style={{
+        opacity: animating ? 0 : 1,
+        transition: 'opacity 0.3s ease'
+      }}
+    >
       <div className="max-w-md mx-auto bg-gray-800 rounded-lg p-6 border-2 border-gray-600">
         <h2 className="text-center bg-gray-700 text-gray-200 p-3 rounded mb-6 text-lg font-bold">
           Discovering Your Mood
@@ -3581,7 +3590,7 @@ if (currentScreen === 'results') {
 }
 
  // Decision Screen
-if (currentScreen === 'decision') {
+  if (currentScreen === 'decision') {
   return (
     <div className="min-h-screen bg-gray-900 text-gray-200 p-4">
       <div className="max-w-md mx-auto bg-gray-800 rounded-lg p-6 border-2 border-gray-600">

@@ -3468,6 +3468,7 @@ textshadow: '0 0 2px rgba(160, 160, 160, 0.6), 0 0 4px rgba(160, 160, 160, 0.4)'
     </div>
   );
 }
+}
 if (currentScreen === 'loading') {
   return (
     <div className="min-h-screen bg-gray-900 text-gray-200 flex items-center justify-center">

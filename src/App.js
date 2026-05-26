@@ -2990,13 +2990,13 @@ if (currentScreen === 'setup') {
 // ========================================
 if (currentScreen === 'intuitive-intro') {
   return (
-    <div 
-      className="min-h-screen bg-gray-900 text-gray-200 p-4 flex items-center justify-center"
-      style={{
-        opacity: animating ? 0 : 1,
-        transition: 'opacity 0.5s ease'
-      }}
-    >
+   <div 
+  className="fixed inset-0 bg-gray-900 text-gray-200 p-4 flex items-center justify-center"
+  style={{
+    opacity: animating ? 0 : 1,
+    transition: 'opacity 0.5s ease'
+  }}
+>
       <div className="max-w-lg mx-auto text-center">
         
         {/* Icon/Symbol */}
@@ -3175,10 +3175,9 @@ if (currentScreen === 'intuitive') {
 }}
 className={`w-full p-4 border-2 rounded-lg text-left transition-all group
   hover:scale-105 active:scale-95
-  ${intuitiveAnswers[currentQuestion.category]?.actionKey === action.key
-    ? 'bg-purple-900/50 border-purple-500 text-purple-300'
-    : 'bg-gray-700 hover:bg-purple-900/50 border-gray-600 hover:border-purple-500 active:bg-purple-800 active:border-purple-400'
-  }`}     >
+className="w-full p-4 bg-gray-700 hover:bg-purple-900/50 hover:scale-105 hover:border-purple-500 
+active:scale-95 active:bg-purple-800 active:border-purple-400 border-2 border-gray-600 rounded-lg text-left transition-all group"
+   >
   
                   <div className="flex items-center justify-between">
                     <span className="text-lg text-gray-200 group-hover:text-purple-300">{action.text}</span>

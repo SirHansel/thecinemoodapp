@@ -2990,7 +2990,13 @@ if (currentScreen === 'setup') {
 // ========================================
 if (currentScreen === 'intuitive-intro') {
   return (
-    <div className="min-h-screen bg-gray-900 text-gray-200 p-4 flex items-center justify-center">
+    <div 
+      className="min-h-screen bg-gray-900 text-gray-200 p-4 flex items-center justify-center"
+      style={{
+        opacity: animating ? 0 : 1,
+        transition: 'opacity 0.5s ease'
+      }}
+    >
       <div className="max-w-lg mx-auto text-center">
         
         {/* Icon/Symbol */}
@@ -3024,8 +3030,14 @@ if (currentScreen === 'intuitive-intro') {
         {/* Begin Button */}
         <button
           onClick={() => {
-            generateIntuitiveQuestions();
-            setCurrentScreen('intuitive');
+            // Fade out intro
+            setAnimating(true);
+            setTimeout(() => {
+              generateIntuitiveQuestions();
+              setCurrentScreen('intuitive');
+              // Fade in quiz
+              setTimeout(() => setAnimating(false), 150);
+            }, 400);
           }}
           className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 rounded-lg text-xl font-bold transition-all"
         >

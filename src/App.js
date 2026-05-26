@@ -3071,8 +3071,13 @@ if (currentScreen === 'intuitive') {
           </div>
         </div>
 
-  <div className="bg-gray-800 rounded-lg border-2 border-gray-600 overflow-hidden">
-
+<div 
+  className="bg-gray-800 rounded-lg border-2 border-gray-600 overflow-hidden"
+  style={{
+    opacity: animating ? 0 : 1,
+    transition: 'opacity 0.3s ease'
+  }}
+>
               {console.log('Current question:', currentQuestion)}
 
                 
@@ -3117,33 +3122,38 @@ if (currentScreen === 'intuitive') {
             <div className="space-y-3">
               {currentQuestion.actions.map((action) => (
                 <button key={action.key}
-                  onClick={() => {
-                    const newAnswers = {
-                      ...intuitiveAnswers,
-                      [currentQuestion.category]: {
-                        scenarioKey: currentQuestion.scenarioKey,
-                        actionKey: action.key
-                      }
-                    };
-                    setIntuitiveAnswers(newAnswers);
-                    if (questionIndex < intuitiveQuestions.length - 1) {
-                      setQuestionIndex(questionIndex + 1);
-                    } else {
-                      console.log('🎭 Intuitive quiz complete! Answers:', newAnswers);
-                      setCurrentScreen('loading');
-                     
-                     const intuitiveGenreScores = calculateIntuitiveScore(newAnswers, userPrefs);
-
-setUserPrefs(prev => ({
-  ...prev,
-  intuitiveAnswers: newAnswers,
-  moodAnswers: intuitiveGenreScores,
-  intuitiveGenreScores: intuitiveGenreScores  
-}));
-
-generateRecommendations(intuitiveGenreScores);
-                    }
-                  }}
+                 onClick={() => {
+  const newAnswers = {
+    ...intuitiveAnswers,
+    [currentQuestion.category]: {
+      scenarioKey: currentQuestion.scenarioKey,
+      actionKey: action.key
+    }
+  };
+  setIntuitiveAnswers(newAnswers);
+  
+  // Start fade out
+  setAnimating(true);
+  
+  setTimeout(() => {
+    if (questionIndex < intuitiveQuestions.length - 1) {
+      setQuestionIndex(questionIndex + 1);
+    } else {
+      console.log('🎭 Intuitive quiz complete! Answers:', newAnswers);
+      setCurrentScreen('loading');
+      const intuitiveGenreScores = calculateIntuitiveScore(newAnswers, userPrefs);
+      setUserPrefs(prev => ({
+        ...prev,
+        intuitiveAnswers: newAnswers,
+        moodAnswers: intuitiveGenreScores,
+        intuitiveGenreScores: intuitiveGenreScores
+      }));
+      generateRecommendations(intuitiveGenreScores);
+    }
+    // Fade back in
+    setTimeout(() => setAnimating(false), 150);
+  }, 300); // Wait 300ms for fade out
+}}
                   className="w-full p-4 bg-gray-700 hover:bg-purple-900/50 border-2 border-gray-600 hover:border-purple-500 rounded-lg text-left transition-all group"
                 >
                   <div className="flex items-center justify-between">

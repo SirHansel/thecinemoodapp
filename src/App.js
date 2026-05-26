@@ -1839,8 +1839,13 @@ const [isHalfStar, setIsHalfStar] = useState(false);
 const [showExclusions, setShowExclusions] = useState(false);
 const [recentlyShownMovies, setRecentlyShownMovies] = useState([]);
 
-  useEffect(() => {
-  if (currentScreen === 'intuitive-intro' || currentScreen === 'intuitive') {
+useEffect(() => {
+  if (
+    currentScreen === 'intuitive-intro' || 
+    currentScreen === 'intuitive' ||
+    currentScreen === 'mood-intro' ||
+    currentScreen === 'mood'
+  ) {
     setTimeout(() => setAnimating(false), 50);
   }
 }, [currentScreen]);
@@ -2963,15 +2968,14 @@ if (currentScreen === 'setup') {
    if (userPrefs.quizMode === 'intuitive') {
   console.log('🎭 Launching Intuitive Mode');
   setCurrentScreen('intuitive-intro');  // ← Go to intro first
+} 
+   else {
+  console.log('🎨 Launching Standard Mode');
+  const questionSet = generateQuestionSet();
+  console.log('Generated question set:', questionSet);
+  setCurrentQuestionSet(questionSet);
+  setCurrentScreen('mood-intro');
 }
-   
-    else {
-      console.log('🎨 Launching Standard Mode');
-      const questionSet = generateQuestionSet();
-      console.log('Generated question set:', questionSet);
-      setCurrentQuestionSet(questionSet);
-      setCurrentScreen('mood');
-    }
   }}
   
   disabled={csvProcessing}
@@ -3218,7 +3222,67 @@ className="w-full p-4 bg-gray-700 hover:bg-purple-900/50 hover:scale-105 hover:b
 // Mood Discovery Screen
 
 // Mood Discovery Screen
-if (currentScreen === 'mood') {
+if (currentScreen === 'mood-intro') {
+  return (
+    <div 
+      className="fixed inset-0 bg-gray-900 text-gray-200 p-4 flex items-center justify-center"
+      style={{
+        opacity: animating ? 0 : 1,
+        transition: 'opacity 0.5s ease'
+      }}
+    >
+      <div className="max-w-lg mx-auto text-center">
+        
+        <div className="text-8xl mb-6">🎨</div>
+        
+        <h1 className="text-4xl font-bold text-purple-400 mb-6">
+          Mood Mode
+        </h1>
+        
+        <div className="bg-gray-800 rounded-lg p-8 border-2 border-gray-600 mb-8">
+          <p className="text-2xl text-gray-300 mb-6">
+            Don't think.<br/>
+            Just feel.
+          </p>
+          
+          <p className="text-gray-400 mb-4">
+            Choose what draws you instinctively.
+          </p>
+          
+          <p className="text-gray-400 mb-4">
+            There are no wrong choices.
+          </p>
+          
+          <p className="text-gray-400">
+            Trust what resonates right now.
+          </p>
+        </div>
+        
+        <button
+          onClick={() => {
+            setAnimating(true);
+            setTimeout(() => {
+              setCurrentScreen('mood');
+              setTimeout(() => setAnimating(false), 150);
+            }, 400);
+          }}
+          className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 rounded-lg text-xl font-bold transition-all"
+        >
+          Begin →
+        </button>
+        
+        <button
+          onClick={() => setCurrentScreen('setup')}
+          className="mt-6 text-gray-400 hover:text-gray-200 block mx-auto"
+        >
+          ← Back to Setup
+        </button>
+        
+      </div>
+    </div>
+
+  );
+}
    if (!currentQuestionSet) {
     return <div>Loading questions...</div>;
   }

@@ -3282,7 +3282,8 @@ if (currentScreen === 'mood-intro') {
   );
 }
 
-if (!currentQuestionSet) {
+if (currentScreen !== 'loading' && currentScreen !== 'results' && currentScreen !== 'decision' && currentScreen !== 'spinResult' && currentScreen !== 'watching') {
+  if (!currentQuestionSet) {
     return <div>Loading questions...</div>;
   }
   // console.log('Mood screen rendering');
@@ -3469,6 +3470,8 @@ textshadow: '0 0 2px rgba(160, 160, 160, 0.6), 0 0 4px rgba(160, 160, 160, 0.4)'
   );
 }
 }
+
+if (currentScreen === 'loading') {
 if (currentScreen === 'loading') {
   return (
     <div className="min-h-screen bg-gray-900 text-gray-200 flex items-center justify-center">

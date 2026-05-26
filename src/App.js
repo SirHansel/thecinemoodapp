@@ -3300,13 +3300,8 @@ if (!currentQuestionSet) {
 //  console.log('Has symbols:', !!currentQuestion?.symbols);
   
 return (
-    <div 
-      className="min-h-screen bg-gray-900 text-gray-200 p-4"
-      style={{
-        opacity: animating ? 0 : 1,
-        transition: 'opacity 0.3s ease'
-      }}
-    >
+    <div className="min-h-screen bg-gray-900 text-gray-200 p-4">
+  
       <div className="max-w-md mx-auto bg-gray-800 rounded-lg p-6 border-2 border-gray-600">
         <h2 className="text-center bg-gray-700 text-gray-200 p-3 rounded mb-6 text-lg font-bold">
           Discovering Your Mood

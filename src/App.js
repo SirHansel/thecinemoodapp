@@ -3178,7 +3178,7 @@ className={`w-full p-4 border-2 rounded-lg text-left transition-all group
   ${intuitiveAnswers[currentQuestion.category]?.actionKey === action.key
     ? 'bg-purple-900/50 border-purple-500 text-purple-300'
     : 'bg-gray-700 hover:bg-purple-900/50 border-gray-600 hover:border-purple-500 active:bg-purple-800 active:border-purple-400'
-  }`}     
+  }`}     >
   
                   <div className="flex items-center justify-between">
                     <span className="text-lg text-gray-200 group-hover:text-purple-300">{action.text}</span>

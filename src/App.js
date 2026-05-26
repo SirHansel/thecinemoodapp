@@ -1847,11 +1847,7 @@ useEffect(() => {
   ) {
     setTimeout(() => setAnimating(false), 50);
   }
-  // Mood quiz screen has no currentScreen value - trigger on questionSet change
-  if (currentQuestionSet && currentScreen !== 'results' && currentScreen !== 'loading') {
-    setTimeout(() => setAnimating(false), 50);
-  }
-}, [currentScreen, currentQuestionSet]);
+}, [currentScreen]);
   
   
 useEffect(() => {

@@ -3173,8 +3173,9 @@ if (currentScreen === 'intuitive') {
     setTimeout(() => setAnimating(false), 150);
   }, 300); // Wait 300ms for fade out
 }}
-                  className="w-full p-4 bg-gray-700 hover:bg-purple-900/50 border-2 border-gray-600 hover:border-purple-500 rounded-lg text-left transition-all group"
-                >
+className="w-full p-4 bg-gray-700 hover:bg-purple-900/50 hover:scale-105 hover:border-purple-500 active:scale-95 active:bg-purple-800 
+  active:border-purple-400 border-2 border-gray-600 rounded-lg text-left transition-all group"                >
+  
                   <div className="flex items-center justify-between">
                     <span className="text-lg text-gray-200 group-hover:text-purple-300">{action.text}</span>
                     <span className="text-gray-500 group-hover:text-purple-400">→</span>

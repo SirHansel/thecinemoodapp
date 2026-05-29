@@ -11,13 +11,17 @@ export const fetchMoviesByGenre = async (
   // Determine how many pages to fetch based on if it's for Safe tier
   const pagesToFetch = options.fetchMultiplePages ? 3 : 1; // 3 pages = ~60 movies
   
-  let allMovies = [];
+ let allMovies = [];
   
-  for (let page = 1; page <= pagesToFetch; page++) {
-    let url = `${TMDB_BASE_URL}/discover/movie?api_key=${TMDB_API_KEY}`;
+for (let page = 1; page <= pagesToFetch; page++) {
+  let url = `${TMDB_BASE_URL}/discover/movie?api_key=${TMDB_API_KEY}`;
+  url += `&with_genres=${genreId}`;
+  url += `&page=${page}`;
+  
+  // Only add release date filter if no specific date range is set
+  if (!options.startYear && !options.endYear) {
     url += `&primary_release_date.lte=${new Date().toISOString().split('T')[0]}`;
-    url += `&with_genres=${genreId}`;
-    url += `&page=${page}`; // ← Add page parameter
+  }
     
     if (!includeForeign) {
       url += '&with_original_language=en';

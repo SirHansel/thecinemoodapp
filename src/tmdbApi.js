@@ -15,6 +15,7 @@ export const fetchMoviesByGenre = async (
   
   for (let page = 1; page <= pagesToFetch; page++) {
     let url = `${TMDB_BASE_URL}/discover/movie?api_key=${TMDB_API_KEY}`;
+    url += `&primary_release_date.lte=${new Date().toISOString().split('T')[0]}`;
     url += `&with_genres=${genreId}`;
     url += `&page=${page}`; // ← Add page parameter
     

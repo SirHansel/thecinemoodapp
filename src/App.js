@@ -38,6 +38,39 @@ import WarmTonesAnimation from './components/WarmTonesAnimation';
 import CoolTonesAnimation from './components/CoolTonesAnimation';
 import SoftTonesAnimation from './components/SoftTonesAnimation';
 import ContrastTonesAnimation from './components/ContrastTonesAnimation';
+
+// ========================================
+// SYMBOL IMPORTS - Standard Mode
+// ========================================
+// Natural Forces
+import FireSymbol from './components/FireSymbol';
+import WaterSymbol from './components/WaterSymbol';
+import EarthSymbol from './components/EarthSymbol';
+import AirSymbol from './components/AirSymbol';
+
+// Ancient Symbols
+import LabyrinthSymbol from './components/LabyrinthSymbol';
+import OuroborosSymbol from './components/OuroborosSymbol';
+import EyeSymbol from './components/EyeSymbol';
+import ScalesSymbol from './components/ScalesSymbol';
+import HourglassSymbol from './components/HourglassSymbol';
+import CompassRoseSymbol from './components/CompassRoseSymbol';
+
+// Spaces
+import ThresholdSymbol from './components/ThresholdSymbol';
+import AqueductSymbol from './components/AqueductSymbol';
+import CorridorSymbol from './components/CorridorSymbol';
+import WindowSymbol from './components/WindowSymbol';
+import TowerSymbol from './components/TowerSymbol';
+import RuinSymbol from './components/RuinSymbol';
+
+// Objects
+import WornLetterSymbol from './components/WornLetterSymbol';
+import LockedBoxSymbol from './components/LockedBoxSymbol';
+import BrokenClockSymbol from './components/BrokenClockSymbol';
+import OldPhotographSymbol from './components/OldPhotographSymbol';
+import UnlitCandleSymbol from './components/UnlitCandleSymbol';
+import CrackedCompassSymbol from './components/CrackedCompassSymbol';
    
 // ========================================
 // DESIGN: Each mood answer gives Primary(5) + Secondary(2) + Tertiary(1) points to different genres

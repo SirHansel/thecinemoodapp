@@ -273,131 +273,35 @@ const scoreMovieByTraits = (movie, traitScores) => {
 // Mood Answer → Genre Points Mapping
 const MOOD_SCORING = {
   symbols: {
-   circle: {
-  primary: TMDB_GENRES.ROMANCE,
-  secondary: TMDB_GENRES.COMEDY,
-  tertiary: TMDB_GENRES.DRAMA
-},
-square: {
-  primary: TMDB_GENRES.MYSTERY,
-  secondary: TMDB_GENRES.THRILLER,
-  tertiary: TMDB_GENRES.HORROR
-},
-leaf: {
-  primary: TMDB_GENRES.FANTASY,
-  secondary: TMDB_GENRES.ADVENTURE,
-  tertiary: TMDB_GENRES.COMEDY
-},
-stone: {
-  primary: TMDB_GENRES.DRAMA,
-  secondary: TMDB_GENRES.WESTERN,
-  tertiary: TMDB_GENRES.HISTORY
-},
-cloud: {
-  primary: TMDB_GENRES.FANTASY,
-  secondary: TMDB_GENRES.ROMANCE,
-  tertiary: TMDB_GENRES.COMEDY
-},
-cone: {
-  primary: TMDB_GENRES.ACTION,
-  secondary: TMDB_GENRES.ADVENTURE,
-  tertiary: TMDB_GENRES.THRILLER
-},
-book: {
-  primary: TMDB_GENRES.MYSTERY,
-  secondary: TMDB_GENRES.DRAMA,
-  tertiary: TMDB_GENRES.FANTASY
-},
-lantern: {
-  primary: TMDB_GENRES.MYSTERY,
-  secondary: TMDB_GENRES.ROMANCE,
-  tertiary: TMDB_GENRES.FANTASY
-},
-bridge: {
-  primary: TMDB_GENRES.ADVENTURE,
-  secondary: TMDB_GENRES.ROMANCE,
-  tertiary: TMDB_GENRES.DRAMA
-},
-    cylinder: {
-  primary: TMDB_GENRES.SCIENCE_FICTION,
-  secondary: TMDB_GENRES.MYSTERY,
-  tertiary: TMDB_GENRES.THRILLER
-},
-    flame: {
-      primary: TMDB_GENRES.ACTION,            // +5 pts (intense, passionate)
-      secondary: TMDB_GENRES.THRILLER,        // +2 pts
-      tertiary: TMDB_GENRES.DRAMA             // +1 pt
-    },
-    wave: {
-      primary: TMDB_GENRES.ADVENTURE,         // +5 pts (flowing, journey)
-      secondary: TMDB_GENRES.DRAMA,           // +2 pts
-      tertiary: TMDB_GENRES.FANTASY           // +1 pt
-    },
-    star: {
-      primary: TMDB_GENRES.FANTASY,           // +5 pts (wonder, magic)
-      secondary: TMDB_GENRES.SCIENCE_FICTION, // +2 pts
-      tertiary: TMDB_GENRES.ADVENTURE         // +1 pt
-    },
-    moon: {
-      primary: TMDB_GENRES.MYSTERY,           // +5 pts (hidden, nocturnal)
-      secondary: TMDB_GENRES.HORROR,          // +2 pts
-      tertiary: TMDB_GENRES.THRILLER          // +1 pt
-    },
-    sphere: {
-      primary: TMDB_GENRES.COMEDY,            // +5 pts (wholesome, complete)
-      secondary: TMDB_GENRES.ROMANCE,         // +2 pts
-      tertiary: TMDB_GENRES.DRAMA             // +1 pt
-    },
-    cube: {
-      primary: TMDB_GENRES.SCIENCE_FICTION,   // +5 pts (structured, logical)
-      secondary: TMDB_GENRES.MYSTERY,         // +2 pts
-      tertiary: TMDB_GENRES.THRILLER          // +1 pt
-    },
-    pyramid: {
-      primary: TMDB_GENRES.ADVENTURE,         // +5 pts (ancient, epic)
-      secondary: TMDB_GENRES.HISTORY,         // +2 pts
-      tertiary: TMDB_GENRES.FANTASY           // +1 pt
-    },
-    key: {
-      primary: TMDB_GENRES.MYSTERY,           // +5 pts (unlocking secrets)
-      secondary: TMDB_GENRES.THRILLER,        // +2 pts
-      tertiary: TMDB_GENRES.ADVENTURE         // +1 pt
-    },
-    mirror: {
-      primary: TMDB_GENRES.HORROR,            // +5 pts (reflection, duality)
-      secondary: TMDB_GENRES.MYSTERY,         // +2 pts
-      tertiary: TMDB_GENRES.DRAMA             // +1 pt
-    },
-    compass: {
-      primary: TMDB_GENRES.ADVENTURE,         // +5 pts (navigation, journey)
-      secondary: TMDB_GENRES.ACTION,          // +2 pts
-      tertiary: TMDB_GENRES.FANTASY           // +1 pt
-    },
-    helix: {
-      primary: TMDB_GENRES.SCIENCE_FICTION,
-      secondary: TMDB_GENRES.MYSTERY,
-      tertiary: TMDB_GENRES.THRILLER
-    },
-    spiral: {
-      primary: TMDB_GENRES.MYSTERY,
-      secondary: TMDB_GENRES.HORROR,
-      tertiary: TMDB_GENRES.THRILLER
-    },
-    hammer: {
-      primary: TMDB_GENRES.ACTION,
-      secondary: TMDB_GENRES.CRIME,
-      tertiary: TMDB_GENRES.THRILLER
-    },
-    sun: {
-      primary: TMDB_GENRES.ADVENTURE,
-      secondary: TMDB_GENRES.FANTASY,
-      tertiary: TMDB_GENRES.COMEDY
-    },
-  triangle: {
-  primary: TMDB_GENRES.MYSTERY,
-  secondary: TMDB_GENRES.THRILLER,
-  tertiary: TMDB_GENRES.DRAMA
-  }
+  // Natural Forces
+  fire: { primary: TMDB_GENRES.ACTION, secondary: TMDB_GENRES.THRILLER, tertiary: TMDB_GENRES.DRAMA },
+  water: { primary: TMDB_GENRES.DRAMA, secondary: TMDB_GENRES.MYSTERY, tertiary: TMDB_GENRES.FANTASY },
+  earth: { primary: TMDB_GENRES.DRAMA, secondary: TMDB_GENRES.WESTERN, tertiary: TMDB_GENRES.HISTORY },
+  air: { primary: TMDB_GENRES.FANTASY, secondary: TMDB_GENRES.ADVENTURE, tertiary: TMDB_GENRES.SCIENCE_FICTION },
+
+  // Ancient Symbols
+  labyrinth: { primary: TMDB_GENRES.MYSTERY, secondary: TMDB_GENRES.THRILLER, tertiary: TMDB_GENRES.FANTASY },
+  ouroboros: { primary: TMDB_GENRES.SCIENCE_FICTION, secondary: TMDB_GENRES.DRAMA, tertiary: TMDB_GENRES.MYSTERY },
+  eye: { primary: TMDB_GENRES.THRILLER, secondary: TMDB_GENRES.MYSTERY, tertiary: TMDB_GENRES.HORROR },
+  scales: { primary: TMDB_GENRES.CRIME, secondary: TMDB_GENRES.DRAMA, tertiary: TMDB_GENRES.THRILLER },
+  hourglass: { primary: TMDB_GENRES.DRAMA, secondary: TMDB_GENRES.HISTORY, tertiary: TMDB_GENRES.SCIENCE_FICTION },
+  compass_rose: { primary: TMDB_GENRES.ADVENTURE, secondary: TMDB_GENRES.ACTION, tertiary: TMDB_GENRES.FANTASY },
+
+  // Spaces
+  threshold: { primary: TMDB_GENRES.DRAMA, secondary: TMDB_GENRES.FANTASY, tertiary: TMDB_GENRES.ADVENTURE },
+  aqueduct: { primary: TMDB_GENRES.HISTORY, secondary: TMDB_GENRES.DRAMA, tertiary: TMDB_GENRES.ADVENTURE },
+  corridor: { primary: TMDB_GENRES.THRILLER, secondary: TMDB_GENRES.HORROR, tertiary: TMDB_GENRES.MYSTERY },
+  window: { primary: TMDB_GENRES.ROMANCE, secondary: TMDB_GENRES.DRAMA, tertiary: TMDB_GENRES.MYSTERY },
+  tower: { primary: TMDB_GENRES.FANTASY, secondary: TMDB_GENRES.DRAMA, tertiary: TMDB_GENRES.THRILLER },
+  ruin: { primary: TMDB_GENRES.HISTORY, secondary: TMDB_GENRES.DRAMA, tertiary: TMDB_GENRES.ADVENTURE },
+
+  // Objects
+  worn_letter: { primary: TMDB_GENRES.ROMANCE, secondary: TMDB_GENRES.DRAMA, tertiary: TMDB_GENRES.HISTORY },
+  locked_box: { primary: TMDB_GENRES.MYSTERY, secondary: TMDB_GENRES.THRILLER, tertiary: TMDB_GENRES.ADVENTURE },
+  broken_clock: { primary: TMDB_GENRES.SCIENCE_FICTION, secondary: TMDB_GENRES.DRAMA, tertiary: TMDB_GENRES.MYSTERY },
+  old_photograph: { primary: TMDB_GENRES.DRAMA, secondary: TMDB_GENRES.HISTORY, tertiary: TMDB_GENRES.ROMANCE },
+  unlit_candle: { primary: TMDB_GENRES.HORROR, secondary: TMDB_GENRES.MYSTERY, tertiary: TMDB_GENRES.DRAMA },
+  cracked_compass: { primary: TMDB_GENRES.ADVENTURE, secondary: TMDB_GENRES.THRILLER, tertiary: TMDB_GENRES.ACTION },
 },
   
   aesthetic: {
@@ -574,38 +478,36 @@ bridge: {
 // SYMBOL GROUPS - ROTATING SELECTIONS
 // ========================================
 const SYMBOL_GROUPS = {
-  geometry: [
-    { id: 'circle', svg: 'circle', traits: { heartwarming: 3, romantic: 3, whimsical: 2 } },
-    { id: 'triangle', svg: 'triangle', traits: { intense: 4, thrilling: 3, dark: 2 } },
-    { id: 'square', svg: 'square', traits: { mysterious: 3, dark: 2, intense: 2 } },
-    { id: 'wave', svg: 'wave', traits: { romantic: 4, mysterious: 3, whimsical: 2 } },
-    { id: 'star', svg: 'star', traits: { adventurous: 4, futuristic: 3, thrilling: 2 } },
-    { id: 'spiral', svg: 'spiral', traits: { mysterious: 4, dark: 3, intense: 2 } }
-  ],
   natural: [
-    { id: 'leaf', svg: 'leaf', traits: { whimsical: 4, heartwarming: 3 } },
-    { id: 'flame', svg: 'flame', traits: { thrilling: 4, intense: 3, dark: 2 } },
-    { id: 'wave', svg: 'wave', traits: { mysterious: 4, adventurous: 3, romantic: 2 } },
-    { id: 'stone', svg: 'stone', traits: { intense: 3, mysterious: 2, dark: 2 } },
-    { id: 'cloud', svg: 'cloud', traits: { whimsical: 4, romantic: 3, heartwarming: 2 } },
-    { id: 'sun', svg: 'sun', traits: { heartwarming: 4, thrilling: 3, adventurous: 2 } }
+    { id: 'fire', component: FireSymbol, meaning: 'Fire', needs: { RELEASE: 3, CATHARSIS: 1 } },
+    { id: 'water', component: WaterSymbol, meaning: 'Water', needs: { ESCAPE: 2, COMFORT: 2 } },
+    { id: 'earth', component: EarthSymbol, meaning: 'Earth', needs: { COMFORT: 2, CONNECTION: 2 } },
+    { id: 'air', component: AirSymbol, meaning: 'Air', needs: { ESCAPE: 3, STIMULATION: 1 } },
   ],
-  forms3d: [
-    { id: 'pyramid', svg: 'pyramid', traits: { mysterious: 4, intense: 3, dark: 2 } },
-    { id: 'cube', svg: 'cube', traits: { mysterious: 3, intense: 2 } },
-    { id: 'sphere', svg: 'sphere', traits: { heartwarming: 4, whimsical: 3, romantic: 2 } },
-    { id: 'cylinder', svg: 'cylinder', traits: { mysterious: 2, intense: 2 } },
-    { id: 'cone', svg: 'cone', traits: { thrilling: 3, adventurous: 2 } },
-    { id: 'helix', svg: 'helix', traits: { mysterious: 4, futuristic: 3, thrilling: 2 } }
+  ancient: [
+    { id: 'labyrinth', component: LabyrinthSymbol, meaning: 'Labyrinth', needs: { STIMULATION: 3, ESCAPE: 1 } },
+    { id: 'ouroboros', component: OuroborosSymbol, meaning: 'Ouroboros', needs: { STIMULATION: 2, CATHARSIS: 2 } },
+    { id: 'eye', component: EyeSymbol, meaning: 'Eye', needs: { STIMULATION: 3, RELEASE: 1 } },
+    { id: 'scales', component: ScalesSymbol, meaning: 'Scales', needs: { STIMULATION: 2, CONNECTION: 2 } },
+    { id: 'hourglass', component: HourglassSymbol, meaning: 'Hourglass', needs: { CATHARSIS: 3, STIMULATION: 1 } },
+    { id: 'compass_rose', component: CompassRoseSymbol, meaning: 'Compass Rose', needs: { ESCAPE: 3, STIMULATION: 1 } },
   ],
-  artifacts: [
-    { id: 'book', svg: 'book', traits: { mysterious: 4, heartwarming: 3 } },
-    { id: 'lantern', svg: 'lantern', traits: { mysterious: 3, romantic: 3, heartwarming: 2 } },
-    { id: 'hammer', svg: 'hammer', traits: { intense: 4, thrilling: 3 } },
-    { id: 'key', svg: 'key', traits: { mysterious: 4, adventurous: 3 } },
-    { id: 'mirror', svg: 'mirror', traits: { mysterious: 3, romantic: 2, dark: 2 } },
-    { id: 'bridge', svg: 'bridge', traits: { adventurous: 4, heartwarming: 3, romantic: 2 } }
-  ], 
+  spaces: [
+    { id: 'threshold', component: ThresholdSymbol, meaning: 'Threshold', needs: { ESCAPE: 2, STIMULATION: 2 } },
+    { id: 'aqueduct', component: AqueductSymbol, meaning: 'Aqueduct', needs: { STIMULATION: 2, COMFORT: 2 } },
+    { id: 'corridor', component: CorridorSymbol, meaning: 'Corridor', needs: { RELEASE: 2, STIMULATION: 2 } },
+    { id: 'window', component: WindowSymbol, meaning: 'Window', needs: { CONNECTION: 3, ESCAPE: 1 } },
+    { id: 'tower', component: TowerSymbol, meaning: 'Tower', needs: { ESCAPE: 2, RELEASE: 2 } },
+    { id: 'ruin', component: RuinSymbol, meaning: 'Ruin', needs: { CATHARSIS: 3, STIMULATION: 1 } },
+  ],
+  objects: [
+    { id: 'worn_letter', component: WornLetterSymbol, meaning: 'Worn Letter', needs: { CONNECTION: 3, CATHARSIS: 1 } },
+    { id: 'locked_box', component: LockedBoxSymbol, meaning: 'Locked Box', needs: { STIMULATION: 3, ESCAPE: 1 } },
+    { id: 'broken_clock', component: BrokenClockSymbol, meaning: 'Broken Clock', needs: { CATHARSIS: 2, STIMULATION: 2 } },
+    { id: 'old_photograph', component: OldPhotographSymbol, meaning: 'Old Photograph', needs: { CATHARSIS: 3, CONNECTION: 1 } },
+    { id: 'unlit_candle', component: UnlitCandleSymbol, meaning: 'Unlit Candle', needs: { COMFORT: 2, CATHARSIS: 2 } },
+    { id: 'cracked_compass', component: CrackedCompassSymbol, meaning: 'Cracked Compass', needs: { RELEASE: 2, ESCAPE: 2 } },
+  ]
 };
 // Hybrid Scoring Configuration - Easy to Tweak
 const SCORING_WEIGHTS = {
@@ -2503,12 +2405,11 @@ const generateQuestionSet = () => {
   
   selectedQuestions.push({
   id: 'symbols',
-  category: 'symbols',  // ← ADD THIS LINE
-  question: 'Choose a symbol',
+  category: 'symbols',
+  question: 'Which draws you?',
   type: 'symbols',
   symbols: SYMBOL_GROUPS[selectedGroup],
   groupName: selectedGroup
-
   });
 }
    else {
@@ -3351,55 +3252,24 @@ return (
        
       <div className="space-y-4">
 
-  {currentQuestion.type === 'symbols' && currentQuestion.symbols ? (
-  <div className="grid grid-cols-3 gap-4">
-    {currentQuestion.symbols.map(symbol => (
-      <button
-        key={symbol.id}
-        onClick={() => handleMoodAnswer('symbols', symbol.id)}
-        className="p-4 border-2 border-gray-600 rounded-lg text-white font-medium transition-all hover:scale-105 bg-gray-700 hover:border-gray-400 flex flex-col items-center"
-      >
-        <div className="w-10 h-10 flex items-center justify-center mb-2">
-        
-  
- 
-  {symbol.id === 'circle' && <Circle size={40} color="#3b82f6" />}
-  {symbol.id === 'triangle' && <Triangle size={40} color="#F5AD3B" />}
-  {symbol.id === 'square' && <Square size={40} color="#d8410a" />}
-  {symbol.id === 'wave' && <Waves size={40} color="#3af463" />}
-  {symbol.id === 'star' && <Star size={40} color="#d6d6d6" />}
-  {symbol.id === 'spiral' && <Sparkles size={40} color="#9333ea" />}
-  
-  {symbol.id === 'leaf' && <Leaf size={40} color="#22c55e" />}
-  {symbol.id === 'flame' && <Flame size={40} color="#ef4444" />}
-  {symbol.id === 'stone' && <Box size={40} color="#6b7280" />}
-  {symbol.id === 'cloud' && <Cloud size={40} color="#e5e7eb" />}
-  {symbol.id === 'sun' && <Sun size={40} color="#fbbf24" />}
-  
-  {symbol.id === 'pyramid' && <Triangle size={40} color="#a855f7" />}
-  {symbol.id === 'cube' && <Box size={40} color="#06b6d4" />}
-  {symbol.id === 'sphere' && <Globe size={40} color="#3b82f6" />}
-  {symbol.id === 'cylinder' && <Box size={40} color="#64748b" />}
- {symbol.id === 'cone' && <Triangle size={40} color="#f59e0b" />}
-{symbol.id === 'helix' && <Sparkles size={40} color="#8b5cf6" />}
-
-  {symbol.id === 'book' && <BookOpen size={40} color="#92400e" />}
-  {symbol.id === 'lantern' && <Lamp size={40} color="#fbbf24" />}
-  {symbol.id === 'hammer' && <Hammer size={40} color="#78716c" />}
-  {symbol.id === 'key' && <Key size={40} color="#6b7280" />}
-  {symbol.id === 'mirror' && <Circle size={40} color="#d1d5db" strokeWidth={3} />} 
-
-{symbol.id === 'bridge' && (
-  <svg width="40" height="40" viewBox="0 0 50 50">
-    <path d="M5,35 Q25,20 45,35" stroke="#78716c" strokeWidth="4" fill="none" />
-  </svg>
-)}
-  
-</div>
-        <span className="text-xs">{symbol.meaning}</span>
-      </button>
-    ))}
- </div>
+ {currentQuestion.type === 'symbols' && currentQuestion.symbols ? (
+  <div className="grid grid-cols-2 gap-4">
+    {currentQuestion.symbols.map(symbol => {
+      const SymbolComponent = symbol.component;
+      return (
+        <button
+          key={symbol.id}
+          onClick={() => handleMoodAnswer('symbols', symbol.id)}
+          className="border-2 border-gray-700 rounded-lg hover:border-purple-500 active:scale-95 active:border-purple-400 transition-all bg-gray-900/50 hover:bg-purple-900/20 flex flex-col items-center p-2"
+        >
+          <SymbolComponent />
+          <span className="text-xs text-gray-500 mt-1 hover:text-purple-400">
+            {symbol.meaning}
+          </span>
+        </button>
+      );
+    })}
+  </div>
         
   ) : currentQuestion.category === 'path' ? (
      console.log('Path question options:', currentQuestion.options),

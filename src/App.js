@@ -2531,11 +2531,11 @@ const handleMoodAnswer = async (questionId, answerId) => {
   if (questionId === 'symbols') {
     const currentSymbolQuestion = currentQuestionSet.find(q => q.id === 'symbols');
     const selectedSymbol = currentSymbolQuestion?.symbols.find(s => s.id === answerId);
-    if (selectedSymbol?.traits) {
-      setUserPrefs(prev => ({
-        ...prev,
-        symbolTraits: selectedSymbol.traits
-      }));
+   if (selectedSymbol?.needs || selectedSymbol?.traits) {
+  setUserPrefs(prev => ({
+    ...prev,
+    symbolTraits: selectedSymbol.needs || selectedSymbol.traits
+  }));
       console.log('🎨 Symbol traits captured:', selectedSymbol.traits);
     }
   }

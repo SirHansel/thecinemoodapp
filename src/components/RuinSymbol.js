@@ -45,7 +45,8 @@ const RuinSymbol = () => {
         tl(a, w);
         ctx.beginPath();
         ctx.moveTo(54, ground); ctx.lineTo(54, S * 0.3);
-        ctx.arc(S / 2, S * 0.3, S / 2 - 54, Math.PI, 0);
+        ctx.arc(S / 2, S * 0.3, Math.max(1, S / 2 - 54), Math.PI, 0);
+
         ctx.lineTo(S - 54, ground);
         ctx.stroke();
       });
@@ -62,7 +63,7 @@ const RuinSymbol = () => {
       ctx.shadowColor = 'rgba(60,190,170,0.8)';
       ctx.fillStyle = `rgba(80,210,190,${0.08 + p * 0.06})`;
       ctx.beginPath();
-      ctx.arc(S / 2, S * 0.3, S / 2 - 58, Math.PI, 0);
+      ctx.arc(S / 2, S * 0.3, Math.max(1, S / 2 - 58), Math.PI, 0);
       ctx.lineTo(S - 58, ground); ctx.lineTo(58, ground);
       ctx.fill();
       [[6, 0.06], [3, 0.2], [1.2, 0.65], [0.7, 0.9]].forEach(([w, a]) => {

@@ -2410,7 +2410,7 @@ const generateQuestionSet = () => {
   type: 'symbols',
   symbols: SYMBOL_GROUPS[selectedGroup],
   groupName: selectedGroup
-  });
+});
 }
    else {
       const pool = QUESTION_POOLS[category];

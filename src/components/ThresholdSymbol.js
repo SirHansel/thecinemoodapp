@@ -9,6 +9,12 @@ const ThresholdSymbol = () => {
     const S = 100;
     let t = 0;
     let animId = null;
+    function tl(a, w) {
+      ctx.strokeStyle = `rgba(80,210,190,${a})`;
+      ctx.lineWidth = w;
+      ctx.shadowBlur = w * 8;
+      ctx.shadowColor = 'rgba(60,190,170,0.8)';
+    }
     function draw() {
       ctx.fillStyle = '#0a0a18';
       ctx.fillRect(0, 0, S, S);
@@ -20,10 +26,7 @@ const ThresholdSymbol = () => {
       g.addColorStop(1, 'rgba(60,180,160,0)');
       ctx.fillStyle = g; ctx.fillRect(0, 0, S, S);
       [[8, 0.06], [4, 0.18], [1.5, 0.65], [0.8, 0.9]].forEach(([ww, a]) => {
-        ctx.strokeStyle = `rgba(80,210,190,${a})`;
-        ctx.lineWidth = ww;
-        ctx.shadowBlur = ww * 8;
-        ctx.shadowColor = 'rgba(60,190,170,0.8)';
+        tl(a, ww);
         ctx.beginPath();
         ctx.moveTo(cx - w, bot);
         ctx.lineTo(cx - w, top + w);
@@ -31,14 +34,27 @@ const ThresholdSymbol = () => {
         ctx.lineTo(cx + w, bot);
         ctx.stroke();
       });
-      ctx.strokeStyle = 'rgba(80,210,190,0.4)';
-      ctx.lineWidth = 0.8;
-      ctx.shadowBlur = 6;
-      ctx.shadowColor = 'rgba(60,190,170,0.8)';
+      tl(0.4, 0.8);
       ctx.beginPath();
-      ctx.moveTo(cx - w, bot);
-      ctx.lineTo(cx + w, bot);
+      ctx.moveTo(cx - w, bot); ctx.lineTo(cx + w, bot);
       ctx.stroke();
+      tl(0.2, 0.6);
+      ctx.beginPath();
+      ctx.moveTo(cx, top + w); ctx.lineTo(cx, bot);
+      ctx.stroke();
+      const knobX = cx + w * 0.55, knobY = cx + 8;
+      [[6, 0.08], [3, 0.2], [1.5, 0.6]].forEach(([ww, a]) => {
+        tl(a, ww);
+        ctx.beginPath();
+        ctx.arc(knobX, knobY, 3, 0, Math.PI * 2);
+        ctx.stroke();
+      });
+      ctx.shadowBlur = 10;
+      ctx.shadowColor = 'rgba(60,190,170,0.9)';
+      ctx.fillStyle = `rgba(80,220,200,${0.4 + p * 0.3})`;
+      ctx.beginPath();
+      ctx.arc(knobX, knobY, 2, 0, Math.PI * 2);
+      ctx.fill();
       ctx.shadowBlur = 0;
       animId = requestAnimationFrame(draw);
     }

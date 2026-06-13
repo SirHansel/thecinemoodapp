@@ -38,6 +38,10 @@ import WarmTonesAnimation from './components/WarmTonesAnimation';
 import CoolTonesAnimation from './components/CoolTonesAnimation';
 import SoftTonesAnimation from './components/SoftTonesAnimation';
 import ContrastTonesAnimation from './components/ContrastTonesAnimation';
+// Path Question Symbols
+import UpStairsSymbol from './components/UpStairsSymbol';
+import HallwaySymbol from './components/HallwaySymbol';
+import DownStairsSymbol from './components/DownStairsSymbol';
 
 // ========================================
 // SYMBOL IMPORTS - Standard Mode
@@ -3271,69 +3275,41 @@ return (
     })}
   </div>
         
-  ) : currentQuestion.category === 'path' ? (
-     console.log('Path question options:', currentQuestion.options),
+ ) : currentQuestion.category === 'path' ? (
   // Path-specific 2-over-1 layout
   <div className="space-y-4">
-   
+
     <div className="grid grid-cols-2 gap-4">
       {currentQuestion.options.slice(0, 2).map(option => (
         <button
           key={option.id}
-         onClick={() => handleMoodAnswer(currentQuestion.category, option.id)}
-          className="p-8 bg-transparent border-none flex flex-col items-center justify-center text-gray-900 font-bold font-medium transition-all hover:scale-110"
+          onClick={() => handleMoodAnswer(currentQuestion.category, option.id)}
+          className="p-4 bg-transparent border-none flex flex-col items-center justify-center text-white font-medium transition-all hover:scale-110"
         >
-          <div className="w-24 h-24 flex items-center justify-center mb-3">
-            {option.id === 'upstairs' && (
-              <svg width="80" height="80" viewBox="0 0 100 100">
-                <path d="M30 20 H70 A20 20 0 0 1 70 40 V80 H30 V40 A20 20 0 0 1 30 20 Z" fill="none" stroke="#3b82f6" strokeWidth="2"/>
-                <line x1="35" y1="80" x2="65" y2="80" stroke="#3b82f6" strokeWidth="2"/>
-                <line x1="40" y1="70" x2="70" y2="70" stroke="#3b82f6" strokeWidth="2"/>
-                <line x1="45" y1="60" x2="75" y2="60" stroke="#3b82f6" strokeWidth="2"/>
-                <line x1="50" y1="50" x2="80" y2="50" stroke="#3b82f6" strokeWidth="2"/>
-                <rect x="50" y="50" width="30" height="30" fill="black" opacity="0.1"/>
-              </svg>
-            )}
-           {option.id === 'hallway' && (
-              <svg width="80" height="80" viewBox="0 0 100 100">
-                <path d="M30 40 L50 20 Q50 18 50 20 L70 40 V80 H30 V40 Z" fill="none" stroke="#d97706" strokeWidth="2"/>
-                <rect x="35" y="40" width="30" height="40" fill="none" stroke="#d97706" strokeWidth="2"/>
-                <line x1="35" y1="50" x2="65" y2="50" stroke="#d97706" strokeWidth="1"/>
-                <line x1="35" y1="60" x2="65" y2="60" stroke="#d97706" strokeWidth="1"/>
-                <line x1="35" y1="70" x2="65" y2="70" stroke="#d97706" strokeWidth="1"/>
-              </svg>
-            )}
+          <div className="w-24 h-24 flex items-center justify-center mb-1">
+            {option.id === 'upstairs' && <UpStairsSymbol />}
+            {option.id === 'hallway' && <HallwaySymbol />}
           </div>
           <span className="text-lg">{option.text}</span>
         </button>
       ))}
     </div>
-    
-   
+
     <div className="flex justify-center">
       {currentQuestion.options.slice(2, 3).map(option => (
         <button
           key={option.id}
           onClick={() => handleMoodAnswer(currentQuestion.category, option.id)}
-          className="p-8 bg-transparent border-none flex flex-col items-center justify-center text-white font-medium transition-all hover:scale-110"
+          className="p-4 bg-transparent border-none flex flex-col items-center justify-center text-white font-medium transition-all hover:scale-110"
         >
-          <div className="w-24 h-24 flex items-center justify-center mb-3">
-            {option.id === 'downstairs' && (
-              <svg width="80" height="80" viewBox="0 0 100 100">
-                <path d="M30 20 H70 A20 20 0 0 1 70 40 V80 H30 V40 A20 20 0 0 1 30 20 Z" fill="none" stroke="#475569" strokeWidth="2"/>
-                <line x1="35" y1="80" x2="65" y2="80" stroke="#475569" strokeWidth="2"/>
-                <line x1="30" y1="70" x2="60" y2="70" stroke="#475569" strokeWidth="2"/>
-                <line x1="25" y1="60" x2="55" y2="60" stroke="#475569" strokeWidth="2"/>
-                <line x1="20" y1="50" x2="50" y2="50" stroke="#475569" strokeWidth="2"/>
-                <rect x="20" y="50" width="30" height="30" fill="black" opacity="0.2"/>
-              </svg>
-            )}
+          <div className="w-24 h-24 flex items-center justify-center mb-1">
+            {option.id === 'downstairs' && <DownStairsSymbol />}
           </div>
           <span className="text-lg">{option.text}</span>
         </button>
       ))}
     </div>
- </div>
+  </div>
 
 ) : currentQuestion.options ? (
   currentQuestion.options.map(option => (

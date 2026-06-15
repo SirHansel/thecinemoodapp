@@ -1808,6 +1808,7 @@ useEffect(() => {
   const [csvProcessing, setCsvProcessing] = useState(false);
   const [csvError, setCsvError] = useState('');
   const [currentQuestionSet, setCurrentQuestionSet] = useState(null);
+  const [moonFeedback, setMoonFeedback] = useState(null); 
 
   // Platforms array
  const platforms = ['Netflix', 'Prime', 'Hulu', 'Disney+', 'Criterion', 'Tubi', 'HBO Max', 'MUBI', 'Apple TV+', 'Peacock'];

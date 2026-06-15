@@ -3159,31 +3159,22 @@ if (currentScreen === 'mood-intro') {
     >
       <div className="max-w-lg mx-auto text-center">
         
-        <div className="text-8xl mb-6">🎨</div>
-        
-        <h1 className="text-4xl font-bold text-purple-400 mb-6">
-          Mood Mode
-        </h1>
-        
-        <div className="bg-gray-800 rounded-lg p-8 border-2 border-gray-600 mb-8">
-          <p className="text-2xl text-gray-300 mb-6">
-            Don't think.<br/>
-            Just feel.
+       <div className="mb-8">
+          <p className="text-2xl font-light text-white mb-3">
+            This is how you feel right now.
           </p>
-          
-          <p className="text-gray-400 mb-4">
-            Choose what draws you instinctively.
+          <p className="text-2xl font-light text-gray-400 mb-3">
+            Not forever. Not who you are.
           </p>
-          
-          <p className="text-gray-400 mb-4">
-            There are no wrong choices.
+          <p className="text-2xl font-light text-white mb-10">
+            Just tonight.
           </p>
-          
-          <p className="text-gray-400">
-            Trust what resonates right now.
+          <p className="text-gray-500 text-base">
+            Don't judge it. Don't overthink it.<br/>
+            We'll handle the rest.
           </p>
         </div>
-        
+
         <button
           onClick={() => {
             setAnimating(true);

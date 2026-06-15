@@ -1753,6 +1753,7 @@ const loadUserPrefs = () => {
   const [moonFeedback, setMoonFeedback] = useState(null);
   const [userPrefs, setUserPrefs] = useState(() => {
   const savedPrefs = loadUserPrefs();
+   const [moonFeedback, setMoonFeedback] = useState(null);
    
   return savedPrefs || {
     letterboxd: '',

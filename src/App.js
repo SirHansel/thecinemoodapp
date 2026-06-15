@@ -2117,6 +2117,7 @@ if (!safeRec || !stretchRec || !wildRec) {
     
     setRecommendations(movieRecs);
     setLoading(false);
+      setMoonFeedback(null);
       setCurrentScreen('results');
     
   } catch (error) {
@@ -2134,7 +2135,9 @@ const generateSimilarRecommendations = async (seedMovie) => {
     
     if (!similarMovies || similarMovies.length < 3) {
       console.log('⚠️ Not enough similar movies found');
-      setCurrentScreen('results');
+      setMoonFeedback(null);
+setCurrentScreen('results');
+
       return;
     }
 
@@ -2214,6 +2217,7 @@ platform: matchPlatform(safePlatforms, userPrefs.platforms) || null,
     ].filter(Boolean).slice(-30));
     
     setRecommendations(movieRecs);
+     setMoonFeedback(null);
     setCurrentScreen('results');
     
   } catch (error) {
@@ -2555,6 +2559,7 @@ if (currentQuestionSet && questionIndex < currentQuestionSet.length - 1) {
   }, 500);
 } else {
   await generateRecommendations();
+   setMoonFeedback(null);
   setCurrentScreen('results');
 }
 };

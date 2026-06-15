@@ -1750,6 +1750,7 @@ const loadUserPrefs = () => {
   const [showTerms, setShowTerms] = useState(false);
   const [intuitiveAnswers, setIntuitiveAnswers] = useState({});
   const [intuitiveQuestions, setIntuitiveQuestions] = useState(null);
+  const [moonFeedback, setMoonFeedback] = useState(null);
   const [userPrefs, setUserPrefs] = useState(() => {
   const savedPrefs = loadUserPrefs();
    
@@ -3405,7 +3406,7 @@ if (currentScreen === 'results') {
           </div>
         ))}
        
-        <div className="grid grid-cols-2 gap-3">
+       <div className="grid grid-cols-2 gap-3">
           <button
             onClick={() => setCurrentScreen('decision')}
             className="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded font-medium"
@@ -3414,23 +3415,58 @@ if (currentScreen === 'results') {
           </button>
           <button
             onClick={() => {
-  setQuestionIndex(0); 
-  setUserPrefs(prev => ({...prev, moodAnswers: {}}));
-  setRecommendations(null);
-  setCurrentRecommendations(null);
-  if (userPrefs.quizMode === 'intuitive') 
-  { setCurrentScreen('intuitive-intro');
-  } else {
-    const newQuestionSet = generateQuestionSet();
-    setCurrentQuestionSet(newQuestionSet);
-    setCurrentScreen('mood');
-  }
-}}
+           setQuestionIndex(0);
+            setUserPrefs(prev => ({...prev, moodAnswers: {}}));
+            setRecommendations(null);
+            setCurrentRecommendations(null);
+            setMoonFeedback(null);
+              if (userPrefs.quizMode === 'intuitive') {
+                setCurrentScreen('intuitive-intro');
+              } else {
+                const newQuestionSet = generateQuestionSet();
+                setCurrentQuestionSet(newQuestionSet);
+                setCurrentScreen('mood');
+              }
+            }}
             className="bg-gray-600 hover:bg-gray-700 text-white p-3 rounded font-medium"
           >
             <RotateCcw className="inline w-4 h-4 mr-2" />
             Try Again
           </button>
+        </div>
+
+        {/* Moon Feedback */}
+        <div className="mt-8 text-center">
+          <p className="text-gray-500 text-xs mb-4 tracking-widest uppercase">did we read the room?</p>
+          <div className="flex justify-center gap-8">
+            {[
+              { id: 'dark', emoji: '🌑', label: 'not at all' },
+              { id: 'crescent', emoji: '🌙', label: 'close' },
+              { id: 'full', emoji: '🌕', label: 'exactly right' },
+            ].map(moon => (
+              <button
+                key={moon.id}
+                onClick={() => setMoonFeedback(moon.id)}
+                className="flex flex-col items-center gap-1 group"
+              >
+                <span
+                  className="text-3xl transition-all duration-500"
+                  style={{
+                    filter: moonFeedback === moon.id
+                      ? 'drop-shadow(0 0 8px rgba(250,220,100,0.9)) drop-shadow(0 0 16px rgba(250,200,50,0.6))'
+                      : moonFeedback
+                      ? 'opacity(0.3)'
+                      : 'none',
+                    opacity: moonFeedback && moonFeedback !== moon.id ? 0.3 : 1,
+                    transform: moonFeedback === moon.id ? 'scale(1.2)' : 'scale(1)',
+                  }}
+                >
+                  {moon.emoji}
+                </span>
+                <span className="text-gray-600 text-xs">{moon.label}</span>
+              </button>
+            ))}
+          </div>
         </div>
       </div>
               <div className="mt-8 text-center text-gray-500 text-xs pb-4">

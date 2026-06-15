@@ -2940,31 +2940,20 @@ if (currentScreen === 'intuitive-intro') {
 >
       <div className="max-w-lg mx-auto text-center">
         
-        {/* Icon/Symbol */}
-        <div className="text-8xl mb-6">🎭</div>
-        
-        {/* Title */}
-        <h1 className="text-4xl font-bold text-purple-400 mb-6">
-          Intuitive Mode
-        </h1>
-        
-        {/* Instructions */}
-        <div className="bg-gray-800 rounded-lg p-8 border-2 border-gray-600 mb-8">
-          <p className="text-2xl text-gray-300 mb-6">
-            Don't think.<br/>
-            Just feel.
+       {/* Instructions */}
+        <div className="mb-8">
+          <p className="text-2xl font-light text-white mb-3">
+            This is how you feel right now.
           </p>
-          
-          <p className="text-gray-400 mb-4">
-            Answer with your first instinct.
+          <p className="text-2xl font-light text-gray-400 mb-3">
+            Not forever. Not who you are.
           </p>
-          
-          <p className="text-gray-400 mb-4">
-            There are no wrong choices.
+          <p className="text-2xl font-light text-white mb-10">
+            Just tonight.
           </p>
-          
-          <p className="text-gray-400">
-            Trust what draws you in this moment.
+          <p className="text-gray-500 text-base">
+            Don't judge it. Don't overthink it.<br/>
+            We'll handle the rest.
           </p>
         </div>
         
@@ -3438,8 +3427,8 @@ if (currentScreen === 'results') {
   setUserPrefs(prev => ({...prev, moodAnswers: {}}));
   setRecommendations(null);
   setCurrentRecommendations(null);
-  if (userPrefs.quizMode === 'intuitive') {
-    setCurrentScreen('intuitive-intro');
+  if (userPrefs.quizMode === 'intuitive') 
+  { setCurrentScreen('intuitive-intro');
   } else {
     const newQuestionSet = generateQuestionSet();
     setCurrentQuestionSet(newQuestionSet);

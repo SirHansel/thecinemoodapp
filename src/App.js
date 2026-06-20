@@ -3207,18 +3207,13 @@ if (currentScreen === 'mood-intro') {
   );
 }
 
-if (currentScreen !== 'loading' && currentScreen !== 'results' && currentScreen !== 'decision' && currentScreen !== 'spinResult' && currentScreen !== 'watching') {
-  if (!currentQuestionSet) {
+if (currentScreen !== 'loading' && currentScreen !== 'results' && currentScreen !== 'decision' && currentScreen !== 'spinResult' && currentScreen !== 'watching' && currentScreen !== 'mood-intro' && currentScreen !== 'intuitive-intro') {  if (!currentQuestionSet) {
     return <div>Loading questions...</div>;
   }
   // console.log('Mood screen rendering');
-//  console.log('Current question set:', currentQuestionSet);
-if (!currentQuestionSet) {
-  return null;
-}
-const currentQuestion = currentQuestionSet[questionIndex];
-const progress = ((questionIndex + 1) / currentQuestionSet.length) * 100;
-  
+  //  console.log('Current question set:', currentQuestionSet);
+  const currentQuestion = currentQuestionSet[questionIndex];
+  const progress = ((questionIndex + 1) / currentQuestionSet.length) * 100;
   
  
  

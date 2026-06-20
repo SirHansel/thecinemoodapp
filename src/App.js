@@ -3183,13 +3183,15 @@ if (currentScreen === 'mood-intro') {
         </div>
 
         <button
-          onClick={() => {
+        onClick={() => {
             setAnimating(true);
             setTimeout(() => {
-              setCurrentScreen('mood');
-              setTimeout(() => setAnimating(false), 150);
-            }, 400);
-          }}
+    const newQuestionSet = generateQuestionSet();
+            setCurrentQuestionSet(newQuestionSet);
+             setCurrentScreen('mood');
+            setTimeout(() => setAnimating(false), 150);
+  }, 400);
+}}
           className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 rounded-lg text-xl font-bold transition-all"
         >
           Begin →

@@ -1750,7 +1750,6 @@ const loadUserPrefs = () => {
   const [showTerms, setShowTerms] = useState(false);
   const [intuitiveAnswers, setIntuitiveAnswers] = useState({});
   const [intuitiveQuestions, setIntuitiveQuestions] = useState(null);
-  const [moonFeedback, setMoonFeedback] = useState(null);
   const [userPrefs, setUserPrefs] = useState(() => {
   const savedPrefs = loadUserPrefs();
    const [moonFeedback, setMoonFeedback] = useState(null);

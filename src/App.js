@@ -1752,7 +1752,7 @@ const loadUserPrefs = () => {
   const [intuitiveQuestions, setIntuitiveQuestions] = useState(null);
   const [userPrefs, setUserPrefs] = useState(() => {
   const savedPrefs = loadUserPrefs();
-   const [moonFeedback, setMoonFeedback] = useState(null);
+  return savedPrefs || {
    
   return savedPrefs || {
     letterboxd: '',

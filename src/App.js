@@ -1753,8 +1753,7 @@ const loadUserPrefs = () => {
   const [userPrefs, setUserPrefs] = useState(() => {
   const savedPrefs = loadUserPrefs();
   return savedPrefs || {
-   
-  return savedPrefs || {
+  
     letterboxd: '',
     platforms: [],
     moodAnswers: {},

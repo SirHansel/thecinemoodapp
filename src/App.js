@@ -3213,8 +3213,11 @@ if (currentScreen !== 'loading' && currentScreen !== 'results' && currentScreen 
   }
   // console.log('Mood screen rendering');
 //  console.log('Current question set:', currentQuestionSet);
-  const currentQuestion = currentQuestionSet[questionIndex];
-  const progress = ((questionIndex + 1) / currentQuestionSet.length) * 100;
+if (!currentQuestionSet) {
+  return null;
+}
+const currentQuestion = currentQuestionSet[questionIndex];
+const progress = ((questionIndex + 1) / currentQuestionSet.length) * 100;
   
   
  

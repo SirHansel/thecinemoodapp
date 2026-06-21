@@ -325,11 +325,11 @@ const MOOD_SCORING = {
       tertiary: TMDB_GENRES.DRAMA             // +1 pt
     }
   },
- energy: {
+energy: {
   spring: {
     primary: TMDB_GENRES.ACTION,            // +4 pts
-    secondary: TMDB_GENRES.THRILLER,        // +2 pts
-    tertiary: TMDB_GENRES.ADVENTURE         // +1 pt
+    secondary: TMDB_GENRES.ADVENTURE,       // +2 pts
+    tertiary: TMDB_GENRES.COMEDY            // +1 pt
   },
   river: {
     primary: TMDB_GENRES.DRAMA,             // +4 pts
@@ -337,17 +337,17 @@ const MOOD_SCORING = {
     tertiary: TMDB_GENRES.FANTASY           // +1 pt
   },
   explosive: {
-    primary: TMDB_GENRES.ACTION,            // +4 pts
+    primary: TMDB_GENRES.THRILLER,          // +4 pts
     secondary: TMDB_GENRES.HORROR,          // +2 pts
-    tertiary: TMDB_GENRES.THRILLER          // +1 pt
+    tertiary: TMDB_GENRES.ACTION            // +1 pt
   },
   contemplative: {
     primary: TMDB_GENRES.MYSTERY,           // +4 pts
-    secondary: TMDB_GENRES.DRAMA,           // +2 pts
-    tertiary: TMDB_GENRES.SCIENCE_FICTION   // +1 pt
+    secondary: TMDB_GENRES.SCIENCE_FICTION, // +2 pts
+    tertiary: TMDB_GENRES.HISTORY           // +1 pt
   }
 },
-  character: {
+character: {
     struggle: {
       primary: TMDB_GENRES.DRAMA,             // +6 pts
       secondary: TMDB_GENRES.MYSTERY,         // +2 pts
@@ -369,8 +369,8 @@ const MOOD_SCORING = {
       tertiary: null
     },
     complex: {
-      primary: TMDB_GENRES.MYSTERY,           // +6 pts
-      secondary: TMDB_GENRES.DRAMA,           // +2 pts
+      primary: TMDB_GENRES.SCIENCE_FICTION,   // +6 pts
+      secondary: TMDB_GENRES.MYSTERY,         // +2 pts
       tertiary: null
     },
     ocean: {
@@ -379,11 +379,12 @@ const MOOD_SCORING = {
       tertiary: TMDB_GENRES.DRAMA             // +1 pt
     },
     driven: {
-      primary: TMDB_GENRES.THRILLER,          // +6 pts
-      secondary: TMDB_GENRES.CRIME,           // +2 pts
+      primary: TMDB_GENRES.WESTERN,           // +6 pts
+      secondary: TMDB_GENRES.THRILLER,        // +2 pts
       tertiary: null
     }
   },
+  
   era: {
     vintage: {
       primary: TMDB_GENRES.DRAMA,             // +3 pts
@@ -456,8 +457,8 @@ const MOOD_SCORING = {
     },
     analytical: {
       primary: TMDB_GENRES.SCIENCE_FICTION,   // +5 pts
-      secondary: TMDB_GENRES.MYSTERY,         // +2 pts
-      tertiary: TMDB_GENRES.THRILLER          // +1 pt
+      secondary: TMDB_GENRES.DOCUMENTARY,     // +2 pts
+      tertiary: TMDB_GENRES.MYSTERY           // +1 pt
     }
     },
   path: {  // ← MUST be inside MOOD_SCORING with a comma after mood
